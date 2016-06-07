@@ -13,14 +13,14 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 public class MvcConfig extends WebMvcConfigurerAdapter {
-    @Override
+    /*@Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/home").setViewName("home");
-        registry.addViewController("/").setViewName("home");
-        registry.addViewController("/hello").setViewName("hello");
-        registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/403").setViewName("403");
-    }
+        registry.addViewController("/home").setViewName("index");
+        //registry.addViewController("/").setViewName("index");
+        registry.addViewController("/hello").setViewName("index");
+        registry.addViewController("/login").setViewName("index");
+        registry.addViewController("/403").setViewName("accessDenied");
+    }*/
     @Bean(name = "dataSource")
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
@@ -30,13 +30,14 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         driverManagerDataSource.setPassword("P@ssw0rd@123");
         return driverManagerDataSource;
     }
-    @Bean
+
+    /*@Bean
     public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/jsp/");
-        resolver.setSuffix(".jsp");
+        resolver.setPrefix("/WEB-INF/static/");
+        resolver.setSuffix(".html");
         return resolver;
-    }
+    }*/
 }
 
 
