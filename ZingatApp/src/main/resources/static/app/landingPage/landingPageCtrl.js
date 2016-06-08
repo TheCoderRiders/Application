@@ -113,7 +113,6 @@ angular.module('LandingPageController', [ ])
           $scope.checkAll = function() {
               if($scope.mycheckbox == true){
                   $scope.user.roles = angular.copy($scope.roles);
-                  console.log($scope.user.roles)
               }else{
                   $scope.user.roles = [];
               }
