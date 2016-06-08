@@ -15,48 +15,80 @@
         <div id="centerContent" style=" min-width: 975px;">
             <div class="panel-body">
                 <div class="form-group">
-                    <input type="text" class="form-control custom-input" placeholder="Search">
+                    <tags-input ng-model="tags" add-on-paste="false" add-on-enter="false" add-on-blur="false" placeholder="Search">
+                        <auto-complete source="loadTags($query)"></auto-complete>
+                    </tags-input>
                     <button type="submit" class="btn btn-default custom-search-button">Search</button>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-2 .col-md-pull-9">
                     <div class="list-group">
-                        <li class="list-group-item active">
-                            <span class="badge">14</span>
-                                Pending
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge">14</span>
-                                Doubts
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge">14</span>
-                                Completed
-                        </li>
-                    </div>
-                </div>
-                <div class="col-md-4 middle-panel">
-                    <div class="list-group">
-                        <ul class="file-list">
-                            <li class="file-details" ng-repeat="file in fileArray">
-                                <h2 class="fileName">
-                                    {{file.fileName}}
-                                </h2>
+                        <ul>
+                            <li class="list-group-item" ng-repeat="list in listGroup" ng-click="changeBucket($index)" ng-class="{active: $index == selected}">
+                                <span class="badge">
+                                    {{list.bucketCount}}
+                                </span>
+                                {{list.bucketName}}
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-6 right-panel">
-                    <div class="file-header">
-                        File Name will appear here
+                
+                
+                <div class="col-md-10 .col-md-push-3">
+                    
+                    <div class="file-list-header">
+                        
                     </div>
-                    <div class="file-content">
-                        <div ng-bind-html="fileContent">
+                    <div class="col-md-5 middle-panel">
+                        <div class="list-group" >
+                            <ul class="file-list" >
+                                <li class="file-details" ng-repeat="file in fileArray">
+                                    <div class="fileCheckbox" >
+                                        <input type="checkbox" ng-show={{file.checkBoxVisible}} ng-model="fileChecked" >
+                                    </div>
+                                    <div class="fileLeftDetails">
+                                        <div class="file-name">
+                                            <span>
+                                                {{file.fileName}}
+                                            </span>
+                                        </div>
+                                        <div class="receivedDate">
+                                            <span>
+                                                {{file.receivedDate}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="fileRightDetails">
+                                        <div class="file-name">
+                                            <span class={{file.statusClass}}>
+                                                {{file.fileStatus}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="fileAssingeeName">
+                                        <span>
+                                            {{file.assigneeName}}
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
+                    <div class="col-md-7 right-panel">
+                        <div class="file-header">
+                            File Name will appear here
+                        </div>
+                        <div class="file-content">
+                            <div ng-bind-html="fileContent">
+
+                            </div>
                         </div>
                     </div>
                 </div>
+               
                 
             </div>
             
