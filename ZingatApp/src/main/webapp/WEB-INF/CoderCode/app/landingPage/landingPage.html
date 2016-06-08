@@ -39,14 +39,14 @@
                 <div class="col-md-10 .col-md-push-3">
                     
                     <div class="file-list-header">
-                        
+                        <input type="checkbox" ng-model="mycheckbox" ng-click="checkAll()">
                     </div>
                     <div class="col-md-5 middle-panel">
                         <div class="list-group" >
                             <ul class="file-list" >
-                                <li class="file-details" ng-repeat="file in fileArray">
+                                <li class="file-details" ng-repeat="file in roles">
                                     <div class="fileCheckbox" >
-                                        <input type="checkbox" ng-show={{file.checkBoxVisible}} ng-model="fileChecked" >
+                                        <input data-checklist-model="user.roles" data-checklist-value="file" type="checkbox" ng-show={{file.checkBoxVisible}} ng-model="fileChecked" >
                                     </div>
                                     <div class="fileLeftDetails">
                                         <div class="file-name">
