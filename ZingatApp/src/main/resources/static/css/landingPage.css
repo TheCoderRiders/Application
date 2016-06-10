@@ -151,3 +151,8 @@ tags-input .autocomplete{
     display: inline-block;
     vertical-align: top;
 }
+.sorting-header{
+    padding-left: 5px;
+    height: 25px;
+    background-color: #f5f5f5;
+}

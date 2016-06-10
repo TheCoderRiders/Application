@@ -2,6 +2,8 @@ angular.module('LandingPageController', [ ])
     .controller("landingPageCtrl",["$scope","$http", function($scope,$http){
         /*Show First bucket as selected*/
         $scope.selected = 0;
+        $scope.showAction = false;
+        $scope.checkFiled = [];
         
         /*Autosuggesstion for search*/
         $scope.loadTags = function(query) {
@@ -110,15 +112,58 @@ angular.module('LandingPageController', [ ])
           $scope.user = {
             roles: []
           };
+        
           $scope.checkAll = function() {
               if($scope.mycheckbox == true){
+                  $scope.showAction = true;
                   $scope.user.roles = angular.copy($scope.roles);
               }else{
                   $scope.user.roles = [];
+                  $scope.showAction = false;
               }
           };
+        $scope.listCheckAll = function(){
+            if($scope.user.roles.length > 0){
+                $scope.showAction = true;
+            }else{
+                $scope.showAction = false;
+            }
+        }
         
+        /*drop down action items*/
+        $scope.action = {
+            availableOptions: [
+              {id: '1', name: 'Assign to TL'},
+              {id: '2', name: 'Assign to TL-Coder'},
+              {id: '3', name: 'Assign to Coder'}
+            ],
+            selectedOption: {id: '1', name: 'Assign to TL'} //This sets the default value of the select in the ui
+        };
         
+        /*function called on action drop down*/
+        $scope.getCheckedFile = function(mySelect){
+            var assigneeObj = {};
+            assigneeObj.id = mySelect.id;
+            assigneeObj.name = mySelect.name;
+            
+            var tempAssignee = {};
+            tempAssignee.assignee = assigneeObj
+            $scope.checkFiled.push(tempAssignee);
+            
+            var tempArray = [];
+            var totalFiles = $scope.user.roles;
+            for(var i = 0; i<totalFiles.length; i++){
+                var tempObj = {};
+                
+                tempObj.fileId = totalFiles[i].fileId;
+                tempObj.fileName = totalFiles[i].fileName;
+                tempArray.push(tempObj)
+                
+            }            
+            tempAssignee.checkFiles = tempArray;
+            $scope.checkFiled.push(tempAssignee);
+            console.log($scope.checkFiled);
+        }
         
         /*Function called on Bucket clicked*/
         $scope.changeBucket = function(index) {

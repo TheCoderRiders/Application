@@ -37,16 +37,21 @@
                 
                 
                 <div class="col-md-10 .col-md-push-3">
-                    
-                    <div class="file-list-header">
-                        <input type="checkbox" ng-model="mycheckbox" ng-click="checkAll()">
+                    <div class="container-fluid sorting-header">
+                        <div class="file-list-header">
+                            <input type="checkbox" ng-model="mycheckbox" ng-click="checkAll()">
+                            <select ng-show="showAction" name="mySelect" id="mySelect"
+                                  ng-options="option.name for option in action.availableOptions track by option.id"
+                                  ng-model="action.selectedOption" ng-change="getCheckedFile(action.selectedOption
+)"></select>
+                        </div>
                     </div>
                     <div class="col-md-5 middle-panel">
                         <div class="list-group" >
                             <ul class="file-list" >
                                 <li class="file-details" ng-repeat="file in roles">
                                     <div class="fileCheckbox" >
-                                        <input data-checklist-model="user.roles" data-checklist-value="file" type="checkbox" ng-show={{file.checkBoxVisible}} ng-model="fileChecked" >
+                                        <input checklist-model="user.roles" checklist-value="file" type="checkbox" ng-show={{file.checkBoxVisible}} ng-click="listCheckAll()">
                                     </div>
                                     <div class="fileLeftDetails">
                                         <div class="file-name">
