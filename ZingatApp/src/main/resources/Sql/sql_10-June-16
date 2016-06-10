@@ -404,6 +404,7 @@ INSERT INTO user_permitions
 (4,4,'abhi_coder',4,'Coder',1,1,1,1,1,1,1,1,'SGS');
 
 
+
 DROP TABLE `allocater_tl_map` ;
 CREATE TABLE `allocater_tl_map` ( 
   `allocater_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -425,6 +426,12 @@ CREATE TABLE `allocater_tl_map` (
   FOREIGN KEY (allocater_client_id) REFERENCES client_master(client_id)    
 );
 
+INSERT INTO allocater_tl_map (allocater_id,allocater_firstname,allocater_lastname,tl_id,tl_firstname,tl_lastname,allocater_client_id,allocater_client_name,tl_client_id,tl_client_name) 
+VALUES (1,'Abhijit','Chikhalikar',2,'Abhi','Chikar',1,'SGS',1,'SGS');
+INSERT INTO allocater_tl_map (allocater_id,allocater_firstname,allocater_lastname,tl_id,tl_firstname,tl_lastname,allocater_client_id,allocater_client_name,tl_client_id,tl_client_name) 
+VALUES (1,'Abhijit','Chikhalikar',3,'@bhi','Chikr',1,'SGS',1,'SGS');
+
+
 DROP TABLE `tl_coder_map` ;
 CREATE TABLE `tl_coder_map` ( 
   `tl_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -445,6 +452,12 @@ CREATE TABLE `tl_coder_map` (
   FOREIGN KEY (tl_client_id) REFERENCES client_master(client_id),
   FOREIGN KEY (coder_client_id) REFERENCES client_master(client_id)    
 );
+
+INSERT INTO tl_coder_map (tl_id,tl_firstname,tl_lastname,coder_id,coder_firstname,coder_lastname,tl_client_id,tl_client_name,coder_client_id,coder_client_name) 
+VALUES (2,'Abhi','Chikar',4,'@b#i','Chikarrrr',1,'SGS',1,'SGS');
+INSERT INTO tl_coder_map (tl_id,tl_firstname,tl_lastname,coder_id,coder_firstname,coder_lastname,tl_client_id,tl_client_name,coder_client_id,coder_client_name) 
+VALUES (3,'@bhi','Chikr',4,'@b#i','Chikarrrr',1,'SGS',1,'SGS');
+
 
 DROP TABLE `status_master` ;
 CREATE TABLE `status_master` ( 
