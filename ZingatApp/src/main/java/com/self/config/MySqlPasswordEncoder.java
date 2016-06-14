@@ -1,4 +1,4 @@
-package com.self.login.config;
+package com.self.config;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
