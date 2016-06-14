@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableAutoConfiguration
-@ComponentScan("com.self.login.*")
+@ComponentScan("com.self")
 public class CoderApplication {
 
     public static void main(String[] args) throws Throwable {

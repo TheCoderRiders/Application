@@ -1,7 +1,9 @@
 package com.self.login.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -12,32 +14,30 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  */
 
 @Configuration
+@PropertySource("classpath:application.properties")
 public class MvcConfig extends WebMvcConfigurerAdapter {
-    /*@Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/home").setViewName("index");
-        //registry.addViewController("/").setViewName("index");
-        registry.addViewController("/hello").setViewName("index");
-        registry.addViewController("/login").setViewName("index");
-        registry.addViewController("/403").setViewName("accessDenied");
-    }*/
+
+    @Value("${spring.datasource.driver}")
+    private String driverName;
+
+    @Value("${spring.datasource.url}")
+    private String url;
+
+    @Value("${spring.datasource.username}")
+    private String userName;
+
+    @Value("${spring.datasource.password}")
+    private String password;
+
     @Bean(name = "dataSource")
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
-        driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/userbase");
-        driverManagerDataSource.setUsername("root");
-        driverManagerDataSource.setPassword("P@ssw0rd@123");
+        driverManagerDataSource.setDriverClassName(driverName);
+        driverManagerDataSource.setUrl(url);
+        driverManagerDataSource.setUsername(userName);
+        driverManagerDataSource.setPassword(password);
         return driverManagerDataSource;
     }
-
-    /*@Bean
-    public InternalResourceViewResolver viewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/static/");
-        resolver.setSuffix(".html");
-        return resolver;
-    }*/
 }
 
 

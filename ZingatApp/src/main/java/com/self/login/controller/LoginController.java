@@ -1,4 +1,4 @@
-package com.self.login.config;
+package com.self.login.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
