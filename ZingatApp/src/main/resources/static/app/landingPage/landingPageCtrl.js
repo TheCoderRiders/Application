@@ -2,8 +2,10 @@ angular.module('LandingPageController', [ ])
     .controller("landingPageCtrl",["$scope","$http", function($scope,$http){
         /*Show First bucket as selected*/
         $scope.selected = 0;
+        $scope.selectedFile = 0;
         $scope.showAction = false;
         $scope.checkFiled = [];
+        $scope.imageSrc = '../../img/ascending.png'
         
         /*Autosuggesstion for search*/
         $scope.loadTags = function(query) {
@@ -148,7 +150,6 @@ angular.module('LandingPageController', [ ])
             
             var tempAssignee = {};
             tempAssignee.assignee = assigneeObj
-            $scope.checkFiled.push(tempAssignee);
             
             var tempArray = [];
             var totalFiles = $scope.user.roles;
@@ -162,22 +163,56 @@ angular.module('LandingPageController', [ ])
             }            
             tempAssignee.checkFiles = tempArray;
             $scope.checkFiled.push(tempAssignee);
-            console.log($scope.checkFiled);
+            console.log($scope.checkFiled)
         }
         
-        /*Function called on Bucket clicked*/
-        $scope.changeBucket = function(index) {
-           $scope.selected = index; 
+        /*drop down group by items*/
+        $scope.group = {
+            availableOptions: [
+              {id: '1', name: 'Assignee Date'},
+              {id: '2', name: 'File'},
+              {id: '3', name: 'Status'}
+            ],
+            selectedOption: {id: '1', name: 'Assignee Date'} //This sets the default value of the select in the ui
         };
         
+        /* function called on ascending/descending click */
+        $scope.changeImageOrder = function(imgSrc){
+            if($scope.imageSrc == "../../img/ascending.png"){
+                
+                $scope.imageSrc = "../../img/descending.png";
+            }else{
+                $scope.imageSrc = "../../img/ascending.png";
+            }
+            var selectedOption = {};
+            selectedOption = $scope.group.selectedOption;
+            console.log(selectedOption);
+        }
         
-         $scope.$on('scrollbar.show', function(){
-          console.log('Scrollbar show');
-        });
-        $scope.$on('scrollbar.hide', function(){
-          console.log('Scrollbar hide');
-        });
+        /* function called on file clicked to display file details */
+        $scope.getFileDetails = function($event,$index,fileDetails){
+            $scope.selectedFile = $index;
+            var obj = {};
+            obj.fileId = fileDetails.fileId;
+            obj.fileName = fileDetails.fileName;
+            console.log(obj);
+        }
+        
+        /* function called on group by dropdown */
+        $scope.getGroupByOption = function(mySelect){
+            console.log(mySelect);
+        }
+        
+        /* function called on Bucket clicked */
+        $scope.changeBucket = function(index) {
+           $scope.selected = index; 
+            $scope.selectedFile = 0;
+        };
+        
+        /* function called on view click */
+        $scope.redirectToWorking = function(){
+            alert("You will be redirect to working page!!!");
+        }
         
         
-        
-    }]);
+    }])
