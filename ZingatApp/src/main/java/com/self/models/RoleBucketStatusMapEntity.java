@@ -1,18 +1,42 @@
 package com.self.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by akash.p on 14/6/16.
  */
 @Entity
 @Table(name = "role_bucket_status_map", schema = "", catalog = "zingat")
-public class RoleBucketStatusMapEntity {
+public class RoleBucketStatusMapEntity implements Serializable {
+
+    public static final long serialVersionUID = 1L;
+
     private int id;
     private String roleName;
     private String bucketValue;
     private String statusCssClass;
     private String statusValue;
+    private int roleId;
+    private int statusId;
+
+    @Column(name = "status_id", nullable = false, insertable = true, updatable = true)
+    public int getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(int statusId) {
+        this.statusId = statusId;
+    }
+
+    @Column(name = "role_id", nullable = false, insertable = true, updatable = true)
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
 
     @Id
     @Column(name = "id", nullable = false, insertable = true, updatable = true)

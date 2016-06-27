@@ -8,6 +8,9 @@ import java.io.Serializable;
  * Created by akash.p on 14/6/16.
  */
 public class AllocaterTLMapEntityPK implements Serializable {
+
+    public static final long serialVersionUID = 1L;
+
     private int allocaterId;
     private int tlId;
 

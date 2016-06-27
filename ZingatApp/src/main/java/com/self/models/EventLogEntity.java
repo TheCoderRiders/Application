@@ -1,6 +1,7 @@
 package com.self.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -8,7 +9,10 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "event_log", schema = "", catalog = "zingat")
-public class EventLogEntity {
+public class EventLogEntity implements Serializable {
+
+    public static final long serialVersionUID = 1L;
+
     private int id;
     private String actionType;
     private Timestamp executionDate;

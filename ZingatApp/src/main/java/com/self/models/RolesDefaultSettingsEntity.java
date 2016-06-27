@@ -1,13 +1,17 @@
 package com.self.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by akash.p on 14/6/16.
  */
 @Entity
 @Table(name = "roles_default_settings", schema = "", catalog = "zingat")
-public class RolesDefaultSettingsEntity {
+public class RolesDefaultSettingsEntity implements Serializable {
+
+    public static final long serialVersionUID = 1L;
+
     private int id;
     private String roleName;
     private Integer documentAllocation;

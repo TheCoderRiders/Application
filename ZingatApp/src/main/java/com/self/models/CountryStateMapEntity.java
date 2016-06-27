@@ -1,13 +1,17 @@
 package com.self.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by akash.p on 14/6/16.
  */
 @Entity
 @Table(name = "country_state_map", schema = "", catalog = "zingat")
-public class CountryStateMapEntity {
+public class CountryStateMapEntity implements Serializable {
+
+    public static final long serialVersionUID = 1L;
+
     private int id;
     private String countryName;
     private String stateName;

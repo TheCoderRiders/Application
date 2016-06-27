@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.security.Principal;
 
@@ -19,7 +20,8 @@ import java.security.Principal;
 public class LoginController {
 
     @RequestMapping("/user")
-    public Principal user(Principal user) {
+    public Principal user(Principal user,HttpSession session) {
+        session.setAttribute("user",user);
         return user;
     }
 }

@@ -1,13 +1,17 @@
 package com.self.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by akash.p on 14/6/16.
  */
 @Entity
 @Table(name = "user_permitions", schema = "", catalog = "zingat")
-public class UserPermitionsEntity {
+public class UserPermitionsEntity implements Serializable {
+
+    public static final long serialVersionUID = 1L;
+
     private int id;
     private String username;
     private String roleName;

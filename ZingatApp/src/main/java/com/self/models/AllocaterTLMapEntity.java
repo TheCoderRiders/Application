@@ -1,6 +1,7 @@
 package com.self.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by akash.p on 14/6/16.
@@ -8,7 +9,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "allocater_tl_map", schema = "", catalog = "zingat")
 @IdClass(AllocaterTLMapEntityPK.class)
-public class AllocaterTLMapEntity {
+public class AllocaterTLMapEntity implements Serializable {
+
+    public static final long serialVersionUID = 1L;
+
     private int allocaterId;
     private String allocaterFirstname;
     private String allocaterMiddlename;

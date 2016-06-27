@@ -1,13 +1,17 @@
 package com.self.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by akash.p on 14/6/16.
  */
 @Entity
 @Table(name = "sort_list_master", schema = "", catalog = "zingat")
-public class SortListMasterEntity {
+public class SortListMasterEntity implements Serializable {
+
+    public static final long serialVersionUID = 1L;
+
     private int id;
     private String sortList;
     private String defaultFlag;

@@ -1,13 +1,17 @@
 package com.self.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by akash.p on 14/6/16.
  */
 @Entity
 @Table(name = "role_bucket_rightside_map", schema = "", catalog = "zingat")
-public class RoleBucketRightsideMapEntity {
+public class RoleBucketRightsideMapEntity implements Serializable {
+
+    public static final long serialVersionUID = 1L;
+
     private int id;
     private String roleName;
     private String bucketValue;

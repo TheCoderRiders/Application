@@ -1,13 +1,17 @@
 package com.self.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by akash.p on 14/6/16.
  */
 @Entity
 @Table(name = "bucket_master", schema = "", catalog = "zingat")
-public class BucketMasterEntity {
+public class BucketMasterEntity implements Serializable {
+
+    public static final long serialVersionUID = 1L;
+
     private int bucketId;
     private String bucketValue;
     private String bucketDescription;

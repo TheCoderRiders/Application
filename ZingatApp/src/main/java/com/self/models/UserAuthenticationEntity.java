@@ -1,6 +1,7 @@
 package com.self.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -9,7 +10,10 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "user_authentication", schema = "", catalog = "zingat")
-public class UserAuthenticationEntity {
+public class UserAuthenticationEntity implements Serializable {
+
+    public static final long serialVersionUID = 1L;
+
     private int id;
     private String username;
     private String password;

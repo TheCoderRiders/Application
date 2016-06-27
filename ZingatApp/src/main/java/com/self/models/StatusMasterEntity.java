@@ -1,13 +1,17 @@
 package com.self.models;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by akash.p on 14/6/16.
  */
 @Entity
 @Table(name = "status_master", schema = "", catalog = "zingat")
-public class StatusMasterEntity {
+public class StatusMasterEntity implements Serializable {
+
+    public static final long serialVersionUID = 1L;
+
     private int statusId;
     private String statusValue;
     private String statusDescription;

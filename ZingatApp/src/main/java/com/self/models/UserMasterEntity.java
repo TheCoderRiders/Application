@@ -3,6 +3,7 @@ package com.self.models;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -11,7 +12,10 @@ import java.sql.Timestamp;
  */
 @Entity
 @javax.persistence.Table(name = "user_master", schema = "", catalog = "zingat")
-public class UserMasterEntity {
+public class UserMasterEntity implements Serializable {
+
+    public static final long serialVersionUID = 1L;
+
     private int userId;
 
     @Id
