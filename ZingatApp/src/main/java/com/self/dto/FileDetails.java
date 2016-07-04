@@ -1,5 +1,7 @@
 package com.self.dto;
 
+import java.util.Date;
+
 /**
  * Created by akash.p on 23/6/16.
  */
@@ -18,14 +20,13 @@ public class FileDetails {
 
     }
 
-    public FileDetails(String fileName, String fileId, String receivedDate, String assigneeName, String fileStatus, String statusClass, Boolean checkBoxVisible) {
+    public FileDetails(String fileName, String fileId, Date receivedDate, String assigneeName, String fileStatus, String statusClass) {
         this.fileName = fileName;
         this.fileId = fileId;
-        this.receivedDate = receivedDate;
+        this.receivedDate = receivedDate.toString();
         this.assigneeName = assigneeName;
         this.fileStatus = fileStatus;
         this.statusClass = statusClass;
-        this.checkBoxVisible = checkBoxVisible;
     }
 
     public String getFileName() {

@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
  */
 
 @JsonPOJOBuilder
-@Entity
 public class Bucket {
 
     @Id
@@ -32,6 +31,12 @@ public class Bucket {
     @Basic
     @JsonProperty("bucketCount")
     private int bucketCount;
+
+    public Bucket(String bucketName, long bucketCount) {
+        this.bucketName = bucketName;
+        this.bucketCount = (int)bucketCount;
+    }
+
     /**
      * 
      * @return
