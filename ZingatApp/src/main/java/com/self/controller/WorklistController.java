@@ -38,9 +38,9 @@ public class WorklistController extends BaseController {
     }
 
     @RequestMapping("/getFileDetails")
-    public List<FileDetails> getFileDetails(String bucketName,HttpSession session){
+    public List<FileDetails> getFileDetails(String bucketName,String orderBy,int pageNumber,HttpSession session){
         String currentRole = getCurrentRole(session);
-        return worklistBusiness.getFileDetails(bucketName,currentRole);
+        return worklistBusiness.getFileDetails(bucketName,currentRole,orderBy,pageNumber);
     }
 
     @RequestMapping("/getFileContents")

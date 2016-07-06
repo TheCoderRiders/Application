@@ -53,8 +53,8 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     }
 
     @Override
-    public List<FileDetails> getFileDetails(String bucketName, String currentRole) {
-       return worklistService.getFileDetails(bucketName, currentRole);
+    public List<FileDetails> getFileDetails(String bucketName, String currentRole, String orderBy,int pageNumber) {
+       return worklistService.getFileDetails(bucketName, currentRole,orderBy,pageNumber);
     }
 
     @Override

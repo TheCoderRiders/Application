@@ -3,6 +3,8 @@ package com.self.dao;
 import com.self.dto.Bucket;
 import com.self.dto.FileDetails;
 import com.self.models.DocumentMasterEntity;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,9 +28,11 @@ public interface DocumentMasterDao extends JpaRepository<DocumentMasterEntity, L
 
     @Query("select new com.self.dto.FileDetails(document.documentName,document.documentId,document.documentRecivedDatetime,document.documentAssigneeName," +
             "document.documentCurrentStatus,roleMap.statusCssClass) from DocumentMasterEntity as document,RoleBucketStatusMapEntity as roleMap where " +
-            "document.documentCurrentStatusId = roleMap.statusId and roleMap.bucketValue =:bucketName and roleMap.roleName=:currentRole")
+            "document.documentCurrentStatusId = roleMap.statusId and roleMap.bucketValue =:bucketName and roleMap.roleName=:currentRole " +
+            "")
     public List<FileDetails> getFileDetails(@Param("bucketName") String bucketName,
-                                      @Param("currentRole") String currentRole);
+                                      @Param("currentRole") String currentRole,
+                                      Pageable pageable);
 
     @Query("select documentContents from DocumentMasterEntity where documentId=:fileId")
     public String getFileContents(@Param("fileId") String fileId);

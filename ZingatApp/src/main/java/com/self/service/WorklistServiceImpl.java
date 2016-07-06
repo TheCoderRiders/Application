@@ -1,12 +1,13 @@
 package com.self.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.self.dao.DocumentMasterDao;
 import com.self.dao.RoleMasterDao;
 import com.self.dto.Bucket;
 import com.self.dto.FileDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,8 +36,10 @@ public class WorklistServiceImpl implements WorklistService {
     }
 
     @Override
-    public List<FileDetails> getFileDetails(String bucketName, String currentRole) {
-        return documentMasterDao.getFileDetails(bucketName,currentRole);
+    public List<FileDetails> getFileDetails(String bucketName, String currentRole, String orderBy,int pageNumber) {
+        Sort sort = new Sort(Sort.Direction.ASC,orderBy);
+        Pageable pageable = new PageRequest(pageNumber-1,20,sort);
+        return documentMasterDao.getFileDetails(bucketName,currentRole,pageable);
     }
 
     @Override
