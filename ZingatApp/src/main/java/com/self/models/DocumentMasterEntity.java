@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  * Created by akash.p on 14/6/16.
  */
 @Entity
-@javax.persistence.Table(name = "document_master", schema = "", catalog = "zingat")
+@javax.persistence.Table(name = "document_master", schema = "", catalog = "hcc_reportmaster")
 @IdClass(DocumentMasterEntityPK.class)
 public class DocumentMasterEntity implements Serializable {
 

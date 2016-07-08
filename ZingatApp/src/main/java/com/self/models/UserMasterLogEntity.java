@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  * Created by akash.p on 14/6/16.
  */
 @Entity
-@javax.persistence.Table(name = "user_master_log", schema = "", catalog = "zingat")
+@javax.persistence.Table(name = "user_master_log", schema = "", catalog = "hcc_reportmaster")
 public class UserMasterLogEntity implements Serializable {
     private int userId;
 

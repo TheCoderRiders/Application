@@ -6,7 +6,7 @@
 -- Remove Old Mysql
 -- ----------------------------------------
 
-find / -name *mysql* 
+sudo find / -name *mysql*
 
 sudo apt-get remove --purge mysql*
 sudo apt-get autoremove               
@@ -582,7 +582,8 @@ VALUES (6,1,'Allocater',2,'Allocated',444,'Allocat to Coder','allocateToCoderBg'
 INSERT INTO role_bucket_status_map (id,role_id,role_name,bucket_id,bucket_value,status_id,status_value,status_css_class) 
 VALUES (7,1,'Allocater',4,'Completed',666,'Coding Completed','codingCompletedBg');
 
-
+INSERT INTO `hcc_reportmaster`.`role_bucket_status_map` (`id`, `role_id`, `role_name`, `bucket_id`, `bucket_value`, `status_id`, `status_css_class`, `status_value`)
+VALUES ('17', '1', 'Allocater', '3', 'Draft', '555', 'draftBg', 'Draft');
 
 -- TL_Allocater
 

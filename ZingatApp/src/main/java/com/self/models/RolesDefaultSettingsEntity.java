@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by akash.p on 14/6/16.
  */
 @Entity
-@Table(name = "roles_default_settings", schema = "", catalog = "zingat")
+@Table(name = "roles_default_settings", schema = "", catalog = "hcc_reportmaster")
 public class RolesDefaultSettingsEntity implements Serializable {
 
     public static final long serialVersionUID = 1L;

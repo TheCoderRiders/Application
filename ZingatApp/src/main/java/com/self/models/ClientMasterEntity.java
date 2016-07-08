@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by akash.p on 14/6/16.
  */
 @Entity
-@javax.persistence.Table(name = "client_master", schema = "", catalog = "zingat")
+@javax.persistence.Table(name = "client_master", schema = "", catalog = "hcc_reportmaster")
 public class ClientMasterEntity implements Serializable {
 
     public static final long serialVersionUID = 1L;

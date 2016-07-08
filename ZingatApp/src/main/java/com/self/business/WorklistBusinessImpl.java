@@ -61,4 +61,9 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     public String getFileContents(String fileId) {
         return worklistService.getFileContents(fileId);
     }
+
+    @Override
+    public String getSortParameters(String currentRole) {
+        return null;
+    }
 }

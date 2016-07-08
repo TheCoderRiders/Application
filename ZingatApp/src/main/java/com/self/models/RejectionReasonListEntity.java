@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by akash.p on 14/6/16.
  */
 @Entity
-@Table(name = "rejection_reason_list", schema = "", catalog = "zingat")
+@Table(name = "rejection_reason_list", schema = "", catalog = "hcc_reportmaster")
 public class RejectionReasonListEntity implements Serializable {
 
     public static final long serialVersionUID = 1L;

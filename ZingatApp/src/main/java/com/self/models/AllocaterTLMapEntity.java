@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by akash.p on 14/6/16.
  */
 @Entity
-@Table(name = "allocater_tl_map", schema = "", catalog = "zingat")
+@Table(name = "allocater_tl_map", schema = "", catalog = "hcc_reportmaster")
 @IdClass(AllocaterTLMapEntityPK.class)
 public class AllocaterTLMapEntity implements Serializable {
 

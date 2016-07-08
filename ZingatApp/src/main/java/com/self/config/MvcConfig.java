@@ -17,10 +17,10 @@ import java.util.Properties;
 /**
  * Created by akash.p on 2/6/16.
  */
-
-@Configuration
-@EnableJpaRepositories("com.self.dao")
-@PropertySource("classpath:application.properties")
+//Not using now. coded in main application
+//@Configuration
+//@EnableJpaRepositories("com.self.dao")
+//@PropertySource("classpath:application.properties")
 public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Value("${spring.datasource.driverClassName}")

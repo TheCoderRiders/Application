@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by akash.p on 14/6/16.
  */
 @Entity
-@Table(name = "role_bucket_status_map", schema = "", catalog = "zingat")
+@Table(name = "role_bucket_status_map", schema = "", catalog = "hcc_reportmaster")
 public class RoleBucketStatusMapEntity implements Serializable {
 
     public static final long serialVersionUID = 1L;

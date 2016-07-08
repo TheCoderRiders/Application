@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  * Created by akash.p on 14/6/16.
  */
 @Entity
-@Table(name = "user_authentication", schema = "", catalog = "zingat")
+@Table(name = "user_authentication", schema = "", catalog = "hcc_reportmaster")
 public class UserAuthenticationEntity implements Serializable {
 
     public static final long serialVersionUID = 1L;

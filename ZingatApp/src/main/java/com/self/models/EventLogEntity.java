@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  * Created by akash.p on 14/6/16.
  */
 @Entity
-@Table(name = "event_log", schema = "", catalog = "zingat")
+@Table(name = "event_log", schema = "", catalog = "hcc_reportmaster")
 public class EventLogEntity implements Serializable {
 
     public static final long serialVersionUID = 1L;

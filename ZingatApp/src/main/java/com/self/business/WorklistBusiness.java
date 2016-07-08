@@ -15,4 +15,6 @@ public interface WorklistBusiness {
     public List<FileDetails> getFileDetails(String bucketName, String currentRole, String orderBy,int pageNumber);
 
     public String getFileContents(String fileId);
+
+    public String getSortParameters(String currentRole);
 }

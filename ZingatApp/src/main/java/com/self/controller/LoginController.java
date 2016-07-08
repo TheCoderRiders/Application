@@ -24,4 +24,10 @@ public class LoginController {
         session.setAttribute("user",user);
         return user;
     }
+
+    @RequestMapping("/logout")
+    public boolean logout(Principal user,HttpSession session) {
+        session.invalidate();
+        return true;
+    }
 }

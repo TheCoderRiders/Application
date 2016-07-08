@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by akash.p on 14/6/16.
  */
 @Entity
-@Table(name = "role_master", schema = "", catalog = "zingat")
+@Table(name = "role_master", schema = "", catalog = "hcc_reportmaster")
 public class RoleMasterEntity implements Serializable {
 
     public static final long serialVersionUID = 1L;
