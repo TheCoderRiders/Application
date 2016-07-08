@@ -5,19 +5,19 @@ package com.self.enums;
  */
 public enum Action {
 
-    ASSIGN_TO_TL(111,"Assign to TL"),
-    ASSIGN_TO_TL_CODER(222,"Assign to TL-Coder"),
-    ASSIGN_TO_CODER(333,"Assign to Coder");
+    ASSIGN_TO_TL("111","Assign to TL"),
+    ASSIGN_TO_TL_CODER("222","Assign to TL-Coder"),
+    ASSIGN_TO_CODER("333","Assign to Coder");
 
     private String displayValue;
-    private Integer id;
+    private String id;
 
-    Action(Integer id,String displayValue){
+    Action(String id,String displayValue){
         this.id = id;
         this.displayValue = displayValue;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

@@ -38,9 +38,9 @@ public class WorklistController extends BaseController {
     }
 
     @RequestMapping("/getFileDetails")
-    public List<FileDetails> getFileDetails(String bucketName,String orderBy,int pageNumber,HttpSession session){
+    public List<FileDetails> getFileDetails(String bucketName,String orderBy,boolean isAsc, int pageNumber,HttpSession session){
         String currentRole = getCurrentRole(session);
-        return worklistBusiness.getFileDetails(bucketName,currentRole,orderBy,pageNumber);
+        return worklistBusiness.getFileDetails(bucketName,currentRole,orderBy,isAsc,pageNumber);
     }
 
     @RequestMapping("/getFileContents")
@@ -57,7 +57,7 @@ public class WorklistController extends BaseController {
     @RequestMapping("/getSortParameters")
     public String getSortParameters(HttpSession session){
         String currentRole = getCurrentRole(session);
-        return worklistBusiness.getSortParameters(currentRole);
+        return null;// worklistBusiness.getSortParameters(currentRole);
     }
 
 }

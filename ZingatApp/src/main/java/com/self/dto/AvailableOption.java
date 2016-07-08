@@ -18,13 +18,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class AvailableOption {
 
     @JsonProperty("id")
-    private Integer id;
+    private String id;
     @JsonProperty("name")
     private String name;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public AvailableOption(Integer id, String displayValue) {
+    public AvailableOption(String id, String displayValue) {
         this.id=id;
         this.name=displayValue;
     }
@@ -35,7 +35,7 @@ public class AvailableOption {
      *     The id
      */
     @JsonProperty("id")
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -45,7 +45,7 @@ public class AvailableOption {
      *     The id
      */
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

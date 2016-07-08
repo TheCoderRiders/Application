@@ -36,8 +36,12 @@ public class WorklistServiceImpl implements WorklistService {
     }
 
     @Override
-    public List<FileDetails> getFileDetails(String bucketName, String currentRole, String orderBy,int pageNumber) {
-        Sort sort = new Sort(Sort.Direction.ASC,orderBy);
+    public List<FileDetails> getFileDetails(String bucketName, String currentRole, String orderBy, boolean isAsc, int pageNumber) {
+
+        Sort.Direction sortDirection = Sort.Direction.DESC;
+        if(isAsc) sortDirection = Sort.Direction.ASC;
+
+        Sort sort = new Sort(sortDirection,orderBy);
         Pageable pageable = new PageRequest(pageNumber-1,20,sort);
         return documentMasterDao.getFileDetails(bucketName,currentRole,pageable);
     }

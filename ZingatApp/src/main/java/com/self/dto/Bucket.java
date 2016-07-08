@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
  */
 
 @JsonPOJOBuilder
-public class Bucket {
+public class Bucket implements Comparable<Bucket> {
 
     @Id
     @Column
@@ -77,4 +77,8 @@ public class Bucket {
         this.bucketCount = bucketCount;
     }
 
+    @Override
+    public int compareTo(Bucket o) {
+        return o.getBucketName().compareTo(this.getBucketName());
+    }
 }

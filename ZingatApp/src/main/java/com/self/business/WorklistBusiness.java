@@ -1,5 +1,6 @@
 package com.self.business;
 
+import com.self.dto.AvailableOption;
 import com.self.dto.BucketActions;
 import com.self.dto.FileDetails;
 
@@ -12,9 +13,9 @@ public interface WorklistBusiness {
 
     public BucketActions getBucketsAndActions(String role);
 
-    public List<FileDetails> getFileDetails(String bucketName, String currentRole, String orderBy,int pageNumber);
+    public List<FileDetails> getFileDetails(String bucketName, String currentRole, String orderBy, boolean isAsc, int pageNumber);
 
     public String getFileContents(String fileId);
 
-    public String getSortParameters(String currentRole);
+    /*public List<AvailableOption> getSortParameters(String currentRole);*/
 }

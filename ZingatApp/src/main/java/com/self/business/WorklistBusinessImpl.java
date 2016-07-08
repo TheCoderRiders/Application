@@ -1,6 +1,7 @@
 package com.self.business;
 
 import com.self.dto.*;
+import com.self.enums.SortingParameters;
 import com.self.service.WorklistService;
 import com.self.enums.Action;
 import com.self.enums.Role;
@@ -21,6 +22,7 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     @Override
     public BucketActions getBucketsAndActions(String role) {
         List<Bucket> bucketsInfo = worklistService.getBucketsInfo(role);
+        Collections.sort(bucketsInfo);
         Set<AvailableOption> availableOptions = new LinkedHashSet<AvailableOption>();
 
         BucketActions bucketActions = new BucketActions();
@@ -39,9 +41,9 @@ public class WorklistBusinessImpl implements WorklistBusiness{
                 AvailableOption availableOption = new AvailableOption(action.getId(),action.getDisplayValue());
                 if(i==0 && actions.getSelectedOption()==null){
                     actions.setSelectedOption(availableOption);
-                }else if (!actions.getSelectedOption().equals(availableOption)){
+                }//else if (!actions.getSelectedOption().equals(availableOption)){
                     availableOptions.add(availableOption);
-                }
+                //}
             }
         }
 
@@ -49,12 +51,28 @@ public class WorklistBusinessImpl implements WorklistBusiness{
 
         bucketActions.setActions(actions);
 
+        //sort
+        Actions sortObject = new Actions();
+        Set<AvailableOption> sortList = new LinkedHashSet<AvailableOption>();
+        SortingParameters[] sortingParameters = SortingParameters.class.getEnumConstants();
+        for(int i =0 ; i<sortingParameters.length ; i++) {
+            SortingParameters parameters = sortingParameters[i];
+            AvailableOption availableOption = new AvailableOption(parameters.getKey(),parameters.getValue());
+            if(i==0 && sortObject.getSelectedOption()==null){
+                sortObject.setSelectedOption(availableOption);
+            }//else if (!sortObject.getSelectedOption().equals(availableOption)){
+                sortList.add(availableOption);
+            //}
+        }
+        sortObject.setAvailableOptions(new ArrayList<AvailableOption>(sortList));
+        bucketActions.setSortParams(sortObject);
+
         return bucketActions;
     }
 
     @Override
-    public List<FileDetails> getFileDetails(String bucketName, String currentRole, String orderBy,int pageNumber) {
-       return worklistService.getFileDetails(bucketName, currentRole,orderBy,pageNumber);
+    public List<FileDetails> getFileDetails(String bucketName, String currentRole, String orderBy, boolean isAsc, int pageNumber) {
+       return worklistService.getFileDetails(bucketName, currentRole,orderBy,isAsc,pageNumber);
     }
 
     @Override
@@ -62,8 +80,13 @@ public class WorklistBusinessImpl implements WorklistBusiness{
         return worklistService.getFileContents(fileId);
     }
 
-    @Override
-    public String getSortParameters(String currentRole) {
+    /*@Override
+    public List<AvailableOption> getSortParameters(String currentRole) {
+
+        for(SortingParameters sortingParameters:SortingParameters.class.getEnumConstants(){
+
+        }
+
         return null;
-    }
+    }*/
 }

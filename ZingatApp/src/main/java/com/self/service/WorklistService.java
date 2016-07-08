@@ -13,7 +13,7 @@ public interface WorklistService {
 
     public List<String> getAllRoles();
 
-    public List<FileDetails> getFileDetails(String bucketName, String currentRole, String orderBy,int pageNumber);
+    public List<FileDetails> getFileDetails(String bucketName, String currentRole, String orderBy, boolean isAsc, int pageNumber);
 
     public String getFileContents(String fileId);
 }

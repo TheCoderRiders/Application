@@ -23,6 +23,10 @@ public class BucketActions {
     private List<Bucket> buckets = new ArrayList<Bucket>();
     @JsonProperty("actions")
     private Actions actions;
+
+    @JsonProperty("sortParams")
+    private Actions sortParams;
+
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -76,4 +80,11 @@ public class BucketActions {
         this.additionalProperties.put(name, value);
     }
 
+    public Actions getSortParams() {
+        return sortParams;
+    }
+
+    public void setSortParams(Actions sortParams) {
+        this.sortParams = sortParams;
+    }
 }
