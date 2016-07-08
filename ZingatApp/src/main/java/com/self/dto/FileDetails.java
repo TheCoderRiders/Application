@@ -23,7 +23,7 @@ public class FileDetails {
     public FileDetails(String fileName, String fileId, Date receivedDate, String assigneeName, String fileStatus, String statusClass) {
         this.fileName = fileName;
         this.fileId = fileId;
-        if(receivedDate==null) {
+        if(receivedDate!=null) {
             this.receivedDate = receivedDate.toString();
         }
         this.assigneeName = assigneeName;
