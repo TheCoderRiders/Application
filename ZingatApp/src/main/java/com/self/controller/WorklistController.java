@@ -3,6 +3,7 @@ package com.self.controller;
 import com.self.business.WorklistBusiness;
 import com.self.dao.DocumentMasterDao;
 import com.self.dto.BucketActions;
+import com.self.dto.FileContent;
 import com.self.dto.FileDetails;
 import com.self.models.DocumentMasterEntity;
 import com.self.models.RoleBucketStatusMapEntity;
@@ -44,8 +45,11 @@ public class WorklistController extends BaseController {
     }
 
     @RequestMapping("/getFileContents")
-    public String getFileContents(String fileId){
-        return worklistBusiness.getFileContents(fileId);
+    public FileContent getFileContents(String fileId){
+        String fileContents = worklistBusiness.getFileContents(fileId);
+        FileContent fileContent = new FileContent();
+        fileContent.setData(fileContents);
+        return fileContent;
     }
 
     private String getCurrentRole(HttpSession session) {
