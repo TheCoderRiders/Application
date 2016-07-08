@@ -170,10 +170,10 @@ CREATE TABLE `document_master` (
   `document_rejected_datetime` datetime DEFAULT NULL,
   `document_end_datetime` datetime DEFAULT NULL,
   `document_contents` text,
-  `document_suggested_codes` json DEFAULT NULL,
-  `document_accepted_codes` json DEFAULT NULL,
-  `document_rejected_codes` json DEFAULT NULL,
-  `document_final_codes` json DEFAULT NULL,
+  `document_suggested_codes` varchar(50) DEFAULT NULL,
+  `document_accepted_codes` varchar(50) DEFAULT NULL,
+  `document_rejected_codes` varchar(50) DEFAULT NULL,
+  `document_final_codes` varchar(50) DEFAULT NULL,
   `document_locked` varchar(1) DEFAULT NULL,
   `document_locked_by` varchar(50) DEFAULT NULL,
   `document_locked_by_id` int(11) DEFAULT NULL,
@@ -530,7 +530,7 @@ DROP TABLE IF EXISTS `t1`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t1` (
   `name` varchar(50) DEFAULT NULL,
-  `jdoc` json DEFAULT NULL
+  `jdoc` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

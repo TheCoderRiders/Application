@@ -25,7 +25,7 @@
                 <div class="col-md-2 .col-md-pull-9">
                     <div class="list-group">
                         <ul>
-                            <li class="list-group-item" ng-repeat="list in listGroup" ng-click="changeBucket($index)" ng-class="{active: $index == selected}">
+                            <li id={{list.bucketName}} class="list-group-item" ng-repeat="list in listGroup" ng-click="changeBucket($event,$index)" ng-class="{active: $index == selected}">
                                 <span class="badge">
                                     {{list.bucketCount}}
                                 </span>
@@ -39,7 +39,7 @@
                 <div class="col-md-10 .col-md-push-3">
                     <div class="container-fluid sorting-header">
                         <div class="file-list-header">
-                            <div class="dropDownAction">
+                            <div class="dropDownAction" style="visibility:hidden">
                                 <input type="checkbox" ng-model="mycheckbox" ng-click="checkAll()">
                                 <select ng-show="showAction" name="mySelect" id="mySelect"
                                       ng-options="option.name for option in action.availableOptions track by option.id"
@@ -48,7 +48,7 @@
                             </div>
                             <div class="sortBy">
                                 <label> Group By:</label>
-                                <select name="mySelectGroup" ng-options="group.name for group in group.availableOptions track by group.id"
+                                <select id="groupBy" name="mySelectGroup" ng-options="group.name for group in group.availableOptions track by group.id"
                                       ng-model="group.selectedOption" ng-change="getGroupByOption(group.selectedOption
     )"></select>
                                 <img ng-src="{{imageSrc}}" class="sortImage" ng-model="imageSort" ng-click="changeImageOrder($event)">
@@ -70,7 +70,7 @@
                                         </div>
                                         <div class="receivedDate">
                                             <span>
-                                                {{file.receivedDate}}
+                                                Received Date: {{file.receivedDate}}
                                             </span>
                                         </div>
                                     </div>
@@ -83,7 +83,7 @@
                                     </div>
                                     <div class="fileAssingeeName">
                                         <span>
-                                            {{file.assigneeName}}
+                                            Assigned by: {{file.assigneeName}}
                                         </span>
                                     </div>
                                 </li>
@@ -92,8 +92,8 @@
                     </div>
 
                     <div class="col-md-7 right-panel">
-                        <div class="file-header">
-                            File Name will appear here
+                        <div class="file-header" ng-model="fileName">
+                            {{fileName}}
                         </div>
                         <div class="file-content">
                             <div class="viewFileContent">
