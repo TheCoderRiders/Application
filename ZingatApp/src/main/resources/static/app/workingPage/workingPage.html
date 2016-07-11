@@ -1,0 +1,25 @@
+<div class="mainContent" ng-controller="workingPageCtrl">
+	<div id="centerContent" style=" min-width: 975px;">
+	    <div class="panel-body">
+	        <div class="form-group">
+	            <tags-input ng-model="tags" add-on-paste="false" add-on-enter="false" add-on-blur="false" placeholder="Search">
+	                <auto-complete source="loadTags($query)"></auto-complete>
+	            </tags-input>
+	            <button type="submit" class="btn btn-default custom-search-button">Search</button>
+	        </div>
+	    </div>
+	    <div class="workingFileContents leftSideContent">
+	    	<div ng-bind-html="workingFileContent">
+
+            </div>
+	    </div>
+	    <div class="workingFileContents rightSideContent">
+
+	    </div>
+	    <div class="actionBtn">
+			<button type="button" class="btn btn-primary">DRAFT</button>
+			<button type="button" class="btn btn-warning">REJECTED</button>
+			<button type="button" class="btn btn-success">SUBMIT</button>
+	    </div>
+	</div>
+</div>

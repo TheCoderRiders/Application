@@ -24,6 +24,9 @@
             <div class="row">
                 <div class="col-md-2 .col-md-pull-9">
                     <div class="list-group">
+                        <div class="bucketHeading">
+                            Buckets
+                        </div>
                         <ul>
                             <li id={{list.bucketName}} class="list-group-item" ng-repeat="list in listGroup" ng-click="changeBucket($event,$index)" ng-class="{active: $index == selected}">
                                 <span class="badge">
@@ -47,7 +50,7 @@
     )"></select>
                             </div>
                             <div class="sortBy">
-                                <label> Group By:</label>
+                                <label> Order By:</label>
                                 <select id="groupBy" name="mySelectGroup" ng-options="group.name for group in group.availableOptions track by group.id"
                                       ng-model="group.selectedOption" ng-change="getGroupByOption(group.selectedOption
     )"></select>

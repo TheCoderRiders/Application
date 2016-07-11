@@ -1,0 +1,20 @@
+.workingFileContents{
+	width: 48%;
+    padding: 0px 5px;
+    float: left;
+    height: 80%;
+    border: 1px solid;
+    overflow: scroll;
+    margin: 0px 10px;
+}
+
+.actionBtn{
+	margin-bottom: 0px;
+    padding: 5px 5px;
+    margin: 10px 0px;
+    float: right;
+}
+.actionBtn button{
+	width: 150px;
+	height: 30px;
+}

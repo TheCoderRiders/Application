@@ -1,5 +1,5 @@
 angular.module('LandingPageController', [ ])
-    .controller("landingPageCtrl",["$scope","$http", function($scope,$http){
+    .controller("landingPageCtrl",["$scope","$http","$timeout","$location", function($scope,$http,$timeout,$location){
         /*Show First bucket as selected*/
         $scope.selected = 0;
         $scope.selectedFile = 0;
@@ -13,6 +13,9 @@ angular.module('LandingPageController', [ ])
         $scope.tempObj.pageNumber = 1;
         $scope.tempObj.isAsc = true;
         
+        $timeout(function() {
+          angular.element('ul').find('li.active').trigger('click')
+        }, 500);
         
         
         $http({
@@ -59,6 +62,10 @@ angular.module('LandingPageController', [ ])
                 }
             }).success(function(data){ //make a get request to mock json file.
                 $scope.roles = data;
+                $timeout(function() {
+                  angular.element('ul').find('li.selectedItem').trigger('click')
+                }, 100);
+               
             }).error(function(err){
                 console.log(err);
             })
@@ -149,19 +156,14 @@ angular.module('LandingPageController', [ ])
         $scope.getFileDetails = function($event,$index,fileDetails){
             $scope.selectedFile = $index;
             $scope.fileName = fileDetails.fileName;
-            //var obj = {};
-            //obj.fileId = fileDetails.fileId;
-            //obj.fileName = fileDetails.fileName;
-
+            localStorage.setItem("clickedFileId",fileDetails.fileId);
             $http({
                 url: 'worklistPage/getFileContents?fileId='+fileDetails.fileId, 
                 method: "GET",
             }).then(function(data){ //make a get request to mock json file.
-                 $scope.fileContent = data.data.data.replace(/\n/g,"<br>");
-                console.log("Bucket Success: " +data);
+                $scope.fileContent = data.data.data.replace(/\n/g,"<br>");
             },function(err) {
-                debugger;
-                console.log("Bucket Err: "+err);
+                console.log(err);
             });
 
         }
@@ -175,7 +177,7 @@ angular.module('LandingPageController', [ ])
         
         /* function called on view click */
         $scope.redirectToWorking = function(){
-            alert("You will be redirect to working page!!!");
+            $location.path('/workingPage');
         }
         
         
