@@ -58,10 +58,10 @@ public class WorklistController extends BaseController {
         return roleNames[0].toString();
     }
 
-    @RequestMapping("/getSortParameters")
+    /*@RequestMapping("/getSortParameters")
     public String getSortParameters(HttpSession session){
         String currentRole = getCurrentRole(session);
         return null;// worklistBusiness.getSortParameters(currentRole);
-    }
+    }*/
 
 }

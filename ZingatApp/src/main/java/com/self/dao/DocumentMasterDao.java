@@ -1,6 +1,7 @@
 package com.self.dao;
 
 import com.self.dto.Bucket;
+import com.self.dto.Codes;
 import com.self.dto.FileDetails;
 import com.self.models.DocumentMasterEntity;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +37,8 @@ public interface DocumentMasterDao extends JpaRepository<DocumentMasterEntity, L
 
     @Query("select documentContents from DocumentMasterEntity where documentId=:fileId")
     public String getFileContents(@Param("fileId") String fileId);
+
+    public DocumentMasterEntity findByDocumentId(String fileId);
 
     /*@Query(GET_BUCKET_INFO)
     public List<Bucket> getBucketInfo(@Param("roleName") String roles);

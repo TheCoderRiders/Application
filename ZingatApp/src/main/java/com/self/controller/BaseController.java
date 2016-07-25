@@ -9,6 +9,7 @@ public class BaseController {
 
     @ExceptionHandler
     public String handleException(Exception e){
+        e.printStackTrace();
         return "Exception Occurred";
     }
 }
