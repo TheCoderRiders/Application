@@ -1,4 +1,4 @@
-var app = angular.module('coderApp', ['ngRoute','ngSanitize','ngTagsInput','ngScrollbar','checklist-model','LoginController','LandingPageController','WorkingPageController']);
+var app = angular.module('coderApp', ['ngRoute','ngSanitize','ngTagsInput','ngScrollbar','checklist-model','tableSort','ui.bootstrap','LoginController','LandingPageController','WorkingPageController','ProfilePageController','AdminPageController']);
 
 app.config(['$routeProvider','$controllerProvider', function($routeProvider, $controllerProvider) {
     //$controllerProvider.allowGlobals();
@@ -15,23 +15,14 @@ app.config(['$routeProvider','$controllerProvider', function($routeProvider, $co
             templateUrl: 'app/workingPage/workingPage.html',
             controller: 'workingPageCtrl'
         }).
+        when('/profilePage', {
+            templateUrl: 'app/profilePage/profilePage.html',
+            controller: 'profilePageCtrl'
+        }).
+        when('/adminPage', {
+            templateUrl: 'app/adminPage/adminPage.html',
+            controller: 'adminPageCtrl'
+        }).
         otherwise({redirectTo: '/login'});
 }]);
 
-app.service('landingPageService', function() {
-  var productList = [];
-
-  var addProduct = function(newObj) {
-      productList.push(newObj);
-  };
-
-  var getProducts = function(){
-      return productList;
-  };
-
-  return {
-    addProduct: addProduct,
-    getProducts: getProducts
-  };
-
-});

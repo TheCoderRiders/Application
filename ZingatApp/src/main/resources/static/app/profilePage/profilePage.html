@@ -1,0 +1,123 @@
+<div class="container profileContent">
+  <h1 class="profileHeading">Personal info</h1>
+  <div class="row">
+    <!-- left column -->
+
+    <div class="col-md-2">
+      
+    </div>
+    <!-- edit form column -->
+    <div class="col-md-8">
+      <form class="form-horizontal profileForm" role="form">
+        <div class="form-group">
+          <label class="col-lg-2 control-label">User Name:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="User Name" type="text" readonly="true" ng-model="userObj.userName">
+          </div>
+          <label class="col-lg-2 control-label">User Role</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="User Role" type="text" readonly="true" ng-model="userObj.userRole">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 control-label">First name:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="First Name" type="text" ng-model="userObj.firstName" ng-minlength="2" ng-maxlength="25" required>
+          </div>
+          <label class="col-lg-2 control-label">Last name:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="Last Name" type="text" ng-model="userObj.lastName" ng-minlength="2" ng-maxlength="25" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 control-label">Gender:</label>
+          <div class="col-lg-4">
+            <div class="ui-select">
+              <select id="user_time_zone" class="form-control" ng-model="userObj.gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+          </div>
+          <label class="col-lg-2 control-label">Date of Birth:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="Date of Birth" type="date" ng-model="userObj.dob">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 control-label">Address 1:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="Address 1" type="text" ng-model="userObj.address1">
+          </div>
+          <label class="col-lg-2 control-label">Address 2:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="Address 2" type="text" ng-model="userObj.address2">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 control-label">City:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="City" type="text" ng-model="userObj.city">
+          </div>
+          <label class="col-lg-2 control-label">State:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="State" type="text" ng-model="userObj.state">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 control-label">Country:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="Country" type="text" ng-model="userObj.country">
+          </div>
+          <label class="col-lg-2 control-label">Zipcode:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="Zipcode" type="text" ng-model="userObj.zipcode">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 control-label">Email:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="janesemail@gmail.com" type="email" ng-model="userObj.email">
+          </div>
+          <label class="col-lg-2 control-label">Contact No:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="9876543210" type="number" ng-model="userObj.contactNo">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-2 control-label">Password:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="11111122333" type="password" ng-model="userObj.password">
+          </div>
+          <label class="col-lg-2 control-label">Confirm password:</label>
+          <div class="col-lg-4">
+            <input class="form-control" value="11111122333" type="password" ng-model="userObj.repassword">
+          </div>
+        </div>
+        <!-- <div class="form-group" style="border:1px solid">
+          <label class="col-lg-2 control-label">Password Hint:</label>
+          <div class="col-lg-10">
+            1. Must be 8 characters Long.
+            2. Must contain 1 capital letter.
+            3. Must contain 1 special character.
+          </div>
+        </div> -->
+        <div class="form-group">
+          <label class="col-md-4 control-label"></label>
+          <div class="col-md-4">
+            <input class="btn btn-primary saveBtn" ng-click="updateProfile(userObj)" value="Save Changes" type="button">
+            <input class="btn btn-default cancelBtn" value="Cancel" type="reset">
+          </div>
+          <label class="col-md-4 control-label"></label>
+        </div>
+
+        <div class="alert alert-info alert-dismissable infoMsg">
+          <a class="panel-close close" data-dismiss="alert">×</a> 
+          <i class="fa fa-coffee"></i>
+          This is an <strong>.alert</strong>. Use this to show important messages to the user.
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

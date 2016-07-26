@@ -1,0 +1,14 @@
+ .searchBarContainer input[type="text"]{
+    width: 25%;
+    border-radius: 5px;
+    height: 35px;
+    margin: 2px;
+    padding: 0 0 0 5px;
+}
+.userList{
+	background-color: white;
+	width: 70%;
+}
+.adminContent.container{
+	margin-left: 15px;
+}

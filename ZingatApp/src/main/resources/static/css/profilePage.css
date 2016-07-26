@@ -1,0 +1,30 @@
+.profileContent{
+	background-color: #f5f5f5;
+	height: 100%;
+}
+.profileHeading{
+	font-size: 32px;
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.profileContent input[type="password"] {
+    width: 100%;
+}
+.profileContent .btn{
+	width: 45%;
+    padding: 5px 4px;
+}
+.saveBtn{
+	float: left;
+}
+.cancelBtn{
+	float: right;
+}
+.profileForm{
+	margin-top: 15px;
+}
+.infoMsg{
+	text-align: center;
+}
