@@ -1,0 +1,30 @@
+<div class="adminContent container">
+	<h1>Admin Page</h1>
+	<div class="searchBarContainer">
+		<input type="text" />
+		<button type="submit" class="btn btn-default custom-search-button">Search</button>
+	</div>
+	<uib-pagination total-items="bigTotalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages"></uib-pagination>
+    
+    
+	<div class="userList">
+		<table class="table" border="1" ts-wrapper>
+		  <thead>
+		    <tr>
+		      <th ts-criteria="Id">Id</th>
+		      <th ts-criteria="Name|lowercase" ts-default>Name</th>
+		      <th ts-criteria="Price|parseFloat">Price</th>
+		      <th ts-criteria="Quantity|parseFloat">Quantity</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr ng-repeat="item in userList track by item.id" ts-repeat ts-hide-no-data>
+		      <td>{{item.id}}</td>
+		      <td>{{item.Name}}</td>
+		      <td>{{item.Price | currency}}</td>
+		      <td>{{item.Quantity}}</td>
+		    </tr>
+		  </tbody>
+		</table>
+	</div>
+</div>

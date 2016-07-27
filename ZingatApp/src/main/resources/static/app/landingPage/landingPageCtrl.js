@@ -1,4 +1,4 @@
-angular.module('LandingPageController', [ ])
+angular.module('LandingPageController', ['ngSanitize'])
     .controller("landingPageCtrl",["$scope","$http","$timeout","$location", function($scope,$http,$timeout,$location){
         /*Show First bucket as selected*/
         $scope.selected = 0;
@@ -12,6 +12,23 @@ angular.module('LandingPageController', [ ])
         $scope.tempObj.orderBy = "";
         $scope.tempObj.pageNumber = 1;
         $scope.tempObj.isAsc = true;
+
+
+        $scope.totalItems = 164;
+        $scope.currentPage = 1;
+
+          $scope.setPage = function (pageNo) {
+            $scope.currentPage = pageNo;
+          };
+
+          $scope.pageChanged = function() {
+            console.log('Page changed to: ' + $scope.currentPage);
+          };
+
+          $scope.maxSize = 5;
+          $scope.bigTotalItems = 175;
+          $scope.currentPage = 1;
+
         
         $timeout(function() {
           angular.element('ul').find('li.active').trigger('click')

@@ -42,7 +42,7 @@
                 <div class="col-md-10 .col-md-push-3">
                     <div class="container-fluid sorting-header">
                         <div class="file-list-header">
-                            <div class="dropDownAction" style="visibility:hidden">
+                            <div class="dropDownAction">
                                 <input type="checkbox" ng-model="mycheckbox" ng-click="checkAll()">
                                 <select ng-show="showAction" name="mySelect" id="mySelect"
                                       ng-options="option.name for option in action.availableOptions track by option.id"
@@ -55,6 +55,9 @@
                                       ng-model="group.selectedOption" ng-change="getGroupByOption(group.selectedOption
     )"></select>
                                 <img ng-src="{{imageSrc}}" class="sortImage" ng-model="imageSort" ng-click="changeImageOrder($event)">
+                            </div>
+                            <div class="paginationBlock">
+                                <uib-pagination total-items="bigTotalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages"></uib-pagination>
                             </div>
                         </div>
                     </div>
