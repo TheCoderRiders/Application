@@ -1,8 +1,11 @@
 package com.self.controller;
 
+import com.self.business.ProfilePageBusiness;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.provisioning.JdbcUserDetailsManagerConfigurer;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,9 +22,14 @@ import java.security.Principal;
 @RestController
 public class LoginController {
 
+    @Autowired
+    private ProfilePageBusiness profilePageBusiness;
+
     @RequestMapping("/user")
     public Principal user(Principal user,HttpSession session) {
         session.setAttribute("user",user);
+        String username = ((User) ((UsernamePasswordAuthenticationToken) user).getPrincipal()).getUsername();
+        session.setAttribute("userInfo",profilePageBusiness.getProfile(username));
         return user;
     }
 

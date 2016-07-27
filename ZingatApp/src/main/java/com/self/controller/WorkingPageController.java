@@ -22,7 +22,7 @@ import java.util.Collection;
  * Created by akash.p on 25/7/16.
  */
 @RestController
-@RequestMapping("worklistPage")
+@RequestMapping("workingPage")
 public class WorkingPageController extends BaseController {
 
     @Autowired
