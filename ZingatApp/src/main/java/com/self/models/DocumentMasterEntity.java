@@ -173,7 +173,7 @@ public class DocumentMasterEntity implements Serializable {
     private String documentContents;
 
     @Basic
-    @javax.persistence.Column(name = "document_contents", nullable = true, insertable = true, updatable = true, length = 65535)
+    @javax.persistence.Column(name = "document_html_contents", nullable = true, insertable = true, updatable = true, length = 65535)
     public String getDocumentContents() {
         return documentContents;
     }
