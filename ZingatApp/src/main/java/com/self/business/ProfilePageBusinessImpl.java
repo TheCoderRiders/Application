@@ -1,7 +1,10 @@
 package com.self.business;
 
+import com.self.config.MySqlPasswordEncoder;
+import com.self.dao.UserAuthenticationDao;
 import com.self.dao.UserMasterDao;
 import com.self.dto.UserProfileInformation;
+import com.self.models.UserAuthenticationEntity;
 import com.self.models.UserMasterEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +23,9 @@ public class ProfilePageBusinessImpl implements ProfilePageBusiness {
 
     @Autowired
     private UserMasterDao userMasterDao;
+
+    @Autowired
+    private UserAuthenticationDao userAuthenticationDao;
 
     @Override
     public UserProfileInformation getProfile(UserMasterEntity userInfo) throws IOException {
@@ -70,6 +76,12 @@ public class ProfilePageBusinessImpl implements ProfilePageBusiness {
         userInfo.setUsername(userProfileInformation.getUserName());
         userInfo.setRoleName(userProfileInformation.getUserRole());
         userInfo.setZipcode(userProfileInformation.getZipcode());
+        if(userProfileInformation.getPassword()!=null && !userProfileInformation.getPassword().isEmpty() &&
+        userProfileInformation.getPassword().equals(userProfileInformation.getRepassword())){
+            UserAuthenticationEntity userAuthenticationEntity = userAuthenticationDao.findOneByUsername(userProfileInformation.getUserName());
+            userAuthenticationEntity.setPassword(new MySqlPasswordEncoder().encode(userProfileInformation.getPassword()));
+            userAuthenticationDao.save(userAuthenticationEntity);
+        }
         return userMasterDao.save(userInfo);
     }
 
