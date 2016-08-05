@@ -3,14 +3,53 @@
 	height: 100%;
 }
 .profileHeading{
-	font-size: 32px;
+	font-size: 28px;
     text-align: center;
     padding: 10px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
 }
 .profileContent input[type="password"] {
     width: 100%;
+    margin-bottom: 10px;
+}
+.mandatoryField{
+	color:#a94442;
+}
+.passwordHelp{
+	padding: 0px;
+    margin-top: 2%;
+    margin-left: -2%;
+    width: 5%;
+    font-size: 18px;
+    color: black;
+}
+.col-lg-3{
+	width: 30%;
+}
+.passwordHelp .tooltip{
+	top: -64px;
+    left: -90.7813px;
+    display: block;
+}
+.passwordHelp .tooltip-inner{
+	    min-width: 195px;
+}
+.dropdown-menu{
+	top: 55px !important;
+    left: 30px !important;
+}
+.err-message{
+	color:#a94442;
+	padding-left: 0px;
+}
+.form-group {
+    margin-bottom: 10px;
+}
+.form-horizontal .control-label{
+	text-align: left;
+	padding-top: 0px;
 }
 .profileContent .btn{
 	width: 45%;

@@ -1,99 +1,170 @@
 <div class="container profileContent">
-  <h1 class="profileHeading">Personal info</h1>
+ 
   <div class="row">
     <!-- left column -->
 
-    <div class="col-md-2">
+    <div class="col-md-1">
       
     </div>
     <!-- edit form column -->
-    <div class="col-md-8">
+    <div class="col-md-10">
+       <h1 class="profileHeading">Personal Information</h1>
       <form class="form-horizontal profileForm" role="form">
+
         <div class="form-group">
-          <label class="col-lg-2 control-label">User Name:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="User Name" type="text" readonly="true" ng-model="userObj.userName">
-          </div>
-          <label class="col-lg-2 control-label">User Role</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="User Role" type="text" readonly="true" ng-model="userObj.userRole">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-lg-2 control-label">First name:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="First Name" type="text" ng-model="userObj.firstName" ng-minlength="2" ng-maxlength="25" required>
-          </div>
-          <label class="col-lg-2 control-label">Last name:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="Last Name" type="text" ng-model="userObj.lastName" ng-minlength="2" ng-maxlength="25" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-lg-2 control-label">Gender:</label>
-          <div class="col-lg-4">
-            <div class="ui-select">
-              <select id="user_time_zone" class="form-control" ng-model="userObj.gender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">User Name</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" readonly="true" ng-model="userObj.userName">
             </div>
           </div>
-          <label class="col-lg-2 control-label">Date of Birth:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="Date of Birth" type="date" ng-model="userObj.dob">
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">User Role</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" readonly="true" ng-model="userObj.userRole">
+            </div>
           </div>
         </div>
+
+
         <div class="form-group">
-          <label class="col-lg-2 control-label">Address 1:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="Address 1" type="text" ng-model="userObj.address1">
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">First name<span class="mandatoryField"> *</span></label>
+            <div class="col-lg-8" ng-class="{ 'has-error': isfirstNameInvalid}">
+              <input class="form-control" type="text" ng-model="userObj.firstName" ng-minlength="2" required>
+            </div>
+            <div class="col-lg-4 err-message" ng-show="isfirstNameInvalid">
+              {{isfirstNameInvalid}}
+            </div>
           </div>
-          <label class="col-lg-2 control-label">Address 2:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="Address 2" type="text" ng-model="userObj.address2">
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">Last name<span class="mandatoryField"> *</span></label>
+            <div class="col-lg-8" ng-class="{ 'has-error': islastNameInvalid}">
+              <input class="form-control" type="text" ng-model="userObj.lastName" ng-minlength="2" required>
+            </div>
+            <div class="col-lg-4 err-message" ng-show="islastNameInvalid">
+              {{islastNameInvalid}}
+            </div>
           </div>
         </div>
+
         <div class="form-group">
-          <label class="col-lg-2 control-label">City:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="City" type="text" ng-model="userObj.city">
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">Gender<span class="mandatoryField"> *</span></label>
+            <div class="col-lg-8" ng-class="{ 'has-error': isGenderInvalid}">
+              <div class="ui-select">
+                <select id="userGender" class="form-control" ng-model="userObj.gender">
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-4 err-message" ng-show="isGenderInvalid">
+              {{isGenderInvalid}}
+            </div>
           </div>
-          <label class="col-lg-2 control-label">State:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="State" type="text" ng-model="userObj.state">
+          <div class="col-lg-6 ">
+            <label class="col-lg-8 control-label">Date of Birth:</label>
+            <div class="col-lg-8 ">
+              <input class="form-control dateOfBirth" type="text" ng-model="userObj.dob">
+            </div>
+            <div class="rangeDropDown">
+            </div>
           </div>
         </div>
+
+
         <div class="form-group">
-          <label class="col-lg-2 control-label">Country:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="Country" type="text" ng-model="userObj.country">
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">Address 1:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="userObj.address1">
+            </div>
           </div>
-          <label class="col-lg-2 control-label">Zipcode:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="Zipcode" type="text" ng-model="userObj.zipcode">
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">Address 2:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="userObj.address2">
+            </div>
           </div>
         </div>
+
+
         <div class="form-group">
-          <label class="col-lg-2 control-label">Email:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="janesemail@gmail.com" type="email" ng-model="userObj.email">
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">City:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="userObj.city">
+            </div>
           </div>
-          <label class="col-lg-2 control-label">Contact No:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="9876543210" type="number" ng-model="userObj.contactNo">
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">State:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="userObj.state">
+            </div>
           </div>
         </div>
+
         <div class="form-group">
-          <label class="col-lg-2 control-label">Password:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="11111122333" type="password" ng-model="userObj.password">
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">Country:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="userObj.country">
+            </div>
           </div>
-          <label class="col-lg-2 control-label">Confirm password:</label>
-          <div class="col-lg-4">
-            <input class="form-control" value="11111122333" type="password" ng-model="userObj.repassword">
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">Zipcode:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="userObj.zipcode">
+            </div>
           </div>
         </div>
+
+
+        <div class="form-group">
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">Email<span class="mandatoryField"> *</span></label>
+            <div class="col-lg-8" ng-class="{ 'has-error': isemailInvalid}">
+              <input class="form-control" type="text" ng-model="userObj.email">
+            </div>
+            <div class="col-lg-4 err-message" ng-show="isemailInvalid">
+              {{isemailInvalid}}
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">Contact No:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="userObj.contactNo">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">Password<span class="mandatoryField"> *</span></label>
+            <div class="col-lg-8" ng-class="{ 'has-error': isPassInvalid}">
+                <input class="form-control" type="password" ng-model="userObj.password">
+            </div>
+            <div class="col-lg-1 passwordHelp">
+              <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" title="Must contain atleast 8 characters, 1 Uppercase, 1 Number and 1 Special character"> </i>
+            </div>
+            <div class="col-lg-3 err-message" ng-show="isPassInvalid">
+              {{isPassInvalid}}
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">Confirm password<span class="mandatoryField"> *</span></label>
+            <div class="col-lg-8" ng-class="{ 'has-error': isRePassInvalid}">
+              <input class="form-control" type="password" ng-model="userObj.repassword">
+            </div>
+            <div class="col-lg-4 err-message" ng-show="isRePassInvalid">
+              {{isRePassInvalid}}
+            </div>
+          </div>
+        </div>
+
+
         <!-- <div class="form-group" style="border:1px solid">
           <label class="col-lg-2 control-label">Password Hint:</label>
           <div class="col-lg-10">
@@ -103,21 +174,29 @@
           </div>
         </div> -->
         <div class="form-group">
-          <label class="col-md-4 control-label"></label>
-          <div class="col-md-4">
-            <input class="btn btn-primary saveBtn" ng-click="updateProfile(userObj)" value="Save Changes" type="button">
-            <input class="btn btn-default cancelBtn" value="Cancel" type="reset">
+          <!-- <label class="col-md-4 control-label"></label> -->
+          <div class="col-lg-6">
+            <div class="col-lg-10">
+              <input class="btn btn-primary saveBtn" ng-click="updateProfile(userObj)" value="Save Changes" type="button">
+              <input class="btn btn-default cancelBtn" ng-click="cancelProfileChanges()" value="Cancel" type="reset">
+            </div>
           </div>
-          <label class="col-md-4 control-label"></label>
+          <!-- <label class="col-md-4 control-label"></label> -->
         </div>
 
-        <div class="alert alert-info alert-dismissable infoMsg">
+       <!--  <div class="alert alert-info alert-dismissable infoMsg">
           <a class="panel-close close" data-dismiss="alert">×</a> 
           <i class="fa fa-coffee"></i>
           This is an <strong>.alert</strong>. Use this to show important messages to the user.
-        </div>
+        </div> -->
 
       </form>
+    </div>
+
+    <!-- right column -->
+
+    <div class="col-md-1">
+      
     </div>
   </div>
 </div>
