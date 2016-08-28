@@ -1,16 +1,18 @@
 package com.self.business;
 
-import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.self.dao.DocumentMasterDao;
 import com.self.dto.Codes;
 import com.self.models.DocumentMasterEntity;
-import com.self.pojo.CodeInfo;
+import com.self.pojo.DocumentCodeInfo;
 import com.self.service.WorkingPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by akash.p on 25/7/16.
@@ -21,21 +23,48 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     @Autowired
     private WorkingPageService workingPageService;
 
+    @Autowired
+    private DocumentMasterDao documentMasterDao;
+
+
     @Override
     public Codes getCodes(String fileId) throws IOException {
         DocumentMasterEntity documentMasterEntity = workingPageService.getCodes(fileId);
         Codes acceptedSuggestedRejected = new Codes();
         ObjectMapper objectMapper = new ObjectMapper();
 
-        acceptedSuggestedRejected.setAcceptedCode(Arrays.asList(
-                objectMapper.readValue(documentMasterEntity.getDocumentAcceptedCodes(), CodeInfo.class)));
+        if(documentMasterEntity.getDocumentAcceptedCodes()!=null) {
+            acceptedSuggestedRejected.setAcceptedCode(Arrays.asList(
+                    objectMapper.readValue(documentMasterEntity.getDocumentAcceptedCodes(), DocumentCodeInfo[].class)));
+        }
+        if(documentMasterEntity.getDocumentRejectedCodes()!=null) {
+            acceptedSuggestedRejected.setRejectedCode(Arrays.asList(
+                    objectMapper.readValue(documentMasterEntity.getDocumentRejectedCodes(), DocumentCodeInfo[].class)));
+        }
+        if(documentMasterEntity.getDocumentSuggestedCodes()!=null) {
+            acceptedSuggestedRejected.setSuggestedCode(Arrays.asList(
+                    objectMapper.readValue(documentMasterEntity.getDocumentSuggestedCodes(), DocumentCodeInfo[].class)));
+        }
 
-        acceptedSuggestedRejected.setRejectedCode(Arrays.asList(
-                objectMapper.readValue(documentMasterEntity.getDocumentRejectedCodes(), CodeInfo.class)));
-
-        acceptedSuggestedRejected.setSuggestedCode(Arrays.asList(
-                objectMapper.readValue(documentMasterEntity.getDocumentSuggestedCodes(), CodeInfo.class)));
+        acceptedSuggestedRejected.setFileId(documentMasterEntity.getDocumentId());
 
         return acceptedSuggestedRejected;
+    }
+
+    @Override
+    public Boolean saveCodes(Codes codes) throws JsonProcessingException {
+        DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(codes.getFileId());
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<DocumentCodeInfo> suggestedCode = codes.getSuggestedCode();
+        List<DocumentCodeInfo> acceptedCode = codes.getAcceptedCode();
+        List<DocumentCodeInfo> rejectedCode = codes.getRejectedCode();
+
+        documentMasterEntity.setDocumentSuggestedCodes(suggestedCode==null?null:objectMapper.writeValueAsString(suggestedCode));
+        documentMasterEntity.setDocumentAcceptedCodes(acceptedCode==null?null:objectMapper.writeValueAsString(acceptedCode));
+        documentMasterEntity.setDocumentRejectedCodes(rejectedCode==null?null:objectMapper.writeValueAsString(rejectedCode));
+
+        documentMasterDao.save(documentMasterEntity);
+
+        return true;
     }
 }

@@ -16,6 +16,15 @@ public class StatusMasterEntity implements Serializable {
     private String statusValue;
     private String statusDescription;
 
+    public StatusMasterEntity(){
+
+    }
+
+    public StatusMasterEntity(int statusId, String statusValue) {
+        this.statusId = statusId;
+        this.statusValue = statusValue;
+    }
+
     @Id
     @Column(name = "status_id", nullable = false, insertable = true, updatable = true)
     public int getStatusId() {

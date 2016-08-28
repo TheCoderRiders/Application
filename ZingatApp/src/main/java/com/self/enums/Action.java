@@ -1,5 +1,11 @@
 package com.self.enums;
 
+import com.self.models.StatusMasterEntity;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by akash.p on 17/6/16.
  */
@@ -23,6 +29,24 @@ public enum Action {
 
     public String getDisplayValue() {
         return displayValue;
+    }
+
+    public static List<String> getRoleByAction(String actionId){
+        switch (actionId){
+            case "111" : return Arrays.asList("TL_Allocater","TL_Allocater_Coder");
+            case "222" : return Arrays.asList("TL_Allocater_Coder");
+            case "333" : return Arrays.asList("Coder");
+        }
+        return Collections.emptyList();
+    }
+
+    public static StatusMasterEntity getAssignedStatusByAction(String actionId){
+        switch (actionId){
+            case "111" :
+            case "222" : return new StatusMasterEntity(333,"Allocate to TL");
+            case "333" : return new StatusMasterEntity(333,"Allocate to Coder");
+        }
+        return new StatusMasterEntity();
     }
 
 }

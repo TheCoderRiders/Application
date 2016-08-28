@@ -2,15 +2,16 @@ package com.self.controller;
 
 import com.self.business.WorklistBusiness;
 import com.self.dao.DocumentMasterDao;
-import com.self.dto.BucketActions;
-import com.self.dto.FileContent;
-import com.self.dto.FileDetails;
+import com.self.dto.*;
+import com.self.enums.Action;
 import com.self.models.DocumentMasterEntity;
 import com.self.models.RoleBucketStatusMapEntity;
+import com.self.models.UserMasterEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,17 +32,18 @@ public class WorklistController extends BaseController {
     private WorklistBusiness worklistBusiness;
 
     @RequestMapping("/bucketInfo")
-    public BucketActions getDocumentInformation(Principal user){
+    public BucketActions getDocumentInformation(Principal user ,HttpSession session){
         Collection<GrantedAuthority> authorities = ((UsernamePasswordAuthenticationToken) user).getAuthorities();
         Object[] roleNames = authorities.toArray();
-
-        return worklistBusiness.getBucketsAndActions(roleNames[0].toString());
+        int userId = ((UserMasterEntity) session.getAttribute("userInfo")).getUserId();
+        return worklistBusiness.getBucketsAndActions(roleNames[0].toString(),userId);
     }
 
     @RequestMapping("/getFileDetails")
-    public List<FileDetails> getFileDetails(String bucketName,String orderBy,boolean isAsc, int pageNumber,HttpSession session){
+    public List<FileDetails> getFileDetails(String bucketName,String orderBy,boolean isAsc, int pageNumber ,HttpSession session){
         String currentRole = getCurrentRole(session);
-        return worklistBusiness.getFileDetails(bucketName,currentRole,orderBy,isAsc,pageNumber);
+        int userId = ((UserMasterEntity) session.getAttribute("userInfo")).getUserId();
+        return worklistBusiness.getFileDetails(bucketName,currentRole,userId,orderBy,isAsc,pageNumber);
     }
 
     @RequestMapping("/getFileContents")
@@ -50,6 +52,17 @@ public class WorklistController extends BaseController {
         FileContent fileContent = new FileContent();
         fileContent.setData(fileContents);
         return fileContent;
+    }
+
+    @RequestMapping("/getUsersForAllocation")
+    public List<UserBasicInfo> getUsersForAllocation(String actionId){
+        return worklistBusiness.getUsersForAllocation(actionId);
+    }
+
+    @RequestMapping("/assignedTo")
+    public Boolean assignedTo(@RequestBody DocAssignInfo docAssignInfo, HttpSession session){
+        UserMasterEntity userInfo = (UserMasterEntity) session.getAttribute("userInfo");
+        return worklistBusiness.assignedTo(docAssignInfo,userInfo);
     }
 
     private String getCurrentRole(HttpSession session) {

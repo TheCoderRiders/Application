@@ -16,4 +16,8 @@ public interface WorklistService {
     public List<FileDetails> getFileDetails(String bucketName, String currentRole, String orderBy, boolean isAsc, int pageNumber);
 
     public String getFileContents(String fileId);
+
+    public List<Bucket> getBucketsInfo(String role, int userId);
+
+    public List<FileDetails> getFileDetailsByUserId(String bucketName, String currentRole, int userId, String orderBy, boolean isAsc, int pageNumber);
 }

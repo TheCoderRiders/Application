@@ -1,6 +1,7 @@
 package com.self.business;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.self.dto.Codes;
 
 import java.io.IOException;
@@ -10,4 +11,6 @@ import java.io.IOException;
  */
 public interface WorkingPageBusiness {
     public Codes getCodes(String fileId) throws IOException;
+
+    public Boolean saveCodes(Codes codes) throws JsonProcessingException;
 }

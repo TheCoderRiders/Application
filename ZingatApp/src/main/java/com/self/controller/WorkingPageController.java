@@ -5,6 +5,7 @@ import com.self.business.WorklistBusiness;
 import com.self.dto.BucketActions;
 import com.self.dto.Codes;
 import com.self.dto.UserProfileInformation;
+import com.self.pojo.DocumentCodeInfo;
 import com.self.pojo.StringClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by akash.p on 25/7/16.
@@ -31,5 +33,10 @@ public class WorkingPageController extends BaseController {
     @RequestMapping(value = "/getCodes")
     public Codes getCodes(String fileId) throws IOException {
         return workingPageBusiness.getCodes(fileId);
+    }
+
+    @RequestMapping(value = "/saveCodes")
+    public Boolean saveCodes(@RequestBody Codes codes) throws IOException {
+        return workingPageBusiness.saveCodes(codes);
     }
 }

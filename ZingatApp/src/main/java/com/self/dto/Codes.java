@@ -1,6 +1,6 @@
 package com.self.dto;
 
-import com.self.pojo.CodeInfo;
+import com.self.pojo.DocumentCodeInfo;
 
 import java.util.List;
 
@@ -8,31 +8,40 @@ import java.util.List;
  * Created by akash.p on 25/7/16.
  */
 public class Codes {
-    private List<CodeInfo> suggestedCode;
-    private List<CodeInfo> acceptedCode;
-    private List<CodeInfo> rejectedCode;
+    private List<DocumentCodeInfo> suggestedCode;
+    private List<DocumentCodeInfo> acceptedCode;
+    private List<DocumentCodeInfo> rejectedCode;
+    private String fileId;
 
-    public List<CodeInfo> getSuggestedCode() {
+    public List<DocumentCodeInfo> getSuggestedCode() {
         return suggestedCode;
     }
 
-    public void setSuggestedCode(List<CodeInfo> suggestedCode) {
+    public void setSuggestedCode(List<DocumentCodeInfo> suggestedCode) {
         this.suggestedCode = suggestedCode;
     }
 
-    public List<CodeInfo> getAcceptedCode() {
+    public List<DocumentCodeInfo> getAcceptedCode() {
         return acceptedCode;
     }
 
-    public void setAcceptedCode(List<CodeInfo> acceptedCode) {
+    public void setAcceptedCode(List<DocumentCodeInfo> acceptedCode) {
         this.acceptedCode = acceptedCode;
     }
 
-    public List<CodeInfo> getRejectedCode() {
+    public List<DocumentCodeInfo> getRejectedCode() {
         return rejectedCode;
     }
 
-    public void setRejectedCode(List<CodeInfo> rejectedCode) {
+    public void setRejectedCode(List<DocumentCodeInfo> rejectedCode) {
         this.rejectedCode = rejectedCode;
+    }
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
     }
 }

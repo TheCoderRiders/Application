@@ -27,6 +27,13 @@ public interface DocumentMasterDao extends JpaRepository<DocumentMasterEntity, L
             " and bucket.roleName =:roleName group by bucket.bucketValue")
     public List<Bucket> getBucketInfo(@Param("roleName") String roles);
 
+
+    @Query(value = "select NEW com.self.dto.Bucket( bucket.bucketValue, count(bucket.bucketValue) ) from DocumentMasterEntity document " +
+            ",RoleBucketStatusMapEntity bucket where document.documentCurrentStatusId = bucket.statusId " +
+            " and bucket.roleName =:roleName and document.documentAssignedId=:documentAssignedId group by bucket.bucketValue")
+    public List<Bucket> getBucketInfoByUserId(@Param("roleName") String roles, @Param("documentAssignedId") String documentAssignedId);
+
+
     @Query("select new com.self.dto.FileDetails(document.documentName,document.documentId,document.documentRecivedDatetime,document.documentAssigneeName," +
             "document.documentCurrentStatus,roleMap.statusCssClass) from DocumentMasterEntity as document,RoleBucketStatusMapEntity as roleMap where " +
             "document.documentCurrentStatusId = roleMap.statusId and roleMap.bucketValue =:bucketName and roleMap.roleName=:currentRole " +
@@ -34,6 +41,14 @@ public interface DocumentMasterDao extends JpaRepository<DocumentMasterEntity, L
     public List<FileDetails> getFileDetails(@Param("bucketName") String bucketName,
                                       @Param("currentRole") String currentRole,
                                       Pageable pageable);
+
+    @Query("select new com.self.dto.FileDetails(document.documentName,document.documentId,document.documentRecivedDatetime,document.documentAssigneeName," +
+            "document.documentCurrentStatus,roleMap.statusCssClass) from DocumentMasterEntity as document,RoleBucketStatusMapEntity as roleMap where " +
+            "document.documentCurrentStatusId = roleMap.statusId and roleMap.bucketValue =:bucketName and roleMap.roleName=:currentRole " +
+            "and document.documentAssignedId=:documentAssignedId")
+    public List<FileDetails> getFileDetailsByUserId(@Param("bucketName") String bucketName,
+                                            @Param("currentRole") String currentRole, @Param("documentAssignedId") String documentAssignedId,
+                                            Pageable pageable);
 
     @Query("select documentContents from DocumentMasterEntity where documentId=:fileId")
     public String getFileContents(@Param("fileId") String fileId);

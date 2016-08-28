@@ -20,10 +20,10 @@ import java.util.List;
 public class WorklistServiceImpl implements WorklistService {
 
     @Autowired
-    DocumentMasterDao documentMasterDao;
+    private DocumentMasterDao documentMasterDao;
 
     @Autowired
-    RoleMasterDao roleMasterDao;
+    private RoleMasterDao roleMasterDao;
 
     @Override
     public List<Bucket> getBucketsInfo(String role) {
@@ -49,5 +49,20 @@ public class WorklistServiceImpl implements WorklistService {
     @Override
     public String getFileContents(String fileId) {
         return documentMasterDao.getFileContents(fileId);
+    }
+
+    @Override
+    public List<Bucket> getBucketsInfo(String role, int userId) {
+        return documentMasterDao.getBucketInfoByUserId(role, String.valueOf(userId));
+    }
+
+    @Override
+    public List<FileDetails> getFileDetailsByUserId(String bucketName, String currentRole, int userId, String orderBy, boolean isAsc, int pageNumber) {
+        Sort.Direction sortDirection = Sort.Direction.DESC;
+        if(isAsc) sortDirection = Sort.Direction.ASC;
+
+        Sort sort = new Sort(sortDirection,orderBy);
+        Pageable pageable = new PageRequest(pageNumber-1,20,sort);
+        return documentMasterDao.getFileDetailsByUserId(bucketName,currentRole,String.valueOf(userId),pageable);
     }
 }
