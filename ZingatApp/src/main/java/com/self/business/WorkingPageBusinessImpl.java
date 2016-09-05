@@ -3,10 +3,14 @@ package com.self.business;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.self.dao.DocumentMasterDao;
+import com.self.dao.SolrSuggesterRepository;
+import com.self.dto.CodeSearchResult;
 import com.self.dto.Codes;
 import com.self.models.DocumentMasterEntity;
+import com.self.pojo.ActualCode;
 import com.self.pojo.DocumentCodeInfo;
 import com.self.service.WorkingPageService;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +30,8 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     @Autowired
     private DocumentMasterDao documentMasterDao;
 
+    @Autowired
+    private SolrSuggesterRepository solrSuggesterRepository;
 
     @Override
     public Codes getCodes(String fileId) throws IOException {
@@ -66,5 +72,17 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         documentMasterDao.save(documentMasterEntity);
 
         return true;
+    }
+
+    @Override
+    public CodeSearchResult searchCode(String key, Integer start) {
+        QueryResponse queryResponse = solrSuggesterRepository.searchCode(key,start);
+        CodeSearchResult codeSearchResult = new CodeSearchResult();
+
+        codeSearchResult.setCodes(queryResponse.getBeans(ActualCode.class));
+        codeSearchResult.setStart(start);
+        codeSearchResult.setPageSize(solrSuggesterRepository.getPaginationSize());
+        codeSearchResult.setTotal(queryResponse.getResults().getNumFound());
+        return codeSearchResult;
     }
 }
