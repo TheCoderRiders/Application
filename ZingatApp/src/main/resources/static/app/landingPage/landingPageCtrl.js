@@ -46,6 +46,7 @@ angular.module('LandingPageController', ['ngSanitize'])
             $scope.listGroup = data.data.buckets;
             $scope.group = data.data.sortParams;
             $scope.tempObj.orderBy = data.data.sortParams.selectedOption.id;
+            $scope.action = data.data.actions;
             fetchList();
         },function(err) {
             console.log("Bucket Err: "+err);
@@ -79,6 +80,9 @@ angular.module('LandingPageController', ['ngSanitize'])
                 }
             }).success(function(data){ //make a get request to mock json file.
                 $scope.roles = data;
+                /*for(var i=0; i<data.length; i++){
+                    $scope.roles[i].checkBoxVisible = true;
+                }*/
                 $timeout(function() {
                   angular.element('ul').find('li.selectedItem').trigger('click')
                 }, 100);
@@ -108,19 +112,10 @@ angular.module('LandingPageController', ['ngSanitize'])
                 $scope.showAction = false;
             }
         }
-        
-        /*drop down action items*/
-        $scope.action = {
-            availableOptions: [
-              {id: '1', name: 'Assign to TL'},
-              {id: '2', name: 'Assign to TL-Coder'},
-              {id: '3', name: 'Assign to Coder'}
-            ],
-            selectedOption: {id: '1', name: 'Assign to TL'} //This sets the default value of the select in the ui
-        };
-        
+
         /*function called on action drop down*/
         $scope.getCheckedFile = function(mySelect){
+            debugger;
             var assigneeObj = {};
             assigneeObj.id = mySelect.id;
             assigneeObj.name = mySelect.name;
@@ -140,6 +135,27 @@ angular.module('LandingPageController', ['ngSanitize'])
             }            
             tempAssignee.checkFiles = tempArray;
             $scope.checkFiled.push(tempAssignee);
+            var requestedObject = {};
+            requestedObject.assignedUserId = "4";
+            requestedObject.assignedUserName = "abhi_coder";
+            requestedObject.fileId = tempAssignee.checkFiles[0].fileId;
+            requestedObject.actionId = assigneeObj.id;
+            console.log(requestedObject);
+            
+            /*$http({
+                url: 'worklistPage/assignedTo', 
+                method: "POST",
+                data : JSON.stringify(requestedObject),
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(function(data){ //make a get request to mock json file.
+               console.log(data);
+            },function(err) {
+                console.log("Bucket Err: "+err);
+            });*/
+
             console.log($scope.checkFiled)
         }
         

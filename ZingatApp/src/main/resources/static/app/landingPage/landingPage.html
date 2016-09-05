@@ -47,8 +47,8 @@
                             <div class="dropDownAction">
                                 <input type="checkbox" ng-model="mycheckbox" ng-click="checkAll()">
                                 <select ng-show="showAction" name="mySelect" id="mySelect"
-                                      ng-options="option.name for option in action.availableOptions track by option.id"
-                                      ng-model="action.selectedOption" ng-change="getCheckedFile(action.selectedOption
+                                      ng-options="option.name for option in action.availableOptions track by option.id" value="option.id"
+                                      ng-model="action.selectedOption" ng-click="getCheckedFile(action.selectedOption
     )"></select>
                             </div>
                             <div class="sortBy">
