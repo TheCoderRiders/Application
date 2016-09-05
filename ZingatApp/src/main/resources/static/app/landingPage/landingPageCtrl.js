@@ -115,7 +115,6 @@ angular.module('LandingPageController', ['ngSanitize'])
 
         /*function called on action drop down*/
         $scope.getCheckedFile = function(mySelect){
-            debugger;
             var assigneeObj = {};
             assigneeObj.id = mySelect.id;
             assigneeObj.name = mySelect.name;
@@ -142,7 +141,7 @@ angular.module('LandingPageController', ['ngSanitize'])
             requestedObject.actionId = assigneeObj.id;
             console.log(requestedObject);
             
-            /*$http({
+            $http({
                 url: 'worklistPage/assignedTo', 
                 method: "POST",
                 data : JSON.stringify(requestedObject),
@@ -154,7 +153,7 @@ angular.module('LandingPageController', ['ngSanitize'])
                console.log(data);
             },function(err) {
                 console.log("Bucket Err: "+err);
-            });*/
+            });
 
             console.log($scope.checkFiled)
         }

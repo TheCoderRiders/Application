@@ -21,3 +21,28 @@
 mark{
     background: #ff0;
 }
+.workingFileContents a{
+    color:green;
+}
+.workingFileContents .nav-tabs>li{
+    width: 33%;
+}
+.sectionHeading{
+    font-size: 18px;
+    font-weight: bolder;
+}
+.suggestedCode,.acceptedCode,.rejectedCode{
+    width: 10%;
+    display: inline-block;
+}
+.suggestedCodeDesc,.acceptedCodeDesc,.rejectedCodeDesc{
+    width: 65%;
+    word-wrap: break-word;
+    overflow: auto;
+    word-break: break-all;
+}
+.codeAction{
+    width: 25%;
+    float: right;
+    display: inline-flex;
+}
