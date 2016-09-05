@@ -36,7 +36,7 @@ public class WorklistServiceImpl implements WorklistService {
     }
 
     @Override
-    public List<FileDetails> getFileDetails(String bucketName, String currentRole, String orderBy, boolean isAsc, int pageNumber) {
+    public List<FileDetails> getFileDetails(String bucketName, List<String> currentRole, String orderBy, boolean isAsc, int pageNumber) {
 
         Sort.Direction sortDirection = Sort.Direction.DESC;
         if(isAsc) sortDirection = Sort.Direction.ASC;
@@ -57,7 +57,7 @@ public class WorklistServiceImpl implements WorklistService {
     }
 
     @Override
-    public List<FileDetails> getFileDetailsByUserId(String bucketName, String currentRole, int userId, String orderBy, boolean isAsc, int pageNumber) {
+    public List<FileDetails> getFileDetailsByUserId(String bucketName, List<String> currentRole, int userId, String orderBy, boolean isAsc, int pageNumber) {
         Sort.Direction sortDirection = Sort.Direction.DESC;
         if(isAsc) sortDirection = Sort.Direction.ASC;
 

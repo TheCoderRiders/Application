@@ -23,4 +23,14 @@ public enum Role {
     public List<Action> getActions() {
         return actions;
     }
+
+    public static List<String> getRoles(String role){
+        switch (role){
+            case "Allocater" : return Arrays.asList("Allocater");
+            case "TL_Allocater" : return Arrays.asList("Allocater","TL_Allocater");
+            case "TL_Allocater_Coder" : return Arrays.asList("Allocater","TL_Allocater","TL_Allocater_Coder","Coder");
+            case "Coder" : return Arrays.asList("Coder");
+        }
+        return Arrays.asList(role);
+    }
 }
