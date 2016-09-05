@@ -12,6 +12,7 @@ public class FileDetails {
     private String receivedDate;
     private String assigneeName;
     private String fileStatus;
+    private Integer fileStatusId;
     private String statusClass;
     private Boolean checkBoxVisible;
 
@@ -20,7 +21,7 @@ public class FileDetails {
 
     }
 
-    public FileDetails(String fileName, String fileId, Date receivedDate, String assigneeName, String fileStatus, String statusClass) {
+    public FileDetails(String fileName, String fileId, Date receivedDate, String assigneeName, String fileStatus, Integer fileStatusId, String statusClass) {
         this.fileName = fileName;
         this.fileId = fileId;
         if(receivedDate!=null) {
@@ -28,6 +29,7 @@ public class FileDetails {
         }
         this.assigneeName = assigneeName;
         this.fileStatus = fileStatus;
+        this.fileStatusId = fileStatusId;
         this.statusClass = statusClass;
     }
 
@@ -85,5 +87,13 @@ public class FileDetails {
 
     public void setCheckBoxVisible(Boolean checkBoxVisible) {
         this.checkBoxVisible = checkBoxVisible;
+    }
+
+    public Integer getFileStatusId() {
+        return fileStatusId;
+    }
+
+    public void setFileStatusId(Integer fileStatusId) {
+        this.fileStatusId = fileStatusId;
     }
 }

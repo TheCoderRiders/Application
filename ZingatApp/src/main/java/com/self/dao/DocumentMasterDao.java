@@ -35,7 +35,7 @@ public interface DocumentMasterDao extends JpaRepository<DocumentMasterEntity, L
 
 
     @Query("select new com.self.dto.FileDetails(document.documentName,document.documentId,document.documentRecivedDatetime,document.documentAssigneeName," +
-            "document.documentCurrentStatus,roleMap.statusCssClass) from DocumentMasterEntity as document,RoleBucketStatusMapEntity as roleMap where " +
+            "document.documentCurrentStatus, document.documentCurrentStatusId, roleMap.statusCssClass) from DocumentMasterEntity as document,RoleBucketStatusMapEntity as roleMap where " +
             "document.documentCurrentStatusId = roleMap.statusId and roleMap.bucketValue =:bucketName and roleMap.roleName=:currentRole " +
             "")
     public List<FileDetails> getFileDetails(@Param("bucketName") String bucketName,
@@ -43,7 +43,7 @@ public interface DocumentMasterDao extends JpaRepository<DocumentMasterEntity, L
                                       Pageable pageable);
 
     @Query("select new com.self.dto.FileDetails(document.documentName,document.documentId,document.documentRecivedDatetime,document.documentAssigneeName," +
-            "document.documentCurrentStatus,roleMap.statusCssClass) from DocumentMasterEntity as document,RoleBucketStatusMapEntity as roleMap where " +
+            "document.documentCurrentStatus,document.documentCurrentStatusId,roleMap.statusCssClass) from DocumentMasterEntity as document,RoleBucketStatusMapEntity as roleMap where " +
             "document.documentCurrentStatusId = roleMap.statusId and roleMap.bucketValue =:bucketName and roleMap.roleName=:currentRole " +
             "and document.documentAssignedId=:documentAssignedId")
     public List<FileDetails> getFileDetailsByUserId(@Param("bucketName") String bucketName,

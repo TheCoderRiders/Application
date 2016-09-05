@@ -32,6 +32,10 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     @Autowired
     private DocumentMasterDao documentMasterDao;
 
+    private List<Integer> assignedFileStatusIds = Arrays.asList(444,555,666);
+
+    private List<Integer> assignedToTLFileStatusIds = Arrays.asList(333);
+
     @Override
     public BucketActions getBucketsAndActions(String role, int userId) {
         List<Bucket> bucketsInfo = worklistService.getBucketsInfo(role,userId);
@@ -96,9 +100,14 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     @Override
     public List<FileDetails> getFileDetails(String bucketName, String currentRole, int userId, String orderBy, boolean isAsc, int pageNumber) {
         if(currentRole.equalsIgnoreCase("Coder") || bucketName.equalsIgnoreCase("New") || bucketName.equalsIgnoreCase("Draft")){
-            worklistService.getFileDetailsByUserId(bucketName, currentRole,userId,orderBy,isAsc,pageNumber);
+            return worklistService.getFileDetailsByUserId(bucketName, currentRole,userId,orderBy,isAsc,pageNumber);
         }
-       return worklistService.getFileDetails(bucketName, currentRole,orderBy,isAsc,pageNumber);
+        List<FileDetails> fileDetails = worklistService.getFileDetails(bucketName, currentRole, orderBy, isAsc, pageNumber);
+        fileDetails.parallelStream()
+        .filter(fileDetail->! ( assignedFileStatusIds.contains(fileDetail.getFileStatusId().intValue()) || ( ("Allocater").equalsIgnoreCase(currentRole) && assignedToTLFileStatusIds.contains(fileDetail.getFileStatusId().intValue()) ) ) )
+        .forEach(fileDetail -> fileDetail.setCheckBoxVisible(true));
+
+        return fileDetails;
     }
 
     @Override
