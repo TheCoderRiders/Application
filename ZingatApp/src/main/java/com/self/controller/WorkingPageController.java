@@ -3,8 +3,10 @@ package com.self.controller;
 import com.self.business.WorkingPageBusiness;
 import com.self.business.WorklistBusiness;
 import com.self.dto.BucketActions;
+import com.self.dto.CodeSearchResult;
 import com.self.dto.Codes;
 import com.self.dto.UserProfileInformation;
+import com.self.pojo.ActualCode;
 import com.self.pojo.DocumentCodeInfo;
 import com.self.pojo.StringClass;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +40,10 @@ public class WorkingPageController extends BaseController {
     @RequestMapping(value = "/saveCodes")
     public Boolean saveCodes(@RequestBody Codes codes) throws IOException {
         return workingPageBusiness.saveCodes(codes);
+    }
+
+    @RequestMapping(value = "/searchCode")
+    public CodeSearchResult searchCode(String key,Integer start){
+       return workingPageBusiness.searchCode(key,start);
     }
 }
