@@ -34,12 +34,13 @@ mark{
 .suggestedCode,.acceptedCode,.rejectedCode{
     width: 10%;
     display: inline-block;
+    float: left;
 }
 .suggestedCodeDesc,.acceptedCodeDesc,.rejectedCodeDesc{
     width: 65%;
     word-wrap: break-word;
     overflow: auto;
-    word-break: break-all;
+    display: inline-block;
 }
 .codeAction{
     width: 25%;
