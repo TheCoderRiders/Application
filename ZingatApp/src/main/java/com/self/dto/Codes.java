@@ -2,6 +2,7 @@ package com.self.dto;
 
 import com.self.pojo.DocumentCodeInfo;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,6 +20,7 @@ public class Codes {
 
     public void setSuggestedCode(List<DocumentCodeInfo> suggestedCode) {
         this.suggestedCode = suggestedCode;
+        if(this.suggestedCode!=null)Collections.sort(this.suggestedCode);
     }
 
     public List<DocumentCodeInfo> getAcceptedCode() {
@@ -27,6 +29,7 @@ public class Codes {
 
     public void setAcceptedCode(List<DocumentCodeInfo> acceptedCode) {
         this.acceptedCode = acceptedCode;
+        if(this.acceptedCode!=null)Collections.sort(this.acceptedCode);
     }
 
     public List<DocumentCodeInfo> getRejectedCode() {
@@ -35,6 +38,7 @@ public class Codes {
 
     public void setRejectedCode(List<DocumentCodeInfo> rejectedCode) {
         this.rejectedCode = rejectedCode;
+        if(this.rejectedCode!=null)Collections.sort(this.rejectedCode);
     }
 
     public String getFileId() {

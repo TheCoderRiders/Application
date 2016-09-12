@@ -2,10 +2,7 @@ package com.self.controller;
 
 import com.self.business.WorkingPageBusiness;
 import com.self.business.WorklistBusiness;
-import com.self.dto.BucketActions;
-import com.self.dto.CodeSearchResult;
-import com.self.dto.Codes;
-import com.self.dto.UserProfileInformation;
+import com.self.dto.*;
 import com.self.pojo.ActualCode;
 import com.self.pojo.DocumentCodeInfo;
 import com.self.pojo.StringClass;
@@ -45,5 +42,10 @@ public class WorkingPageController extends BaseController {
     @RequestMapping(value = "/searchCode")
     public CodeSearchResult searchCode(String key,Integer start){
        return workingPageBusiness.searchCode(key,start);
+    }
+
+    @RequestMapping(value = "/codeAction")
+    public Boolean saveCodes(@RequestBody CodeAction codeAction) throws IOException {
+        return workingPageBusiness.codeAction(codeAction);
     }
 }

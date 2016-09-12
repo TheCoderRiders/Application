@@ -52,4 +52,9 @@ public class ActualCode {
     public void setPostionList(Object postionList) {
         this.postionList = postionList;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.code.equals(((ActualCode)obj).getCode());
+    }
 }

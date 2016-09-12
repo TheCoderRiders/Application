@@ -2,6 +2,7 @@ package com.self.business;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.self.dto.CodeAction;
 import com.self.dto.Codes;
 import com.self.pojo.ActualCode;
 
@@ -17,4 +18,6 @@ public interface WorkingPageBusiness {
     public Boolean saveCodes(Codes codes) throws JsonProcessingException;
 
     public com.self.dto.CodeSearchResult searchCode(String key, Integer start);
+
+    public Boolean codeAction(CodeAction codeAction) throws JsonProcessingException;
 }

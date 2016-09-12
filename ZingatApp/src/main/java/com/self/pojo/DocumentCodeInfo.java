@@ -8,7 +8,7 @@ import java.util.List;
  * Created by akash.p on 25/7/16.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DocumentCodeInfo {
+public class DocumentCodeInfo implements Comparable<DocumentCodeInfo> {
 
     private String sectionName;
     private List<ActualCode> codes;
@@ -27,5 +27,10 @@ public class DocumentCodeInfo {
 
     public void setCodes(List<ActualCode> codes) {
         this.codes = codes;
+    }
+
+    @Override
+    public int compareTo(DocumentCodeInfo o) {
+        return sectionName.compareTo(o.getSectionName());
     }
 }

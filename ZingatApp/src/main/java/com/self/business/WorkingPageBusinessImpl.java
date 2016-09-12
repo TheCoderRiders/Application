@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.self.dao.DocumentMasterDao;
 import com.self.dao.SolrSuggesterRepository;
+import com.self.dto.CodeAction;
 import com.self.dto.CodeSearchResult;
 import com.self.dto.Codes;
 import com.self.models.DocumentMasterEntity;
@@ -15,8 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Created by akash.p on 25/7/16.
@@ -85,4 +90,70 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         codeSearchResult.setTotal(queryResponse.getResults().getNumFound());
         return codeSearchResult;
     }
+
+    @Override
+    public Boolean codeAction(CodeAction codeAction) throws JsonProcessingException {
+        Codes allCodes = codeAction.getAllCodes();
+        ActualCode code = codeAction.getCode();
+        String sectionName = codeAction.getSectionName()==null?"Others:":codeAction.getSectionName();
+        String action = codeAction.getAction();
+        String codeActionType = codeAction.getCodeActionType();
+        List<DocumentCodeInfo> suggestedCode = allCodes.getSuggestedCode()==null? new ArrayList<>():allCodes.getSuggestedCode();
+        List<DocumentCodeInfo> acceptedCode = allCodes.getAcceptedCode()==null? new ArrayList<>():allCodes.getAcceptedCode();
+        List<DocumentCodeInfo> rejectedCode = allCodes.getRejectedCode()==null? new ArrayList<>():allCodes.getRejectedCode();
+
+        Predicate<DocumentCodeInfo> sectionPredicate = codeInfo -> sectionName.equalsIgnoreCase(codeInfo.getSectionName());
+        switch (codeActionType + "_" +action){
+            case "Suggested_Accept" :
+                extractAndInsertCode(suggestedCode, acceptedCode, code, sectionName, sectionPredicate);
+                break;
+
+            case "Suggested_Reject" :
+                extractAndInsertCode(suggestedCode, rejectedCode, code, sectionName, sectionPredicate);
+                break;
+            case "Accepted_Reject" :
+                extractAndInsertCode(acceptedCode, rejectedCode, code, sectionName, sectionPredicate);
+                break;
+            case "Rejected_Accept" :
+                extractAndInsertCode(rejectedCode, acceptedCode, code, sectionName, sectionPredicate);
+                break;
+            case "New_AddCode" :
+                extractAndInsertCode(new ArrayList<>(), acceptedCode, code, sectionName, sectionPredicate);
+                break;
+        }
+
+        allCodes.setAcceptedCode(acceptedCode);
+        allCodes.setSuggestedCode(suggestedCode);
+        allCodes.setRejectedCode(rejectedCode);
+        return saveCodes(allCodes);
+    }
+
+    private void extractAndInsertCode(List<DocumentCodeInfo> fromCode, List<DocumentCodeInfo> toCode, ActualCode whichCode, String sectionName, Predicate<DocumentCodeInfo> sectionPredicate) {
+        Map<Boolean, List<DocumentCodeInfo>> partition = fromCode.stream().collect(Collectors.partitioningBy(sectionPredicate));
+        List<DocumentCodeInfo> suggestedCodeWithValidSection = partition.get(Boolean.TRUE);
+        List<DocumentCodeInfo> suggestedCodeWithInValidSection = partition.get(Boolean.FALSE);
+
+        fromCode.retainAll(suggestedCodeWithInValidSection);
+        if(suggestedCodeWithValidSection!=null &&suggestedCodeWithValidSection.size()!=0 && suggestedCodeWithValidSection.get(0).getCodes().size()!=1){
+            suggestedCodeWithValidSection.get(0).getCodes().remove(whichCode);
+            fromCode.addAll(suggestedCodeWithValidSection);
+        }
+
+        partition = toCode.stream().collect(Collectors.partitioningBy(sectionPredicate));
+        suggestedCodeWithValidSection = partition.get(Boolean.TRUE);
+        suggestedCodeWithInValidSection = partition.get(Boolean.FALSE);
+
+        if(suggestedCodeWithValidSection==null || suggestedCodeWithValidSection.size()==0){
+            DocumentCodeInfo documentCodeInfo = new DocumentCodeInfo();
+            documentCodeInfo.setSectionName(sectionName);
+            documentCodeInfo.setCodes(Arrays.asList(whichCode));
+            toCode.add(documentCodeInfo);
+        }else {
+            DocumentCodeInfo documentCodeInfo = suggestedCodeWithValidSection.get(0);
+            documentCodeInfo.getCodes().add(whichCode);
+            toCode.retainAll(suggestedCodeWithInValidSection);
+            toCode.addAll(suggestedCodeWithValidSection);
+        }
+    }
 }
+
