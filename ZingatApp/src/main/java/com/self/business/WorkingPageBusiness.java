@@ -19,5 +19,5 @@ public interface WorkingPageBusiness {
 
     public com.self.dto.CodeSearchResult searchCode(String key, Integer start);
 
-    public Boolean codeAction(CodeAction codeAction) throws JsonProcessingException;
+    public Codes codeAction(CodeAction codeAction) throws JsonProcessingException;
 }

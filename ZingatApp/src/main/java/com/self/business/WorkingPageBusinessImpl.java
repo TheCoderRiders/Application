@@ -92,7 +92,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     }
 
     @Override
-    public Boolean codeAction(CodeAction codeAction) throws JsonProcessingException {
+    public Codes codeAction(CodeAction codeAction) throws JsonProcessingException {
         Codes allCodes = codeAction.getAllCodes();
         ActualCode code = codeAction.getCode();
         String sectionName = codeAction.getSectionName()==null?"Others:":codeAction.getSectionName();
@@ -125,7 +125,8 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         allCodes.setAcceptedCode(acceptedCode);
         allCodes.setSuggestedCode(suggestedCode);
         allCodes.setRejectedCode(rejectedCode);
-        return saveCodes(allCodes);
+        saveCodes(allCodes);
+        return allCodes;
     }
 
     private void extractAndInsertCode(List<DocumentCodeInfo> fromCode, List<DocumentCodeInfo> toCode, ActualCode whichCode, String sectionName, Predicate<DocumentCodeInfo> sectionPredicate) {

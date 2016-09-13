@@ -45,7 +45,7 @@ public class WorkingPageController extends BaseController {
     }
 
     @RequestMapping(value = "/codeAction")
-    public Boolean saveCodes(@RequestBody CodeAction codeAction) throws IOException {
+    public Codes saveCodes(@RequestBody CodeAction codeAction) throws IOException {
         return workingPageBusiness.codeAction(codeAction);
     }
 }
