@@ -57,6 +57,11 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
                     objectMapper.readValue(documentMasterEntity.getDocumentSuggestedCodes(), DocumentCodeInfo[].class)));
         }
 
+        if(documentMasterEntity.getDocumentMayBeCodes()!=null) {
+            acceptedSuggestedRejected.setMayBeCode(Arrays.asList(
+                    objectMapper.readValue(documentMasterEntity.getDocumentMayBeCodes(), DocumentCodeInfo[].class)));
+        }
+
         acceptedSuggestedRejected.setFileId(documentMasterEntity.getDocumentId());
 
         return acceptedSuggestedRejected;
@@ -69,10 +74,12 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         List<DocumentCodeInfo> suggestedCode = codes.getSuggestedCode();
         List<DocumentCodeInfo> acceptedCode = codes.getAcceptedCode();
         List<DocumentCodeInfo> rejectedCode = codes.getRejectedCode();
+        List<DocumentCodeInfo> mayBeCode = codes.getMayBeCode();
 
         documentMasterEntity.setDocumentSuggestedCodes(suggestedCode==null?null:objectMapper.writeValueAsString(suggestedCode));
         documentMasterEntity.setDocumentAcceptedCodes(acceptedCode==null?null:objectMapper.writeValueAsString(acceptedCode));
         documentMasterEntity.setDocumentRejectedCodes(rejectedCode==null?null:objectMapper.writeValueAsString(rejectedCode));
+        documentMasterEntity.setDocumentMayBeCodes(mayBeCode==null?null:objectMapper.writeValueAsString(mayBeCode));
 
         documentMasterDao.save(documentMasterEntity);
 
@@ -101,6 +108,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         List<DocumentCodeInfo> suggestedCode = allCodes.getSuggestedCode()==null? new ArrayList<>():allCodes.getSuggestedCode();
         List<DocumentCodeInfo> acceptedCode = allCodes.getAcceptedCode()==null? new ArrayList<>():allCodes.getAcceptedCode();
         List<DocumentCodeInfo> rejectedCode = allCodes.getRejectedCode()==null? new ArrayList<>():allCodes.getRejectedCode();
+        List<DocumentCodeInfo> mayBeCode = allCodes.getMayBeCode()==null? new ArrayList<>():allCodes.getMayBeCode();
 
         Predicate<DocumentCodeInfo> sectionPredicate = codeInfo -> sectionName.equalsIgnoreCase(codeInfo.getSectionName());
         switch (codeActionType + "_" +action){
@@ -120,11 +128,19 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
             case "New_AddCode" :
                 extractAndInsertCode(new ArrayList<>(), acceptedCode, code, sectionName, sectionPredicate);
                 break;
+            case "MayBe_Accept" :
+                extractAndInsertCode(mayBeCode, acceptedCode, code, sectionName, sectionPredicate);
+                break;
+
+            case "MayBe_Reject" :
+                extractAndInsertCode(mayBeCode, rejectedCode, code, sectionName, sectionPredicate);
+                break;
         }
 
         allCodes.setAcceptedCode(acceptedCode);
         allCodes.setSuggestedCode(suggestedCode);
         allCodes.setRejectedCode(rejectedCode);
+        allCodes.setMayBeCode(mayBeCode);
         saveCodes(allCodes);
         return allCodes;
     }

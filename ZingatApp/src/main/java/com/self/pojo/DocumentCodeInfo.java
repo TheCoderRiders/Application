@@ -31,6 +31,7 @@ public class DocumentCodeInfo implements Comparable<DocumentCodeInfo> {
 
     @Override
     public int compareTo(DocumentCodeInfo o) {
+        if(sectionName==null) return 0;
         return sectionName.compareTo(o.getSectionName());
     }
 }

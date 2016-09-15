@@ -218,6 +218,18 @@ public class DocumentMasterEntity implements Serializable {
         this.documentRejectedCodes = documentRejectedCodes;
     }
 
+    private String documentMayBeCodes;
+
+    @Basic
+    @javax.persistence.Column(name = "document_may_be_codes", nullable = true, insertable = true, updatable = true, length = 100)
+    public String getDocumentMayBeCodes() {
+        return documentMayBeCodes;
+    }
+
+    public void setDocumentMayBeCodes(String documentMayBeCodes) {
+        this.documentMayBeCodes = documentMayBeCodes;
+    }
+
     private String documentLocked;
 
     @Basic
@@ -444,6 +456,8 @@ public class DocumentMasterEntity implements Serializable {
             return false;
         if (documentRejectedCodes != null ? !documentRejectedCodes.equals(that.documentRejectedCodes) : that.documentRejectedCodes != null)
             return false;
+        if (documentMayBeCodes != null ? !documentMayBeCodes.equals(that.documentMayBeCodes) : that.documentMayBeCodes != null)
+            return false;
         if (documentRejectionComment != null ? !documentRejectionComment.equals(that.documentRejectionComment) : that.documentRejectionComment != null)
             return false;
         if (documentRejectionReason != null ? !documentRejectionReason.equals(that.documentRejectionReason) : that.documentRejectionReason != null)
@@ -481,6 +495,7 @@ public class DocumentMasterEntity implements Serializable {
         result = 31 * result + (documentSuggestedCodes != null ? documentSuggestedCodes.hashCode() : 0);
         result = 31 * result + (documentAcceptedCodes != null ? documentAcceptedCodes.hashCode() : 0);
         result = 31 * result + (documentRejectedCodes != null ? documentRejectedCodes.hashCode() : 0);
+        result = 31 * result + (documentMayBeCodes != null ? documentMayBeCodes.hashCode() : 0);
         result = 31 * result + (documentLocked != null ? documentLocked.hashCode() : 0);
         result = 31 * result + (documentLockedBy != null ? documentLockedBy.hashCode() : 0);
         result = 31 * result + (documentLockedById != null ? documentLockedById.hashCode() : 0);

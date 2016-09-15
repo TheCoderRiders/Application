@@ -12,6 +12,7 @@ public class Codes {
     private List<DocumentCodeInfo> suggestedCode;
     private List<DocumentCodeInfo> acceptedCode;
     private List<DocumentCodeInfo> rejectedCode;
+    private List<DocumentCodeInfo> mayBeCode;
     private String fileId;
 
     public List<DocumentCodeInfo> getSuggestedCode() {
@@ -39,6 +40,15 @@ public class Codes {
     public void setRejectedCode(List<DocumentCodeInfo> rejectedCode) {
         this.rejectedCode = rejectedCode;
         if(this.rejectedCode!=null)Collections.sort(this.rejectedCode);
+    }
+
+    public List<DocumentCodeInfo> getMayBeCode() {
+        return mayBeCode;
+    }
+
+    public void setMayBeCode(List<DocumentCodeInfo> mayBeCode) {
+        this.mayBeCode = mayBeCode;
+        if(this.mayBeCode!=null)Collections.sort(this.mayBeCode);
     }
 
     public String getFileId() {
