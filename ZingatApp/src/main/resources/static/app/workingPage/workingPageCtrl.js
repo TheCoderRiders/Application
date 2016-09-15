@@ -2,7 +2,7 @@ angular.module('WorkingPageController', [])
     .controller("workingPageCtrl",["$scope","$location","$http", function($scope,$location,$http){
 
         $scope.fileId = localStorage.getItem("clickedFileId");
-
+        $scope.globalObj;
         $http({
             url: 'worklistPage/getFileContents?fileId='+$scope.fileId, 
             method: "GET",
@@ -16,6 +16,7 @@ angular.module('WorkingPageController', [])
             url: 'workingPage/getCodes?fileId='+$scope.fileId, 
             method: "GET",
         }).then(function(data){ //make a get request to mock json file.
+            $scope.globalObj = data.data;
             $scope.suggestedCode = data.data.suggestedCode;
             $scope.acceptedCode = data.data.acceptedCode;
             $scope.rejectedCode = data.data.rejectedCode;
@@ -35,7 +36,33 @@ angular.module('WorkingPageController', [])
                 $(event.target).parent().parent().parent().parent().remove();
             }
             $(event.target).parent().parent().parent().remove();
+            var action,codeActionType;
             if($(event.target).attr('id') == "on"){
+                action = "Accept";
+                codeActionType = "Rejected";
+            }else{
+                action = "Reject";
+                codeActionType = "Accepted";
+            }
+            var requestedData = { };
+            requestedData.allCodes = $scope.globalObj;
+            requestedData.sectionName = selectedCode.sectionName;
+            requestedData.action = action;
+            requestedData.code = code;
+            requestedData.codeActionType = codeActionType;
+            debugger;
+            $http({
+                url: 'workingPage/codeAction', 
+                method: "POST",
+                dataType : "application/json",
+                data : JSON.stringify(requestedData)
+            }).then(function(data){ //make a get request to mock json file.
+                $scope.acceptedCode = data.data.acceptedCode;
+                $scope.rejectedCode = data.data.rejectedCode;
+            },function(err) {
+                console.log("error while code  action");
+            });
+            /*if($(event.target).attr('id') == "on"){
                 var temp = $scope.acceptedCode;
                 var codeLength;
                 var temp2 = [];
@@ -49,7 +76,6 @@ angular.module('WorkingPageController', [])
                             break;
                         }
                     }
-                    /*to check for existing element*/
                     if(i == codeLength){
                         temp.push(selectedCode);
                     }else{
@@ -75,7 +101,6 @@ angular.module('WorkingPageController', [])
                             break;
                         }
                     }
-                    /*to check for existing element*/
                     if(i == codeLength){
                         temp.push(selectedCode);
                     }else{
@@ -87,6 +112,6 @@ angular.module('WorkingPageController', [])
                     temp.push(selectedCode);
                 }
                 $scope.rejectedCode = temp;
-            }
+            }*/
         }
     }]);
