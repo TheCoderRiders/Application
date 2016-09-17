@@ -1,5 +1,5 @@
 
-<div class="mainContent" ng-controller="landingPageCtrl">
+<div class="mainContent landingPage" ng-controller="landingPageCtrl">
 
     <div id="header">
         <nav class="navbar navbar-default custom-navbar">
@@ -18,30 +18,28 @@
                     <tags-input ng-model="tags" add-on-paste="false" add-on-enter="false" add-on-blur="false" placeholder="Search">
                         <auto-complete source="loadTags($query)"></auto-complete>
                     </tags-input>
-                    <div class="searchIcon">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                    </div>
+                    <i class="fa fa-search searchIcon" aria-hidden="true"></i>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-2 .col-md-pull-9">
-                    <div class="list-group">
-                        <div class="bucketHeading">
-                            Buckets
-                        </div>
-                        <ul>
-                            <li id={{list.bucketName}} class="list-group-item" ng-repeat="list in listGroup" ng-click="changeBucket($event,$index)" ng-class="{active: $index == selected}">
-                                <span class="badge">
-                                    {{list.bucketCount}}
-                                </span>
-                                {{list.bucketName}}
-                            </li>
-                        </ul>
-                    </div>
+            <div class="row bucketRow">
+                <div class="bucketHeading">
+                    Buckets
                 </div>
+                <div class="list-group list-group-horizontal">
+                    <ul>
+                        <li id={{list.bucketName}} class="list-group-item" ng-repeat="list in listGroup" ng-click="changeBucket($event,$index)" ng-class="{active: $index == selected}">
+                            <span class="badge">
+                                {{list.bucketCount}}
+                            </span>
+                            {{list.bucketName}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
                 
-                
-                <div class="col-md-10 .col-md-push-3">
+                <div class="col-md-12 .col-md-push-3">
                     <div class="container-fluid sorting-header">
                         <div class="file-list-header">
                             <div class="dropDownAction">
@@ -100,12 +98,17 @@
                     </div>
 
                     <div class="col-md-7 right-panel">
-                        <div class="file-header" ng-model="fileName">
-                            {{fileName}}
+                        <div class="rightFileHeader">
+                            <div class="file-header" ng-model="fileName">
+                                {{fileName}}
+                            </div>
+                            <div ng-click="redirectToWorking()" class="editDiv"> 
+                                <i class="fa fa-pencil editIcon" aria-hidden="true"></i>
+                            </div>
                         </div>
                         <div class="file-content">
                             <div class="viewFileContent">
-                                <div ng-click="redirectToWorking()"> View </div>
+                                
                             </div>
                             <div ng-bind-html="fileContent">
 
@@ -122,7 +125,7 @@
 
     <div id="footer">
     	<div class="panel panel-default custom-panel">
-            <div class="panel-footer custom-footer">All Right Reserved @ SunMars2016.</div>
+            <div class="panel-footer custom-footer">All Right Reserved @ SunStretch2016.</div>
         </div>
     </div>
 

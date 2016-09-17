@@ -1,11 +1,11 @@
-<div class="mainContent" ng-controller="workingPageCtrl">
+<div class="mainContent workingPage" ng-controller="workingPageCtrl">
 	<div id="centerContent" style=" min-width: 975px;">
 	    <div class="panel-body">
 	        <div class="form-group">
 	            <tags-input ng-model="tags" add-on-paste="false" add-on-enter="false" add-on-blur="false" placeholder="Search">
 	                <auto-complete source="loadTags($query)"></auto-complete>
+	                <i class="fa fa-search searchIcon" aria-hidden="true"></i>
 	            </tags-input>
-	            <button type="submit" class="btn btn-default custom-search-button">Search</button>
 	        </div>
 	    </div>
 	    <div class="workingFileContents leftSideContent">
@@ -60,6 +60,21 @@
 		          			<p>
 			          			<span class="rejectedCode">{{code.code}}</span>
 			          			<span class="rejectedCodeDesc">{{code.desc}}</span>
+			          			<span class="codeAction switch-toggle switch-3 switch-candy">
+								    <input id="on" name="state-d" type="radio" ng-click="codeStatus(code,section,$element)">
+								    <label for="on" onclick="">ACCEPT</label>
+								</span>
+			          		</p>
+		          		</div>
+		          	</ul>
+			      </uib-tab>
+			      <uib-tab index="3" heading="MayBe">
+			        <ul ng-repeat="section in mayBeCode track by $index">
+		          		<li class="sectionHeading">{{section.sectionName}}</li>
+		          		<div  ng-repeat="code in section.codes track by $index">
+		          			<p>
+			          			<span class="mayBeCode">{{code.code}}</span>
+			          			<span class="mayBeCodeDesc">{{code.desc}}</span>
 			          			<span class="codeAction switch-toggle switch-3 switch-candy">
 								    <input id="on" name="state-d" type="radio" ng-click="codeStatus(code,section,$element)">
 								    <label for="on" onclick="">ACCEPT</label>

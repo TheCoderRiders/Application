@@ -32,11 +32,12 @@ angular.module('WorkingPageController', [])
             selectedCode.codes.push(code);
 
             
-            if($(event.target).parent().parent().parent().parent().children('div').length == 1){
+            /*if($(event.target).parent().parent().parent().parent().children('div').length == 1){
                 $(event.target).parent().parent().parent().parent().remove();
             }
-            $(event.target).parent().parent().parent().remove();
+            $(event.target).parent().parent().parent().remove();*/
             var action,codeActionType;
+            
             if($(event.target).attr('id') == "on"){
                 action = "Accept";
                 codeActionType = "Rejected";
@@ -57,6 +58,7 @@ angular.module('WorkingPageController', [])
                 dataType : "application/json",
                 data : JSON.stringify(requestedData)
             }).then(function(data){ //make a get request to mock json file.
+                $scope.suggestedCode = data.data.suggestedCode;
                 $scope.acceptedCode = data.data.acceptedCode;
                 $scope.rejectedCode = data.data.rejectedCode;
             },function(err) {

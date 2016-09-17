@@ -21,22 +21,29 @@
 mark{
     background: #ff0;
 }
+.workingPage .searchIcon { 
+    position: absolute;
+    top: 11px;
+    font-size: 20px;
+    right: 10px;
+}
 .workingFileContents a{
     color:green;
 }
 .workingFileContents .nav-tabs>li{
-    width: 33%;
+    width: 25%;
+    text-align: center;
 }
 .sectionHeading{
     font-size: 18px;
     font-weight: bolder;
 }
-.suggestedCode,.acceptedCode,.rejectedCode{
+.suggestedCode,.acceptedCode,.rejectedCode,.mayBeCode{
     width: 10%;
     display: inline-block;
     float: left;
 }
-.suggestedCodeDesc,.acceptedCodeDesc,.rejectedCodeDesc{
+.suggestedCodeDesc,.acceptedCodeDesc,.rejectedCodeDesc,.mayBeCodeDesc{
     width: 65%;
     word-wrap: break-word;
     overflow: auto;
