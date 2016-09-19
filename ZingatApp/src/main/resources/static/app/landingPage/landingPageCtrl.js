@@ -1,5 +1,5 @@
-angular.module('LandingPageController', ['ngSanitize'])
-    .controller("landingPageCtrl",["$scope","$http","$timeout","$location", function($scope,$http,$timeout,$location){
+angular.module('LandingPageController', ['ngSanitize','ngDialog'])
+    .controller("landingPageCtrl",["$scope","$http","$timeout","$location","ngDialog", function($scope,$http,$timeout,$location,ngDialog){
         /*Show First bucket as selected*/
         $scope.selected = 0;
         $scope.selectedFile = 0;
@@ -115,10 +115,12 @@ angular.module('LandingPageController', ['ngSanitize'])
 
         /*function called on action drop down*/
         $scope.getCheckedFile = function(mySelect){
+            ngDialog.open({ template: 'app/landingPage/popupTemplate.html', controller: 'popupPageCtrl',className: 'ngdialog-theme-default' });
+
             var assigneeObj = {};
             assigneeObj.id = mySelect.id;
             assigneeObj.name = mySelect.name;
-            
+           
             var tempAssignee = {};
             tempAssignee.assignee = assigneeObj
             
@@ -133,15 +135,17 @@ angular.module('LandingPageController', ['ngSanitize'])
                 
             }            
             tempAssignee.checkFiles = tempArray;
+            localStorage.setItem("checkFiled",JSON.stringify(tempAssignee));
             $scope.checkFiled.push(tempAssignee);
-            var requestedObject = {};
+            /*var requestedObject = {};
             requestedObject.assignedUserId = "4";
             requestedObject.assignedUserName = "abhi_coder";
             requestedObject.fileId = tempAssignee.checkFiles[0].fileId;
             requestedObject.actionId = assigneeObj.id;
-            console.log(requestedObject);
+            console.log(requestedObject);*/
+
             
-            $http({
+            /*$http({
                 url: 'worklistPage/assignedTo', 
                 method: "POST",
                 data : JSON.stringify(requestedObject),
@@ -153,9 +157,8 @@ angular.module('LandingPageController', ['ngSanitize'])
                console.log(data);
             },function(err) {
                 console.log("Bucket Err: "+err);
-            });
+            });*/
 
-            console.log($scope.checkFiled)
         }
         
         /*drop down group by items*/

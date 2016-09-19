@@ -1,7 +1,8 @@
-var app = angular.module('coderApp', ['ngRoute','ngSanitize','ngTagsInput','ngScrollbar','checklist-model','tableSort','ui.bootstrap','LoginController','LandingPageController','WorkingPageController','ProfilePageController','AdminPageController']);
+var app = angular.module('coderApp', ['ngRoute','ngSanitize','ngTagsInput','ngScrollbar','checklist-model','tableSort','ui.bootstrap','LoginController','LandingPageController','PopUpPageController','WorkingPageController','ProfilePageController','AdminPageController']);
 
 app.config(['$routeProvider','$controllerProvider', function($routeProvider, $controllerProvider) {
     //$controllerProvider.allowGlobals();
+    localStorage.setItem("checkFiled","");
     $routeProvider.
         when('/login', {
             templateUrl: 'app/login/loginPage.html',

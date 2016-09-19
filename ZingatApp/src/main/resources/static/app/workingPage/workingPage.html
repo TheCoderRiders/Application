@@ -2,10 +2,7 @@
 	<div id="centerContent" style=" min-width: 975px;">
 	    <div class="panel-body">
 	        <div class="form-group">
-	            <tags-input ng-model="tags" add-on-paste="false" add-on-enter="false" add-on-blur="false" placeholder="Search">
-	                <auto-complete source="loadTags($query)"></auto-complete>
-	                <i class="fa fa-search searchIcon" aria-hidden="true"></i>
-	            </tags-input>
+	            
 	        </div>
 	    </div>
 	    <div class="workingFileContents leftSideContent">
@@ -78,11 +75,21 @@
 			          			<span class="codeAction switch-toggle switch-3 switch-candy">
 								    <input id="on" name="state-d" type="radio" ng-click="codeStatus(code,section,$element)">
 								    <label for="on" onclick="">ACCEPT</label>
+								    <input id="off" name="state-d" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
+									<label for="off">REJECT</label>
 								</span>
 			          		</p>
 		          		</div>
 		          	</ul>
 			      </uib-tab>
+
+			      <uib-tab index="4" heading="Add Code">
+			        	<tags-input ng-model="tags" add-on-paste="false" add-on-enter="false" add-on-blur="false" placeholder="Search">
+			                
+			                <i class="fa fa-search searchIcon" aria-hidden="true"></i>
+			            </tags-input>
+			      </uib-tab>
+
 			    </uib-tabset>
 			 </form>
 	    </div>
