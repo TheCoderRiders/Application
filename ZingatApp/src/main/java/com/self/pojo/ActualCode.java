@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.solr.core.mapping.SolrDocument;
 
+import java.util.List;
+
 /**
  * Created by akash.p on 28/8/16.
  */
@@ -16,8 +18,10 @@ public class ActualCode {
     @Field("code_description")
     private String desc;
 
-    @JsonIgnore
-    private Object token;
+    private String type;
+
+    //@JsonIgnore
+    private List<String> token;
     @JsonIgnore
     private Object postionList;
 
@@ -41,12 +45,16 @@ public class ActualCode {
         return token;
     }
 
-    public void setToken(Object token) {
+    public void setToken(List<String> token) {
         this.token = token;
     }
 
-    public Object getPostionList() {
-        return postionList;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public void setPostionList(Object postionList) {
