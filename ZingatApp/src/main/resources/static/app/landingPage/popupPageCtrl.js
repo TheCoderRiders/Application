@@ -37,7 +37,6 @@ angular.module('PopUpPageController', ['ngDialog'])
       });
 
       $scope.assignFile = function(requestedObject){
-        debugger;
         $http({
             url: 'worklistPage/assignedTo', 
             method: "POST",

@@ -8,7 +8,7 @@ angular.module('LandingPageController', ['ngSanitize','ngDialog'])
         $scope.imageSrc = '../../img/ascending.png';
         
         $scope.tempObj = {};
-        $scope.tempObj.bucketName = "New";
+        //$scope.tempObj.bucketName = "New";
         $scope.tempObj.orderBy = "";
         $scope.tempObj.pageNumber = 1;
         $scope.tempObj.isAsc = true;

@@ -3,11 +3,20 @@ angular.module('WorkingPageController', ['ngSanitize'])
 
         $scope.fileId = localStorage.getItem("clickedFileId");
         $scope.globalObj;
+
+        
+
         $http({
             url: 'worklistPage/getFileContents?fileId='+$scope.fileId, 
             method: "GET",
         }).then(function(data){ //make a get request to mock json file.
-            $scope.workingFileContent = data.data.data;
+            $scope.workingFileContent = data.data.data.replace(/class/g, 'value');
+            var mark = document.getElementsByTagName('mark');
+            for(var i=0; i<mark.length; i++){
+                mark[i].addEventListener("click", function(ev){
+                    $scope.clickedCode($(ev.target).attr('value'));
+                });
+            }
         },function(err) {
             console.log(err);
         });
@@ -24,6 +33,21 @@ angular.module('WorkingPageController', ['ngSanitize'])
         },function(err) {
             console.log(err);
         });
+
+        $scope.clickedCode = function(codeId){
+
+            alert(codeId);
+        }
+        $scope.clickedSuggestedCode = function(){
+            var code = $(event.currentTarget).text();
+            event.preventDefault();
+            //$(".leftSideContent").find('mark').attr('value',code);
+            var top = $(".leftSideContent").find('mark').attr('value',code).offset().top;
+            debugger;
+            $(".leftSideContent").animate({ 
+                scrollTop: $(".leftSideContent").find('mark').attr('value',code).offset().top 
+            }, 1000);
+        }
 
         $scope.codeStatus = function(code,section,actionName){
             var selectedCode = {};

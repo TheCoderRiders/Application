@@ -20,7 +20,7 @@
 			          		<li class="sectionHeading">{{section.sectionName}}</li>
 			          		<div ng-repeat="code in section.codes">
 			          			<p>
-				          			<span class="suggestedCode">{{code.code}}</span>
+				          			<span class="suggestedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
 				          			<span class="suggestedCodeDesc">{{code.desc}}</span>
 				          			<span class="codeAction switch-toggle switch-3 switch-candy">
 									    <input id="on" name="state-d" ng-model="acceptCode" type="radio" ng-click="codeStatus(code,section,$element)">
