@@ -40,28 +40,38 @@
             <div class="row mainContainer">
                 
                 <div class="col-md-12 .col-md-push-3">
-                    <div class="container-fluid sorting-header">
-                        <div class="file-list-header">
-                            <div class="dropDownAction">
-                                <input type="checkbox" ng-model="mycheckbox" ng-click="checkAll()">
-                                <select ng-show="showAction" name="mySelect" id="mySelect"
-                                      ng-options="option.name for option in action.availableOptions track by option.id" value="option.id"
-                                      ng-model="action.selectedOption" ng-click="getCheckedFile(action.selectedOption
-    )"></select>
+                    <div class="container-fluid sortingHeader">
+                        <div class="fileListHeader">
+                            <div class="leftSorter">
+                                <div class="dropDownAction">
+                                    <input type="checkbox" ng-model="mycheckbox" ng-click="checkAll()">
+                                    <div class="customSelect">
+                                    <span> Actions:</span>
+                                    <label class="dropDown"><i class="fa fa-sort-desc" aria-hidden="true"></i></label>
+                                    <select ng-show="showAction" name="mySelect" id="mySelect"
+                                          ng-options="option.name for option in action.availableOptions track by option.id" value="option.id" ng-model="action.selectedOption" ng-change="getCheckedFile(action.selectedOption)"></select>
+                                      </div>
+                                </div>
                             </div>
-                            <div class="sortBy">
-                                <label> Order By:</label>
-                                <select id="groupBy" name="mySelectGroup" ng-options="group.name for group in group.availableOptions track by group.id"
-                                      ng-model="group.selectedOption" ng-change="getGroupByOption(group.selectedOption
-    )"></select>
-                                <img ng-src="{{imageSrc}}" class="sortImage" ng-model="imageSort" ng-click="changeImageOrder($event)">
-                            </div>
-                            <div class="paginationBlock">
-                                <uib-pagination total-items="bigTotalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages"></uib-pagination>
+                            <div class="rightSorter">
+                                <div class="sortBy">
+                                    <div class="customSelect">
+                                    <span> Sort By:</span>
+                                    <label class="dropDown"><i class="fa fa-sort-desc" aria-hidden="true"></i></label>
+                                    <select id="groupBy" name="mySelectGroup" ng-options="group.name for group in group.availableOptions track by group.id"
+                                          ng-model="group.selectedOption" ng-change="getGroupByOption(group.selectedOption
+        )"></select>
+                                    <div class="sortImg" ng-click="changeImageOrder()"><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></div>
+                                   
+                                </div>
+                                </div>
+                                <div class="paginationBlock">
+                                    <uib-pagination total-items="bigTotalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages"></uib-pagination>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-5 middle-panel">
+                    <div class="col-md-6 middle-panel">
                         <div class="list-group" >
                             <ul class="file-list" >
                                 <li class="file-details" ng-class="{selectedItem: $index == selectedFile}" ng-model="fileDetails" ng-repeat="file in roles" ng-click="getFileDetails($event,$index,file)">
@@ -97,7 +107,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-7 right-panel">
+                    <div class="col-md-6 right-panel">
                         <div class="rightFileHeader">
                             <div class="file-header" ng-model="fileName">
                                 {{fileName}}

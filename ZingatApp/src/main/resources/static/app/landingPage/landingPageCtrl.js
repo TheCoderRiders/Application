@@ -172,7 +172,8 @@ angular.module('LandingPageController', ['ngSanitize','ngDialog'])
         };*/
         
         /* function called on ascending/descending click */
-        $scope.changeImageOrder = function(imgSrc){
+        $scope.changeImageOrder = function(){
+            debugger;
             if($scope.imageSrc == "../../img/ascending.png"){
                 $scope.isAsc = false;
                 $scope.imageSrc = "../../img/descending.png";
