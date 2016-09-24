@@ -57,6 +57,7 @@ body{
 .loginHeader .login .dropDown{
     top: -2px;
     left: 3px;
+    cursor: pointer;
 }
 .ui-autocomplete {
     max-height: 100px;
@@ -94,6 +95,18 @@ body{
     height: 40px;
     border: 1px solid lightgray;
     margin-top: 15px;
+}
+input[type=checkbox], input[type=radio] {
+    display: inline-block;
+    margin: 10px 10px 10px 5px;
+}
+input[type=checkbox]{
+    background-color:#000;
+    border-left-color:#06F;
+    border-right-color:#06F;
+}
+.inputFileCheck{
+    margin-top: 2px !important;
 }
 .assignBtn{
    margin-left: 5px;
@@ -218,13 +231,13 @@ tags-input .host {
 .landingPage .middle-panel{
     border:1px solid;
     padding:0px;
-    height: 98%;
+    height: 94%;
     overflow-y: auto;
 }
 .landingPage .right-panel{
-   padding: 0px 6px 6px 2px;
+    padding: 0px 6px 6px 2px;
     border: 1px solid;
-    height: 98%;
+    height: 94%;
     overflow-y: auto;
 }
 .fileLeftDetails{
@@ -280,6 +293,7 @@ tags-input .host {
     background-color: #f5f5f5;
     border-bottom: 1px solid grey;
     padding: 5px;
+    cursor: pointer;
 }
 .list-group-horizontal ul li{
     cursor: pointer;
@@ -354,8 +368,9 @@ tags-input .autocomplete{
 }
 .sortingHeader{
     padding-left: 5px;
-       height: 12%;
+    padding-right: 0px;
     background-color: #fff;
+    padding: 5px;
 }
 .sortingHeader .leftSorter{
     width: 49%;
@@ -367,14 +382,30 @@ tags-input .autocomplete{
     display: inline-block;
 }
 .sortingHeader .dropDownAction{
-    width: 25%;
+    width: 30%;
     float:left;
     display: inline-block;
+}
+.sortingHeader .inputCheckbox{
+    float: left;
+}
+.sortingHeader .refreshAction{
+    
+    float: left;
+    padding: 5px;
+    height: 30px;
+    padding: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+    color: #9c9b9b;
+    font-size: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 .rightSorter .sortBy{
     float: left;
     display: inline-block;
-    width: 50%;
+    width: 47%;
 }
 .rightSorter .paginationBlock{
     float: right;
@@ -387,7 +418,13 @@ tags-input .autocomplete{
 .landingPage .customSelect{
     position: relative;
 }
-.landingPage .customSelect select{
+.landingPage .customAction{
+    display: inline-block;
+    float: left;
+    position: absolute;
+    width: 20%;
+}
+.landingPage .customSelect select,.landingPage .customAction select{
     height: 30px;
     padding: 5px;
     border: 0;
@@ -402,7 +439,7 @@ tags-input .autocomplete{
     z-index: 1;
     margin-top: 5px;
 }
-.landingPage .customSelect label.dropDown {
+.landingPage .customSelect label.dropDown,.landingPage .customAction label.dropDown {
     position: absolute;
     padding: 6px 8px;
     right: 50px;
@@ -411,16 +448,19 @@ tags-input .autocomplete{
     pointer-events: none;
     box-sizing: border-box;
 }
+.landingPage .customAction label.dropDown {
+    right: 30px;
+}
 .landingPage .customSelect div.sortImg {
-        position: absolute;
+    position: absolute;
     padding: 6px 8px;
     top: 5px;
     z-index: 1;
-    pointer-events: none;
     box-sizing: border-box;
     right: 10px;
+    cursor: pointer;
 }
-.landingPage .customSelect span {
+.landingPage .customSelect span,.landingPage .customAction span {
     color: #989898;
     font-size: 13px;
     padding: 10px 0px 0px 10px;

@@ -7,10 +7,10 @@
             <div class="navbar-header custom-header">
               <a class="navbar-brand hospital-name" href="#">Hospital Name</a>
             </div>
-            <div class="navbar-header custom-header loginHeader" ng-mouseover="openLoginDropDown()" ng-mouseleave="closeLoginDropDown()">
+            <div class="navbar-header custom-header loginHeader" >
                 <div class="login">
                     <span class="user-details">Hi, Rachel Lee</span>
-                    <label class="dropDown" ><i class="fa fa-sort-desc" aria-hidden="true"></i></label>
+                    <label class="dropDown" ><i ng-click="openLoginDropDown()" class="fa fa-sort-desc" aria-hidden="true"></i></label>
                     <div class="loginDropDown">
                         <ul>
                             <li><a href="javascript:void(0)" ng-click="redirectToProfile()">Profile</a></li>
@@ -55,14 +55,16 @@
                     <div class="container-fluid sortingHeader">
                         <div class="fileListHeader">
                             <div class="leftSorter">
+                                <input type="checkbox" class="inputCheckbox" ng-model="mycheckbox" ng-click="checkAll()">
+                                <div class="refreshAction" data-toggle="tooltip" title="Click to refresh. You won't lose any applied search or sorting" ng-click="refreshList()">
+                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                </div>
                                 <div class="dropDownAction">
-                                    <input type="checkbox" ng-model="mycheckbox" ng-click="checkAll()">
-                                    <div class="customSelect">
-                                    <span> Actions:</span>
-                                    <label class="dropDown"><i class="fa fa-sort-desc" aria-hidden="true"></i></label>
-                                    <select ng-show="showAction" name="mySelect" id="mySelect"
-                                          ng-options="option.name for option in action.availableOptions track by option.id" value="option.id" ng-model="action.selectedOption" ng-change="getCheckedFile(action.selectedOption)"></select>
-                                      </div>
+                                    <div class="customAction" ng-show="showAction">
+                                        <span> Actions:</span>
+                                        <label class="dropDown"><i class="fa fa-sort-desc" aria-hidden="true"></i></label>
+                                        <select name="mySelect" id="mySelect" ng-options="option.name for option in action.availableOptions track by option.id" value="option.id" ng-model="action.selectedOption" ng-change="getCheckedFile(action.selectedOption)"></select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="rightSorter">
@@ -73,12 +75,12 @@
                                     <select id="groupBy" name="mySelectGroup" ng-options="group.name for group in group.availableOptions track by group.id"
                                           ng-model="group.selectedOption" ng-change="getGroupByOption(group.selectedOption
         )"></select>
-                                    <div class="sortImg" ng-click="changeImageOrder()"><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></div>
+                                    <div class="sortImg" ng-click="changeOrder($event)"><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></div>
                                    
                                 </div>
                                 </div>
                                 <div class="paginationBlock">
-                                    <uib-pagination total-items="bigTotalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages"></uib-pagination>
+                                    <uib-pagination total-items="bigTotalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages" ng-change="pageChanged()"></uib-pagination>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +90,7 @@
                             <ul class="file-list" >
                                 <li class="file-details" ng-class="{selectedItem: $index == selectedFile}" ng-model="fileDetails" ng-repeat="file in roles" ng-click="getFileDetails($event,$index,file)">
                                     <div class="fileCheckbox" >
-                                        <input checklist-model="user.roles" checklist-value="file" type="checkbox" ng-show={{file.checkBoxVisible}} ng-click="listCheckAll()">
+                                        <input class="inputFileCheck" checklist-model="user.roles" checklist-value="file" type="checkbox" ng-show={{file.checkBoxVisible}} ng-click="listCheckAll()">
                                     </div>
                                     <div class="fileLeftDetails">
                                         <div class="file-name">

@@ -6,23 +6,25 @@ angular.module('LandingPageController', ['ngSanitize','ngDialog'])
         $scope.showAction = false;
         $scope.checkFiled = [];
         $scope.imageSrc = '../../img/ascending.png';
+        $('[data-toggle="tooltip"]').tooltip(); 
         
         $scope.tempObj = {};
         //$scope.tempObj.bucketName = "New";
         $scope.tempObj.orderBy = "";
-        $scope.tempObj.pageNumber = 1;
+        //$scope.tempObj.pageNumber = 1;
         $scope.tempObj.isAsc = true;
 
-
-        $scope.totalItems = 164;
-        $scope.currentPage = 1;
+        fetchBucketList();
+        //$scope.totalItems = 164;
 
           $scope.setPage = function (pageNo) {
             $scope.currentPage = pageNo;
           };
 
           $scope.pageChanged = function() {
+            $scope.tempObj.pageNumber = $scope.currentPage
             console.log('Page changed to: ' + $scope.currentPage);
+            fetchList();
           };
 
           $scope.maxSize = 5;
@@ -34,46 +36,54 @@ angular.module('LandingPageController', ['ngSanitize','ngDialog'])
           angular.element('ul').find('li.active').trigger('click')
         }, 500);
         
+
+        function fetchBucketList(){
+            $http({
+                url: 'worklistPage/bucketInfo', 
+                method: "GET",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(function(data){ //make a get request to mock json file.
+                $scope.listGroup = data.data.buckets;
+                $scope.group = data.data.sortParams;
+                $scope.tempObj.orderBy = data.data.sortParams.selectedOption.id;
+                $scope.action = data.data.actions;
+                fetchList();
+            },function(err) {
+                console.log("Bucket Err: "+err);
+            });
+
+        }
         
-        $http({
-            url: 'worklistPage/bucketInfo', 
-            method: "GET",
-            headers: { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        }).then(function(data){ //make a get request to mock json file.
-            $scope.listGroup = data.data.buckets;
-            $scope.group = data.data.sortParams;
-            $scope.tempObj.orderBy = data.data.sortParams.selectedOption.id;
-            $scope.action = data.data.actions;
-            fetchList();
-        },function(err) {
-            console.log("Bucket Err: "+err);
-        });
-
-
+        
         /*Autosuggesstion for search*/
         $scope.loadTags = function(query) {
             return $http.get('json/tags.json');
         };
         
-        
+        /* function called on lrefresh click*/
+        $scope.refreshList = function(){
+            fetchBucketList();
+        }; 
+
         /* function called on Bucket clicked */
         $scope.changeBucket = function(event,index) {
-            
             $scope.tempObj.bucketName = $(event.currentTarget).attr('id');
             $scope.tempObj.orderBy = $('#groupBy option:selected').attr('value');
+            $scope.currentPage = 1;
             $scope.tempObj.pageNumber = "1";
             $scope.tempObj.isAsc = true;
             $scope.selected = index; 
             $scope.selectedFile = 0;
+            $scope.showAction = false;
             fetchList();
         };
         
 
        function fetchList(){
-            $http.get('worklistPage/getFileDetails?bucketName='+$scope.tempObj.bucketName+'&orderBy='+$scope.tempObj.orderBy+'&pageNumber=1&isAsc='+$scope.tempObj.isAsc,{
+            $http.get('worklistPage/getFileDetails?bucketName='+$scope.tempObj.bucketName+'&orderBy='+$scope.tempObj.orderBy+'&pageNumber='+$scope.currentPage+'&isAsc='+$scope.tempObj.isAsc,{
                 headers: { 
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
@@ -128,7 +138,6 @@ angular.module('LandingPageController', ['ngSanitize','ngDialog'])
             var totalFiles = $scope.user.roles;
             for(var i = 0; i<totalFiles.length; i++){
                 var tempObj = {};
-                
                 tempObj.fileId = totalFiles[i].fileId;
                 tempObj.fileName = totalFiles[i].fileName;
                 tempArray.push(tempObj)
@@ -137,49 +146,18 @@ angular.module('LandingPageController', ['ngSanitize','ngDialog'])
             tempAssignee.checkFiles = tempArray;
             localStorage.setItem("checkFiled",JSON.stringify(tempAssignee));
             $scope.checkFiled.push(tempAssignee);
-            /*var requestedObject = {};
-            requestedObject.assignedUserId = "4";
-            requestedObject.assignedUserName = "abhi_coder";
-            requestedObject.fileId = tempAssignee.checkFiles[0].fileId;
-            requestedObject.actionId = assigneeObj.id;
-            console.log(requestedObject);*/
-
-            
-            /*$http({
-                url: 'worklistPage/assignedTo', 
-                method: "POST",
-                data : JSON.stringify(requestedObject),
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            }).then(function(data){ //make a get request to mock json file.
-               console.log(data);
-            },function(err) {
-                console.log("Bucket Err: "+err);
-            });*/
-
         }
         
-        /*drop down group by items*/
-       /* $scope.group = {
-            availableOptions: [
-              {id: '1', name: 'Assignee Date'},
-              {id: '2', name: 'File'},
-              {id: '3', name: 'Status'}
-            ],
-            selectedOption: {id: '1', name: 'Assignee Date'} //This sets the default value of the select in the ui
-        };*/
-        
         /* function called on ascending/descending click */
-        $scope.changeImageOrder = function(){
-            debugger;
-            if($scope.imageSrc == "../../img/ascending.png"){
+        $scope.changeOrder = function(){
+            if($(event.target).hasClass("fa-sort-amount-asc")){
+                $(event.target).removeClass("fa-sort-amount-asc");
+                $(event.target).addClass("fa-sort-amount-desc");
                 $scope.isAsc = false;
-                $scope.imageSrc = "../../img/descending.png";
             }else{
+                $(event.target).removeClass("fa-sort-amount-desc");
+                $(event.target).addClass("fa-sort-amount-asc");
                 $scope.isAsc = true;
-                $scope.imageSrc = "../../img/ascending.png";
             }
             $scope.tempObj.isAsc = $scope.isAsc;
             var selectedOption = {};
@@ -213,18 +191,20 @@ angular.module('LandingPageController', ['ngSanitize','ngDialog'])
         /* function called on mouse enter of userName to show login dropdown*/        
         $scope.openLoginDropDown = function(){
             var profilePopup = $(".loginHeader .login");
-            
-            if (profilePopup.length != 0) {
+            if (profilePopup.length != 0 && !$(".loginHeader").hasClass('selected')) {
                 $(".loginHeader").addClass("selected");
-
                 setTimeout(function() {   
                     var profilePopupTopPos = $(".loginHeader.selected").height();                     
                     var profilePopupWidth = $(".loginHeader.selected").width();                     
                     $(".loginHeader .loginDropDown").css({"top":profilePopupTopPos,"width":profilePopupWidth,"display":"block"});
                     $(".loginDropDown").show();
                 }, 100);
+            }else{
+                $(".loginDropDown").css('display','none');
+                $(".loginHeader").removeClass('selected');
             }
         }
+
 
         /* function called on mouse leave of userName*/
         $scope.closeLoginDropDown = function(){
