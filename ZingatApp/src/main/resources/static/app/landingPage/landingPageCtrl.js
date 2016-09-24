@@ -210,11 +210,40 @@ angular.module('LandingPageController', ['ngSanitize','ngDialog'])
             fetchList();
         }
         
+        /* function called on mouse enter of userName to show login dropdown*/        
+        $scope.openLoginDropDown = function(){
+            var profilePopup = $(".loginHeader .login");
+            
+            if (profilePopup.length != 0) {
+                $(".loginHeader").addClass("selected");
+
+                setTimeout(function() {   
+                    var profilePopupTopPos = $(".loginHeader.selected").height();                     
+                    var profilePopupWidth = $(".loginHeader.selected").width();                     
+                    $(".loginHeader .loginDropDown").css({"top":profilePopupTopPos,"width":profilePopupWidth,"display":"block"});
+                    $(".loginDropDown").show();
+                }, 100);
+            }
+        }
+
+        /* function called on mouse leave of userName*/
+        $scope.closeLoginDropDown = function(){
+            $(".loginDropDown").css('display','none');
+            $(".loginHeader").removeClass('selected');
+        }
         
         /* function called on view click */
         $scope.redirectToWorking = function(){
             $location.path('/workingPage');
         }
+
+        /* function called on profile click */
+        $scope.redirectToProfile = function(){
+            $location.path('/profilePage');
+        }
         
-        
+        /* function called on logout click */
+        $scope.redirectToLogin = function(){
+            $location.path('/login');
+        }
     }])
