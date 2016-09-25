@@ -9,6 +9,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog'])
         $('[data-toggle="tooltip"]').tooltip();
 
         $scope.tempObj = {};
+        $scope.perPageCount = 20;
         //$scope.tempObj.bucketName = "New";
         $scope.tempObj.orderBy = "";
         //$scope.tempObj.pageNumber = 1;
@@ -91,9 +92,11 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog'])
                 $scope.roles = data;
                 for(var i=0; i<data.length; i++){
                     if(data[i].checkBoxVisible){
+                        $(".inputDiv").css('visibility','inherit');
                         $scope.showAllCheckbox = true;              
                     }else{
-                        $scope.showAllCheckbox = false;
+                        $(".inputDiv").css('visibility','hidden');
+                        //$scope.showAllCheckbox = false;
                     }
                 }
                 $timeout(function() {
@@ -118,7 +121,23 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog'])
                 $scope.user.roles = [];
                 $scope.showAction = false;
             }
+            $(".actionDropDown").css('display', 'none');
+            $(".inputDiv").removeClass('selected');
         };
+        $scope.checkAllFiles = function(){
+            $scope.showAction = true;
+            $scope.mycheckbox = true;
+            $scope.user.roles = angular.copy($scope.roles);
+            $(".actionDropDown").css('display', 'none');
+            $(".inputDiv").removeClass('selected');
+        }
+        $scope.uncheckAllFiles = function(){
+            $scope.showAction = false;
+            $scope.mycheckbox = false;
+            $scope.user.roles = [];
+            $(".actionDropDown").css('display', 'none');
+            $(".inputDiv").removeClass('selected');
+        }
         $scope.listCheckAll = function() {
             if ($scope.user.roles.length > 0) {
                 $scope.showAction = true;
@@ -129,6 +148,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog'])
 
         /*function called on action drop down*/
         $scope.getCheckedFile = function(mySelect) {
+            
             ngDialog.open({
                 template: 'app/landingPage/popupTemplate.html',
                 controller: 'popupPageCtrl',
@@ -217,11 +237,38 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog'])
             }
         }
 
+        /* function called on mouse enter of action to show action dropdown*/
+        $scope.openActionDropDown = function(){
+            var actionPopup = $(".inputDiv");
+            if (actionPopup.length != 0 && !$(".inputDiv").hasClass('selected')) {
+                $(".inputDiv").addClass("selected");
+                setTimeout(function() {
+                    var profilePopupTopPos = $(".inputDiv.selected").height();
+                    var profilePopupWidth = $(".inputDiv.selected").width();
+                    $(".leftSorter .actionDropDown").css({
+                        "top": profilePopupTopPos,
+                        "width": profilePopupWidth+0.5,
+                        "display": "block"
+                    });
+                    $(".actionDropDown").show();
+                }, 100);
+            } else {
+                $(".actionDropDown").css('display', 'none');
+                $(".inputDiv").removeClass('selected');
+            }
+        }
+
 
         /* function called on mouse leave of userName*/
         $scope.closeLoginDropDown = function() {
             $(".loginDropDown").css('display', 'none');
             $(".loginHeader").removeClass('selected');
+        }
+
+        /* function called on mouse leave of action*/
+        $scope.closeActionDropDown = function(){
+            $(".actionDropDown").css('display', 'none');
+            $(".inputDiv").removeClass('selected');
         }
 
         /* function called on view click */

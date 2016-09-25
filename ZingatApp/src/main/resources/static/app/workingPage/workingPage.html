@@ -82,10 +82,8 @@
 			      </uib-tab>
 
 			      <uib-tab index="4" heading="Add Code">
-			        	<tags-input ng-model="tags" add-on-paste="false" add-on-enter="false" add-on-blur="false" placeholder="Search">
-			                
-			                <i class="fa fa-search searchIcon" aria-hidden="true"></i>
-			            </tags-input>
+			        	<input ng-model="searchTerm" class="searchCode" type="text" ng-keyup="searchCode(searchTerm)" placeholder="Search">
+		                <i class="fa fa-search searchIcon" aria-hidden="true"></i>
 			      </uib-tab>
 
 			    </uib-tabset>
@@ -95,6 +93,11 @@
 			<button type="button" class="btn btn-primary">DRAFT</button>
 			<button type="button" class="btn btn-warning">REJECTED</button>
 			<button type="button" class="btn btn-success">SUBMIT</button>
+	    </div>
+	     <div id="footer">
+	    	<div class="panel panel-default custom-panel">
+	            <div class="panel-footer custom-footer">All Right Reserved @ SunStretch2016.</div>
+	        </div>
 	    </div>
 	</div>
 </div>

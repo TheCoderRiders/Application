@@ -55,7 +55,16 @@
                     <div class="container-fluid sortingHeader">
                         <div class="fileListHeader">
                             <div class="leftSorter">
-                                <input type="checkbox" class="inputCheckbox" ng-model="mycheckbox" ng-click="checkAll()" ng-show="showAllCheckbox">
+                                <div class="inputDiv" ng-show="showAllCheckbox" ng-mouseenter="openActionDropDown()"  ng-mouseleave="closeActionDropDown()">
+                                      <input type="checkbox" class="inputCheckbox" ng-model="mycheckbox" ng-click="checkAll()">
+                                      <label class="inputDropDown"><i class="fa fa-sort-desc" aria-hidden="true"></i></label>
+                                      <div class="actionDropDown">
+                                        <ul>
+                                            <li><a href="javascript:void(0)" ng-click="checkAllFiles()">All</a></li>
+                                            <li><a href="javascript:void(0)" ng-click="uncheckAllFiles()">None</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                                 <div class="refreshAction" data-toggle="tooltip" title="Click to refresh. You won't lose any applied search or sorting" ng-click="refreshList()">
                                     <i class="fa fa-refresh" aria-hidden="true"></i>
                                 </div>
@@ -80,7 +89,7 @@
                                 </div>
                                 </div>
                                 <div class="paginationBlock">
-                                    <uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages" ng-change="pageChanged()"></uib-pagination>
+                                    <uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="perPageCount"  class="pagination-sm" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages" ng-change="pageChanged()"></uib-pagination>
                                 </div>
                             </div>
                         </div>
@@ -112,6 +121,8 @@
                                         </div>
                                     </div>
                                     <div class="fileAssingeeName">
+                                        <div class="fileCheckbox" >
+                                        </div>
                                         <span>
                                             Assigned by: {{file.assigneeName}}
                                         </span>

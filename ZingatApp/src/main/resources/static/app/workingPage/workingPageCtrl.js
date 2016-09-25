@@ -106,4 +106,16 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
                 console.log("error while code  action");
             });
         }
+
+        $scope.searchCode = function(searchTerm){
+            $http({
+                url: 'http://localhost:8080/workingPage/searchCode?key='+searchTerm+'&start=1', 
+                method: "GET",
+            }).then(function(data){ 
+                
+            },function(err) {
+                console.log(err);
+            });
+        }
+
     }]);
