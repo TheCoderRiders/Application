@@ -7,11 +7,15 @@ body{
     width: 100%;
     height: 100%;
 }
+.selected{
+    background: #666;
+    color:#fff;
+}
 .landingPage .loginHeader{
     float: right;
     min-height: 40px;
 }
-.landingPage .loginDropDown {
+.landingPage .loginDropDown,.landingPage .actionDropDown{
     position: absolute;
     margin: 0;
     padding: 0;
@@ -21,19 +25,20 @@ body{
     display: none;
     z-index: 999;
 }
-.selected{
-    background: #666;
+.landingPage .actionDropDown{
+    left: 5px;
 }
-.loginDropDown ul {
+
+.loginDropDown ul,.actionDropDown ul{
     margin: 0;
     padding: 0;
     list-style-type: none;
 }
-.loginDropDown ul li {
+.loginDropDown ul li,.actionDropDown ul li{
     float: left;
     width: 100%;
 }
-.loginDropDown ul li a {
+.loginDropDown ul li a,.actionDropDown ul li a{
     text-align: left;
     float: none !important;
     display: block;
@@ -43,7 +48,10 @@ body{
     font-size: 16px;
     color:#ffffff;
 }
-.loginDropDown ul li a:hover {
+.actionDropDown ul li a{
+    font-size: 13px;
+}
+.loginDropDown ul li a:hover,.actionDropDown ul li a:hover {
     background: #F6F6F6;
     color: #000;
 }
@@ -115,15 +123,11 @@ body{
     background-color: #eceaea;
     color: black;
 }
-.ui-widget.ui-widget-content{
-    position: absolute;
-    z-index: 9999;
-        max-height: 225px;
-}
+
 .ngdialog.ngdialog-theme-default .ngdialog-close:before{
     font-size: 40px;
 }
-.ngdialog.ngdialog-theme-default{
+.ngdialog.ngdialog-theme-default .ngdialog-content{
     margin: auto;
     position: absolute;
     top: 0;
@@ -133,12 +137,16 @@ body{
     width: 50%;
     height: 50%;
     padding: 0px;
-    z-index: 999;
 }
-.ngdialog.ngdialog-theme-default .ngdialog-content{
+.ui-widget.ui-widget-content{
+    position: absolute;
+    z-index: 99999;
+    max-height: 225px;
+}
+/*.ngdialog.ngdialog-theme-default .ngdialog-content{
     width: 100%;
     height: 100%;
-}
+}*/
 .custom-navbar{
     min-height: 40px;
     margin-bottom: 0px;
@@ -217,7 +225,7 @@ tags-input .host {
     bottom: 0px;
     width: 100%;
     text-align: center;
-    background-color: rgba(57, 59, 60, 0.97);
+    background-color: #777;
     color:#ffffff;
     border-top: none;
 }
@@ -227,7 +235,7 @@ tags-input .host {
     height: 93%;
 }
 .landingPage .middle-panel{
-    border:1px solid;
+    border:1px solid lightgray;
     padding:0px;
     height: 94%;
     overflow-y: auto;
@@ -356,8 +364,8 @@ tags-input .host {
 tags-input .autocomplete{
     width: 20%;
 }
-.fileAssingeeName{
-    margin-left: 6%;
+.fileAssingeeName .fileCheckbox{
+    visibility: hidden;
 }
 .fileCheckbox{
     width: 5%;
@@ -375,6 +383,18 @@ tags-input .autocomplete{
     display: inline-block;
     float: left;
 }
+.sortingHeader .leftSorter .inputDiv{
+        width: 8%;
+    display: inline-block;
+    float: left;
+}
+.sortingHeader .leftSorter .inputDropDown{
+    position: absolute;
+    padding: 6px 8px;
+    left: 25px;
+    top: 5px;
+    box-sizing: border-box;
+}
 .sortingHeader .rightSorter{
     width: 49%;
     display: inline-block;
@@ -388,7 +408,6 @@ tags-input .autocomplete{
     float: left;
 }
 .sortingHeader .refreshAction{
-    
     float: left;
     padding: 5px;
     height: 30px;
@@ -397,8 +416,7 @@ tags-input .autocomplete{
     margin-top: 5px;
     color: #9c9b9b;
     font-size: 20px;
-    margin-left: 15px;
-    margin-right: 15px;
+    width: 5%;
 }
 .rightSorter .sortBy{
     float: left;
