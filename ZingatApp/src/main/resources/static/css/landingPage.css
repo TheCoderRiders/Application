@@ -101,7 +101,7 @@ body{
 .inputUserList{
     width: 85%;
     height: 40px;
-    border: 1px solid lightgray;
+    border: 1px solid #d3d3d3;
     margin-top: 15px;
 }
 .landing .tooltip-inner{
@@ -170,7 +170,7 @@ body{
     background-color: white;
     height: 60%;
     margin-right: 0px;
-    border: 1px solid lightgray;
+    border: 1px solid #d3d3d3;
     margin: 0 auto;
     width: 98%;
 }
@@ -235,14 +235,14 @@ tags-input .host {
     height: 93%;
 }
 .landingPage .middle-panel{
-    border:1px solid lightgray;
+    border:1px solid #d3d3d3;
     padding:0px;
     height: 94%;
     overflow-y: auto;
 }
 .landingPage .right-panel{
     padding: 0px 6px 6px 2px;
-    border: 1px solid;
+    border: 1px solid #d3d3d3;
     height: 94%;
     overflow-y: auto;
 }
@@ -509,6 +509,6 @@ tags-input .autocomplete{
 }
 .right-panel .editIcon{
     font-size: 22px;
-    color: lightgrey;
+    color: #d3d3d3;
     padding: 3px;
 }
