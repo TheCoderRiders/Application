@@ -19,7 +19,7 @@
 	height: 30px;
 }
 mark{
-    background: #ff0;
+    background: #0af4eb;
     cursor: pointer;
 }
 .workingPage .searchIcon { 
@@ -43,6 +43,7 @@ mark{
     width: 10%;
     display: inline-block;
     float: left;
+    cursor: pointer;
 }
 .suggestedCodeDesc,.acceptedCodeDesc,.rejectedCodeDesc,.mayBeCodeDesc{
     width: 65%;
@@ -54,4 +55,7 @@ mark{
     width: 25%;
     float: right;
     display: inline-flex;
+}
+.workingPage .highlighted{
+    background-color: #ff0;
 }

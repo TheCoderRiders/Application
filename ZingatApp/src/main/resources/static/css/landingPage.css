@@ -96,14 +96,12 @@ body{
     border: 1px solid lightgray;
     margin-top: 15px;
 }
-input[type=checkbox], input[type=radio] {
+.landing .tooltip-inner{
+    font-size: 13px;
+}
+.landingPage input[type=checkbox],.landingPage input[type=radio] {
     display: inline-block;
     margin: 10px 10px 10px 5px;
-}
-input[type=checkbox]{
-    background-color:#000;
-    border-left-color:#06F;
-    border-right-color:#06F;
 }
 .inputFileCheck{
     margin-top: 2px !important;

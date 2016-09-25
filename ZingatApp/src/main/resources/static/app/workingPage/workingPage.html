@@ -1,11 +1,9 @@
 <div class="mainContent workingPage" ng-controller="workingPageCtrl">
 	<div id="centerContent" style=" min-width: 975px;">
 	    <div class="panel-body">
-	        <div class="form-group">
-	            
-	        </div>
+	        
 	    </div>
-	    <div class="workingFileContents leftSideContent">
+	    <div class="workingFileContents leftSideContent" ng-scrollbar>
 	    	<div ng-bind-html="workingFileContent">
 
             </div>
@@ -16,11 +14,11 @@
 			      <uib-tab index="0" heading="Suggested">
 			        <ng-form name="nestedForm">
 			          <div class="form-group">
-			          	<ul ng-repeat="section in suggestedCode track by $index">
+			          	<ul ng-repeat="section in suggestedCode track by $index" ng-if="section.codes.length>0">
 			          		<li class="sectionHeading">{{section.sectionName}}</li>
 			          		<div ng-repeat="code in section.codes">
 			          			<p>
-				          			<span class="suggestedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
+				          			<span class="suggestedCode  {{code.code}}" ng-click="clickedSuggestedCode()">{{code.code}}</span>
 				          			<span class="suggestedCodeDesc">{{code.desc}}</span>
 				          			<span class="codeAction switch-toggle switch-3 switch-candy">
 									    <input id="on" name="state-d" ng-model="acceptCode" type="radio" ng-click="codeStatus(code,section,$element)">
@@ -36,11 +34,11 @@
 			        </ng-form>
 			      </uib-tab>
 			      <uib-tab index="1" heading="Accepted">
-			      	<ul ng-repeat="section in acceptedCode track by $index" >
+			      	<ul ng-repeat="section in acceptedCode track by $index" ng-if="section.codes.length > 0">
 		          		<li class="sectionHeading">{{section.sectionName}}</li>
 		          		<div ng-repeat="code in section.codes track by $index">
 		          			<p>
-			          			<span class="acceptedCode">{{code.code}}</span>
+			          			<span class="acceptedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
 			          			<span class="acceptedCodeDesc">{{code.desc}}</span>
 			          			<span class="codeAction switch-toggle switch-3 switch-candy">			    
 								    <input id="off" name="state-d" type="radio" ng-click="codeStatus(code,section,$element)">
@@ -51,11 +49,11 @@
 		          	</ul>
 			      </uib-tab>
 			      <uib-tab index="2" heading="Rejected">
-			        <ul ng-repeat="section in rejectedCode track by $index">
+			        <ul ng-repeat="section in rejectedCode track by $index" ng-if="section.codes.length > 0">
 		          		<li class="sectionHeading">{{section.sectionName}}</li>
 		          		<div  ng-repeat="code in section.codes track by $index">
 		          			<p>
-			          			<span class="rejectedCode">{{code.code}}</span>
+			          			<span class="rejectedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
 			          			<span class="rejectedCodeDesc">{{code.desc}}</span>
 			          			<span class="codeAction switch-toggle switch-3 switch-candy">
 								    <input id="on" name="state-d" type="radio" ng-click="codeStatus(code,section,$element)">
@@ -66,11 +64,11 @@
 		          	</ul>
 			      </uib-tab>
 			      <uib-tab index="3" heading="MayBe">
-			        <ul ng-repeat="section in mayBeCode track by $index">
+			        <ul ng-repeat="section in mayBeCode track by $index" ng-if="section.codes.length > 0">
 		          		<li class="sectionHeading">{{section.sectionName}}</li>
 		          		<div  ng-repeat="code in section.codes track by $index">
 		          			<p>
-			          			<span class="mayBeCode">{{code.code}}</span>
+			          			<span class="mayBeCode {{code.code}}" ng-click="clickedSuggestedCode()">{{code.code}}</span>
 			          			<span class="mayBeCodeDesc">{{code.desc}}</span>
 			          			<span class="codeAction switch-toggle switch-3 switch-candy">
 								    <input id="on" name="state-d" type="radio" ng-click="codeStatus(code,section,$element)">

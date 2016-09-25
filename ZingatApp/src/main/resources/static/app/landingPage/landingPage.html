@@ -55,7 +55,7 @@
                     <div class="container-fluid sortingHeader">
                         <div class="fileListHeader">
                             <div class="leftSorter">
-                                <input type="checkbox" class="inputCheckbox" ng-model="mycheckbox" ng-click="checkAll()">
+                                <input type="checkbox" class="inputCheckbox" ng-model="mycheckbox" ng-click="checkAll()" ng-show="showAllCheckbox">
                                 <div class="refreshAction" data-toggle="tooltip" title="Click to refresh. You won't lose any applied search or sorting" ng-click="refreshList()">
                                     <i class="fa fa-refresh" aria-hidden="true"></i>
                                 </div>
@@ -80,7 +80,7 @@
                                 </div>
                                 </div>
                                 <div class="paginationBlock">
-                                    <uib-pagination total-items="bigTotalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages" ng-change="pageChanged()"></uib-pagination>
+                                    <uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages" ng-change="pageChanged()"></uib-pagination>
                                 </div>
                             </div>
                         </div>

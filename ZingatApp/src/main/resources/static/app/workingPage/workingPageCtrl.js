@@ -1,20 +1,21 @@
-angular.module('WorkingPageController', ['ngSanitize'])
+angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
     .controller("workingPageCtrl",["$scope","$location","$http", function($scope,$location,$http){
 
         $scope.fileId = localStorage.getItem("clickedFileId");
         $scope.globalObj;
-
+        $scope.acceptCode = false;
+        $scope.rejectCode = false;
         
 
         $http({
             url: 'worklistPage/getFileContents?fileId='+$scope.fileId, 
             method: "GET",
         }).then(function(data){ //make a get request to mock json file.
-            $scope.workingFileContent = data.data.data.replace(/class/g, 'value');
+            $scope.workingFileContent = data.data.data;
             var mark = document.getElementsByTagName('mark');
             for(var i=0; i<mark.length; i++){
                 mark[i].addEventListener("click", function(ev){
-                    $scope.clickedCode($(ev.target).attr('value'));
+                    $scope.clickedCode($(ev.target).attr('class'));
                 });
             }
         },function(err) {
@@ -35,18 +36,36 @@ angular.module('WorkingPageController', ['ngSanitize'])
         });
 
         $scope.clickedCode = function(codeId){
+            var elementTop = $(".rightSideContent span[class*='"+codeId+"']").offset().top;
+            var divTop = $('.rightSideContent').offset().top;
+            var elementRelativeTop = elementTop - divTop;
+            
+            $(".rightSideContent span[class*='"+codeId+"']").addClass('highlighted');
 
-            alert(codeId);
+            setTimeout(function(){
+              $(".rightSideContent span[class*='"+codeId+"']").removeClass('highlighted');
+            }, 5000); 
+
+            $(".rightSideContent").animate({ 
+                scrollTop: elementRelativeTop
+            }, 1500);
         }
         $scope.clickedSuggestedCode = function(){
             var code = $(event.currentTarget).text();
             event.preventDefault();
-            //$(".leftSideContent").find('mark').attr('value',code);
-            var top = $(".leftSideContent").find('mark').attr('value',code).offset().top;
-            debugger;
+            var elementTop = $(".leftSideContent mark[class*='"+code+"']").offset().top;
+            var divTop = $('.leftSideContent').offset().top;
+            var elementRelativeTop = elementTop - divTop;
+
+            $(".leftSideContent mark[class*='"+code+"']").addClass('highlighted');
+
+            setTimeout(function(){
+              $(".leftSideContent mark[class*='"+code+"']").removeClass('highlighted');
+            }, 5000);    
+
             $(".leftSideContent").animate({ 
-                scrollTop: $(".leftSideContent").find('mark').attr('value',code).offset().top 
-            }, 1000);
+                scrollTop: elementRelativeTop
+            }, 1500);
         }
 
         $scope.codeStatus = function(code,section,actionName){
