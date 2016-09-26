@@ -1,6 +1,8 @@
 package com.self.controller;
 
 import com.self.business.ProfilePageBusiness;
+import com.self.dto.UserBasicInfo;
+import com.self.models.UserMasterEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,11 +28,16 @@ public class LoginController {
     private ProfilePageBusiness profilePageBusiness;
 
     @RequestMapping("/user")
-    public Principal user(Principal user,HttpSession session) {
+    public UserBasicInfo user(Principal user,HttpSession session) {
         session.setAttribute("user",user);
         String username = ((User) ((UsernamePasswordAuthenticationToken) user).getPrincipal()).getUsername();
-        session.setAttribute("userInfo",profilePageBusiness.getProfile(username));
-        return user;
+        UserMasterEntity profile = profilePageBusiness.getProfile(username);
+        session.setAttribute("userInfo", profile);
+        UserBasicInfo userBasicInfo = new UserBasicInfo();
+        userBasicInfo.setUsername(profile.getUsername());
+        userBasicInfo.setUserId(profile.getUserId());
+        userBasicInfo.setClientName(profile.getClientName());
+        return userBasicInfo;
     }
 
     @RequestMapping("/logout")

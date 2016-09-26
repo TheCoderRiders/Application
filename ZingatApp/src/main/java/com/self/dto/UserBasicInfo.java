@@ -10,7 +10,9 @@ public class UserBasicInfo {
 
     private String username;
 
-    private int userId;
+    private Integer userId;
+
+    private String clientName;
 
     public String getUsername() {
         return username;
@@ -20,11 +22,19 @@ public class UserBasicInfo {
         this.username = username;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 }
