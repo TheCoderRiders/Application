@@ -47,7 +47,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
 
             setTimeout(function(){
               $(".rightSideContent span[class*='"+codeId+"']").removeClass('highlighted');
-            }, 5000); 
+            }, 3000); 
 
             $(".rightSideContent").animate({ 
                 scrollTop: elementRelativeTop
@@ -64,7 +64,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
 
             setTimeout(function(){
               $(".leftSideContent mark[class*='"+code+"']").removeClass('highlighted');
-            }, 5000);    
+            }, 3000);    
 
             $(".leftSideContent").animate({ 
                 scrollTop: elementRelativeTop
@@ -112,10 +112,16 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
 
         $scope.searchCode = function(searchTerm){
             $http({
-                url: 'http://localhost:8080/workingPage/searchCode?key='+searchTerm+'&start='+$scope.currentPage, 
+                url: 'workingPage/searchCode?key='+searchTerm+'&start='+$scope.currentPage, 
                 method: "GET",
             }).then(function(data){ 
                 $scope.totalItems = data.data.total;
+                if(data.data.total > 0){
+                    $(".paginationBlock").show();
+                }else{
+                    $(".paginationBlock").hide();
+                }
+                
             },function(err) {
                 console.log(err);
             });
@@ -129,5 +135,17 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
             console.log('Page changed to: ' + $scope.currentPage);
             $scope.searchCode($scope.currentPage);
         };
+
+        $scope.documentStatusChange = function(){
+            var actionName = $(event.target).attr('value');
+            $http({
+                url: 'workingPage/documentStatusChange/?fileId='+$scope.fileId+'&status='+actionName, 
+                method: "GET",
+            }).then(function(data){ 
+                $location.path('/landingPage');
+            },function(err) {
+                console.log(err);
+            });
+        }
 
     }]);

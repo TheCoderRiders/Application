@@ -88,9 +88,9 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                     'Accept': 'application/json'
                 }
             }).success(function(data) { //make a get request to mock json file.
-                $scope.roles = data;
-                for(var i=0; i<data.length; i++){
-                    if(data[i].checkBoxVisible){
+                $scope.roles = data.fileDetailsList;
+                for(var i=0; i<data.fileDetailsList.length; i++){
+                    if(data.fileDetailsList[i].checkBoxVisible){
                         $(".inputDiv").css('visibility','inherit');
                         $scope.showAllCheckbox = true;              
                     }else{
