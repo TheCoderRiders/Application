@@ -40,7 +40,7 @@ public class WorklistController extends BaseController {
     }
 
     @RequestMapping("/getFileDetails")
-    public List<FileDetails> getFileDetails(String bucketName,String orderBy,boolean isAsc, int pageNumber ,HttpSession session){
+    public FileDetailsResponse getFileDetails(String bucketName,String orderBy,boolean isAsc, int pageNumber ,HttpSession session){
         String currentRole = getCurrentRole(session);
         int userId = ((UserMasterEntity) session.getAttribute("userInfo")).getUserId();
         return worklistBusiness.getFileDetails(bucketName,currentRole,userId,orderBy,isAsc,pageNumber);

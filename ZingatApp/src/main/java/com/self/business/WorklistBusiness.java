@@ -12,7 +12,7 @@ public interface WorklistBusiness {
 
     public BucketActions getBucketsAndActions(String role, int userId);
 
-    public List<FileDetails> getFileDetails(String bucketName, String currentRole, int userId, String orderBy, boolean isAsc, int pageNumber);
+    public FileDetailsResponse getFileDetails(String bucketName, String currentRole, int userId, String orderBy, boolean isAsc, int pageNumber);
 
     public String getFileContents(String fileId);
 

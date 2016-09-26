@@ -50,6 +50,19 @@ public interface DocumentMasterDao extends JpaRepository<DocumentMasterEntity, L
                                             @Param("currentRole") List<String> currentRole, @Param("documentAssignedId") String documentAssignedId,
                                             Pageable pageable);
 
+
+    @Query("select count(*) from DocumentMasterEntity as document,RoleBucketStatusMapEntity as roleMap where " +
+            "document.documentCurrentStatusId = roleMap.statusId and roleMap.bucketValue =:bucketName and roleMap.roleName in :currentRole " +
+            "")
+    public Integer getFileDetailsPageCount(@Param("bucketName") String bucketName,
+                                            @Param("currentRole") List<String> currentRole);
+
+    @Query("select count(*) from DocumentMasterEntity as document,RoleBucketStatusMapEntity as roleMap where " +
+            "document.documentCurrentStatusId = roleMap.statusId and roleMap.bucketValue =:bucketName and roleMap.roleName in :currentRole " +
+            "and document.documentAssignedId=:documentAssignedId")
+    public Integer getFileDetailsPageCountByUserId(@Param("bucketName") String bucketName,
+                                                    @Param("currentRole") List<String> currentRole, @Param("documentAssignedId") String documentAssignedId);
+
     @Query("select documentContents from DocumentMasterEntity where documentId=:fileId")
     public String getFileContents(@Param("fileId") String fileId);
 

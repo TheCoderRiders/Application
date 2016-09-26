@@ -4,6 +4,7 @@ import com.self.dao.DocumentMasterDao;
 import com.self.dao.RoleMasterDao;
 import com.self.dto.Bucket;
 import com.self.dto.FileDetails;
+import com.self.dto.FileDetailsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,14 +37,24 @@ public class WorklistServiceImpl implements WorklistService {
     }
 
     @Override
-    public List<FileDetails> getFileDetails(String bucketName, List<String> currentRole, String orderBy, boolean isAsc, int pageNumber) {
+    public FileDetailsResponse getFileDetails(String bucketName, List<String> currentRole, String orderBy, boolean isAsc, int pageNumber) {
 
         Sort.Direction sortDirection = Sort.Direction.DESC;
         if(isAsc) sortDirection = Sort.Direction.ASC;
 
         Sort sort = new Sort(sortDirection,orderBy);
         Pageable pageable = new PageRequest(pageNumber-1,20,sort);
-        return documentMasterDao.getFileDetails(bucketName,currentRole,pageable);
+        List<FileDetails> fileDetails = documentMasterDao.getFileDetails(bucketName, currentRole, pageable);
+        Integer pageCount = documentMasterDao.getFileDetailsPageCount(bucketName, currentRole);
+        return new FileDetailsResponse(fileDetails, getPageCount(pageCount));
+    }
+
+    private int getPageCount(Integer pageCount) {
+        int i = pageCount / 20;
+        if(pageCount%20 == 0){
+            return i;
+        }
+        return i +1;
     }
 
     @Override
@@ -57,12 +68,14 @@ public class WorklistServiceImpl implements WorklistService {
     }
 
     @Override
-    public List<FileDetails> getFileDetailsByUserId(String bucketName, List<String> currentRole, int userId, String orderBy, boolean isAsc, int pageNumber) {
+    public FileDetailsResponse getFileDetailsByUserId(String bucketName, List<String> currentRole, int userId, String orderBy, boolean isAsc, int pageNumber) {
         Sort.Direction sortDirection = Sort.Direction.DESC;
         if(isAsc) sortDirection = Sort.Direction.ASC;
 
         Sort sort = new Sort(sortDirection,orderBy);
         Pageable pageable = new PageRequest(pageNumber-1,20,sort);
-        return documentMasterDao.getFileDetailsByUserId(bucketName,currentRole,String.valueOf(userId),pageable);
+        List<FileDetails> fileDetailsByUserId = documentMasterDao.getFileDetailsByUserId(bucketName, currentRole, String.valueOf(userId), pageable);
+        Integer pageCount = documentMasterDao.getFileDetailsPageCountByUserId(bucketName, currentRole, String.valueOf(userId));
+        return new FileDetailsResponse(fileDetailsByUserId,getPageCount(pageCount));
     }
 }

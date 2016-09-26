@@ -98,17 +98,17 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     }
 
     @Override
-    public List<FileDetails> getFileDetails(String bucketName, String currentRole, int userId, String orderBy, boolean isAsc, int pageNumber) {
+    public FileDetailsResponse getFileDetails(String bucketName, String currentRole, int userId, String orderBy, boolean isAsc, int pageNumber) {
         //String role = getCurrentRole(currentRole);
         if(currentRole.equalsIgnoreCase("Coder") || bucketName.equalsIgnoreCase("New") || bucketName.equalsIgnoreCase("Draft")){
             return worklistService.getFileDetailsByUserId(bucketName, Role.getRoles(currentRole),userId,orderBy,isAsc,pageNumber);
         }
-        List<FileDetails> fileDetails = worklistService.getFileDetails(bucketName, Role.getRoles(currentRole), orderBy, isAsc, pageNumber);
-        fileDetails.parallelStream()
+        FileDetailsResponse fileDetailsResponse = worklistService.getFileDetails(bucketName, Role.getRoles(currentRole), orderBy, isAsc, pageNumber);
+        fileDetailsResponse.getFileDetailsList().parallelStream()
         .filter(fileDetail -> !(assignedFileStatusIds.contains(fileDetail.getFileStatusId().intValue()) || (("Allocater").equalsIgnoreCase(currentRole) && assignedToTLFileStatusIds.contains(fileDetail.getFileStatusId().intValue()))))
         .forEach(fileDetail -> fileDetail.setCheckBoxVisible(true));
 
-        return fileDetails;
+        return fileDetailsResponse;
     }
 
     @Override
