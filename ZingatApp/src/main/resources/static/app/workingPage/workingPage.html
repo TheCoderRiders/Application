@@ -84,6 +84,9 @@
 			      <uib-tab index="4" heading="Add Code">
 			        	<input ng-model="searchTerm" class="searchCode" type="text" ng-keyup="searchCode(searchTerm)" placeholder="Search">
 		                <i class="fa fa-search searchIcon" aria-hidden="true"></i>
+		                <div class="paginationBlock">
+                            <uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="perPageCount"  class="pagination-sm" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages" ng-change="pageChanged()"></uib-pagination>
+                        </div>
 			      </uib-tab>
 
 			    </uib-tabset>

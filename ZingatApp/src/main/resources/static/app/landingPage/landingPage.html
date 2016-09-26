@@ -5,11 +5,11 @@
         <nav class="navbar navbar-default custom-navbar">
           <div class="container-fluid">
             <div class="navbar-header custom-header">
-              <a class="navbar-brand hospital-name" href="#">Hospital Name</a>
+              <a ng-bind="clientName" class="navbar-brand hospital-name" href="#"></a>
             </div>
             <div class="navbar-header custom-header loginHeader" >
                 <div class="login">
-                    <span class="user-details">Hi, Rachel Lee</span>
+                    <span ng-bind="userName" class="user-details"></span>
                     <label class="dropDown" ><i ng-click="openLoginDropDown()" class="fa fa-sort-desc" aria-hidden="true"></i></label>
                     <div class="loginDropDown">
                         <ul>
