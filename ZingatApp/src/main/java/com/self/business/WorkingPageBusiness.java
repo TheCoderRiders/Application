@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.self.dto.CodeAction;
 import com.self.dto.Codes;
+import com.self.enums.FileStatus;
 import com.self.pojo.ActualCode;
 
 import java.io.IOException;
@@ -20,4 +21,6 @@ public interface WorkingPageBusiness {
     public com.self.dto.CodeSearchResult searchCode(String key, Integer start);
 
     public Codes codeAction(CodeAction codeAction) throws JsonProcessingException;
+
+    public Boolean documentStatusChange(String fileId, FileStatus status);
 }

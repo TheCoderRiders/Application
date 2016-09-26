@@ -7,6 +7,7 @@ import com.self.dao.SolrSuggesterRepository;
 import com.self.dto.CodeAction;
 import com.self.dto.CodeSearchResult;
 import com.self.dto.Codes;
+import com.self.enums.FileStatus;
 import com.self.models.DocumentMasterEntity;
 import com.self.pojo.ActualCode;
 import com.self.pojo.DocumentCodeInfo;
@@ -143,6 +144,15 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         allCodes.setMayBeCode(mayBeCode);
         saveCodes(allCodes);
         return allCodes;
+    }
+
+    @Override
+    public Boolean documentStatusChange(String fileId, FileStatus status) {
+        DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(fileId);
+        documentMasterEntity.setDocumentCurrentStatus(status.getStatus());
+        documentMasterEntity.setDocumentCurrentStatusId(status.getId());
+        documentMasterDao.save(documentMasterEntity);
+        return true;
     }
 
     private void extractAndInsertCode(List<DocumentCodeInfo> fromCode, List<DocumentCodeInfo> toCode, ActualCode whichCode, String sectionName, Predicate<DocumentCodeInfo> sectionPredicate) {

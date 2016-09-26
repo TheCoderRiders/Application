@@ -3,6 +3,7 @@ package com.self.controller;
 import com.self.business.WorkingPageBusiness;
 import com.self.business.WorklistBusiness;
 import com.self.dto.*;
+import com.self.enums.FileStatus;
 import com.self.pojo.ActualCode;
 import com.self.pojo.DocumentCodeInfo;
 import com.self.pojo.StringClass;
@@ -47,5 +48,10 @@ public class WorkingPageController extends BaseController {
     @RequestMapping(value = "/codeAction")
     public Codes saveCodes(@RequestBody CodeAction codeAction) throws IOException {
         return workingPageBusiness.codeAction(codeAction);
+    }
+
+    @RequestMapping(value = "/documentStatusChange")
+    public Boolean documentStatusChange(String fileId,FileStatus status) throws IOException {
+        return workingPageBusiness.documentStatusChange(fileId, status);
     }
 }
