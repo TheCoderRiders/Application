@@ -1,13 +1,23 @@
-angular.module('WorkingPageController', [])
+angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
     .controller("workingPageCtrl",["$scope","$location","$http", function($scope,$location,$http){
 
         $scope.fileId = localStorage.getItem("clickedFileId");
         $scope.globalObj;
+        $scope.acceptCode = false;
+        $scope.rejectCode = false;
+        
+
         $http({
             url: 'worklistPage/getFileContents?fileId='+$scope.fileId, 
             method: "GET",
         }).then(function(data){ //make a get request to mock json file.
-            $scope.workingFileContent = data.data.data.replace(/\n/g,"<br>");
+            $scope.workingFileContent = data.data.data;
+            var mark = document.getElementsByTagName('mark');
+            for(var i=0; i<mark.length; i++){
+                mark[i].addEventListener("click", function(ev){
+                    $scope.clickedCode($(ev.target).attr('class'));
+                });
+            }
         },function(err) {
             console.log(err);
         });
@@ -20,9 +30,43 @@ angular.module('WorkingPageController', [])
             $scope.suggestedCode = data.data.suggestedCode;
             $scope.acceptedCode = data.data.acceptedCode;
             $scope.rejectedCode = data.data.rejectedCode;
+            $scope.mayBeCode = data.data.mayBeCode;
         },function(err) {
             console.log(err);
         });
+
+        $scope.clickedCode = function(codeId){
+            var elementTop = $(".rightSideContent span[class*='"+codeId+"']").offset().top;
+            var divTop = $('.rightSideContent').offset().top;
+            var elementRelativeTop = elementTop - divTop;
+            
+            $(".rightSideContent span[class*='"+codeId+"']").addClass('highlighted');
+
+            setTimeout(function(){
+              $(".rightSideContent span[class*='"+codeId+"']").removeClass('highlighted');
+            }, 5000); 
+
+            $(".rightSideContent").animate({ 
+                scrollTop: elementRelativeTop
+            }, 1500);
+        }
+        $scope.clickedSuggestedCode = function(){
+            var code = $(event.currentTarget).text();
+            event.preventDefault();
+            var elementTop = $(".leftSideContent mark[class*='"+code+"']").offset().top;
+            var divTop = $('.leftSideContent').offset().top;
+            var elementRelativeTop = elementTop - divTop;
+
+            $(".leftSideContent mark[class*='"+code+"']").addClass('highlighted');
+
+            setTimeout(function(){
+              $(".leftSideContent mark[class*='"+code+"']").removeClass('highlighted');
+            }, 5000);    
+
+            $(".leftSideContent").animate({ 
+                scrollTop: elementRelativeTop
+            }, 1500);
+        }
 
         $scope.codeStatus = function(code,section,actionName){
             var selectedCode = {};
@@ -30,20 +74,15 @@ angular.module('WorkingPageController', [])
             selectedCode.codes = [];
             delete code.$$hashKey;
             selectedCode.codes.push(code);
-
             
-            /*if($(event.target).parent().parent().parent().parent().children('div').length == 1){
-                $(event.target).parent().parent().parent().parent().remove();
-            }
-            $(event.target).parent().parent().parent().remove();*/
             var action,codeActionType;
             
             if($(event.target).attr('id') == "on"){
                 action = "Accept";
-                codeActionType = "Rejected";
+                codeActionType = $(".nav").find('li.active').attr('heading');
             }else{
                 action = "Reject";
-                codeActionType = "Accepted";
+                codeActionType = $(".nav").find('li.active').attr('heading');
             }
             var requestedData = { };
             requestedData.allCodes = $scope.globalObj;
@@ -51,69 +90,32 @@ angular.module('WorkingPageController', [])
             requestedData.action = action;
             requestedData.code = code;
             requestedData.codeActionType = codeActionType;
-            debugger;
+            
             $http({
                 url: 'workingPage/codeAction', 
                 method: "POST",
                 dataType : "application/json",
                 data : JSON.stringify(requestedData)
             }).then(function(data){ //make a get request to mock json file.
+                $scope.globalObj = data.data;
                 $scope.suggestedCode = data.data.suggestedCode;
                 $scope.acceptedCode = data.data.acceptedCode;
                 $scope.rejectedCode = data.data.rejectedCode;
+                $scope.mayBeCode = data.data.mayBeCode;
             },function(err) {
                 console.log("error while code  action");
             });
-            /*if($(event.target).attr('id') == "on"){
-                var temp = $scope.acceptedCode;
-                var codeLength;
-                var temp2 = [];
-                var dummyElement;
-                var i = 0;
-                if(temp){
-                    codeLength = temp.length;
-                    for(i=0; i<codeLength; i++){
-                        if(temp[i].sectionName == selectedCode.sectionName){
-                            dummyElement = selectedCode;
-                            break;
-                        }
-                    }
-                    if(i == codeLength){
-                        temp.push(selectedCode);
-                    }else{
-                        temp[i].codes.push(selectedCode.codes[0]);
-                    }
-                }else{
-                    codeLength = 1;
-                    temp = [];
-                    temp.push(selectedCode);
-                }
-                $scope.acceptedCode = temp;
-            }else{
-                var temp = $scope.rejectedCode;
-                var codeLength;
-                var temp2 = [];
-                var dummyElement;
-                var i = 0;
-                if(temp){
-                    codeLength = temp.length;
-                    for(i=0; i<codeLength; i++){
-                        if(temp[i].sectionName == selectedCode.sectionName){
-                            dummyElement = selectedCode;
-                            break;
-                        }
-                    }
-                    if(i == codeLength){
-                        temp.push(selectedCode);
-                    }else{
-                        temp[i].codes.push(selectedCode.codes[0]);
-                    }
-                }else{
-                    codeLength = 1;
-                    temp = [];
-                    temp.push(selectedCode);
-                }
-                $scope.rejectedCode = temp;
-            }*/
         }
+
+        $scope.searchCode = function(searchTerm){
+            $http({
+                url: 'http://localhost:8080/workingPage/searchCode?key='+searchTerm+'&start=1', 
+                method: "GET",
+            }).then(function(data){ 
+                
+            },function(err) {
+                console.log(err);
+            });
+        }
+
     }]);

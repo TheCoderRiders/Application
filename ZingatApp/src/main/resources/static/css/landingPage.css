@@ -7,13 +7,152 @@ body{
     width: 100%;
     height: 100%;
 }
+.selected{
+    background: #666;
+    color:#fff;
+}
+.landingPage .loginHeader{
+    float: right;
+    min-height: 40px;
+}
+.landingPage .loginDropDown,.landingPage .actionDropDown{
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    right: 15px;
+    background: #666;
+    width: 100%;
+    display: none;
+    z-index: 999;
+}
+.landingPage .actionDropDown{
+    left: 5px;
+}
+
+.loginDropDown ul,.actionDropDown ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.loginDropDown ul li,.actionDropDown ul li{
+    float: left;
+    width: 100%;
+}
+.loginDropDown ul li a,.actionDropDown ul li a{
+    text-align: left;
+    float: none !important;
+    display: block;
+    line-height: normal !important;
+    padding: 7px 10px!important;
+    text-decoration: none;
+    font-size: 16px;
+    color:#ffffff;
+}
+.actionDropDown ul li a{
+    font-size: 13px;
+}
+.loginDropDown ul li a:hover,.actionDropDown ul li a:hover {
+    background: #F6F6F6;
+    color: #000;
+}
+.loginHeader .login {
+    padding: 5px 15px;
+    font-size: 16px;
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 20px;
+}
+.loginHeader .login .dropDown{
+    top: -2px;
+    left: 3px;
+    cursor: pointer;
+}
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+* html .ui-autocomplete {
+    height: 100px;
+}
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+    color: #9E9E9E;
+    cursor: not-allowed;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+    background-color: #bfbfbf;
+    border-color: #bfbfbf;
+}
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover{
+ color: #9E9E9E;   
+}
+.pagination>li>a, .pagination>li>span{
+    color:#afafaf;
+}
+.dialog-contents{
+    padding: 10px;
+}
+.searchUserList{
+    height: 150px;
+}
+.inputUserList{
+    width: 85%;
+    height: 40px;
+    border: 1px solid #d3d3d3;
+    margin-top: 15px;
+}
+.landing .tooltip-inner{
+    font-size: 13px;
+}
+.landingPage input[type=checkbox],.landingPage input[type=radio] {
+    display: inline-block;
+    margin: 10px 10px 10px 5px;
+}
+.inputFileCheck{
+    margin-top: 2px !important;
+}
+.assignBtn{
+   margin-left: 5px;
+    display: inline-block;
+    width: 80px;
+    height: 40px;
+    text-align: center;
+    background-color: #eceaea;
+    color: black;
+}
+
+.ngdialog.ngdialog-theme-default .ngdialog-close:before{
+    font-size: 40px;
+}
+.ngdialog.ngdialog-theme-default .ngdialog-content{
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    height: 50%;
+    padding: 0px;
+}
+.ui-widget.ui-widget-content{
+    position: absolute;
+    z-index: 99999;
+    max-height: 225px;
+}
+/*.ngdialog.ngdialog-theme-default .ngdialog-content{
+    width: 100%;
+    height: 100%;
+}*/
 .custom-navbar{
     min-height: 40px;
     margin-bottom: 0px;
     background-color: #337ab7;
     border-color: transparent;
     border-radius: 0px;
-    padding: 5px;
 }
 .bucketHeading{
     padding: 0 0px 5px 15px;
@@ -26,6 +165,14 @@ body{
 }
 .landingPage .row{
     margin-left: 0px;
+}
+.landingPage .mainContainer{
+    background-color: white;
+    height: 60%;
+    margin-right: 0px;
+    border: 1px solid #d3d3d3;
+    margin: 0 auto;
+    width: 98%;
 }
 .landingPage .panel-body {
     padding-bottom: 10px;
@@ -78,16 +225,26 @@ tags-input .host {
     bottom: 0px;
     width: 100%;
     text-align: center;
-    background-color: rgba(57, 59, 60, 0.97);
+    background-color: #777;
     color:#ffffff;
     border-top: none;
 }
-.middle-panel{
-    border:1px solid;
-    padding:0px;
+.landingPage .col-md-12{
+    padding-left: 0px;
+    padding-right: 0px;
+    height: 93%;
 }
-.right-panel{
+.landingPage .middle-panel{
+    border:1px solid #d3d3d3;
+    padding:0px;
+    height: 94%;
+    overflow-y: auto;
+}
+.landingPage .right-panel{
     padding: 0px 6px 6px 2px;
+    border: 1px solid #d3d3d3;
+    height: 94%;
+    overflow-y: auto;
 }
 .fileLeftDetails{
     width: 60%;
@@ -139,8 +296,10 @@ tags-input .host {
     font-size:12px;
 }
 .file-details{
+    background-color: #f5f5f5;
     border-bottom: 1px solid grey;
     padding: 5px;
+    cursor: pointer;
 }
 .list-group-horizontal ul li{
     cursor: pointer;
@@ -154,9 +313,13 @@ tags-input .host {
     width: 225px;
     text-align: left;
     font-weight: bold;
+    background-color: transparent;
     -webkit-box-shadow: 0px 1px 5px -1px rgba(120,116,120,1);
     -moz-box-shadow: 0px 1px 5px -1px rgba(120,116,120,1);
     box-shadow: 0px 1px 5px -1px rgba(120,116,120,1);
+}
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover{
+    background-color: #337ab7 !important;
 }
 .list-group-horizontal .list-group-item:first-child {
     margin-left: 15px;
@@ -167,23 +330,33 @@ tags-input .host {
 }
 .rightFileHeader{
     width: 100%;
-    padding: 10px;
+    padding: 5px;
+    height: 50px;
 }
 .file-header{
     color: black;
     font-size: 22px;
-    padding: 15px;
+    padding: 8px;
     width: 80%;
     display: inline-block;
     float: left;
 }
 .file-content{
-    height: 60%;
     overflow: auto;
-    padding: 5px;
     float: left;
+    padding-left: 15px;
+    margin-top: 15px;
 }
-
+.rowSeparator{
+    margin: 0 auto;
+    width: 98%;
+    height: 2px;
+    background-color: gray;
+}
+.navbar>.container-fluid .navbar-brand {
+    margin-left: -15px;
+    color: #ffffff;
+}
 .suggestion-list li:hover{
     color: #fff;
     background-color: #0097cf;
@@ -191,44 +364,136 @@ tags-input .host {
 tags-input .autocomplete{
     width: 20%;
 }
-.fileAssingeeName{
-    margin-left: 6%;
+.fileAssingeeName .fileCheckbox{
+    visibility: hidden;
 }
 .fileCheckbox{
     width: 5%;
     display: inline-block;
     vertical-align: top;
 }
-.sorting-header{
+.sortingHeader{
     padding-left: 5px;
-    height: 25px;
-    background-color: #f5f5f5;
+    padding-right: 0px;
+    background-color: #fff;
+    padding: 5px;
 }
-.dropDownAction,.sortBy{
-    width: 25%;
+.sortingHeader .leftSorter{
+    width: 49%;
+    display: inline-block;
+    float: left;
+}
+.sortingHeader .leftSorter .inputDiv{
+        width: 8%;
+    display: inline-block;
+    float: left;
+}
+.sortingHeader .leftSorter .inputDropDown{
+    position: absolute;
+    padding: 6px 8px;
+    left: 25px;
+    top: 5px;
+    box-sizing: border-box;
+}
+.sortingHeader .rightSorter{
+    width: 49%;
+    display: inline-block;
+}
+.sortingHeader .dropDownAction{
+    width: 30%;
     float:left;
     display: inline-block;
 }
-.paginationBlock{
-    width: 50%;
+.sortingHeader .inputCheckbox{
+    float: left;
+}
+.sortingHeader .refreshAction{
+    float: left;
+    padding: 5px;
+    height: 30px;
+    padding: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+    color: #9c9b9b;
+    font-size: 20px;
+    width: 5%;
+}
+.rightSorter .sortBy{
+    float: left;
+    display: inline-block;
+    width: 47%;
+}
+.rightSorter .paginationBlock{
     float: right;
-    margin: 0px;
+    margin: 5px;
     display: inline-block;
 }
-.paginationBlock .pagination{
+.rightSorter .paginationBlock .pagination{
     margin: 0px;
 }
-select{
-    cursor: pointer;    
+.landingPage .customSelect{
+    position: relative;
 }
-
+.landingPage .customAction{
+    display: inline-block;
+    float: left;
+    position: absolute;
+    width: 20%;
+}
+.landingPage .customSelect select,.landingPage .customAction select{
+    height: 30px;
+    padding: 5px;
+    border: 0;
+    width: 65%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid #969696;
+    cursor: pointer;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+    margin-top: 5px;
+}
+.landingPage .customSelect label.dropDown,.landingPage .customAction label.dropDown {
+    position: absolute;
+    padding: 6px 8px;
+    right: 50px;
+    top: 5px;
+    z-index: 1;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+.landingPage .customAction label.dropDown {
+    right: 30px;
+}
+.landingPage .customSelect div.sortImg {
+    position: absolute;
+    padding: 6px 8px;
+    top: 5px;
+    z-index: 1;
+    box-sizing: border-box;
+    right: 10px;
+    cursor: pointer;
+}
+.landingPage .customSelect span,.landingPage .customAction span {
+    color: #989898;
+    font-size: 13px;
+    padding: 10px 0px 0px 10px;
+}
 .sortImage{
-    width: 18px;
-    height: 18px;
+    display: none;
+    width: 27px;
+    height: 27px;
     background-color: white;
     margin-bottom: -4px;
     padding-bottom: 0px;
     cursor: pointer;
+    border: 1px solid rgba(120,116,120,1);
+    float: right;
+    margin-top: 5px;
+    margin-right: 15px;
+    position: relative;
 }
 .selectedItem{
     background-color: white;
@@ -237,12 +502,13 @@ select{
     text-decoration: underline;
     cursor: pointer;
     border: 1px solid #bfbdbd;
-    padding: 4px;
-    width: 30px;
-    height: 30px;
+    margin: 2px;
+    width: 28px;
     float: right;
+    height: 30px;
 }
 .right-panel .editIcon{
-    font-size: 20px;
-    color: lightgrey;
+    font-size: 22px;
+    color: #d3d3d3;
+    padding: 3px;
 }
