@@ -5,7 +5,10 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
         $scope.globalObj;
         $scope.acceptCode = false;
         $scope.rejectCode = false;
-        
+        $scope.totalItems;
+        $scope.maxSize = 5;
+        $scope.currentPage = 1;
+        $scope.perPageCount = 20;
 
         $http({
             url: 'worklistPage/getFileContents?fileId='+$scope.fileId, 
@@ -109,13 +112,22 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
 
         $scope.searchCode = function(searchTerm){
             $http({
-                url: 'http://localhost:8080/workingPage/searchCode?key='+searchTerm+'&start=1', 
+                url: 'http://localhost:8080/workingPage/searchCode?key='+searchTerm+'&start='+$scope.currentPage, 
                 method: "GET",
             }).then(function(data){ 
-                
+                $scope.totalItems = data.data.total;
             },function(err) {
                 console.log(err);
             });
         }
+
+        $scope.setPage = function(pageNo) {
+            $scope.currentPage = pageNo;
+        };
+
+        $scope.pageChanged = function(page) {
+            console.log('Page changed to: ' + $scope.currentPage);
+            $scope.searchCode($scope.currentPage);
+        };
 
     }]);

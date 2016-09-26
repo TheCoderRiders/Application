@@ -1,5 +1,5 @@
-angular.module('LandingPageController', ['ngSanitize', 'ngDialog'])
-    .controller("landingPageCtrl", ["$scope", "$http", "$timeout", "$location", "ngDialog", function($scope, $http, $timeout, $location, ngDialog) {
+angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
+    .controller("landingPageCtrl", ["$scope", "$http", "$timeout", "$location", "ngDialog","$cookies", function($scope, $http, $timeout, $location, ngDialog,$cookies) {
         /*Show First bucket as selected*/
         $scope.selected = 0;
         $scope.selectedFile = 0;
@@ -10,11 +10,10 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog'])
 
         $scope.tempObj = {};
         $scope.perPageCount = 20;
-        //$scope.tempObj.bucketName = "New";
         $scope.tempObj.orderBy = "";
-        //$scope.tempObj.pageNumber = 1;
         $scope.tempObj.isAsc = true;
-
+        $scope.userName = $cookies.get("userName");
+        $scope.clientName = $cookies.get("clientName");
         fetchBucketList();
 
         $scope.setPage = function(pageNo) {

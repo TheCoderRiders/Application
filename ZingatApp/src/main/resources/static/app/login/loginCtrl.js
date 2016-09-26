@@ -1,5 +1,5 @@
-angular.module('LoginController', [])
-    .controller("loginCtrl",["$scope","$location","$http", function($scope,$location,$http){
+angular.module('LoginController', ['ngCookies'])
+    .controller("loginCtrl",["$scope","$location","$http","$cookies", function($scope,$location,$http,$cookies){
         $scope.processLogin = function(){
             var credentials=new Object();
             credentials.userName = $scope.userName;
@@ -14,7 +14,9 @@ angular.module('LoginController', [])
                     'Accept': 'application/json'}
             }).success(function(data){ //make a get request to mock json file.
                 //$scope.data = response; //Assign data received to $scope.data
-                if (data.name) {
+                if (data.username) {
+                    $cookies.put("userName",data.username);
+                    $cookies.put("clientName",data.clientName);
                     $scope.authenticated = true;
                     $location.path('/landingPage');
                 } else {
