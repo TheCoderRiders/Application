@@ -3,9 +3,10 @@
     padding: 0px 5px;
     float: left;
     height: 80%;
-    border: 1px solid;
+    border: 1px solid #aba9a9;
     overflow: scroll;
     margin: 0px 10px;
+    overflow-x:hidden;
 }
 .workingPage .codeSearchContainer{
     display: none;
@@ -67,7 +68,7 @@ mark{
     cursor: pointer;
 }
 .workingFileContents a{
-    color:green;
+    color:#706d6f;
 }
 .workingFileContents .nav-tabs>li{
     width: 20%;

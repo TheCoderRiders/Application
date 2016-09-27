@@ -111,9 +111,6 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
                 dataType : "application/json",
                 data : JSON.stringify(requestedData)
             }).then(function(data){ //make a get request to mock json file.
-                $scope.acceptCode = false;
-                $scope.rejectCode = false;
-                
                 $scope.globalObj = data.data;
                 $scope.suggestedCode = data.data.suggestedCode;
                 $scope.acceptedCode = data.data.acceptedCode;
