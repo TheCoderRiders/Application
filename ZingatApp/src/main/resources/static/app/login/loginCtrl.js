@@ -13,9 +13,9 @@ angular.module('LoginController', ['ngCookies'])
                 headers: { 'Content-Type': 'application/json',
                     'Accept': 'application/json'}
             }).success(function(data){ //make a get request to mock json file.
-                //$scope.data = response; //Assign data received to $scope.data
                 if (data.username) {
                     $cookies.put("userName",data.username);
+                    $cookies.put("userId",data.userId);
                     $cookies.put("clientName",data.clientName);
                     $scope.authenticated = true;
                     $location.path('/landingPage');
@@ -23,13 +23,9 @@ angular.module('LoginController', ['ngCookies'])
                     $scope.authenticated = false;
                 }
             })
-                .error(function(err){
-                    console.log(err);
-                    $scope.authenticated = false;
-                })
-
-            /* if(userName == 'a' && userPassword == 'a'){
-             $location.path('/landingPage');
-             }*/
+            .error(function(err){
+                console.log(err);
+                $scope.authenticated = false;
+            })
         }
     }]);

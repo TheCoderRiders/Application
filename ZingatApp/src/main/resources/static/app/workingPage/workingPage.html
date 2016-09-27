@@ -11,7 +11,7 @@
 	    <div class="workingFileContents rightSideContent">
 	    	<form name="outerForm" class="tab-form-demo">
 			    <uib-tabset active="activeForm">
-			      <uib-tab index="0" heading="Suggested">
+			      <uib-tab index="0" heading="Suggested" ng-click="tabChanged()">
 			        <ng-form name="nestedForm">
 			          <div class="form-group">
 			          	<ul ng-repeat="section in suggestedCode track by $index" ng-if="section.codes.length>0">
@@ -33,7 +33,7 @@
 			          </div>
 			        </ng-form>
 			      </uib-tab>
-			      <uib-tab index="1" heading="Accepted">
+			      <uib-tab index="1" heading="Accepted" ng-click="tabChanged()">
 			      	<ul ng-repeat="section in acceptedCode track by $index" ng-if="section.codes.length > 0">
 		          		<li class="sectionHeading">{{section.sectionName}}</li>
 		          		<div ng-repeat="code in section.codes track by $index">
@@ -48,7 +48,7 @@
 		          		</div>
 		          	</ul>
 			      </uib-tab>
-			      <uib-tab index="2" heading="Rejected">
+			      <uib-tab index="2" heading="Rejected" ng-click="tabChanged()">
 			        <ul ng-repeat="section in rejectedCode track by $index" ng-if="section.codes.length > 0">
 		          		<li class="sectionHeading">{{section.sectionName}}</li>
 		          		<div  ng-repeat="code in section.codes track by $index">
@@ -63,7 +63,7 @@
 		          		</div>
 		          	</ul>
 			      </uib-tab>
-			      <uib-tab index="3" heading="MayBe">
+			      <uib-tab index="3" heading="MayBe" ng-click="tabChanged()">
 			        <ul ng-repeat="section in mayBeCode track by $index" ng-if="section.codes.length > 0">
 		          		<li class="sectionHeading">{{section.sectionName}}</li>
 		          		<div  ng-repeat="code in section.codes track by $index">
@@ -81,11 +81,35 @@
 		          	</ul>
 			      </uib-tab>
 
-			      <uib-tab index="4" heading="Add Code">
+			      <uib-tab index="4" heading="Add Code" ng-click="tabChanged()">
 			        	<input ng-model="searchTerm" class="searchCode" type="text" ng-keyup="searchCode(searchTerm)" placeholder="Search">
 		                <i class="fa fa-search searchIcon" aria-hidden="true"></i>
 		                <div class="paginationBlock">
-                            <uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="perPageCount"  class="pagination-sm" max-size="maxSize" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages" ng-change="pageChanged()"></uib-pagination>
+                            <uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="perPageCount"  class="pagination-sm" max-size="maxSize" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages" ng-change="pageChanged(currentPage)"></uib-pagination>
+                        </div>
+                        <div class="codeSearchContainer">
+                        	<div class="searchCodeList">
+                        		<ul class="codeList">
+                        			<li ng-repeat="code in codeList"  ng-class="{selectedItem: $index == selectedFile}" ng-click="getCodeDesc($event,$index,code)">
+                        				<label class="individualCode" ng-bind="code.code">
+                        				</label>
+                        				<label class="codeDesc" ng-bind="code.desc"></label>
+                        			</li>
+                        		</ul>
+                        	</div>
+                        	<div class="descContainer">
+                        		<h3>Code: <h3>
+                        		<div class="individualCode">
+
+                        		</div>
+                        		<h3>Description: </h3>
+                        		<div class="individualCodeDesc">
+
+                        		</div>
+                        		<div class="addCode">
+                        			<button type="button" value="Add" ng-click="addCode()" class="btn btn-primary">Add Code</button>
+                        		</div>
+                        	</div>
                         </div>
 			      </uib-tab>
 

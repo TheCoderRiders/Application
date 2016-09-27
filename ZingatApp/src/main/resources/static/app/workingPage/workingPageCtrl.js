@@ -9,6 +9,17 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
         $scope.maxSize = 5;
         $scope.currentPage = 1;
         $scope.perPageCount = 20;
+        $scope.selectedFile = 0;
+
+
+        $scope.tabChanged = function($vent){
+            var clickedTabIndex = $(event.target).parent().attr('index');
+            if(clickedTabIndex == "4"){
+                $(".searchCode").val("")
+                $(".paginationBlock").hide();
+                $(".codeSearchContainer").hide();
+            }
+        }
 
         $http({
             url: 'worklistPage/getFileContents?fileId='+$scope.fileId, 
@@ -100,6 +111,9 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
                 dataType : "application/json",
                 data : JSON.stringify(requestedData)
             }).then(function(data){ //make a get request to mock json file.
+                $scope.acceptCode = false;
+                $scope.rejectCode = false;
+                
                 $scope.globalObj = data.data;
                 $scope.suggestedCode = data.data.suggestedCode;
                 $scope.acceptedCode = data.data.acceptedCode;
@@ -111,28 +125,38 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
         }
 
         $scope.searchCode = function(searchTerm){
-            $http({
-                url: 'workingPage/searchCode?key='+searchTerm+'&start='+$scope.currentPage, 
-                method: "GET",
-            }).then(function(data){ 
-                $scope.totalItems = data.data.total;
-                if(data.data.total > 0){
-                    $(".paginationBlock").show();
-                }else{
-                    $(".paginationBlock").hide();
-                }
-                
-            },function(err) {
-                console.log(err);
-            });
+            if(searchTerm){
+                $http({
+                    url: 'workingPage/searchCode?key='+searchTerm+'&start='+$scope.currentPage, 
+                    method: "GET",
+                }).then(function(data){ 
+                    $scope.totalItems = data.data.total;
+                    if(data.data.total > 0){
+                        $(".paginationBlock").show();
+                        $scope.selectedFile = 0;
+                        $(".codeSearchContainer").show();
+                        $scope.codeList = data.data.codes
+                        if($scope.selectedFile == 0){
+                            $(".individualCode").text(data.data.codes[0].code);
+                            $(".individualCodeDesc").text(data.data.codes[0].desc);
+                        }
+                    }else{
+                        $(".paginationBlock").hide();
+                        $(".codeSearchContainer").hide();
+                    }
+                    
+                },function(err) {
+                    console.log(err);
+                });
+            }else{
+                $(".paginationBlock").hide();
+                $(".codeSearchContainer").hide();
+            }
         }
 
-        $scope.setPage = function(pageNo) {
-            $scope.currentPage = pageNo;
-        };
 
-        $scope.pageChanged = function(page) {
-            console.log('Page changed to: ' + $scope.currentPage);
+        $scope.pageChanged = function(currentPage) {
+            $scope.currentPage = currentPage;
             $scope.searchCode($scope.currentPage);
         };
 
@@ -148,4 +172,39 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
             });
         }
 
+        $scope.getCodeDesc = function($event, $index, code){
+            $scope.selectedFile = $index;
+            $(".descContainer").find("div.individualCode").text(code.code);
+            $(".descContainer").find("div.individualCodeDesc").text(code.desc);
+        }
+
+        $scope.addCode = function($event){
+            var codeObj = {};
+            codeObj.code = $("ul li.selectedItem").find('label.individualCode').text();
+            codeObj.desc = $("ul li.selectedItem").find('label.codeDesc').text();
+            var requestedData = {};
+            requestedData.allCodes = $scope.globalObj;
+            requestedData.sectionName = "Added Code";
+            requestedData.action = "AddCode";
+            requestedData.code = codeObj;
+            requestedData.codeActionType = "New";
+
+            $http({
+                url: 'workingPage/codeAction', 
+                method: "POST",
+                dataType : "application/json",
+                data : JSON.stringify(requestedData)
+            }).then(function(data){ //make a get request to mock json file.
+                $scope.globalObj = data.data;
+                $scope.suggestedCode = data.data.suggestedCode;
+                $scope.acceptedCode = data.data.acceptedCode;
+                $scope.rejectedCode = data.data.rejectedCode;
+                $scope.mayBeCode = data.data.mayBeCode;
+                $(".searchCode").val("")
+                $(".paginationBlock").hide();
+                $(".codeSearchContainer").hide();
+            },function(err) {
+                console.log("error while adding code");
+            });
+        }
     }]);
