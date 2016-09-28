@@ -23,6 +23,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         $scope.pageChanged = function() {
             $scope.tempObj.pageNumber = $scope.currentPage
             console.log('Page changed to: ' + $scope.currentPage);
+            $scope.selectedFile = 0;
             fetchList();
         };
 

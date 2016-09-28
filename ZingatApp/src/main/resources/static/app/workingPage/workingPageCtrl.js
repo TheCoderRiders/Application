@@ -116,6 +116,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
                 $scope.acceptedCode = data.data.acceptedCode;
                 $scope.rejectedCode = data.data.rejectedCode;
                 $scope.mayBeCode = data.data.mayBeCode;
+                $scope.acceptCode = false;
+                $scope.rejectCode = false;
             },function(err) {
                 console.log("error while code  action");
             });

@@ -1,4 +1,4 @@
-<div class="mainContent workingPage" ng-controller="workingPageCtrl">
+<div class="mainContent workingPage">
 	<div id="centerContent" style=" min-width: 975px;">
 	    <div class="panel-body">
 	        
@@ -21,9 +21,9 @@
 				          			<span class="suggestedCode  {{code.code}}" ng-click="clickedSuggestedCode()">{{code.code}}</span>
 				          			<span class="suggestedCodeDesc">{{code.desc}}</span>
 				          			<span class="codeAction switch-toggle switch-3 switch-candy">
-									    <input id="on" name="state-d" ng-model="acceptCode" type="radio" ng-click="codeStatus(code,section,$element)">
+									    <input id="on" name="state-d" ng-value="code" ng-model="acceptCode" type="radio" ng-click="codeStatus(code,section,$element)">
 									    <label for="on">ACCEPT</label>
-									    <input id="off" name="state-d" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
+									    <input id="off" name="state-d" ng-value="code" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
 									    <label for="off">REJECT</label>
 									    <a></a>
 									</span>
@@ -41,7 +41,7 @@
 			          			<span class="acceptedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
 			          			<span class="acceptedCodeDesc">{{code.desc}}</span>
 			          			<span class="codeAction switch-toggle switch-3 switch-candy">			    
-								    <input id="off" name="state-d" type="radio" ng-click="codeStatus(code,section,$element)">
+								    <input id="off" name="state-d" ng-value="code" type="radio" ng-model="rejectCode" ng-click="codeStatus(code,section,$element)">
 								    <label for="off" onclick="">REJECT</label>
 								</span>
 			          		</p>
@@ -56,7 +56,7 @@
 			          			<span class="rejectedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
 			          			<span class="rejectedCodeDesc">{{code.desc}}</span>
 			          			<span class="codeAction switch-toggle switch-3 switch-candy">
-								    <input id="on" name="state-d" type="radio" ng-click="codeStatus(code,section,$element)">
+								    <input id="on" name="state-d" ng-value="code" ng-model="acceptCode"  type="radio" ng-click="codeStatus(code,section,$element)">
 								    <label for="on" onclick="">ACCEPT</label>
 								</span>
 			          		</p>
@@ -71,9 +71,9 @@
 			          			<span class="mayBeCode {{code.code}}" ng-click="clickedSuggestedCode()">{{code.code}}</span>
 			          			<span class="mayBeCodeDesc">{{code.desc}}</span>
 			          			<span class="codeAction switch-toggle switch-3 switch-candy">
-								    <input id="on" name="state-d" type="radio" ng-click="codeStatus(code,section,$element)">
+								    <input id="on" name="state-d" type="radio" ng-model="acceptCode" ng-click="codeStatus(code,section,$element)">
 								    <label for="on" onclick="">ACCEPT</label>
-								    <input id="off" name="state-d" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
+								    <input id="off" name="state-d" ng-value="code" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
 									<label for="off">REJECT</label>
 								</span>
 			          		</p>
