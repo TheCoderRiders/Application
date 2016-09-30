@@ -1,5 +1,5 @@
-angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
-    .controller("workingPageCtrl",["$scope","$location","$http", function($scope,$location,$http){
+angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies'])
+    .controller("workingPageCtrl",["$scope","$location","$http","$cookies", function($scope,$location,$http,$cookies){
 
         $scope.fileId = localStorage.getItem("clickedFileId");
         $scope.globalObj;
@@ -11,11 +11,51 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar'])
         $scope.perPageCount = 20;
         $scope.selectedFile = 0;
 
+        $scope.userName = $cookies.get("userName");
+        $scope.clientName = $cookies.get("clientName");
 
+
+        /* function called on mouse enter of userName to show login dropdown*/
+        $scope.openLoginDropDown = function() {
+            var profilePopup = $(".loginHeader .login");
+            if (profilePopup.length != 0 && !$(".loginHeader").hasClass('selected')) {
+                $(".loginHeader").addClass("selected");
+                setTimeout(function() {
+                    var profilePopupTopPos = $(".loginHeader.selected").height();
+                    var profilePopupWidth = $(".loginHeader.selected").width();
+                    $(".loginHeader .loginDropDown").css({
+                        "top": profilePopupTopPos,
+                        "width": profilePopupWidth,
+                        "display": "block"
+                    });
+                    $(".loginDropDown").show();
+                }, 100);
+            } else {
+                $(".loginDropDown").css('display', 'none');
+                $(".loginHeader").removeClass('selected');
+            }
+        }
+
+        /* function called on profile click */
+        $scope.redirectToProfile = function() {
+            $location.path('/profilePage');
+        }
+
+        /* function called on logout click */
+        $scope.redirectToLogin = function() {
+            $location.path('/login');
+        }
+
+        /* funnction called on hospital name click */
+        $scope.redirectToLandingPage = function(){
+            $location.path('/landingPage');
+        }
+
+        /* function called on tab changed */
         $scope.tabChanged = function($vent){
             var clickedTabIndex = $(event.target).parent().attr('index');
             if(clickedTabIndex == "4"){
-                $(".searchCode").val("")
+                $(".searchCode").val("");
                 $(".paginationBlock").hide();
                 $(".codeSearchContainer").hide();
             }

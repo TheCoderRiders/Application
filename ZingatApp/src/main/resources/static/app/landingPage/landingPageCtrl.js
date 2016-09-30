@@ -285,4 +285,9 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         $scope.redirectToLogin = function() {
             $location.path('/login');
         }
+
+        /* funnction called on hospital name click */
+        $scope.redirectToLandingPage = function(){
+            $location.path('/landingPage');
+        }
     }])

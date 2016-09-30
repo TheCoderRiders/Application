@@ -1,8 +1,36 @@
 <div class="mainContent workingPage">
 	<div id="centerContent" style=" min-width: 975px;">
-	    <div class="panel-body">
-	        
+	    <div id="header">
+	        <nav class="navbar navbar-default custom-navbar">
+	          <div class="container-fluid">
+	            <div class="navbar-header custom-header">
+	              <a href="javascript:void(0)" ng-bind="clientName" class="navbar-brand hospital-name" ng-click="redirectToLandingPage()"></a>
+	            </div>
+	            <div class="navbar-header custom-header loginHeader" >
+	                <div class="login">
+	                    <span ng-bind="userName" class="user-details"></span>
+	                    <label class="dropDown"><i ng-click="openLoginDropDown()" class="fa fa-sort-desc" aria-hidden="true"></i></label>
+	                    <div class="loginDropDown">
+	                        <ul>
+	                            <li><a href="javascript:void(0)" ng-click="redirectToProfile()">Profile</a></li>
+	                            <li><a href="javascript:void(0)" ng-click="redirectToLogin()">Logout</a></li>
+	                        </ul>
+	                    </div>
+	                </div>
+	             </div>
+	          </div>
+	        </nav>
 	    </div>
+	    <div class="fileName">
+	    	<label class="backBtn" ng-click="redirectToLandingPage()">
+	    		<i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+	    	</label>
+	    	<div ng-bind="fileId" class="fileName">
+
+	    	</div>
+	    </div>
+	    
+
 	    <div class="workingFileContents leftSideContent" ng-scrollbar>
 	    	<div ng-bind-html="workingFileContent">
 
@@ -82,7 +110,7 @@
 			      </uib-tab>
 
 			      <uib-tab index="4" heading="Add Code" ng-click="tabChanged()">
-			        	<input ng-model="searchTerm" class="searchCode" type="text" ng-change="searchCode(searchTerm)" placeholder="Search">
+			        	<input ng-model="searchTerm" class="searchCode" type="text" ng-change="searchCode(searchTerm)" placeholder="Search" autofocus>
 		                <i class="fa fa-search searchIcon" aria-hidden="true"></i>
 		                <div class="paginationBlock">
                             <uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="perPageCount"  class="pagination-sm" max-size="maxSize" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages" ng-change="pageChanged(currentPage)"></uib-pagination>
