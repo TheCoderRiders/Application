@@ -7,12 +7,33 @@
     overflow: scroll;
     margin: 0px 5px;
     overflow-x: hidden;
+    position: relative;
 }
 .workingPage .codeSearchContainer{
     display: none;
 }
 .workingPage #header{
     height: 5%;
+}
+.workingPage .noDataFound{
+    position: absolute;
+    margin: auto;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    width: 50%;
+    height: 20%;
+}
+.workingPage .dataContainer{
+    text-align: center;
+    color: #808080;
+}
+.workingPage .dataContainer h4{
+    font-size: 26px
+}
+.workingPage .dataContainer .emptyData{
+    font-size: 40px;
 }
 .workingPage .fileName{
     text-align: center;
@@ -76,7 +97,8 @@
 }
 .actionBtn button{
 	width: 150px;
-	height: 30px;
+	height: 35px;
+    border-radius: 0px;
 }
 .workingPage mark{
     background: #0af4eb;
@@ -130,4 +152,27 @@
     top: 15px;
     font-size: 20px;
     right: 10px;
+}
+.btn-success{
+    color: #fff;
+    background-color: #777;
+    border-color: #777;
+}
+.btn-success:hover{
+    color: #fff;
+    background-color: #afafaf;
+    border-color: #afafaf;
+}
+.btn-warning{
+    background-color: transparent;
+    border:none;
+    color:#286090;
+    outline: none;
+}
+.btn-warning:hover{
+    background-color: transparent;
+    border:none;
+    color:#286090;
+    text-decoration: underline;
+    outline: none;
 }

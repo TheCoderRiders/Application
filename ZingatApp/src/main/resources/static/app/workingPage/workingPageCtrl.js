@@ -5,12 +5,13 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
         $scope.globalObj;
         $scope.acceptCode = false;
         $scope.rejectCode = false;
+        $scope.emptyData = false;
         $scope.totalItems;
         $scope.maxSize = 5;
         $scope.currentPage = 1;
         $scope.perPageCount = 20;
         $scope.selectedFile = 0;
-
+        $scope.searchCode;
         $scope.userName = $cookies.get("userName");
         $scope.clientName = $cookies.get("clientName");
 
@@ -52,8 +53,17 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
         }
 
         /* function called on tab changed */
-        $scope.tabChanged = function($vent){
+        $scope.tabChanged = function(){
             var clickedTabIndex = $(event.target).parent().attr('index');
+            $scope.emptyData = false;
+            if($(event.target).parents('form').find('div.tab-content div.active-add div.form-group').children().length < 1){
+                $scope.emptyData = true;
+            }else{
+                if($scope.suggestedCode.length < 1 && clickedTabIndex == "0"){
+                    debugger;
+                    $scope.emptyData = true;
+                }
+            }
             if(clickedTabIndex == "4"){
                 $(".searchCode").val("");
                 $(".paginationBlock").hide();
@@ -81,6 +91,9 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
             method: "GET",
         }).then(function(data){ //make a get request to mock json file.
             $scope.globalObj = data.data;
+            if(data.data.suggestedCode.length < 1){
+                $scope.emptyData = true;
+            }
             $scope.suggestedCode = data.data.suggestedCode;
             $scope.acceptedCode = data.data.acceptedCode;
             $scope.rejectedCode = data.data.rejectedCode;
@@ -130,6 +143,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
             selectedCode.codes.push(code);
             
             var action,codeActionType;
+            var targetHeading = $(".nav li.active").attr('heading');
             
             if($(event.target).attr('id') == "on"){
                 action = "Accept";
@@ -156,6 +170,15 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
                 $scope.acceptedCode = data.data.acceptedCode;
                 $scope.rejectedCode = data.data.rejectedCode;
                 $scope.mayBeCode = data.data.mayBeCode;
+                if(targetHeading == "Suggested" && $scope.suggestedCode.length < 1){
+                    $scope.emptyData = true;
+                }else if(targetHeading == "Accepted" && $scope.acceptedCode.length < 1){
+                    $scope.emptyData = true;
+                }else if(targetHeading == "Rejected" && $scope.rejectedCode.length < 1){
+                    $scope.emptyData = true;
+                }else if(targetHeading == "MayBe" && $scope.mayBeCode.length < 1){
+                    $scope.emptyData = true;
+                }
                 $scope.acceptCode = false;
                 $scope.rejectCode = false;
             },function(err) {
@@ -164,13 +187,25 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
         }
 
         $scope.searchCode = function(searchTerm){
+            $scope.searchText = searchTerm;
+            searchedCode(searchTerm)
+        }
+
+
+        $scope.pageChanged = function(currentPage) {
+            $scope.currentPage = currentPage;
+            searchedCode($scope.searchText);
+        };
+
+        function searchedCode(searchTerm){
             if(searchTerm){
                 $http({
-                    url: 'workingPage/searchCode?key='+searchTerm+'&start='+$scope.currentPage, 
+                    url: 'workingPage/searchCode?key='+$scope.searchText+'&start='+$scope.currentPage, 
                     method: "GET",
                 }).then(function(data){ 
                     $scope.totalItems = data.data.total;
                     if(data.data.total > 0){
+                        $scope.emptyData = false;
                         $(".paginationBlock").show();
                         $scope.selectedFile = 0;
                         $(".codeSearchContainer").show();
@@ -180,24 +215,19 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
                             $(".individualCodeDesc").text(data.data.codes[0].desc);
                         }
                     }else{
+                        $scope.emptyData = true;
                         $(".paginationBlock").hide();
                         $(".codeSearchContainer").hide();
                     }
-                    
                 },function(err) {
                     console.log(err);
                 });
             }else{
                 $(".paginationBlock").hide();
                 $(".codeSearchContainer").hide();
+                $scope.emptyData = false;
             }
         }
-
-
-        $scope.pageChanged = function(currentPage) {
-            $scope.currentPage = currentPage;
-            $scope.searchCode($scope.currentPage);
-        };
 
         $scope.documentStatusChange = function(){
             var actionName = $(event.target).attr('value');

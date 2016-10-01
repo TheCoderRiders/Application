@@ -173,6 +173,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
             }
             tempAssignee.checkFiles = tempArray;
             localStorage.setItem("checkFiled", JSON.stringify(tempAssignee));
+            debugger;
             $scope.checkFiled.push(tempAssignee);
         }
 

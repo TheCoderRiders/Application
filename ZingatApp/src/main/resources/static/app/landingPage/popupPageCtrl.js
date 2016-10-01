@@ -1,5 +1,5 @@
 angular.module('PopUpPageController', ['ngDialog'])
-  .controller("popupPageCtrl",["$scope","$location","$http","ngDialog", function($scope,$location,$http,ngDialog){
+  .controller("popupPageCtrl",["$scope","$location","$http","ngDialog","$route", function($scope,$location,$http,ngDialog,$route){
       
       $scope.selectUser = {};
 
@@ -28,6 +28,7 @@ angular.module('PopUpPageController', ['ngDialog'])
                 $scope.requestedObject.assignedUserName = ui.item.value;
                 $scope.requestedObject.fileId = checkedFile.checkFiles[0].fileId;
                 $scope.requestedObject.actionId = $("#mySelect option:selected").attr('value');
+                debugger;
               },
           });
 
@@ -47,6 +48,7 @@ angular.module('PopUpPageController', ['ngDialog'])
             }
         }).then(function(data){ //make a get request to mock json file.
            ngDialog.close();
+           $route.reload();
            console.log(data);
         },function(err) {
             console.log("Bucket Err: "+err);
