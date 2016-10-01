@@ -8,9 +8,9 @@
               <a href="javascript:void(0)" ng-bind="clientName" class="navbar-brand hospital-name" ng-click="redirectToLandingPage()"></a>
             </div>
             <div class="navbar-header custom-header loginHeader" >
-                <div class="login">
+                <div class="login" ng-mouseenter="openLoginDropDown()"  ng-mouseleave="closeLoginDropDown()">
                     <span ng-bind="userName" class="user-details"></span>
-                    <label class="dropDown" ><i ng-click="openLoginDropDown()" class="fa fa-sort-desc" aria-hidden="true"></i></label>
+                    <label class="dropDown" ><i class="fa fa-sort-desc" aria-hidden="true"></i></label>
                     <div class="loginDropDown">
                         <ul>
                             <li><a href="javascript:void(0)" ng-click="redirectToProfile()">Profile</a></li>
@@ -80,16 +80,17 @@
                                 <div class="sortBy">
                                     <div class="customSelect">
                                     <span> Sort By:</span>
-                                    <label class="dropDown"><i class="fa fa-sort-desc" aria-hidden="true"></i></label>
+                                    
                                     <select id="groupBy" name="mySelectGroup" ng-options="group.name for group in group.availableOptions track by group.id"
                                           ng-model="group.selectedOption" ng-change="getGroupByOption(group.selectedOption
         )"></select>
+                                    <label class="dropDown"><i class="fa fa-sort-desc" aria-hidden="true"></i></label>
                                     <div class="sortImg" ng-click="changeOrder($event)"><i class="fa fa-sort-amount-asc" aria-hidden="true"></i></div>
                                    
                                 </div>
                                 </div>
                                 <div class="paginationBlock">
-                                    <uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="perPageCount" max-size="maxSize" class="pagination-sm" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages" ng-change="pageChanged()"></uib-pagination>
+                                    <uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="perPageCount" max-size="maxSize" class="pagination-sm" boundary-links="true" next-text=">" previous-text="<" first-text="<<" last-text=">>" num-pages="numPages" ng-change="pageChanged()"></uib-pagination>
                                 </div>
                             </div>
                         </div>

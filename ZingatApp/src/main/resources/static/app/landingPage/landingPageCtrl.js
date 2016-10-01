@@ -1,5 +1,5 @@
 angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
-    .controller("landingPageCtrl", ["$scope", "$http", "$timeout", "$location", "ngDialog","$cookies", function($scope, $http, $timeout, $location, ngDialog,$cookies) {
+    .controller("landingPageCtrl", ["$scope", "$http", "$timeout", "$location", "ngDialog","$cookies","$route", function($scope, $http, $timeout, $location, ngDialog,$cookies,$route) {
         /*Show First bucket as selected*/
         $scope.selected = 0;
         $scope.selectedFile = 0;
@@ -27,7 +27,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
             fetchList();
         };
 
-        $scope.maxSize = 5;
+        $scope.maxSize = 4;
         $scope.totalItems;
         $scope.currentPage = 1;
 
@@ -286,8 +286,8 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
             $location.path('/login');
         }
 
-        /* funnction called on hospital name click */
+        /* function called on hospital name click */
         $scope.redirectToLandingPage = function(){
-            $location.path('/landingPage');
+            $route.reload();
         }
     }])

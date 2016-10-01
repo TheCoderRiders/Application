@@ -220,15 +220,15 @@ tags-input .host {
     width: 10%;
     margin: 5px;
 }
-
 .custom-footer{
     position: fixed;
     bottom: 0px;
     width: 100%;
     text-align: center;
     background-color: #777;
-    color:#ffffff;
-    border-top: none;
+    color: #ffffff;
+    height: 35px;
+    border-radius: 0px;
 }
 .landingPage .col-md-12{
     padding-left: 0px;
@@ -392,7 +392,7 @@ tags-input .autocomplete{
     float: left;
 }
 .sortingHeader .leftSorter .inputDiv{
-        width: 8%;
+    width: 8%;
     display: inline-block;
     float: left;
 }
@@ -404,7 +404,7 @@ tags-input .autocomplete{
     box-sizing: border-box;
 }
 .sortingHeader .rightSorter{
-    width: 49%;
+    width: 51%;
     display: inline-block;
 }
 .sortingHeader .dropDownAction{
@@ -429,7 +429,7 @@ tags-input .autocomplete{
 .rightSorter .sortBy{
     float: left;
     display: inline-block;
-    width: 47%;
+    width: 55%;
 }
 .rightSorter .paginationBlock{
     float: right;
@@ -452,7 +452,7 @@ tags-input .autocomplete{
     height: 30px;
     padding: 5px;
     border: 0;
-    width: 65%;
+    width: 54%;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -464,10 +464,10 @@ tags-input .autocomplete{
     margin-top: 5px;
 }
 .landingPage .customSelect label.dropDown,.landingPage .customAction label.dropDown {
-    position: absolute;
+   position: relative;
     padding: 6px 8px;
-    right: 50px;
-    top: 5px;
+    right: 30px;
+    top: -2px;
     z-index: 1;
     pointer-events: none;
     box-sizing: border-box;
@@ -475,14 +475,18 @@ tags-input .autocomplete{
 .landingPage .customAction label.dropDown {
     right: 30px;
 }
+.landingPage mark{
+    background: #0af4eb;
+}
 .landingPage .customSelect div.sortImg {
-    position: absolute;
+    position: relative;
     padding: 6px 8px;
-    top: 5px;
+    top: 0px;
     z-index: 1;
     box-sizing: border-box;
-    right: 10px;
+    left: -10px;
     cursor: pointer;
+    display: inline-block;
 }
 .landingPage .customSelect span,.landingPage .customAction span {
     color: #808080;

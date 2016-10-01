@@ -1,23 +1,70 @@
 angular.module('ProfilePageController', [])
-    .controller("profilePageCtrl",["$scope","$location","$http", function($scope,$location,$http){
+    .controller("profilePageCtrl",["$scope","$location","$http", "$cookies", function($scope,$location,$http,$cookies){
 
-      $scope.userObj = {
-           userName : "Abhi",
-           userRole : "Coder",
-           firstName : "harshal",
-           lastName : "sharma",
-           gender : "Male",
-           dob : "11-27-1991",
-           address1 : "Mushi",
-           address2 : "Wakad",
-           city : "Pune",
-           state : "Maharashtra",
-           country : "India",
-           zipcode : "411057",
-           email : "abhijeet.chikhalikar@gmail.com",
-           contactNo : "9876543210",
-           password : "",
-           repassword : ""
+      $scope.userName = $cookies.get("userName");
+      $scope.clientName = $cookies.get("clientName");
+      getUserProfile();
+
+      /* function called on mouse enter of userName to show login dropdown*/
+      $scope.openLoginDropDown = function() {
+          var profilePopup = $(".loginHeader .login");
+          if (profilePopup.length != 0 && !$(".loginHeader").hasClass('selected')) {
+              $(".loginHeader").addClass("selected");
+              setTimeout(function() {
+                  var profilePopupTopPos = $(".loginHeader.selected").height();
+                  var profilePopupWidth = $(".loginHeader.selected").width();
+                  $(".loginHeader .loginDropDown").css({
+                      "top": profilePopupTopPos,
+                      "width": profilePopupWidth,
+                      "display": "block"
+                  });
+                  $(".loginDropDown").show();
+              }, 100);
+          } else {
+              $(".loginDropDown").css('display', 'none');
+              $(".loginHeader").removeClass('selected');
+          }
+      }
+
+      /* function called on mouse leave of userName*/
+      $scope.closeLoginDropDown = function() {
+          $(".loginDropDown").css('display', 'none');
+          $(".loginHeader").removeClass('selected');
+      }
+
+      /* function called on logout click */
+      $scope.redirectToLogin = function() {
+          $location.path('/login');
+      }
+
+      /* function called on hospital name click */
+      $scope.redirectToLandingPage = function(){
+          $location.path('/landingPage');
+      }
+
+      function getUserProfile(){
+        $http({
+            url: 'profilePage/getProfile',
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }).then(function(data) { //make a get request to mock json file.
+            $scope.userObj = data.data;
+        }, function(err) {
+            console.log("Profile Err: " + err);
+        });
+      }
+
+      $scope.cancelProfileChanges = function(){
+        getUserProfile();  
+        $scope.isGenderInvalid = false;
+        $scope.isemailInvalid = false;
+        $scope.isPassInvalid = false;
+        $scope.isRePassInvalid = false;
+        $scope.isfirstNameInvalid = false;
+        $scope.islastNameInvalid = false;
       }
 
       $('.dateOfBirth').datepicker({
@@ -74,8 +121,18 @@ angular.module('ProfilePageController', [])
 
           if(!$scope.isfirstNameInvalid && !$scope.islastNameInvalid && !$scope.isemailInvalid && !$scope.isGenderInvalid && !$scope.isPassInvalid && !$scope.isRePassInvalid){
             alert("posted data successfully");
+            $http({
+                url: 'profilePage/saveProfile', 
+                method: "POST",
+                dataType : "application/json",
+                data : JSON.stringify(userObj)
+            }).then(function(data){ //make a get request to mock json file.
+                
+            },function(err) {
+                console.log("error while saving profile");
+            });
           }else{
-            alert("please fill mandatory fields");
+            //alert("please fill mandatory fields");
           }
 
       }
@@ -91,25 +148,6 @@ angular.module('ProfilePageController', [])
 
         return false;
       }
-      $scope.cancelProfileChanges = function(){
-        debugger;
-        $scope.userObj = {
-           userName : "Abhi",
-           userRole : "Coder",
-           firstName : "harshal",
-           lastName : "sharma",
-           gender : "Male",
-           dob : "11-27-1991",
-           address1 : "Mushi",
-           address2 : "Wakad",
-           city : "Pune",
-           state : "Maharashtra",
-           country : "India",
-           zipcode : "411057",
-           email : "abhijeet.chikhalikar@gmail.com",
-           contactNo : "9876543210",
-           password : "",
-           repassword : ""
-      }
-      }
+      
+
   }]);

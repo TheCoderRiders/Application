@@ -1,5 +1,25 @@
 <div class="profileContent">
- 
+   <div id="header">
+        <nav class="navbar navbar-default custom-navbar">
+          <div class="container-fluid">
+            <div class="navbar-header custom-header">
+              <a href="javascript:void(0)" ng-bind="clientName" class="navbar-brand hospital-name" ng-click="redirectToLandingPage()"></a>
+            </div>
+            <div class="navbar-header custom-header loginHeader" >
+                <div class="login" ng-mouseenter="openLoginDropDown()"  ng-mouseleave="closeLoginDropDown()">
+                    <span ng-bind="userName" class="user-details"></span>
+                    <label class="dropDown" ><i class="fa fa-sort-desc" aria-hidden="true"></i></label>
+                    <div class="loginDropDown">
+                        <ul>
+                            <li><a href="javascript:void(0)" ng-click="redirectToLandingPage()">Worklist</a></li>
+                            <li><a href="javascript:void(0)" ng-click="redirectToLogin()">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+             </div>
+          </div>
+        </nav>
+    </div>
   <div class="row">
     <!-- left column -->
 
@@ -178,17 +198,11 @@
           <div class="col-lg-6">
             <div class="col-lg-10">
               <input class="btn btn-primary saveBtn" ng-click="updateProfile(userObj)" value="Save" type="button">
-              <input class="btn btn-default cancelBtn" ng-click="cancelProfileChanges()" value="Cancel" type="reset">
+              <input class="btn btn-default cancelBtn" ng-click="cancelProfileChanges()" value="Cancel" type="button">
             </div>
           </div>
           <!-- <label class="col-md-4 control-label"></label> -->
         </div>
-
-       <!--  <div class="alert alert-info alert-dismissable infoMsg">
-          <a class="panel-close close" data-dismiss="alert">×</a> 
-          <i class="fa fa-coffee"></i>
-          This is an <strong>.alert</strong>. Use this to show important messages to the user.
-        </div> -->
 
       </form>
     </div>
@@ -199,4 +213,9 @@
       
     </div>
   </div>
+   <div id="footer">
+      <div class="panel panel-default custom-panel">
+            <div class="panel-footer custom-footer">All Right Reserved @ SunStretch2016.</div>
+        </div>
+    </div>
 </div>

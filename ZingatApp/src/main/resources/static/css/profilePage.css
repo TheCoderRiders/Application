@@ -3,9 +3,9 @@
 	height: 100%;
 }
 .profileHeading{
-	font-size: 28px;
+	font-size: 24px;
     text-align: center;
-    padding: 10px;
+    padding: 5px;
     margin-top: 0px;
     margin-bottom: 0px;
     padding-bottom: 0px;
@@ -45,7 +45,7 @@
 	padding-left: 0px;
 }
 .profileContent .form-group {
-    margin-bottom: 10px;
+    margin-bottom: 3px;
 }
 .form-horizontal .control-label{
 	text-align: left;
