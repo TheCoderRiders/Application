@@ -100,7 +100,7 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     @Override
     public FileDetailsResponse getFileDetails(String bucketName, String currentRole, int userId, String orderBy, boolean isAsc, int pageNumber) {
         //String role = getCurrentRole(currentRole);
-        if(currentRole.equalsIgnoreCase("Coder") || bucketName.equalsIgnoreCase("New") || bucketName.equalsIgnoreCase("Draft")){
+        if(currentRole.equalsIgnoreCase("Coder") /*|| bucketName.equalsIgnoreCase("New") || bucketName.equalsIgnoreCase("Draft")*/){
             return worklistService.getFileDetailsByUserId(bucketName, Role.getRoles(currentRole),userId,orderBy,isAsc,pageNumber);
         }
         FileDetailsResponse fileDetailsResponse = worklistService.getFileDetails(bucketName, Role.getRoles(currentRole), orderBy, isAsc, pageNumber);
