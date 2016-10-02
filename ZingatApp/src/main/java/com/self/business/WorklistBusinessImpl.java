@@ -112,8 +112,19 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     }
 
     @Override
-    public String getFileContents(String fileId) {
-        return worklistService.getFileContents(fileId);
+    public FileContent getFileContents(String fileId, String currentRole) {
+        String fileContents = worklistService.getFileContents(fileId);
+        String fileStatus = documentMasterDao.findByDocumentId(fileId).getDocumentCurrentStatus();
+
+        String fileMode = "View";
+        if(currentRole.toLowerCase().contains("coder") && ("Allocate to Coder".equalsIgnoreCase(fileStatus) || "Draft".equalsIgnoreCase(fileStatus))){
+            fileMode = "Edit";
+        }
+
+        FileContent fileContent = new FileContent();
+        fileContent.setData(fileContents);
+        fileContent.setFileMode(fileMode);
+        return fileContent;
     }
 
     @Override

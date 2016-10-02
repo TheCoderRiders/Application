@@ -14,7 +14,7 @@ public interface WorklistBusiness {
 
     public FileDetailsResponse getFileDetails(String bucketName, String currentRole, int userId, String orderBy, boolean isAsc, int pageNumber);
 
-    public String getFileContents(String fileId);
+    public FileContent getFileContents(String fileId, String currentRole);
 
     public List<UserBasicInfo> getUsersForAllocation(String actionId);
 
