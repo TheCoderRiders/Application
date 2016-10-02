@@ -31,7 +31,7 @@
        <h1 class="profileHeading">Personal Information</h1>
       <form class="form-horizontal profileForm" role="form">
 
-        <div class="form-group">
+        <div class="form-group nameRoleContainer">
           <div class="col-lg-6">
             <label class="col-lg-8 control-label">User Name</label>
             <div class="col-lg-8">
@@ -47,7 +47,7 @@
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group nameContainer">
           <div class="col-lg-6">
             <label class="col-lg-8 control-label">First name<span class="mandatoryField"> *</span></label>
             <div class="col-lg-8" ng-class="{ 'has-error': isfirstNameInvalid}">
@@ -68,7 +68,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group genderBirthContainer">
           <div class="col-lg-6">
             <label class="col-lg-8 control-label">Gender<span class="mandatoryField"> *</span></label>
             <div class="col-lg-8" ng-class="{ 'has-error': isGenderInvalid}">
@@ -94,7 +94,7 @@
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group addressContainer">
           <div class="col-lg-6">
             <label class="col-lg-8 control-label">Address 1:</label>
             <div class="col-lg-8">
@@ -110,7 +110,7 @@
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group cityStateContainer">
           <div class="col-lg-6">
             <label class="col-lg-8 control-label">City:</label>
             <div class="col-lg-8">
@@ -125,7 +125,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group countryCodeContainer">
           <div class="col-lg-6">
             <label class="col-lg-8 control-label">Country:</label>
             <div class="col-lg-8">
@@ -141,7 +141,7 @@
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group emailNumberContainer">
           <div class="col-lg-6">
             <label class="col-lg-8 control-label">Email<span class="mandatoryField"> *</span></label>
             <div class="col-lg-8" ng-class="{ 'has-error': isemailInvalid}">
@@ -160,7 +160,23 @@
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group showPasswordContainer">
+          <div class="col-lg-6">
+            <label class="col-lg-8 control-label">
+              <a href="javascript:void(0)" ng-click="showPassword()"> Show Password</a>
+            </label>
+          </div>
+          <div class="col-lg-6">
+           
+          </div>
+        </div>
+
+        <div class="form-group passwordContainer">
+          <div class="col-lg-12">
+            <label class="col-lg-8 control-label">
+              <a href="javascript:void(0)" ng-click="hidePassword()"> Hide Password</a>
+            </label>
+          </div>
           <div class="col-lg-6">
             <label class="col-lg-8 control-label">Password<span class="mandatoryField"> *</span></label>
             <div class="col-lg-8" ng-class="{ 'has-error': isPassInvalid}">

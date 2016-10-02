@@ -101,23 +101,29 @@ angular.module('ProfilePageController', [])
             $scope.isemailInvalid = false;
           }
         
-          if(userObj.password == "") {
-            $scope.isPassInvalid = "Please enter a password";
-          }else if(!/^(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/i.test(userObj.password)){
-            $scope.isPassInvalid = "Password doesn't meet criteria";
-            $(".passwordHelp i").tooltip('show');
-          }else{
-            $(".passwordHelp i").tooltip('hide');
-            $scope.isPassInvalid = false;
-          }
+          if($(".passwordContainer").is(":visible")){
+            if(userObj.password == "") {
+              $scope.isPassInvalid = "Please enter a password";
+            }else if(!/^(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/i.test(userObj.password)){
+              $scope.isPassInvalid = "Password doesn't meet criteria";
+              $(".passwordHelp i").tooltip('show');
+            }else{
+              $(".passwordHelp i").tooltip('hide');
+              $scope.isPassInvalid = false;
+            }
 
-          if(userObj.repassword == "") {
-            $scope.isRePassInvalid = "Please enter a password";
-          }else if(userObj.repassword != userObj.password){
-            $scope.isRePassInvalid = "Password doesn't match";
+            if(userObj.repassword == "") {
+              $scope.isRePassInvalid = "Please enter a password";
+            }else if(userObj.repassword != userObj.password){
+              $scope.isRePassInvalid = "Password doesn't match";
+            }else{
+              $scope.isRePassInvalid = false;
+            }
           }else{
+            $scope.isPassInvalid = false;
             $scope.isRePassInvalid = false;
           }
+          
 
           if(!$scope.isfirstNameInvalid && !$scope.islastNameInvalid && !$scope.isemailInvalid && !$scope.isGenderInvalid && !$scope.isPassInvalid && !$scope.isRePassInvalid){
             alert("posted data successfully");
@@ -132,7 +138,7 @@ angular.module('ProfilePageController', [])
                 console.log("error while saving profile");
             });
           }else{
-            //alert("please fill mandatory fields");
+            console.log("there are some error fields");
           }
 
       }
@@ -149,5 +155,18 @@ angular.module('ProfilePageController', [])
         return false;
       }
       
+      $scope.showPassword = function(){
+        $(".showPasswordContainer").hide();
+        $(".passwordContainer").show();
+        $(".passwordContainer").find('input').val('');
+      }
+
+      $scope.hidePassword = function(){
+        $(".passwordContainer").hide();
+        $(".showPasswordContainer").show();
+        $scope.isPassInvalid = false;
+        $scope.isRePassInvalid = false;
+        $(".passwordHelp i").tooltip('hide');
+      }
 
   }]);

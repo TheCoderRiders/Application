@@ -2,9 +2,9 @@ angular.module('PopUpPageController', ['ngDialog'])
   .controller("popupPageCtrl",["$scope","$location","$http","ngDialog","$route", function($scope,$location,$http,ngDialog,$route){
       
       $scope.selectUser = {};
-
+      var actionId = $("#mySelect option:selected").attr('value');
       $http({
-          url: 'worklistPage/getUsersForAllocation?actionId=111', 
+          url: 'worklistPage/getUsersForAllocation?actionId='+actionId, 
           method: "GET",
           headers: { 
               'Content-Type': 'application/json',
@@ -27,8 +27,7 @@ angular.module('PopUpPageController', ['ngDialog'])
                 $scope.requestedObject.assignedUserId = ui.item.id
                 $scope.requestedObject.assignedUserName = ui.item.value;
                 $scope.requestedObject.fileId = checkedFile.checkFiles[0].fileId;
-                $scope.requestedObject.actionId = $("#mySelect option:selected").attr('value');
-                debugger;
+                $scope.requestedObject.actionId = actionId;
               },
           });
 

@@ -148,13 +148,6 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
 
         /*function called on action drop down*/
         $scope.getCheckedFile = function(mySelect) {
-            
-            ngDialog.open({
-                template: 'app/landingPage/popupTemplate.html',
-                controller: 'popupPageCtrl',
-                className: 'ngdialog-theme-default'
-            });
-
             var assigneeObj = {};
             assigneeObj.id = mySelect.id;
             assigneeObj.name = mySelect.name;
@@ -173,8 +166,14 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
             }
             tempAssignee.checkFiles = tempArray;
             localStorage.setItem("checkFiled", JSON.stringify(tempAssignee));
-            debugger;
             $scope.checkFiled.push(tempAssignee);
+
+            ngDialog.open({
+                template: 'app/landingPage/popupTemplate.html',
+                controller: 'popupPageCtrl',
+                className: 'ngdialog-theme-default'
+            });
+
         }
 
         /* function called on ascending/descending click */
