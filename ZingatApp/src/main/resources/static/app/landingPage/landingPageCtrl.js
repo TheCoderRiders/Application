@@ -33,11 +33,6 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         $scope.currentPage = 1;
 
 
-        $timeout(function() {
-            angular.element('ul').find('li.active').trigger('click')
-        }, 500);
-
-
         function fetchBucketList() {
             $http({
                 url: 'worklistPage/bucketInfo',
@@ -51,7 +46,9 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                 $scope.group = data.data.sortParams;
                 $scope.tempObj.orderBy = data.data.sortParams.selectedOption.id;
                 $scope.action = data.data.actions;
-                fetchList();
+                $timeout(function() {
+                    angular.element('ul').find('li.active').trigger('click')
+                }, 500);
             }, function(err) {
                 console.log("Bucket Err: " + err);
             });
@@ -84,6 +81,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
 
 
         function fetchList() {
+            debugger;
             $http.get('worklistPage/getFileDetails?bucketName=' + $scope.tempObj.bucketName + '&orderBy=' + $scope.tempObj.orderBy + '&pageNumber=' + $scope.currentPage + '&isAsc=' + $scope.tempObj.isAsc, {
                 headers: {
                     'Content-Type': 'application/json',
