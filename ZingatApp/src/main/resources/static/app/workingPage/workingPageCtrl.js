@@ -1,5 +1,5 @@
 angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies'])
-    .controller("workingPageCtrl",["$scope","$location","$http","$cookies", function($scope,$location,$http,$cookies){
+    .controller("workingPageCtrl",["$scope","$location","$http","$cookies","$timeout", function($scope,$location,$http,$cookies,$timeout){
 
         $scope.fileId = $cookies.get("clickedFileId");
         $scope.globalObj;
@@ -89,12 +89,15 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
             method: "GET",
         }).then(function(data){ //make a get request to mock json file.
             $scope.workingFileContent = data.data.data;
-            var mark = document.getElementsByTagName('mark');
-            for(var i=0; i<mark.length; i++){
-                mark[i].addEventListener("click", function(ev){
-                    $scope.clickedCode($(ev.target).attr('class'));
-                });
-            }
+            $timeout(function() {
+                var mark = document.getElementsByTagName('mark');
+                for(var i=0; i<mark.length; i++){
+                    mark[i].addEventListener("click", function(ev){
+                        $scope.clickedCode($(ev.target).attr('class'));
+                    });
+                }
+            }, 1000);
+            
         },function(err) {
             console.log(err);
         });
@@ -120,6 +123,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
             var divTop = $('.rightSideContent').offset().top;
             var elementRelativeTop = elementTop - divTop;
             
+            $(".rightSideContent span").removeClass("highlighted");
             $(".rightSideContent span[class*='"+codeId+"']").addClass('highlighted');
 
             setTimeout(function(){
@@ -137,6 +141,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
             var divTop = $('.leftSideContent').offset().top;
             var elementRelativeTop = elementTop - divTop;
 
+            $(".leftSideContent mark").removeClass("highlighted");
             $(".leftSideContent mark[class*='"+code+"']").addClass('highlighted');
 
             setTimeout(function(){

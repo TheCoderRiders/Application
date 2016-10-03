@@ -81,7 +81,6 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
 
 
         function fetchList() {
-            debugger;
             $http.get('worklistPage/getFileDetails?bucketName=' + $scope.tempObj.bucketName + '&orderBy=' + $scope.tempObj.orderBy + '&pageNumber=' + $scope.currentPage + '&isAsc=' + $scope.tempObj.isAsc, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -207,7 +206,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                     $scope.editRight = true;
                     $cookies.put("editRight",true);
                 }else{
-                    $scope.editRight = true;
+                    $scope.editRight = false;
                     $cookies.put("editRight",false);
                 }
             }, function(err) {
