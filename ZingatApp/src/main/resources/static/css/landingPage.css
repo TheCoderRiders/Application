@@ -97,6 +97,7 @@ body{
 }
 .searchUserList{
     height: 150px;
+    margin-top: 15px;
 }
 .inputUserList{
     width: 85%;
@@ -115,13 +116,11 @@ body{
     margin-top: 2px !important;
 }
 .assignBtn{
-   margin-left: 5px;
+    margin-left: 5px;
     display: inline-block;
     width: 80px;
     height: 40px;
     text-align: center;
-    background-color: #eceaea;
-    color: black;
 }
 
 .ngdialog.ngdialog-theme-default .ngdialog-close:before{

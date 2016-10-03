@@ -3,6 +3,7 @@ angular.module('ProfilePageController', [])
 
       $scope.userName = $cookies.get("userName");
       $scope.clientName = $cookies.get("clientName");
+      $scope.editRight = false;
       getUserProfile();
 
       /* function called on mouse enter of userName to show login dropdown*/
@@ -34,7 +35,19 @@ angular.module('ProfilePageController', [])
 
       /* function called on logout click */
       $scope.redirectToLogin = function() {
-          $location.path('/login');
+        $http({
+          url: '/logout',
+          method: "GET",
+          headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+          }
+        }).then(function(data) { //make a get request to mock json file.
+            $location.path('/login');
+        }, function(err) {
+            console.log("Profile Err: " + err);
+        });
+
       }
 
       /* function called on hospital name click */
@@ -52,6 +65,9 @@ angular.module('ProfilePageController', [])
             }
         }).then(function(data) { //make a get request to mock json file.
             $scope.userObj = data.data;
+            if($cookies.get("clickedFileId") != ""){
+              $scope.editRight = true;
+            }
         }, function(err) {
             console.log("Profile Err: " + err);
         });

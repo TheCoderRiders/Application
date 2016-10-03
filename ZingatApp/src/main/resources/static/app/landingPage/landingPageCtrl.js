@@ -5,6 +5,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         $scope.selectedFile = 0;
         $scope.showAction = false;
         $scope.checkFiled = [];
+        $scope.editRight = false;
 
         $('[data-toggle="tooltip"]').tooltip();
 
@@ -165,7 +166,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
 
             }
             tempAssignee.checkFiles = tempArray;
-            localStorage.setItem("checkFiled", JSON.stringify(tempAssignee));
+            $cookies.put("checkFiled", JSON.stringify(tempAssignee));
             $scope.checkFiled.push(tempAssignee);
 
             ngDialog.open({
@@ -198,12 +199,19 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         $scope.getFileDetails = function($event, $index, fileDetails) {
             $scope.selectedFile = $index;
             $scope.fileName = fileDetails.fileName;
-            localStorage.setItem("clickedFileId", fileDetails.fileId);
+            $cookies.put("clickedFileId", fileDetails.fileId);
             $http({
                 url: 'worklistPage/getFileContents?fileId=' + fileDetails.fileId,
                 method: "GET",
             }).then(function(data) { //make a get request to mock json file.
-                $scope.fileContent = data.data.data.replace(/\n/g, "<br>");
+                $scope.fileContent = data.data.data;
+                if(data.data.fileMode == "edit"){
+                    $scope.editRight = true;
+                    $cookies.put("editRight",true);
+                }else{
+                    $scope.editRight = true;
+                    $cookies.put("editRight",false);
+                }
             }, function(err) {
                 console.log(err);
             });
@@ -283,7 +291,17 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
 
         /* function called on logout click */
         $scope.redirectToLogin = function() {
-            $location.path('/login');
+            $http({
+              url: '/logout',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+              }
+            }).then(function(data) { //make a get request to mock json file.
+                $location.path('/login');
+            }, function(err) {
+                console.log("Profile Err: " + err);
+            });
         }
 
         /* function called on hospital name click */

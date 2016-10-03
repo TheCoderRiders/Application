@@ -48,7 +48,7 @@
 			          			<p>
 				          			<span class="suggestedCode  {{code.code}}" ng-click="clickedSuggestedCode()">{{code.code}}</span>
 				          			<span class="suggestedCodeDesc">{{code.desc}}</span>
-				          			<span class="codeAction switch-toggle switch-3 switch-candy">
+				          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
 									    <input id="on" name="state-d" ng-value="code" ng-model="acceptCode" type="radio" ng-click="codeStatus(code,section,$element)">
 									    <label for="on">ACCEPT</label>
 									    <input id="off" name="state-d" ng-value="code" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
@@ -70,7 +70,7 @@
 		          			<p>
 			          			<span class="acceptedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
 			          			<span class="acceptedCodeDesc">{{code.desc}}</span>
-			          			<span class="codeAction switch-toggle switch-3 switch-candy">			    
+			          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>			    
 								    <input id="off" name="state-d" ng-value="code" type="radio" ng-model="rejectCode" ng-click="codeStatus(code,section,$element)">
 								    <label for="off" onclick="">REJECT</label>
 								</span>
@@ -89,7 +89,7 @@
 		          			<p>
 			          			<span class="rejectedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
 			          			<span class="rejectedCodeDesc">{{code.desc}}</span>
-			          			<span class="codeAction switch-toggle switch-3 switch-candy">
+			          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
 								    <input id="on" name="state-d" ng-value="code" ng-model="acceptCode"  type="radio" ng-click="codeStatus(code,section,$element)">
 								    <label for="on" onclick="">ACCEPT</label>
 								</span>
@@ -108,7 +108,7 @@
 		          			<p>
 			          			<span class="mayBeCode {{code.code}}" ng-click="clickedSuggestedCode()">{{code.code}}</span>
 			          			<span class="mayBeCodeDesc">{{code.desc}}</span>
-			          			<span class="codeAction switch-toggle switch-3 switch-candy">
+			          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
 								    <input id="on" name="state-d" type="radio" ng-model="acceptCode" ng-click="codeStatus(code,section,$element)">
 								    <label for="on" onclick="">ACCEPT</label>
 								    <input id="off" name="state-d" ng-value="code" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
@@ -121,8 +121,8 @@
 			        </ng-form>
 			      </uib-tab>
 
-			      <uib-tab index="4" heading="Add Code" ng-click="tabChanged()">
-			      <ng-form name="nestedForm">
+			      <uib-tab index="4" heading="Add Code" ng-click="tabChanged()"  ng-show={{editRight}}>
+			      <ng-form name="nestedForm"  ng-show={{editRight}}>
 			          <div class="form-group">
 			        	<input ng-model="searchText" class="searchCode" type="text" ng-change="searchCode(searchText)" placeholder="Search" autofocus>
 		                <i class="fa fa-search searchIcon" aria-hidden="true"></i>
@@ -167,9 +167,9 @@
 			 </form>
 	    </div>
 	    <div class="actionBtn">
-	    	<button type="button" value="REJECTED" ng-click="documentStatusChange()" class="btn btn-warning">REJECTED</button>
-			<button type="button" value="DRAFT" ng-click="documentStatusChange()" class="btn btn-primary">DRAFT</button>
-			<button type="button" value="SUBMIT" ng-click="documentStatusChange()" class="btn btn-success">SUBMIT</button>
+	    	<button type="button" value="REJECTED" ng-click="documentStatusChange()" class="btn btn-warning" ng-show={{editRight}}>REJECTED</button>
+			<button type="button" value="DRAFT" ng-click="documentStatusChange()" class="btn btn-primary" ng-show={{editRight}}>DRAFT</button>
+			<button type="button" value="SUBMIT" ng-click="documentStatusChange()" class="btn btn-success" ng-show={{editRight}}>SUBMIT</button>
 	    </div>
 	     <div id="footer">
 	    	<div class="panel panel-default custom-panel">

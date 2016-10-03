@@ -1,7 +1,7 @@
 angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies'])
     .controller("workingPageCtrl",["$scope","$location","$http","$cookies", function($scope,$location,$http,$cookies){
 
-        $scope.fileId = localStorage.getItem("clickedFileId");
+        $scope.fileId = $cookies.get("clickedFileId");
         $scope.globalObj;
         $scope.acceptCode = false;
         $scope.rejectCode = false;
@@ -14,6 +14,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
         $scope.searchCode;
         $scope.userName = $cookies.get("userName");
         $scope.clientName = $cookies.get("clientName");
+        $scope.editRight = $cookies.get("editRight");
 
 
         /* function called on mouse enter of userName to show login dropdown*/
@@ -44,7 +45,18 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
 
         /* function called on logout click */
         $scope.redirectToLogin = function() {
-            $location.path('/login');
+            $http({
+              url: '/logout',
+              method: "GET",
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+              }
+            }).then(function(data) { //make a get request to mock json file.
+                $location.path('/login');
+            }, function(err) {
+                console.log("Profile Err: " + err);
+            });
         }
 
         /* funnction called on hospital name click */
@@ -56,18 +68,19 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
         $scope.tabChanged = function(){
             var clickedTabIndex = $(event.target).parent().attr('index');
             $scope.emptyData = false;
-            if($(event.target).parents('form').find('div.tab-content div.active-add div.form-group').children().length < 1){
+            if(clickedTabIndex == "0" && ($scope.suggestedCode ==  null || $scope.suggestedCode[0].codes.length < 1)){
+                $scope.emptyData = true;
+            }else if(clickedTabIndex == "1" && ($scope.acceptedCode ==  null || $scope.acceptedCode[0].codes.length < 1)){
+                $scope.emptyData = true;
+            }else if(clickedTabIndex == "2" && ($scope.rejectedCode ==  null || $scope.rejectedCode[0].codes.length < 1)){
+                $scope.emptyData = true;
+            }else if(clickedTabIndex == "3" && ($scope.mayBeCode ==  null || $scope.mayBeCode[0].codes.length < 1)){
                 $scope.emptyData = true;
             }else{
-                if($scope.suggestedCode.length < 1 && clickedTabIndex == "0"){
-                    debugger;
-                    $scope.emptyData = true;
-                }
-            }
-            if(clickedTabIndex == "4"){
                 $(".searchCode").val("");
                 $(".paginationBlock").hide();
                 $(".codeSearchContainer").hide();
+                $scope.emptyData = false;
             }
         }
 
@@ -91,7 +104,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
             method: "GET",
         }).then(function(data){ //make a get request to mock json file.
             $scope.globalObj = data.data;
-            if(data.data.suggestedCode.length < 1){
+            if(data.data.suggestedCode[0].codes.length < 1){
                 $scope.emptyData = true;
             }
             $scope.suggestedCode = data.data.suggestedCode;
@@ -170,13 +183,13 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
                 $scope.acceptedCode = data.data.acceptedCode;
                 $scope.rejectedCode = data.data.rejectedCode;
                 $scope.mayBeCode = data.data.mayBeCode;
-                if(targetHeading == "Suggested" && $scope.suggestedCode.length < 1){
+                if(targetHeading == "Suggested" && $scope.suggestedCode[0].codes.length < 1){
                     $scope.emptyData = true;
-                }else if(targetHeading == "Accepted" && $scope.acceptedCode.length < 1){
+                }else if(targetHeading == "Accepted" && $scope.acceptedCode[0].codes.length < 1){
                     $scope.emptyData = true;
-                }else if(targetHeading == "Rejected" && $scope.rejectedCode.length < 1){
+                }else if(targetHeading == "Rejected" && $scope.rejectedCode[0].codes.length < 1){
                     $scope.emptyData = true;
-                }else if(targetHeading == "MayBe" && $scope.mayBeCode.length < 1){
+                }else if(targetHeading == "MayBe" && $scope.mayBeCode[0].codes.length < 1){
                     $scope.emptyData = true;
                 }
                 $scope.acceptCode = false;

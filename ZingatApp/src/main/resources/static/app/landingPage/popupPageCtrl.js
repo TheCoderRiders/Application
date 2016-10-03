@@ -1,5 +1,5 @@
 angular.module('PopUpPageController', ['ngDialog'])
-  .controller("popupPageCtrl",["$scope","$location","$http","ngDialog","$route", function($scope,$location,$http,ngDialog,$route){
+  .controller("popupPageCtrl",["$scope","$location","$http","ngDialog","$route","$cookies", function($scope,$location,$http,ngDialog,$route,$cookies){
       
       $scope.selectUser = {};
       var actionId = $("#mySelect option:selected").attr('value');
@@ -19,7 +19,7 @@ angular.module('PopUpPageController', ['ngDialog'])
               prod['label'] = user.username;
               arrUserList.push(prod);
           });
-          var checkedFile = JSON.parse(localStorage.getItem("checkFiled"));
+          var checkedFile = JSON.parse($cookies.get("checkFiled"));
           $( "#tags" ).autocomplete({
               source: arrUserList,
               select : function( event, ui ) {
