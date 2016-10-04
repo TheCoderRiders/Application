@@ -138,8 +138,11 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
             var code = $(event.currentTarget).text();
             event.preventDefault();
             var elementTop = $(".leftSideContent mark[class*='"+code+"']").offset().top;
+            console.log("elementTop: "+elementTop);
             var divTop = $('.leftSideContent').offset().top;
+            console.log("divTop: "+divTop);
             var elementRelativeTop = elementTop - divTop;
+            console.log("elementRelativeTop: "+elementRelativeTop);
 
             $(".leftSideContent mark").removeClass("highlighted");
             $(".leftSideContent mark[class*='"+code+"']").addClass('highlighted');

@@ -26,7 +26,11 @@ angular.module('PopUpPageController', ['ngDialog'])
                 $scope.requestedObject = {};
                 $scope.requestedObject.assignedUserId = ui.item.id
                 $scope.requestedObject.assignedUserName = ui.item.value;
-                $scope.requestedObject.fileId = checkedFile.checkFiles[0].fileId;
+                var temp = [];
+                for(var i=0; i<checkedFile.checkFiles.length; i++){
+                  temp.push(checkedFile.checkFiles[i].fileId);
+                }
+                $scope.requestedObject.fileId = temp;
                 $scope.requestedObject.actionId = actionId;
               },
           });

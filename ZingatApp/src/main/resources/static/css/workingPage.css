@@ -158,7 +158,7 @@
     background-color: #777;
     border-color: #777;
 }
-.btn-success:hover{
+.btn-success:hover,.btn-success:active,.btn-success:active:hover,.btn-success:active:focus{
     color: #fff;
     background-color: #afafaf;
     border-color: #afafaf;
@@ -169,7 +169,7 @@
     color:#286090;
     outline: none;
 }
-.btn-warning:hover{
+.btn-warning:hover,.btn-warning.active.focus, .btn-warning.active:focus, .btn-warning.active:hover, .btn-warning:active.focus, .btn-warning:active:focus, .btn-warning:active:hover{
     background-color: transparent;
     border:none;
     color:#286090;
