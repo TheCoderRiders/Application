@@ -202,7 +202,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                 method: "GET",
             }).then(function(data) { //make a get request to mock json file.
                 $scope.fileContent = data.data.data;
-                if(data.data.fileMode == "edit"){
+                if(data.data.fileMode == "Edit"){
                     $scope.editRight = true;
                     $cookies.put("editRight",true);
                 }else{
@@ -287,15 +287,16 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         }
 
         /* function called on logout click */
-        $scope.redirectToLogin = function() {
+        $scope.redirectToLoginPage = function() {
+            debugger;
             $http({
               url: '/logout',
               headers: {
                   'Content-Type': 'application/json',
                   'Accept': 'application/json'
               }
-            }).then(function(data) { //make a get request to mock json file.
-                $location.path('/login');
+            }).then(function(data) { 
+                debugger;
             }, function(err) {
                 console.log("Profile Err: " + err);
             });
