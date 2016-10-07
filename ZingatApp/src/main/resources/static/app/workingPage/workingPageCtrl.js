@@ -64,6 +64,18 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
             $location.path('/landingPage');
         }
 
+        /* funnction called on back button click */
+        $scope.redirectAfterDraftToLandingPage = function(){
+            $http({
+                url: 'workingPage/documentStatusChange/?fileId='+$scope.fileId+'&status='+DRAFT, 
+                method: "GET",
+            }).then(function(data){ 
+                $location.path('/landingPage');
+            },function(err) {
+                console.log(err);
+            });
+        }
+
         /* function called on tab changed */
         $scope.tabChanged = function(){
             var clickedTabIndex = $(event.target).parent().attr('index');

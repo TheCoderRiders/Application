@@ -94,7 +94,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                         $scope.showAllCheckbox = true;              
                     }else{
                         $(".inputDiv").css('visibility','hidden');
-                        //$scope.showAllCheckbox = false;
+                       //$scope.showAllCheckbox = false;
                     }
                 }
                 $timeout(function() {

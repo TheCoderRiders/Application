@@ -307,12 +307,12 @@ tags-input .host {
     margin-bottom: 0px;
 }
 .list-group-horizontal .list-group-item {
-    padding: 10px 10px;
+    padding: 10px 5px;
     display: inline-block;
     margin-bottom: 0;
     margin-left: 0px;
-    margin-right: 20px;
-    width: 210px;
+       margin-right: 10px;
+    width: 200px;
     text-align: left;
     font-weight: bold;
     background-color: transparent;
@@ -324,7 +324,7 @@ tags-input .host {
     background-color: #337ab7 !important;
 }
 .list-group-horizontal .list-group-item:first-child {
-    margin-left: 15px;
+    margin-left: 0px;
 }
 .list-group-horizontal .list-group-item:last-child {
     border-top-right-radius:4px;
@@ -486,7 +486,22 @@ tags-input .autocomplete{
     cursor: pointer;
     display: inline-block;
 }
-.landingPage .customSelect span,.landingPage .customAction span {
+.btn-group .dropdown-toggle{
+    height: 34px;
+}
+.btn-action{
+    background-color: transparent;
+}
+button .btn:focus {outline:0;}
+.landingPage .customAction #split-button{
+    width: 82%;
+    text-align: left;
+}
+.landingPage .customAction .dropdown{
+    border: 1px solid;
+    width: 62%;
+}
+.landingPage .customSelect span,.landingPage .customAction .spanText {
     color: #808080;
     font-size: 13px;
     padding: 10px 0px 0px 10px;

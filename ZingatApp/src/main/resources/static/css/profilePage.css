@@ -46,7 +46,7 @@
 .passwordHelp .tooltip-inner{
 	    min-width: 195px;
 }
-.dropdown-menu{
+ .profileContent .dropdown-menu{
 	top: 55px !important;
     left: 30px !important;
 }
