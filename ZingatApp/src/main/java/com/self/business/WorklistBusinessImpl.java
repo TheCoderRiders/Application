@@ -136,18 +136,19 @@ public class WorklistBusinessImpl implements WorklistBusiness{
 
     @Override
     public Boolean assignedTo(DocAssignInfo docAssignInfo, UserMasterEntity userInfo) {
-        DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(docAssignInfo.getFileId());
+        List<DocumentMasterEntity> documentMasterEntityList = documentMasterDao.findByDocumentIdIn(docAssignInfo.getFileId());
         StatusMasterEntity statusMasterEntity = Action.getAssignedStatusByAction(docAssignInfo.getActionId());
+        documentMasterEntityList.forEach(documentMasterEntity ->{
+            documentMasterEntity.setDocumentCurrentStatus(statusMasterEntity.getStatusValue());
+            documentMasterEntity.setDocumentCurrentStatusId(statusMasterEntity.getStatusId());
+            documentMasterEntity.setDocumentAssignedDatetime(new Timestamp(Calendar.getInstance().getTime().getTime()));
+            documentMasterEntity.setDocumentAssignedId(docAssignInfo.getAssignedUserId());
+            documentMasterEntity.setDocumentAssignedName(docAssignInfo.getAssignedUserName());
+            documentMasterEntity.setDocumentAssigneeId(String.valueOf(userInfo.getUserId()));
+            documentMasterEntity.setDocumentAssigneeName(userInfo.getUsername());
+        });
 
-        documentMasterEntity.setDocumentCurrentStatus(statusMasterEntity.getStatusValue());
-        documentMasterEntity.setDocumentCurrentStatusId(statusMasterEntity.getStatusId());
-        documentMasterEntity.setDocumentAssignedDatetime(new Timestamp(Calendar.getInstance().getTime().getTime()));
-        documentMasterEntity.setDocumentAssignedId(docAssignInfo.getAssignedUserId());
-        documentMasterEntity.setDocumentAssignedName(docAssignInfo.getAssignedUserName());
-        documentMasterEntity.setDocumentAssigneeId(String.valueOf(userInfo.getUserId()));
-        documentMasterEntity.setDocumentAssigneeName(userInfo.getUsername());
-
-        documentMasterDao.save(documentMasterEntity);
+        documentMasterDao.save(documentMasterEntityList);
 
         return true;
     }

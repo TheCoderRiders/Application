@@ -68,6 +68,8 @@ public interface DocumentMasterDao extends JpaRepository<DocumentMasterEntity, L
 
     public DocumentMasterEntity findByDocumentId(String fileId);
 
+    public List<DocumentMasterEntity> findByDocumentIdIn(List<String> fileIdList);
+
     /*@Query(GET_BUCKET_INFO)
     public List<Bucket> getBucketInfo(@Param("roleName") String roles);
 

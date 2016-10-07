@@ -1,19 +1,21 @@
 package com.self.dto;
 
+import java.util.List;
+
 /**
  * Created by akash.p on 28/8/16.
  */
 public class DocAssignInfo {
-    private String fileId;
+    private List<String> fileId;
     private String actionId;
     private String assignedUserId;
     private String assignedUserName;
 
-    public String getFileId() {
+    public List<String> getFileId() {
         return fileId;
     }
 
-    public void setFileId(String fileId) {
+    public void setFileId(List<String> fileId) {
         this.fileId = fileId;
     }
 
