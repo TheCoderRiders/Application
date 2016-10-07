@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/index.html", "/app/**","/node_modules/**").permitAll()
+                .antMatchers("/index.html", "/app/**","/node_modules/**","/lib/**","/img/**").permitAll()
                 .anyRequest().authenticated()
                 ;
     }
