@@ -94,7 +94,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                         $scope.showAllCheckbox = true;              
                     }else{
                         $(".inputDiv").css('visibility','hidden');
-                       //$scope.showAllCheckbox = false;
+                        $scope.showAllCheckbox = true;
                     }
                 }
                 $timeout(function() {
@@ -296,7 +296,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                   'Accept': 'application/json'
               }
             }).then(function(data) { 
-                
+
             }, function(err) {
                 console.log("Profile Err: " + err);
             });*/
