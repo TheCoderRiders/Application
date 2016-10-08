@@ -69,13 +69,13 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
         $scope.tabChanged = function(){
             var clickedTabIndex = $(event.target).parent().attr('index');
             $scope.emptyData = false;
-            if(clickedTabIndex == "0" && ($scope.suggestedCode.length ==  0 || $scope.suggestedCode[0].codes.length < 1)){
+            if(clickedTabIndex == "0" && ($scope.suggestedCode ==  null || $scope.suggestedCode.length ==  0 || $scope.suggestedCode[0].codes.length < 1)){
                 $scope.emptyData = true;
-            }else if(clickedTabIndex == "1" && ($scope.acceptedCode.length ==  0 || $scope.acceptedCode[0].codes.length < 1)){
+            }else if(clickedTabIndex == "1" && ($scope.acceptedCode ==  null || $scope.acceptedCode.length ==  0 || $scope.acceptedCode[0].codes.length < 1)){
                 $scope.emptyData = true;
-            }else if(clickedTabIndex == "2" && ($scope.rejectedCode.length ==  0 || $scope.rejectedCode[0].codes.length < 1)){
+            }else if(clickedTabIndex == "2" && ($scope.rejectedCode ==  null || $scope.rejectedCode.length ==  0 || $scope.rejectedCode[0].codes.length < 1)){
                 $scope.emptyData = true;
-            }else if(clickedTabIndex == "3" && ($scope.mayBeCode.length ==  0 || $scope.mayBeCode[0].codes.length < 1)){
+            }else if(clickedTabIndex == "3" && ($scope.mayBeCode ==  null || $scope.mayBeCode.length ==  0 || $scope.mayBeCode[0].codes.length < 1)){
                 $scope.emptyData = true;
             }else{
                 $(".searchCode").val("");
