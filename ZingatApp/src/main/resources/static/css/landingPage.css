@@ -409,6 +409,7 @@ tags-input .autocomplete{
     width: 30%;
     float:left;
     display: inline-block;
+    margin-top: 5px;
 }
 .sortingHeader .inputCheckbox{
     float: left;
@@ -492,14 +493,18 @@ tags-input .autocomplete{
 .btn-action{
     background-color: transparent;
 }
-button .btn:focus {outline:0;}
+.landingPage .customAction #split-button:focus {
+    outline:0;
+}
 .landingPage .customAction #split-button{
     width: 82%;
     text-align: left;
+    padding: 5px 10px
 }
 .landingPage .customAction .dropdown{
     border: 1px solid;
     width: 62%;
+    height: 30px;
 }
 .landingPage .customSelect span,.landingPage .customAction .spanText {
     color: #808080;

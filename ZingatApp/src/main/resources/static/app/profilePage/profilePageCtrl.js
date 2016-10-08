@@ -35,19 +35,7 @@ angular.module('ProfilePageController', [])
 
       /* function called on logout click */
       $scope.redirectToLogin = function() {
-        $http({
-          url: '/logout',
-          method: "GET",
-          headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-          }
-        }).then(function(data) { //make a get request to mock json file.
-            $location.path('/login');
-        }, function(err) {
-            console.log("Profile Err: " + err);
-        });
-
+        $location.path('/login');
       }
 
       /* function called on hospital name click */

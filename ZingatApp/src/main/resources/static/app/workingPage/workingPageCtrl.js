@@ -45,18 +45,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
 
         /* function called on logout click */
         $scope.redirectToLogin = function() {
-            $http({
-              url: '/logout',
-              method: "GET",
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json'
-              }
-            }).then(function(data) { //make a get request to mock json file.
-                $location.path('/login');
-            }, function(err) {
-                console.log("Profile Err: " + err);
-            });
+           $location.path('/login');
         }
 
         /* funnction called on hospital name click */
@@ -67,7 +56,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
         /* funnction called on back button click */
         $scope.redirectAfterDraftToLandingPage = function(){
             $http({
-                url: 'workingPage/documentStatusChange/?fileId='+$scope.fileId+'&status='+DRAFT, 
+                url: 'workingPage/documentStatusChange/?fileId='+$scope.fileId+'&status=DRAFT', 
                 method: "GET",
             }).then(function(data){ 
                 $location.path('/landingPage');
