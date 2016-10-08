@@ -14,7 +14,7 @@ public class FileDetails {
     private String fileStatus;
     private Integer fileStatusId;
     private String statusClass;
-    private Boolean checkBoxVisible;
+    private Boolean checkBoxVisible = Boolean.FALSE;
 
 
     public FileDetails(){
