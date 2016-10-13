@@ -22,6 +22,7 @@ public class ActualCode {
 
     //@JsonIgnore
     private List<String> token;
+
     @JsonIgnore
     private Object postionList;
 
@@ -41,7 +42,7 @@ public class ActualCode {
         this.desc = desc;
     }
 
-    public Object getToken() {
+    public List<String> getToken() {
         return token;
     }
 

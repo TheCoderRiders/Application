@@ -1,10 +1,12 @@
 package com.self.dao;
 
 import com.self.pojo.ActualCode;
+import com.self.pojo.SolrCodeSuggesterBean;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.solr.core.SolrTemplate;
@@ -12,8 +14,10 @@ import org.springframework.data.solr.core.query.Query;
 import org.springframework.data.solr.core.query.SimpleQuery;
 import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -44,5 +48,28 @@ public class SolrSuggesterRepository {
 
     public Integer getPaginationSize() {
         return paginationSize;
+    }
+
+    public void saveCodeSuggesterBean(List<SolrCodeSuggesterBean> solrCodeSuggesterBeanList) {
+        List<SolrInputDocument> solrInputDocumentList = new ArrayList<>();
+        solrCodeSuggesterBeanList.forEach(solrCodeSuggesterBean->{
+            SolrInputDocument solrInputDocument = new SolrInputDocument();
+            solrInputDocument.addField("id",solrCodeSuggesterBean.getId());
+            solrInputDocument.addField("code_id",solrCodeSuggesterBean.getCodeId());
+            solrInputDocument.addField("search_field_ngram", Collections.singletonMap("set", solrCodeSuggesterBean.getSearchFieldNgram()));
+            if(solrCodeSuggesterBean.getSearchFieldNgram().size()!=0)
+                solrInputDocumentList.add(solrInputDocument);
+        });
+
+        try {
+            if(solrInputDocumentList.size()!=0) {
+                codeSearchSolrServer.add(solrInputDocumentList);
+                codeSearchSolrServer.commit();
+            }
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

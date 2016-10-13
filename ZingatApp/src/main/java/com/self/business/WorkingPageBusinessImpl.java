@@ -11,6 +11,7 @@ import com.self.enums.FileStatus;
 import com.self.models.DocumentMasterEntity;
 import com.self.pojo.ActualCode;
 import com.self.pojo.DocumentCodeInfo;
+import com.self.pojo.SolrCodeSuggesterBean;
 import com.self.service.WorkingPageService;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -152,6 +155,15 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         documentMasterEntity.setDocumentCurrentStatus(status.getStatus());
         documentMasterEntity.setDocumentCurrentStatusId(status.getId());
         documentMasterDao.save(documentMasterEntity);
+
+        if(status.equals(FileStatus.SUBMIT)) {
+            ExecutorService executorService = Executors.newFixedThreadPool(1);
+            executorService.submit(() -> {
+                        saveNewlyAddedCodeInSolr(documentMasterEntity);
+                    }
+            );
+        }
+
         return true;
     }
 
@@ -180,6 +192,40 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
             documentCodeInfo.getCodes().add(whichCode);
             toCode.retainAll(suggestedCodeWithInValidSection);
             toCode.addAll(suggestedCodeWithValidSection);
+        }
+    }
+
+    private void saveNewlyAddedCodeInSolr(DocumentMasterEntity documentMasterEntity) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            if(documentMasterEntity.getDocumentAcceptedCodes()!=null) {
+                List<DocumentCodeInfo> acceptedCodes = Arrays.asList(objectMapper.readValue(documentMasterEntity.getDocumentAcceptedCodes(), DocumentCodeInfo[].class));
+                List<DocumentCodeInfo> newlyAddedCode = acceptedCodes.stream().filter(documentCodeInfo -> documentCodeInfo.getSectionName().equalsIgnoreCase("Added Code")).collect(Collectors.toList());
+                if(newlyAddedCode.size()!=0) {
+                    List<SolrCodeSuggesterBean> solrCodeSuggesterBeanList = new ArrayList<>();
+                    newlyAddedCode.get(0).getCodes().forEach(documentCode -> {
+                        QueryResponse queryResponse = solrSuggesterRepository.searchCode(documentCode.getCode(), 1);
+                        List<SolrCodeSuggesterBean> solrCodeSuggesterBeans = queryResponse.getBeans(SolrCodeSuggesterBean.class);
+                        SolrCodeSuggesterBean actualBean = solrCodeSuggesterBeans.get(0);
+                        List<String> evidenceList = new ArrayList<String>(); //actualBean.getSearchFieldNgram();
+                        List<String> token = documentCode.getToken();
+                        if(token!=null && token.size()!=0) {
+                            token.forEach(evidence -> {
+                                List<String> collect = actualBean.getSearchFieldNgram().stream().filter(existingEvidence -> existingEvidence.equalsIgnoreCase(evidence)).collect(Collectors.toList());
+                                if (collect.size() == 0) {
+                                    evidenceList.add(evidence);
+                                }
+                            });
+                        }
+                        actualBean.setSearchFieldNgram(evidenceList);
+                        solrCodeSuggesterBeanList.add(actualBean);
+                    });
+
+                    solrSuggesterRepository.saveCodeSuggesterBean(solrCodeSuggesterBeanList);
+                }
+            }
+        }catch (Exception e) {
+                e.printStackTrace();
         }
     }
 }
