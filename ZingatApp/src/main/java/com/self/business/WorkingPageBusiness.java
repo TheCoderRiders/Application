@@ -1,13 +1,11 @@
 package com.self.business;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.self.dto.CodeAction;
 import com.self.dto.Codes;
-import com.self.enums.FileStatus;
+import com.self.dto.FileStatusChangeRequest;
 import com.self.models.CodeRejectionReasonListEntity;
 import com.self.models.DocRejectionReasonListEntity;
-import com.self.pojo.ActualCode;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +22,7 @@ public interface WorkingPageBusiness {
 
     public Codes codeAction(CodeAction codeAction) throws JsonProcessingException;
 
-    public Boolean documentStatusChange(String fileId, FileStatus status);
+    public Boolean documentStatusChange(FileStatusChangeRequest fileStatusChangeRequest);
 
     public List<CodeRejectionReasonListEntity> getCodeRejectionReasonList();
 

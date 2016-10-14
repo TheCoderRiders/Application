@@ -8,17 +8,17 @@ import javax.persistence.*;
 @Entity
 @Table(name = "doc_rejection_reason_list", schema = "", catalog = "hcc_reportmaster")
 public class DocRejectionReasonListEntity {
-    private int rejectionReasonListId;
+    private Integer rejectionReasonListId;
     private String rejectionReasonDisplay;
     private String rejectionReasonDesc;
 
     @Id
     @Column(name = "rejection_reason_list_id")
-    public int getRejectionReasonListId() {
+    public Integer getRejectionReasonListId() {
         return rejectionReasonListId;
     }
 
-    public void setRejectionReasonListId(int rejectionReasonListId) {
+    public void setRejectionReasonListId(Integer rejectionReasonListId) {
         this.rejectionReasonListId = rejectionReasonListId;
     }
 

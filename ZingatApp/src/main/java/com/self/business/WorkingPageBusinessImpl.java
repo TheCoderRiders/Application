@@ -9,6 +9,7 @@ import com.self.dao.SolrSuggesterRepository;
 import com.self.dto.CodeAction;
 import com.self.dto.CodeSearchResult;
 import com.self.dto.Codes;
+import com.self.dto.FileStatusChangeRequest;
 import com.self.enums.FileStatus;
 import com.self.models.CodeRejectionReasonListEntity;
 import com.self.models.DocRejectionReasonListEntity;
@@ -160,10 +161,23 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     }
 
     @Override
-    public Boolean documentStatusChange(String fileId, FileStatus status) {
+    public Boolean documentStatusChange(FileStatusChangeRequest fileStatusChangeRequest) {
+        String fileId = fileStatusChangeRequest.getFileId();
+        FileStatus status = fileStatusChangeRequest.getStatus();
+        DocRejectionReasonListEntity documentRejectionReason = fileStatusChangeRequest.getDocRejectionReason();
+
         DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(fileId);
         documentMasterEntity.setDocumentCurrentStatus(status.getStatus());
         documentMasterEntity.setDocumentCurrentStatusId(status.getId());
+
+        if(status.equals(FileStatus.REJECTED)) {
+            try {
+                documentMasterEntity.setDocumentRejectionReason(documentRejectionReason==null?null:new ObjectMapper().writeValueAsString(documentRejectionReason));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+
         documentMasterDao.save(documentMasterEntity);
 
         if(status.equals(FileStatus.SUBMIT)) {
