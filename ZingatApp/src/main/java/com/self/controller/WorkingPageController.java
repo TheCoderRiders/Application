@@ -54,4 +54,14 @@ public class WorkingPageController extends BaseController {
     public Boolean documentStatusChange(String fileId,FileStatus status) throws IOException {
         return workingPageBusiness.documentStatusChange(fileId, status);
     }
+
+    @RequestMapping(value = "/getDocRejectionReasonList")
+    public List getDocRejectionReasonList() {
+        return workingPageBusiness.getDocRejectionReasonList();
+    }
+
+    @RequestMapping(value = "/getCodeRejectionReasonList")
+    public List getCodeRejectionReasonList() {
+        return workingPageBusiness.getCodeRejectionReasonList();
+    }
 }

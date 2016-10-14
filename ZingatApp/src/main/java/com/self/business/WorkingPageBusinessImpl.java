@@ -2,12 +2,16 @@ package com.self.business;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.self.dao.CodeRejectionReasonDao;
+import com.self.dao.DocRejectionReasonDao;
 import com.self.dao.DocumentMasterDao;
 import com.self.dao.SolrSuggesterRepository;
 import com.self.dto.CodeAction;
 import com.self.dto.CodeSearchResult;
 import com.self.dto.Codes;
 import com.self.enums.FileStatus;
+import com.self.models.CodeRejectionReasonListEntity;
+import com.self.models.DocRejectionReasonListEntity;
 import com.self.models.DocumentMasterEntity;
 import com.self.pojo.ActualCode;
 import com.self.pojo.DocumentCodeInfo;
@@ -38,6 +42,12 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
     @Autowired
     private DocumentMasterDao documentMasterDao;
+
+    @Autowired
+    private DocRejectionReasonDao docRejectionReasonDao;
+
+    @Autowired
+    private CodeRejectionReasonDao codeRejectionReasonDao;
 
     @Autowired
     private SolrSuggesterRepository solrSuggesterRepository;
@@ -165,6 +175,16 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         }
 
         return true;
+    }
+
+    @Override
+    public List<CodeRejectionReasonListEntity> getCodeRejectionReasonList() {
+        return codeRejectionReasonDao.findAll();
+    }
+
+    @Override
+    public List<DocRejectionReasonListEntity> getDocRejectionReasonList() {
+        return docRejectionReasonDao.findAll();
     }
 
     private void extractAndInsertCode(List<DocumentCodeInfo> fromCode, List<DocumentCodeInfo> toCode, ActualCode whichCode, String sectionName, Predicate<DocumentCodeInfo> sectionPredicate) {
