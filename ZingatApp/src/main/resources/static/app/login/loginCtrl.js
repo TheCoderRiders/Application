@@ -1,6 +1,5 @@
 angular.module('LoginController', ['ngCookies'])
     .controller("loginCtrl",["$scope","$location","$http","$cookies", function($scope,$location,$http,$cookies){
-        debugger;
         $scope.processLogin = function(){
             var credentials=new Object();
             credentials.userName = $scope.userName;

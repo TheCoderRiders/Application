@@ -271,6 +271,9 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
 
         $scope.addCode = function($event){
             var codeObj = {};
+            var tempArr = [];
+            var searchText = $(".searchCode").val();
+            tempArr.push(searchText);
             codeObj.code = $("ul li.selectedItem").find('label.individualCode').text();
             codeObj.desc = $("ul li.selectedItem").find('label.codeDesc').text();
             var requestedData = {};
@@ -279,6 +282,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
             requestedData.action = "AddCode";
             requestedData.code = codeObj;
             requestedData.codeActionType = "New";
+            requestedData.token = tempArr;
 
             $http({
                 url: 'workingPage/codeAction', 

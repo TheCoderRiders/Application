@@ -532,13 +532,13 @@ tags-input .autocomplete{
 .right-panel .editDiv{
     text-decoration: underline;
     cursor: pointer;
-    border: 1px solid #777;
+    /*border: 1px solid #777;*/
     margin: 2px;
     width: 28px;
     float: right;
     height: 30px;
 }
-.right-panel .editIcon{
+.right-panel .editIcon,.right-panel .viewIcon{
     font-size: 22px;
     color: #777;
     padding: 3px;
