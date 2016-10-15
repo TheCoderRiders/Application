@@ -1,5 +1,6 @@
-angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies'])
-    .controller("workingPageCtrl",["$scope","$location","$http","$cookies","$timeout", function($scope,$location,$http,$cookies,$timeout){
+angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies','ngDialog'])
+    
+    .controller("workingPageCtrl",["$scope","$rootScope","$location","$http","ngDialog","$cookies","$timeout","$controller", function($scope,$rootScope,$location,$http,ngDialog,$cookies,$timeout,$controller){
 
         $scope.fileId = $cookies.get("clickedFileId");
         $scope.globalObj;
@@ -85,6 +86,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
             }
         }
 
+        /* get content of clicked file*/
         $http({
             url: 'worklistPage/getFileContents?fileId='+$scope.fileId, 
             method: "GET",
@@ -103,6 +105,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
             console.log(err);
         });
 
+        /* get codes of clicked file*/
         $http({
             url: 'workingPage/getCodes?fileId='+$scope.fileId, 
             method: "GET",
@@ -135,6 +138,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
                 scrollTop: elementRelativeTop
             }, 1500);
         }
+
+
         $scope.clickedSuggestedCode = function(){
             var code = $(event.currentTarget).text();
             event.preventDefault();
@@ -156,6 +161,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
                 scrollTop: elementRelativeTop
             }, 1500);
         }
+
 
         $scope.codeStatus = function(code,section,actionName){
             var selectedCode = {};
@@ -180,8 +186,17 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
             requestedData.action = action;
             requestedData.code = code;
             requestedData.codeActionType = codeActionType;
+
+            if(action == "Reject"){
+                ngDialog.open({
+                    template: 'app/rejectPage/rejectCodePage.html',
+                    className: 'ngdialog-theme-default rejectCodeDocPopup',
+                    scope: $scope
+                })
+            }
+
             
-            $http({
+            /*$http({
                 url: 'workingPage/codeAction', 
                 method: "POST",
                 dataType : "application/json",
@@ -205,7 +220,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
                 $scope.rejectCode = false;
             },function(err) {
                 console.log("error while code  action");
-            });
+            });*/
         }
 
         $scope.searchCode = function(searchTerm){
@@ -253,14 +268,40 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
 
         $scope.documentStatusChange = function(){
             var actionName = $(event.target).attr('value');
+            var obj = {};
+            obj.fileId = $scope.fileId;
+            obj.status = actionName;
+
+
             $http({
+              url: 'workingPage/getDocRejectionReasonList', 
+              method: "GET",
+              headers: { 
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+              }
+            }).then(function(data){ //make a get request to mock json file.
+                obj.data = data.data;
+                ngDialog.open({
+                    template: 'app/rejectPage/rejectDocPage.html',
+                    className: 'ngdialog-theme-default'
+                });
+
+            },function(err) {
+                console.log("Bucket Err: "+err);
+            });
+
+            
+
+            
+            /*$http({
                 url: 'workingPage/documentStatusChange/?fileId='+$scope.fileId+'&status='+actionName, 
                 method: "GET",
             }).then(function(data){ 
                 $location.path('/landingPage');
             },function(err) {
                 console.log(err);
-            });
+            });*/
         }
 
         $scope.getCodeDesc = function($event, $index, code){
@@ -302,4 +343,5 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies']
                 console.log("error while adding code");
             });
         }
-    }]);
+    }])
+    

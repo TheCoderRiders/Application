@@ -5,7 +5,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         $scope.selectedFile = 0;
         $scope.showAction = false;
         $scope.checkFiled = [];
-        $scope.editRight = false;
+        $scope.editRight;
 
         $('[data-toggle="tooltip"]').tooltip();
 

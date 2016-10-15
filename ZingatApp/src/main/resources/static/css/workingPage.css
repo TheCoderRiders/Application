@@ -89,16 +89,27 @@
     text-align: left;
     padding: 5px;
 }
-.actionBtn{
+.workingPage .actionBtn{
 	margin-bottom: 0px;
     padding: 5px 5px;
     margin: 0px 0px;
     float: right;
 }
-.actionBtn button{
+.workingPage .actionBtn button{
 	width: 150px;
 	height: 35px;
     border-radius: 0px;
+}
+.rejectionCode .actionBtn,.rejectionDocument .actionBtn{
+    margin-top: 3%;
+    right: 7%;
+    position: absolute;
+}
+.rejectionCode .actionBtn button,.rejectionDocument .actionBtn button{
+    width: 110px;
+    height: 35px;
+    border-radius: 0px;
+    margin-left: 5px;
 }
 .workingPage mark{
     background: #0af4eb;
@@ -169,10 +180,45 @@
     color:#286090;
     outline: none;
 }
-.btn-warning:hover,.btn-warning.active.focus, .btn-warning.active:focus, .btn-warning.active:hover, .btn-warning:active.focus, .btn-warning:active:focus, .btn-warning:active:hover{
-    background-color: transparent;
-    border:none;
-    color:#286090;
-    text-decoration: underline;
-    outline: none;
+.btn-warning.focus, .btn-warning:focus,.btn-warning:hover,.btn-warning.active.focus, .btn-warning.active:focus, .btn-warning.active:hover, .btn-warning:active.focus, .btn-warning:active:focus, .btn-warning:active:hover{
+   background-color: transparent !important;
+    border: none !important;
+    color :#286090 !important;
+    text-decoration: underline !important;
+    outline: none !important;
+}
+.rejectionCode,.rejectionDocument{
+    padding: 5px;
+}
+.rejectionCode .rejectHeading,.rejectionDocument .rejectHeading{
+    text-align: center;
+}
+.rejectionCode ul li,.rejectionDocument ul li{
+    width: 50%;
+    display: inline-block;
+    float: left;
+    padding: 2px;
+}
+.rejectionCode .rejectCodeList{
+    height: 42%;
+}
+.rejectionDocument .rejectionDocList{
+    height: 20%;
+}
+.rejectionCode h3,.rejectionDocument h3{
+    margin-top: 10px;
+}
+.rejectCodeDocPopup{
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    padding: 0px;
+    height: 145% !important;
+}
+textarea {
+    resize: none;
 }
