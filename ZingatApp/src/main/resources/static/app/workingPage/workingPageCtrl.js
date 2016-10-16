@@ -16,6 +16,9 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
         $scope.userName = $cookies.get("userName");
         $scope.clientName = $cookies.get("clientName");
         $scope.editRight = $cookies.get("editRight");
+        setTimeout(function() {
+            $('[data-toggle="tooltip"]').tooltip(); 
+        }, 2000);
 
 
         /* function called on mouse enter of userName to show login dropdown*/
@@ -68,6 +71,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
 
         /* function called on tab changed */
         $scope.tabChanged = function(){
+            $('[data-toggle="tooltip"]').tooltip();
             var clickedTabIndex = $(event.target).parent().attr('index');
             $scope.emptyData = false;
             if(clickedTabIndex == "0" && ($scope.suggestedCode ==  null || $scope.suggestedCode.length ==  0 || $scope.suggestedCode[0].codes.length < 1)){
@@ -127,11 +131,11 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             var divTop = $('.rightSideContent').offset().top;
             var elementRelativeTop = elementTop - divTop;
             
-            $(".rightSideContent span").removeClass("highlighted");
-            $(".rightSideContent span[class*='"+codeId+"']").addClass('highlighted');
+            $(".rightSideContent span").parent().removeClass("highlighted");
+            $(".rightSideContent span[class*='"+codeId+"']").parent().addClass('highlighted');
 
             setTimeout(function(){
-              $(".rightSideContent span[class*='"+codeId+"']").removeClass('highlighted');
+              $(".rightSideContent span[class*='"+codeId+"']").parent().removeClass('highlighted');
             }, 3000); 
 
             $(".rightSideContent").animate({ 
@@ -173,7 +177,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             var action,codeActionType;
             var targetHeading = $(".nav li.active").attr('heading');
             
-            if($(event.target).attr('id') == "on"){
+            
+            if($(event.target).attr('class') == "fa fa-check"){
                 action = "Accept";
                 codeActionType = $(".nav").find('li.active').attr('heading');
             }else{
@@ -187,6 +192,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             requestedData.code = code;
             requestedData.codeActionType = codeActionType;
 
+
             if(action == "Reject"){
                 ngDialog.open({
                     template: 'app/rejectPage/rejectCodePage.html',
@@ -194,9 +200,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
                     scope: $scope
                 })
             }
-
             
-            /*$http({
+            $http({
                 url: 'workingPage/codeAction', 
                 method: "POST",
                 dataType : "application/json",
@@ -220,7 +225,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
                 $scope.rejectCode = false;
             },function(err) {
                 console.log("error while code  action");
-            });*/
+            });
         }
 
         $scope.searchCode = function(searchTerm){
@@ -290,8 +295,6 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             },function(err) {
                 console.log("Bucket Err: "+err);
             });
-
-            
 
             
             /*$http({

@@ -45,17 +45,29 @@
 			          	<ul ng-repeat="section in suggestedCode track by $index" ng-if="section.codes.length>0">
 			          		<li class="sectionHeading">{{section.sectionName}}</li>
 			          		<div ng-repeat="code in section.codes">
-			          			<p>
-				          			<span class="suggestedCode  {{code.code}}" ng-click="clickedSuggestedCode()">{{code.code}}</span>
-				          			<span class="suggestedCodeDesc">{{code.desc}}</span>
-				          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
-									    <input id="on" name="state-d" ng-value="code" ng-model="acceptCode" type="radio" ng-click="codeStatus(code,section,$element)">
-									    <label for="on">ACCEPT</label>
-									    <input id="off" name="state-d" ng-value="code" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
-									    <label for="off">REJECT</label>
-									    <a></a>
-									</span>
-				          		</p>
+			          			<div class="individualCodeContainer">
+			          				<div class="codeLeftSide">
+				          				<span class="suggestedCode  {{code.code}}" ng-click="clickedSuggestedCode()">{{code.code}}</span>
+				          			</div>
+				          			<div class="codeRightSide">
+					          			<span class="suggestedCodeDesc">{{code.desc}}</span>
+					          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
+					          				<span data-toggle="tooltip" title="Accept" class="acceptCodeImg" ng-click="codeStatus(code,section,$element)">
+					          					<i class="fa fa-check" aria-hidden="true"></i>
+					          				</span>
+					          				<span data-toggle="tooltip" title="Reject" class="rejectCodeImg" ng-click="codeStatus(code,section,$element)">
+					          					<i class="fa fa-times" aria-hidden="true"></i>
+					          				</span>					          				
+										    <!-- <input id="on" name="state-d" ng-value="code" ng-model="acceptCode" type="radio" ">
+										    <label for="on">ACCEPT</label> -->
+										   <!--  <input id="off" name="state-d" ng-value="code" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
+										    <label for="off">REJECT</label> -->
+										</span>
+										<span ng-repeat="token in code.token" class="codeEvidanceContainer">
+											<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
+										</span>
+									</div>
+				          		</div>
 			          		</div>
 			          	</ul>
 			          </div>
@@ -67,14 +79,25 @@
 			      	<ul ng-repeat="section in acceptedCode track by $index" ng-if="section.codes.length > 0">
 		          		<li class="sectionHeading">{{section.sectionName}}</li>
 		          		<div ng-repeat="code in section.codes track by $index">
-		          			<p>
-			          			<span class="acceptedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
-			          			<span class="acceptedCodeDesc">{{code.desc}}</span>
-			          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>			    
-								    <input id="off" name="state-d" ng-value="code" type="radio" ng-model="rejectCode" ng-click="codeStatus(code,section,$element)">
-								    <label for="off" onclick="">REJECT</label>
-								</span>
-			          		</p>
+		          			<div class="individualCodeContainer">
+		          				<div class="codeLeftSide">
+				          			<span class="acceptedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
+				          		</div>
+				          		<div class="codeRightSide">
+				          			<span class="acceptedCodeDesc">{{code.desc}}</span>
+				          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
+					          			<span data-toggle="tooltip" title="Reject" class="rejectCodeImg" ng-click="codeStatus(code,section,$element)">
+				          					<i class="fa fa-times" aria-hidden="true"></i>
+				          				</span>
+				          			</span>
+				          			<!-- <span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>			 <input id="off" name="state-d" ng-value="code" type="radio" ng-model="rejectCode" ng-click="codeStatus(code,section,$element)">
+									    <label for="off" onclick="">REJECT</label>
+									</span> -->
+									<span ng-repeat="token in code.token" class="codeEvidanceContainer">
+										<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
+									</span>
+								</div>
+			          		</div>
 		          		</div>
 		          	</ul>
 		          	</div>
@@ -86,14 +109,26 @@
 			        <ul ng-repeat="section in rejectedCode track by $index" ng-if="section.codes.length > 0">
 		          		<li class="sectionHeading">{{section.sectionName}}</li>
 		          		<div  ng-repeat="code in section.codes track by $index">
-		          			<p>
-			          			<span class="rejectedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
-			          			<span class="rejectedCodeDesc">{{code.desc}}</span>
-			          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
-								    <input id="on" name="state-d" ng-value="code" ng-model="acceptCode"  type="radio" ng-click="codeStatus(code,section,$element)">
-								    <label for="on" onclick="">ACCEPT</label>
-								</span>
-			          		</p>
+		          			<div class="individualCodeContainer">
+		          				<div class="codeLeftSide">
+				          			<span class="rejectedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
+				          		</div>
+			          			<div class="codeRightSide">
+				          			<span class="rejectedCodeDesc">{{code.desc}}</span>
+				          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
+					          			<span data-toggle="tooltip" title="Accept" class="acceptCodeImg" ng-click="codeStatus(code,section,$element)">
+					          					<i class="fa fa-check" aria-hidden="true"></i>
+				          				</span>
+				          			</span>
+				          			<!-- <span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
+									    <input id="on" name="state-d" ng-value="code" ng-model="acceptCode"  type="radio" ng-click="codeStatus(code,section,$element)">
+									    <label for="on" onclick="">ACCEPT</label>
+									</span> -->
+									<span ng-repeat="token in code.token" class="codeEvidanceContainer">
+										<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
+									</span>
+								</div>
+			          		</div>
 		          		</div>
 		          	</ul>
 		          	</div>
@@ -105,16 +140,31 @@
 			        <ul ng-repeat="section in mayBeCode track by $index" ng-if="section.codes.length > 0">
 		          		<li class="sectionHeading">{{section.sectionName}}</li>
 		          		<div  ng-repeat="code in section.codes track by $index">
-		          			<p>
-			          			<span class="mayBeCode {{code.code}}" ng-click="clickedSuggestedCode()">{{code.code}}</span>
-			          			<span class="mayBeCodeDesc">{{code.desc}}</span>
-			          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
-								    <input id="on" name="state-d" type="radio" ng-model="acceptCode" ng-click="codeStatus(code,section,$element)">
-								    <label for="on" onclick="">ACCEPT</label>
-								    <input id="off" name="state-d" ng-value="code" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
-									<label for="off">REJECT</label>
-								</span>
-			          		</p>
+		          			<div class="individualCodeContainer">
+		          				<div class="codeLeftSide">
+				          			<span class="mayBeCode {{code.code}}" ng-click="clickedSuggestedCode()">{{code.code}}</span>
+				          		</div>
+			          			<div class="codeRightSide">
+				          			<span class="mayBeCodeDesc">{{code.desc}}</span>
+				          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
+					          			<span data-toggle="tooltip" title="Accept" class="acceptCodeImg" ng-click="codeStatus(code,section,$element)">
+					          					<i class="fa fa-check" aria-hidden="true"></i>
+				          				</span>
+				          				<span data-toggle="tooltip" title="Reject" class="rejectCodeImg" ng-click="codeStatus(code,section,$element)">
+				          					<i class="fa fa-times" aria-hidden="true"></i>
+				          				</span>	
+				          			</span>
+				          			<!-- <span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
+									    <input id="on" name="state-d" type="radio" ng-model="acceptCode" ng-click="codeStatus(code,section,$element)">
+									    <label for="on" onclick="">ACCEPT</label>
+									    <input id="off" name="state-d" ng-value="code" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
+										<label for="off">REJECT</label>
+									</span> -->
+									<span ng-repeat="token in code.token" class="codeEvidanceContainer">
+										<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
+									</span>
+								</div>
+			          		</div>
 		          		</div>
 		          	</ul>
 		          	</div>

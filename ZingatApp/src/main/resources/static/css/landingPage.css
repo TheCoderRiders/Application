@@ -475,7 +475,9 @@ tags-input .autocomplete{
     right: 30px;
 }
 .landingPage mark{
-    background: #0af4eb;
+    background: #5faaea;
+    padding: 3px;
+    cursor: pointer;
 }
 .landingPage .customSelect div.sortImg {
     position: relative;

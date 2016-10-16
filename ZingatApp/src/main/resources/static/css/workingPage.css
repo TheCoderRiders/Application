@@ -9,6 +9,47 @@
     overflow-x: hidden;
     position: relative;
 }
+.workingFileContents .leftSideContent{
+    line-height: 2em !important;
+}
+.workingFileContents .individualCodeContainer{
+    height: 70px;
+    padding: 10px 5px;
+    margin: 5px 0px;
+}
+.workingFileContents .codeLeftSide{
+    width: 15%;
+    float: left;
+    display: inline-block;
+    background-color: #5faaea;
+    height: 30px;
+    padding: 5px;
+    color: white;
+    text-align: center;
+    margin: 5px;
+}
+.workingFileContents .codeRightSide{
+    width: 83%;
+    float: left;
+    display: inline-block;   
+}
+.workingFileContents .codeRightSide .codeEvidanceContainer{
+    width: 15%;
+    float: left;
+    border-radius: 5px;
+    display: inline-block;
+    border: 1px solid;
+    margin: 2px 5px;
+}
+.workingFileContents .codeRightSide .codeEvidance{
+    padding: 1px 5px 0px 5px;
+    word-wrap: break-word;
+    overflow: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    text-overflow: ellipsis;
+}
 .workingPage .codeSearchContainer{
     display: none;
 }
@@ -112,7 +153,8 @@
     margin-left: 5px;
 }
 .workingPage mark{
-    background: #0af4eb;
+    background: #5faaea;
+    padding: 3px;
     cursor: pointer;
 }
 .workingFileContents a{
@@ -127,24 +169,30 @@
     font-weight: bolder;
 }
 .suggestedCode,.acceptedCode,.rejectedCode,.mayBeCode{
-    width: 10%;
+   /* width: 10%;
     display: inline-block;
-    float: left;
+    float: left;*/
     cursor: pointer;
 }
 .suggestedCodeDesc,.acceptedCodeDesc,.rejectedCodeDesc,.mayBeCodeDesc{
-    width: 65%;
+    width: 90%;
     word-wrap: break-word;
     overflow: auto;
     display: inline-block;
+    padding: 5px;
 }
-.codeAction{
-    width: 25%;
+.workingPage .codeRightSide .acceptCodeImg,.workingPage .codeRightSide .rejectCodeImg{
+    cursor: pointer;
+    font-size: 18px;
+    margin: 5px;
+}
+.workingPage .codeAction{
+    width: 10%;
     float: right;
     display: inline-flex;
 }
 .workingPage .highlighted{
-    background: #ff0;
+    background: #afafaf;
 }
 .workingPage .searchCode{
     width: 100%;
