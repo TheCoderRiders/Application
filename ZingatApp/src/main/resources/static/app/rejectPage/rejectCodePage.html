@@ -9,7 +9,7 @@
 			<h4>Rejection Options: </h4>
 			<ul class="rejectionCodeCommentItem">
 				<li ng-repeat = "rejection in rejectionCodeList track by $index">
-					<input id="{{rejection.rejectionReasonListId}}" ng-value="rejection" ng-model="rejectionCode" type="radio" ng-click="rejectDocument(rejection)">
+					<input id="{{rejection.rejectionReasonListId}}" class="rejectedCode" ng-model="rejection" ng-value={{rejection}}  type="radio" ng-click="rejectCodeChecked(rejection)">
 					<label>{{rejection.rejectionReasonDisplay}}</label>
 				</li>
 			</ul>
@@ -17,7 +17,7 @@
 
 		<div class="rejectionCodeComment">
 			<h4>Rejection Comments: </h4>
-			<textarea rows="4" cols="60" ng-model="rejectionCode">
+			<textarea class="rejectCodeComment" rows="4" cols="60" >
 				
 			</textarea>
 		</div>

@@ -128,6 +128,10 @@
 										<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
 									</span>
 								</div>
+								<div class="rejectionContainer" ng-if="code.rejectionReasonDisplay">
+									<span class="rejectionReasonValue">{{code.rejectionReasonDisplay}} : </span> 
+									<span class="rejectionReasonComment">{{code.rejectionReasonDesc}}</span> 
+								</div>
 			          		</div>
 		          		</div>
 		          	</ul>

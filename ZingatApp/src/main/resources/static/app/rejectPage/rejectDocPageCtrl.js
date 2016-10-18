@@ -1,6 +1,6 @@
 angular.module('RejectDocPageController', ['ngDialog'])
-    .controller("rejectDocPageCtrl",["$scope","$location","$http","ngDialog", function($scope,$location,$http,ngDialog){
-        
+    .controller("rejectDocPageCtrl",["$scope","$location","$http","ngDialog","workingPageService", function($scope,$location,$http,ngDialog,workingPageService){
+
         $http({
           url: 'workingPage/getDocRejectionReasonList', 
           method: "GET",
@@ -8,19 +8,41 @@ angular.module('RejectDocPageController', ['ngDialog'])
               'Content-Type': 'application/json',
               'Accept': 'application/json'
           }
-        }).then(function(data){ //make a get request to mock json file.
+        }).then(function(data){ 
             $scope.rejectionDocList = data.data;
-            console.log($scope.rejectionDocList);
         },function(err) {
             console.log("Bucket Err: "+err);
         });
 
+        /* called on cancel click */
         $scope.closePopup = function(){
           ngDialog.close();
         }
 
-        $scope.rejectCode = function(){
-            console.log("called");
+        /* click on radio button clicked */
+        $scope.rejectDocChecked = function(option){
+            $(".rejectDocComment").val(option.rejectionReasonDesc)          
+        }
+
+        /* called on submit clicked*/
+        $scope.rejectDoc = function(){
+          var getObj = workingPageService.getRequestParameter().obj[0];
+          var requestObj = {};
+          requestObj.fileId = getObj.fileId;
+          requestObj.status = getObj.status;
+          requestObj.docRejectionReason = JSON.parse($(".rejectionDoc.ng-touched").attr('ng-value'));
+          requestObj.docRejectionReason.rejectionReasonDesc = $(".rejectDocComment").val();
+          console.log(requestObj);
+           /*$http({
+                url: 'workingPage/documentStatusChange', 
+                method: "POST",
+                data : JSON.stringify(requestObj)
+            }).then(function(data){ 
+                ngDialog.close();
+                $location.path('/landingPage');
+            },function(err) {
+                console.log(err);
+            });*/
         }
 
       }

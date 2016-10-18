@@ -13,9 +13,19 @@
     line-height: 2em !important;
 }
 .workingFileContents .individualCodeContainer{
-    height: 70px;
-    padding: 10px 5px;
+    min-height: 90px;
+    padding: 15px 10px;
     margin: 5px 0px;
+}
+.workingFileContents .rejectionContainer{
+    margin: 0 auto;
+    width: 98%
+}
+.workingFileContents .rejectionContainer .rejectionReasonValue{
+    font-weight: bolder;
+}
+.workingFileContents .rejectionContainer .rejectionReasonComment{
+    font-style: italic
 }
 .workingFileContents .codeLeftSide{
     width: 15%;
@@ -217,10 +227,10 @@
     background-color: #777;
     border-color: #777;
 }
-.btn-success:hover,.btn-success:active,.btn-success:active:hover,.btn-success:active:focus{
-    color: #fff;
-    background-color: #afafaf;
-    border-color: #afafaf;
+.btn-success:hover,.btn-success:active,.btn-success:active:hover,.btn-success:active:focus,.btn-success.focus,.btn-success:focus{
+    color: #fff !important;
+    background-color: #afafaf !important;
+    border-color: #afafaf !important;
 }
 .btn-warning{
     background-color: transparent;

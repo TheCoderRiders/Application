@@ -1,6 +1,24 @@
 angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies','ngDialog'])
     
-    .controller("workingPageCtrl",["$scope","$rootScope","$location","$http","ngDialog","$cookies","$timeout","$controller", function($scope,$rootScope,$location,$http,ngDialog,$cookies,$timeout,$controller){
+    .service("workingPageService", ["$http", function($http){
+        this.setRequestParameter = function(){
+            this.obj = arguments;
+        }
+        this.getRequestParameter = function(){
+            return this;
+        }
+        this.updateGetCodes = function(requestedData,targetHeading,successCallback,errorCallback){
+            console.log(JSON.stringify(requestedData));
+            $http({
+                url: 'workingPage/codeAction', 
+                method: "POST",
+                dataType : "application/json",
+                data : JSON.stringify(requestedData)
+            }).then(successCallback,errorCallback);
+        }
+    }])
+
+    .controller("workingPageCtrl",["$scope","$rootScope","$location","$http","ngDialog","$cookies","$timeout","$controller","workingPageService", function($scope,$rootScope,$location,$http,ngDialog,$cookies,$timeout,$controller,workingPageService){
 
         $scope.fileId = $cookies.get("clickedFileId");
         $scope.globalObj;
@@ -194,19 +212,41 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
 
 
             if(action == "Reject"){
+                workingPageService.setRequestParameter(requestedData,targetHeading);
                 ngDialog.open({
                     template: 'app/rejectPage/rejectCodePage.html',
                     className: 'ngdialog-theme-default rejectCodeDocPopup',
                     scope: $scope
                 })
+            }else{
+                workingPageService.updateGetCodes(requestedData,targetHeading,function(data){
+                    $scope.globalObj = data.data;
+                    $scope.suggestedCode = data.data.suggestedCode;
+                    $scope.acceptedCode = data.data.acceptedCode;
+                    $scope.rejectedCode = data.data.rejectedCode;
+                    $scope.mayBeCode = data.data.mayBeCode;
+                    if(targetHeading == "Suggested" && $scope.suggestedCode.length < 1){
+                        $scope.emptyData = true;
+                    }else if(targetHeading == "Accepted" && $scope.acceptedCode.length < 1){
+                        $scope.emptyData = true;
+                    }else if(targetHeading == "Rejected" && $scope.rejectedCode.length < 1){
+                        $scope.emptyData = true;
+                    }else if(targetHeading == "MayBe" && $scope.mayBeCode.length < 1){
+                        $scope.emptyData = true;
+                    }
+                    $scope.acceptCode = false;
+                    $scope.rejectCode = false;
+                },function(){
+
+                });
             }
-            
-            $http({
+
+            /*$http({
                 url: 'workingPage/codeAction', 
                 method: "POST",
                 dataType : "application/json",
                 data : JSON.stringify(requestedData)
-            }).then(function(data){ //make a get request to mock json file.
+            }).then(function(data){ 
                 $scope.globalObj = data.data;
                 $scope.suggestedCode = data.data.suggestedCode;
                 $scope.acceptedCode = data.data.acceptedCode;
@@ -225,7 +265,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
                 $scope.rejectCode = false;
             },function(err) {
                 console.log("error while code  action");
-            });
+            });*/
         }
 
         $scope.searchCode = function(searchTerm){
@@ -285,8 +325,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
                   'Content-Type': 'application/json',
                   'Accept': 'application/json'
               }
-            }).then(function(data){ //make a get request to mock json file.
-                obj.data = data.data;
+            }).then(function(data){ 
+                workingPageService.setRequestParameter(obj);
                 ngDialog.open({
                     template: 'app/rejectPage/rejectDocPage.html',
                     className: 'ngdialog-theme-default'
