@@ -35,23 +35,22 @@ angular.module('RejectCodePageController', ['ngDialog'])
             requestData.code.rejectionReasonDesc = $(".rejectCodeComment").val();
 
             workingPageService.updateGetCodes(requestData,targetHeading,function(data){
-                debugger;
-                $scope.globalObj = data.data;
-                $scope.suggestedCode = data.data.suggestedCode;
-                $scope.acceptedCode = data.data.acceptedCode;
-                $scope.rejectedCode = data.data.rejectedCode;
-                $scope.mayBeCode = data.data.mayBeCode;
+                $scope.$parent.$parent.globalObj = data.data;
+                $scope.$parent.$parent.suggestedCode = data.data.suggestedCode;
+                $scope.$parent.$parent.acceptedCode = data.data.acceptedCode;
+                $scope.$parent.$parent.rejectedCode = data.data.rejectedCode;
+                $scope.$parent.$parent.mayBeCode = data.data.mayBeCode;
                 if(targetHeading == "Suggested" && $scope.suggestedCode.length < 1){
-                    $scope.emptyData = true;
+                    $scope.$parent.$parent.emptyData = true;
                 }else if(targetHeading == "Accepted" && $scope.acceptedCode.length < 1){
-                    $scope.emptyData = true;
+                    $scope.$parent.$parent.emptyData = true;
                 }else if(targetHeading == "Rejected" && $scope.rejectedCode.length < 1){
-                    $scope.emptyData = true;
+                    $scope.$parent.$parent.emptyData = true;
                 }else if(targetHeading == "MayBe" && $scope.mayBeCode.length < 1){
-                    $scope.emptyData = true;
+                    $scope.$parent.$parent.emptyData = true;
                 }
-                $scope.acceptCode = false;
-                $scope.rejectCode = false;
+                $scope.$parent.$parent.acceptCode = false;
+                $scope.$parent.$parent.rejectCode = false;
                 ngDialog.close();
             },function(){
 

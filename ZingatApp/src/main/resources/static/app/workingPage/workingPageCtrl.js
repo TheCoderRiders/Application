@@ -75,18 +75,6 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             $location.path('/landingPage');
         }
 
-        /* funnction called on back button click */
-        $scope.redirectAfterDraftToLandingPage = function(){
-            $http({
-                url: 'workingPage/documentStatusChange/?fileId='+$scope.fileId+'&status=DRAFT', 
-                method: "GET",
-            }).then(function(data){ 
-                $location.path('/landingPage');
-            },function(err) {
-                console.log(err);
-            });
-        }
-
         /* function called on tab changed */
         $scope.tabChanged = function(){
             $('[data-toggle="tooltip"]').tooltip();
@@ -240,40 +228,15 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
 
                 });
             }
-
-            /*$http({
-                url: 'workingPage/codeAction', 
-                method: "POST",
-                dataType : "application/json",
-                data : JSON.stringify(requestedData)
-            }).then(function(data){ 
-                $scope.globalObj = data.data;
-                $scope.suggestedCode = data.data.suggestedCode;
-                $scope.acceptedCode = data.data.acceptedCode;
-                $scope.rejectedCode = data.data.rejectedCode;
-                $scope.mayBeCode = data.data.mayBeCode;
-                if(targetHeading == "Suggested" && $scope.suggestedCode.length < 1){
-                    $scope.emptyData = true;
-                }else if(targetHeading == "Accepted" && $scope.acceptedCode.length < 1){
-                    $scope.emptyData = true;
-                }else if(targetHeading == "Rejected" && $scope.rejectedCode.length < 1){
-                    $scope.emptyData = true;
-                }else if(targetHeading == "MayBe" && $scope.mayBeCode.length < 1){
-                    $scope.emptyData = true;
-                }
-                $scope.acceptCode = false;
-                $scope.rejectCode = false;
-            },function(err) {
-                console.log("error while code  action");
-            });*/
         }
 
+        /* called on add code search input keypress */
         $scope.searchCode = function(searchTerm){
             $scope.searchText = searchTerm;
             searchedCode(searchTerm)
         }
 
-
+        /* called on pagination changed*/
         $scope.pageChanged = function(currentPage) {
             $scope.currentPage = currentPage;
             searchedCode($scope.searchText);
@@ -311,41 +274,47 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             }
         }
 
-        $scope.documentStatusChange = function(){
+        $scope.documentStatusChange = function(action){
             var actionName = $(event.target).attr('value');
             var obj = {};
+           
+            if(!actionName){
+                actionName = "DRAFT";
+            }
+
             obj.fileId = $scope.fileId;
             obj.status = actionName;
 
-
             if(actionName == "REJECTED"){
                 $http({
-                      url: 'workingPage/getDocRejectionReasonList', 
-                      method: "GET",
-                      headers: { 
-                          'Content-Type': 'application/json',
-                          'Accept': 'application/json'
-                      }
-                    }).then(function(data){ 
-                        workingPageService.setRequestParameter(obj);
-                        ngDialog.open({
-                            template: 'app/rejectPage/rejectDocPage.html',
-                            className: 'ngdialog-theme-default'
-                        });
+                    url: 'workingPage/getDocRejectionReasonList', 
+                    method: "GET",
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                }).then(function(data){ 
+                    workingPageService.setRequestParameter(obj);
+                    ngDialog.open({
+                        template: 'app/rejectPage/rejectDocPage.html',
+                        className: 'ngdialog-theme-default'
+                    });
 
-                    },function(err) {
-                        console.log("Bucket Err: "+err);
+                },function(err) {
+                    console.log("Bucket Err: "+err);
                 });
             }else{
-                $http({
+                obj.actionName = actionName;
+                debugger;
+                /*$http({
                     url: "workingPage/documentStatusChange",
-                    method: "GET",
+                    method: "POST",
                     data : JSON.stringify(obj),
                 }).then(function(data){ 
                     $location.path('/landingPage');
                 },function(err) {
                     console.log(err);
-                });
+                });*/
             }
         }
 

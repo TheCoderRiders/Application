@@ -14,7 +14,7 @@
 	                        <ul>
 	                            <li><a href="javascript:void(0)" ng-click="redirectToProfile()">Profile</a></li>
 	                            <li><a href="javascript:void(0)" ng-click="redirectToLogin()">Logout</a></li>
-	                        </ul>
+	                        </ul>f
 	                    </div>
 	                </div>
 	             </div>
@@ -22,7 +22,7 @@
 	        </nav>
 	    </div>
 	    <div class="fileName">
-	    	<label class="backBtn" ng-click="redirectAfterDraftToLandingPage()">
+	    	<label class="backBtn" ng-click="documentStatusChange(DRAFT)">
 	    		<i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
 	    	</label>
 	    	<div ng-bind="fileId" class="fileName">
@@ -63,7 +63,7 @@
 										   <!--  <input id="off" name="state-d" ng-value="code" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
 										    <label for="off">REJECT</label> -->
 										</span>
-										<span ng-repeat="token in code.token" class="codeEvidanceContainer">
+										<span ng-repeat="token in code.token" ng-if="code.token.length > 0" class="codeEvidanceContainer">
 											<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
 										</span>
 									</div>
@@ -93,7 +93,7 @@
 				          			<!-- <span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>			 <input id="off" name="state-d" ng-value="code" type="radio" ng-model="rejectCode" ng-click="codeStatus(code,section,$element)">
 									    <label for="off" onclick="">REJECT</label>
 									</span> -->
-									<span ng-repeat="token in code.token" class="codeEvidanceContainer">
+									<span ng-repeat="token in code.token" ng-if="code.token.length > 0" class="codeEvidanceContainer">
 										<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
 									</span>
 								</div>
@@ -124,7 +124,7 @@
 									    <input id="on" name="state-d" ng-value="code" ng-model="acceptCode"  type="radio" ng-click="codeStatus(code,section,$element)">
 									    <label for="on" onclick="">ACCEPT</label>
 									</span> -->
-									<span ng-repeat="token in code.token" class="codeEvidanceContainer">
+									<span ng-repeat="token in code.token" ng-if="code.token.length > 0"  class="codeEvidanceContainer">
 										<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
 									</span>
 								</div>
@@ -164,7 +164,7 @@
 									    <input id="off" name="state-d" ng-value="code" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
 										<label for="off">REJECT</label>
 									</span> -->
-									<span ng-repeat="token in code.token" class="codeEvidanceContainer">
+									<span ng-repeat="token in code.token" ng-if="code.token.length > 0" class="codeEvidanceContainer">
 										<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
 									</span>
 								</div>
