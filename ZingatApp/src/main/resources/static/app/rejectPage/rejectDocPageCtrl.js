@@ -30,7 +30,8 @@ angular.module('RejectDocPageController', ['ngDialog'])
           var requestObj = {};
           requestObj.fileId = getObj.fileId;
           requestObj.status = getObj.status;
-          requestObj.docRejectionReason = JSON.parse($(".rejectionDoc.ng-touched").attr('ng-value'));
+          debugger;
+          requestObj.docRejectionReason = JSON.parse($(".rejectionDoc.ng-touched").attr('id'));
           requestObj.docRejectionReason.rejectionReasonDesc = $(".rejectDocComment").val();
           console.log(requestObj);
            $http({

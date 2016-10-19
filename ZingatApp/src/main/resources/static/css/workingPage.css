@@ -153,7 +153,7 @@
 }
 .rejectionCode .actionBtn,.rejectionDocument .actionBtn{
     margin-top: 3%;
-    right: 7%;
+    right: 2%;
     position: absolute;
 }
 .rejectionCode .actionBtn button,.rejectionDocument .actionBtn button{
@@ -279,4 +279,5 @@
 }
 textarea {
     resize: none;
+    width: 100%;
 }
