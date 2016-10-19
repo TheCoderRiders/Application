@@ -24,7 +24,7 @@ angular.module('RejectDocPageController', ['ngDialog'])
             $(".rejectDocComment").val(option.rejectionReasonDesc)          
         }
 
-        /* called on submit clicked*/
+        /* called on document submit clicked*/
         $scope.rejectDoc = function(){
           var getObj = workingPageService.getRequestParameter().obj[0];
           var requestObj = {};
@@ -33,7 +33,7 @@ angular.module('RejectDocPageController', ['ngDialog'])
           requestObj.docRejectionReason = JSON.parse($(".rejectionDoc.ng-touched").attr('ng-value'));
           requestObj.docRejectionReason.rejectionReasonDesc = $(".rejectDocComment").val();
           console.log(requestObj);
-           /*$http({
+           $http({
                 url: 'workingPage/documentStatusChange', 
                 method: "POST",
                 data : JSON.stringify(requestObj)
@@ -42,7 +42,7 @@ angular.module('RejectDocPageController', ['ngDialog'])
                 $location.path('/landingPage');
             },function(err) {
                 console.log(err);
-            });*/
+            });
         }
 
       }

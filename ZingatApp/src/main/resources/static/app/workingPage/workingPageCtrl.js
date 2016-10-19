@@ -318,33 +318,35 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             obj.status = actionName;
 
 
-            $http({
-              url: 'workingPage/getDocRejectionReasonList', 
-              method: "GET",
-              headers: { 
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json'
-              }
-            }).then(function(data){ 
-                workingPageService.setRequestParameter(obj);
-                ngDialog.open({
-                    template: 'app/rejectPage/rejectDocPage.html',
-                    className: 'ngdialog-theme-default'
+            if(actionName == "REJECTED"){
+                $http({
+                      url: 'workingPage/getDocRejectionReasonList', 
+                      method: "GET",
+                      headers: { 
+                          'Content-Type': 'application/json',
+                          'Accept': 'application/json'
+                      }
+                    }).then(function(data){ 
+                        workingPageService.setRequestParameter(obj);
+                        ngDialog.open({
+                            template: 'app/rejectPage/rejectDocPage.html',
+                            className: 'ngdialog-theme-default'
+                        });
+
+                    },function(err) {
+                        console.log("Bucket Err: "+err);
                 });
-
-            },function(err) {
-                console.log("Bucket Err: "+err);
-            });
-
-            
-            /*$http({
-                url: 'workingPage/documentStatusChange/?fileId='+$scope.fileId+'&status='+actionName, 
-                method: "GET",
-            }).then(function(data){ 
-                $location.path('/landingPage');
-            },function(err) {
-                console.log(err);
-            });*/
+            }else{
+                $http({
+                    url: "workingPage/documentStatusChange",
+                    method: "GET",
+                    data : JSON.stringify(obj),
+                }).then(function(data){ 
+                    $location.path('/landingPage');
+                },function(err) {
+                    console.log(err);
+                });
+            }
         }
 
         $scope.getCodeDesc = function($event, $index, code){

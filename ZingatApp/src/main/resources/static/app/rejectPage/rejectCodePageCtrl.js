@@ -15,6 +15,7 @@ angular.module('RejectCodePageController', ['ngDialog'])
             console.log("Bucket Err: " + err);
         });
 
+        /* click on close icon of popup */
         $scope.closePopup = function() {
             ngDialog.close();
         }
@@ -24,6 +25,7 @@ angular.module('RejectCodePageController', ['ngDialog'])
             $(".rejectCodeComment").val(option.rejectionReasonDesc);          
         }
 
+        /* click on Submit of code rejection*/
         $scope.rejectCode = function() {
             var checkedRadio = JSON.parse($(".rejectedCode.ng-touched").attr('ng-value'));
             var targetHeading = workingPageService.getRequestParameter().obj[1];
@@ -50,6 +52,7 @@ angular.module('RejectCodePageController', ['ngDialog'])
                 }
                 $scope.acceptCode = false;
                 $scope.rejectCode = false;
+                ngDialog.close();
             },function(){
 
             });
