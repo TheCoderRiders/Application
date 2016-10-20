@@ -304,9 +304,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
                     console.log("Bucket Err: "+err);
                 });
             }else{
-                obj.actionName = actionName;
-                debugger;
-                /*$http({
+                obj.docRejectionReason = null;
+                $http({
                     url: "workingPage/documentStatusChange",
                     method: "POST",
                     data : JSON.stringify(obj),
@@ -314,7 +313,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
                     $location.path('/landingPage');
                 },function(err) {
                     console.log(err);
-                });*/
+                });
             }
         }
 
