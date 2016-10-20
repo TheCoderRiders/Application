@@ -1,6 +1,7 @@
 angular.module('RejectDocPageController', ['ngDialog'])
     .controller("rejectDocPageCtrl",["$scope","$location","$http","ngDialog","workingPageService", function($scope,$location,$http,ngDialog,workingPageService){
 
+        /* called to fetch the document predefined rejection list */
         $http({
           url: 'workingPage/getDocRejectionReasonList', 
           method: "GET",
@@ -24,16 +25,14 @@ angular.module('RejectDocPageController', ['ngDialog'])
             $(".rejectDocComment").val(option.rejectionReasonDesc)          
         }
 
-        /* called on document submit clicked*/
+        /* called on document rejected clicked*/
         $scope.rejectDoc = function(){
           var getObj = workingPageService.getRequestParameter().obj[0];
           var requestObj = {};
           requestObj.fileId = getObj.fileId;
           requestObj.status = getObj.status;
-          debugger;
           requestObj.docRejectionReason = JSON.parse($(".rejectionDoc.ng-touched").attr('id'));
           requestObj.docRejectionReason.rejectionReasonDesc = $(".rejectDocComment").val();
-          console.log(requestObj);
            $http({
                 url: 'workingPage/documentStatusChange', 
                 method: "POST",

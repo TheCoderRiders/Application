@@ -8,7 +8,6 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             return this;
         }
         this.updateGetCodes = function(requestedData,targetHeading,successCallback,errorCallback){
-            console.log(JSON.stringify(requestedData));
             $http({
                 url: 'workingPage/codeAction', 
                 method: "POST",
@@ -38,6 +37,27 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             $('[data-toggle="tooltip"]').tooltip(); 
         }, 2000);
 
+        $rootScope.$on("codeActionEmit",function (event,data) {
+            var targetHeading = data.targetHeading;
+            delete data.targetHeading;
+            $scope.globalObj = data;
+            $scope.suggestedCode = data.suggestedCode;
+            $scope.acceptedCode = data.acceptedCode;
+            $scope.rejectedCode = data.rejectedCode;
+            $scope.mayBeCode = data.mayBeCode;
+            if(targetHeading == "Suggested" && $scope.suggestedCode.length < 1){
+                $scope.emptyData = true;
+            }else if(targetHeading == "Accepted" && $scope.acceptedCode.length < 1){
+                $scope.emptyData = true;
+            }else if(targetHeading == "Rejected" && $scope.rejectedCode.length < 1){
+                $scope.emptyData = true;
+            }else if(targetHeading == "MayBe" && $scope.mayBeCode.length < 1){
+                $scope.emptyData = true;
+            }
+            $scope.acceptCode = false;
+            $scope.rejectCode = false;
+            ngDialog.close()
+        });
 
         /* function called on mouse enter of userName to show login dropdown*/
         $scope.openLoginDropDown = function() {
@@ -278,8 +298,12 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             var actionName = $(event.target).attr('value');
             var obj = {};
            
-            if(!actionName){
+            if(!actionName && !Boolean($scope.editRight)){
                 actionName = "DRAFT";
+            }else{
+                if(!actionName && Boolean($scope.editRight)){
+                    actionName = "SUBMIT";
+                }
             }
 
             obj.fileId = $scope.fileId;

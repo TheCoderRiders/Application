@@ -1,6 +1,7 @@
 angular.module('RejectCodePageController', ['ngDialog'])
     .controller("rejectCodePageCtrl", ["$scope", "$location", "$http", "ngDialog", "workingPageService", function($scope, $location, $http, ngDialog, workingPageService) {
 
+        /* function to fetch code rejection list */
         $http({
             url: 'workingPage/getCodeRejectionReasonList',
             method: "GET",
@@ -10,7 +11,6 @@ angular.module('RejectCodePageController', ['ngDialog'])
             }
         }).then(function(data) { 
             $scope.rejectionCodeList = data.data;
-            console.log($scope.rejectionCodeList);
         }, function(err) {
             console.log("Bucket Err: " + err);
         });
@@ -35,23 +35,8 @@ angular.module('RejectCodePageController', ['ngDialog'])
             requestData.code.rejectionReasonDesc = $(".rejectCodeComment").val();
 
             workingPageService.updateGetCodes(requestData,targetHeading,function(data){
-                $scope.$parent.$parent.globalObj = data.data;
-                $scope.$parent.$parent.suggestedCode = data.data.suggestedCode;
-                $scope.$parent.$parent.acceptedCode = data.data.acceptedCode;
-                $scope.$parent.$parent.rejectedCode = data.data.rejectedCode;
-                $scope.$parent.$parent.mayBeCode = data.data.mayBeCode;
-                if(targetHeading == "Suggested" && $scope.suggestedCode.length < 1){
-                    $scope.$parent.$parent.emptyData = true;
-                }else if(targetHeading == "Accepted" && $scope.acceptedCode.length < 1){
-                    $scope.$parent.$parent.emptyData = true;
-                }else if(targetHeading == "Rejected" && $scope.rejectedCode.length < 1){
-                    $scope.$parent.$parent.emptyData = true;
-                }else if(targetHeading == "MayBe" && $scope.mayBeCode.length < 1){
-                    $scope.$parent.$parent.emptyData = true;
-                }
-                $scope.$parent.$parent.acceptCode = false;
-                $scope.$parent.$parent.rejectCode = false;
-                ngDialog.close();
+                data.data.targetHeading = targetHeading;
+                $scope.$emit("codeActionEmit",data.data);
             },function(){
 
             });
