@@ -21,6 +21,27 @@
     margin: 0 auto;
     width: 98%
 }
+.table{
+    border:1px solid #ddd;
+}
+.table>thead>tr>th {
+    background: #5faaea;
+    color: #fff;
+    text-align: center;
+}
+.workingFileContents .codeAcceptTable .addCode{
+    width: 15%;
+}
+.workingFileContents .codeAcceptTable .addCodeDesc{
+    width: 75%;
+}
+.workingFileContents .codeAcceptTable .addCodeAction{
+    width: 10%;
+}
+.workingFileContents .codeAcceptTable .codeAcceptIcon{
+    text-align: center;
+    cursor: pointer;
+}
 .workingFileContents .rejectionContainer .rejectionReasonValue{
     font-weight: bolder;
 }
@@ -177,9 +198,10 @@
     width: 20%;
     text-align: center;
 }
-.sectionHeading{
+.workingFileContents .sectionHeading{
     font-size: 18px;
     font-weight: bolder;
+    padding:5px;
 }
 .suggestedCode,.acceptedCode,.rejectedCode,.mayBeCode{
    /* width: 10%;

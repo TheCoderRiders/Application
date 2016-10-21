@@ -14,7 +14,7 @@
 	                        <ul>
 	                            <li><a href="javascript:void(0)" ng-click="redirectToProfile()">Profile</a></li>
 	                            <li><a href="javascript:void(0)" ng-click="redirectToLogin()">Logout</a></li>
-	                        </ul>f
+	                        </ul>
 	                    </div>
 	                </div>
 	             </div>
@@ -184,7 +184,27 @@
                             <uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="perPageCount"  class="pagination-sm" max-size="maxSize" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages" ng-change="pageChanged(currentPage)"></uib-pagination>
                         </div>
                         <div class="codeSearchContainer">
-                        	<div class="searchCodeList">
+                        	<table class="table codeAcceptTable" border="1" ts-wrapper>
+							  <thead>
+							    <tr>
+							      <th class="addCode">Code</th>
+							      <th class="addCodeDesc">Description</th>
+							      <th class="addCodeAction">Action</th>
+							    </tr>
+							  </thead>
+							  <tbody>
+							    <tr ng-repeat="code in codeList | limitTo : 20" ts-hide-no-data>
+							        <td ng-bind="code.code"></td>
+									<td ng-bind="code.desc"></td>
+	                				<td class="codeAcceptIcon"> 
+	                					<span data-toggle="tooltip" title="Accept" class="acceptCodeImg" ng-click="addCode(code)">
+				          					<i class="fa fa-check" aria-hidden="true"></i>
+				          				</span>	
+				          			</td>	
+							    </tr>
+							  </tbody>
+							</table>
+                        	<!-- <div class="searchCodeList">
                         		<ul class="codeList">
                         			<li ng-repeat="code in codeList"  ng-class="{selectedItem: $index == selectedFile}" ng-click="getCodeDesc($event,$index,code)">
                         				<label class="individualCode" ng-bind="code.code">
@@ -205,7 +225,7 @@
                         		<div class="addCode">
                         			<button type="button" value="Add" ng-click="addCode()" class="btn btn-primary">Add Code</button>
                         		</div>
-                        	</div>
+                        	</div> -->
                         </div>
                         </div>
 			        </ng-form>

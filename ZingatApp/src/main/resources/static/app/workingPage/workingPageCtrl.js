@@ -274,11 +274,12 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
                         $(".paginationBlock").show();
                         $scope.selectedFile = 0;
                         $(".codeSearchContainer").show();
-                        $scope.codeList = data.data.codes
+                        $scope.codeList = data.data.codes;
                         if($scope.selectedFile == 0){
                             $(".individualCode").text(data.data.codes[0].code);
                             $(".individualCodeDesc").text(data.data.codes[0].desc);
                         }
+                        $('[data-toggle="tooltip"]').tooltip();
                     }else{
                         $scope.emptyData = true;
                         $(".paginationBlock").hide();
@@ -341,19 +342,19 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             }
         }
 
-        $scope.getCodeDesc = function($event, $index, code){
+       /* $scope.getCodeDesc = function($event, $index, code){
             $scope.selectedFile = $index;
             $(".descContainer").find("div.individualCode").text(code.code);
             $(".descContainer").find("div.individualCodeDesc").text(code.desc);
-        }
+        }*/
 
-        $scope.addCode = function($event){
+        $scope.addCode = function(selectedCode){
             var codeObj = {};
             var tempArr = [];
             var searchText = $(".searchCode").val();
             tempArr.push(searchText);
-            codeObj.code = $("ul li.selectedItem").find('label.individualCode').text();
-            codeObj.desc = $("ul li.selectedItem").find('label.codeDesc').text();
+            codeObj.code = selectedCode.code;
+            codeObj.desc = selectedCode.desc;
             var requestedData = {};
             requestedData.allCodes = $scope.globalObj;
             requestedData.sectionName = "Added Code";
