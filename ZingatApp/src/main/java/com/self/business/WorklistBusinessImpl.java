@@ -7,6 +7,7 @@ import com.self.dto.*;
 import com.self.enums.Action;
 import com.self.enums.Role;
 import com.self.enums.SortingParameters;
+import com.self.models.DocRejectionReasonListEntity;
 import com.self.models.DocumentMasterEntity;
 import com.self.models.StatusMasterEntity;
 import com.self.models.UserMasterEntity;
@@ -14,6 +15,7 @@ import com.self.service.WorklistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -113,8 +115,18 @@ public class WorklistBusinessImpl implements WorklistBusiness{
 
     @Override
     public FileContent getFileContents(String fileId, String currentRole) {
-        String fileContents = worklistService.getFileContents(fileId);
-        String fileStatus = documentMasterDao.findByDocumentId(fileId).getDocumentCurrentStatus();
+        //String fileContents = worklistService.getFileContents(fileId);
+        DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(fileId);
+        String fileContents =documentMasterEntity.getDocumentContents();
+        String fileStatus = documentMasterEntity.getDocumentCurrentStatus();
+        DocRejectionReasonListEntity docRejectionReasonListEntity = null;
+        String documentRejectionReason = documentMasterEntity.getDocumentRejectionReason();
+        if (documentRejectionReason !=null && !documentRejectionReason.isEmpty())
+        try {
+            docRejectionReasonListEntity = new ObjectMapper().readValue(documentRejectionReason,DocRejectionReasonListEntity.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         String fileMode = "View";
         if(currentRole.toLowerCase().contains("coder") && ("Allocate to Coder".equalsIgnoreCase(fileStatus) || "Draft".equalsIgnoreCase(fileStatus))){
@@ -124,6 +136,7 @@ public class WorklistBusinessImpl implements WorklistBusiness{
         FileContent fileContent = new FileContent();
         fileContent.setData(fileContents);
         fileContent.setFileMode(fileMode);
+        fileContent.setDocumentRejectionReason(docRejectionReasonListEntity);
         return fileContent;
     }
 
