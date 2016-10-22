@@ -18,6 +18,18 @@ public class UserMasterEntity implements Serializable {
 
     private int userId;
 
+    private int roleId;
+
+    @Basic
+    @javax.persistence.Column(name = "role_id", nullable = false, insertable = true, updatable = true)
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+
     @Id
     @javax.persistence.Column(name = "user_id", nullable = false, insertable = true, updatable = true)
     public int getUserId() {

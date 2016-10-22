@@ -20,5 +20,7 @@ public interface WorklistBusiness {
 
     public Boolean assignedTo(DocAssignInfo docAssignInfo, UserMasterEntity userInfo);
 
+    public List<RightSideColumnResponse> getRightSideColumns(String fileId, int roleId, String bucketName);
+
     /*public List<AvailableOption> getSortParameters(String currentRole);*/
 }

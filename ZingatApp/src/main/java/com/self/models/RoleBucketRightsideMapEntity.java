@@ -14,6 +14,8 @@ public class RoleBucketRightsideMapEntity implements Serializable {
 
     private int id;
     private String roleName;
+    private Integer roleId;
+    private Integer bucketId;
     private String bucketValue;
     private String rightsideColumnKey;
     private String rightsideColumnName;
@@ -77,6 +79,26 @@ public class RoleBucketRightsideMapEntity implements Serializable {
 
     public void setRightsideColumnSequence(Integer rightsideColumnSequence) {
         this.rightsideColumnSequence = rightsideColumnSequence;
+    }
+
+    @Basic
+    @Column(name = "role_id", nullable = true, insertable = true, updatable = true)
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    @Basic
+    @Column(name = "bucket_id", nullable = true, insertable = true, updatable = true)
+    public Integer getBucketId() {
+        return bucketId;
+    }
+
+    public void setBucketId(Integer bucketId) {
+        this.bucketId = bucketId;
     }
 
     @Override

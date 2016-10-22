@@ -69,6 +69,12 @@ public class WorklistController extends BaseController {
         return roleNames[0].toString();
     }
 
+    @RequestMapping(value = "/getRightSideColumns")
+    public List<RightSideColumnResponse> getRightSideColumns(String fileId,String bucketName,HttpSession session) {
+        UserMasterEntity userInfo = (UserMasterEntity) session.getAttribute("userInfo");
+        return worklistBusiness.getRightSideColumns(fileId,userInfo.getRoleId(),bucketName);
+    }
+
     /*@RequestMapping("/getSortParameters")
     public String getSortParameters(HttpSession session){
         String currentRole = getCurrentRole(session);

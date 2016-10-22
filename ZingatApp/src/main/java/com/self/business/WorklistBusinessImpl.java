@@ -2,20 +2,19 @@ package com.self.business;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.self.dao.DocumentMasterDao;
+import com.self.dao.RoleBucketRightSideMapDao;
 import com.self.dao.UserMasterDao;
 import com.self.dto.*;
 import com.self.enums.Action;
 import com.self.enums.Role;
 import com.self.enums.SortingParameters;
-import com.self.models.DocRejectionReasonListEntity;
-import com.self.models.DocumentMasterEntity;
-import com.self.models.StatusMasterEntity;
-import com.self.models.UserMasterEntity;
+import com.self.models.*;
 import com.self.service.WorklistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -33,6 +32,9 @@ public class WorklistBusinessImpl implements WorklistBusiness{
 
     @Autowired
     private DocumentMasterDao documentMasterDao;
+
+    @Autowired
+    private RoleBucketRightSideMapDao roleBucketRightSideMapDao;
 
     private List<Integer> assignedFileStatusIds = Arrays.asList(444,555,666);
 
@@ -164,6 +166,44 @@ public class WorklistBusinessImpl implements WorklistBusiness{
         documentMasterDao.save(documentMasterEntityList);
 
         return true;
+    }
+
+    @Override
+    public List<RightSideColumnResponse> getRightSideColumns(String fileId, int roleId, String bucketName) {
+        List<RoleBucketRightsideMapEntity> roleBucketRightsideMapEntities = roleBucketRightSideMapDao.findByRoleIdAndBucketValue(roleId, bucketName);
+        DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(fileId);
+        List<RightSideColumnResponse> rightSideColumnResponseList = new ArrayList<>();
+        roleBucketRightsideMapEntities.forEach(valueMap->{
+            RightSideColumnResponse rightSideColumnResponse = new RightSideColumnResponse();
+            rightSideColumnResponse.setColumnName(valueMap.getRightsideColumnKey());
+            rightSideColumnResponse.setColumnSequenceNumber(valueMap.getRightsideColumnSequence());
+
+            try {
+                Field declaredField = documentMasterEntity.getClass().getDeclaredField(getClassVariableName(valueMap.getRightsideColumnName()));
+                declaredField.setAccessible(true);
+                Object value = declaredField.get(documentMasterEntity);
+                rightSideColumnResponse.setColumnValue(value==null?null:value.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            rightSideColumnResponseList.add(rightSideColumnResponse);
+        });
+
+        return rightSideColumnResponseList;
+    }
+
+    private String getClassVariableName(String rightsideColumnKey) {
+        String[] variableNameArray = rightsideColumnKey.split("_");
+        String variableName="";
+        for (int i=0;i<variableNameArray.length;i++){
+            String var = variableNameArray[i];
+            if (i==0){
+                variableName+=var;
+            }else {
+                variableName += (char) (var.charAt(0) - 32) + var.substring(1, var.length());
+            }
+        }
+        return variableName;
     }
 
     /*@Override
