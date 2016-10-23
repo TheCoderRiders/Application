@@ -162,11 +162,39 @@
 
                         </div> -->
                         <div class="file-content">
-                            <div class="viewFileContent">
-                                
+                            <div class="fileRigthSideColumn">
+                                <ul>
+                                    <li ng-repeat="item in rightSideItems track by $index">
+                                        <label class="columnName" ng-bind="item.columnName"></label>
+                                        <label class="columnValue" ng-bind="item.columnValue"></label>
+                                    </li>
+                                </ul>
                             </div>
-                            <div ng-bind-html="fileContent">
+                            <form name="outerForm" class="tab-form-demo" ng-show="rejectionReasonTab">
+                                <uib-tabset active="activeForm">
+                                    <uib-tab index="0" heading="File Content">
+                                        <ng-form name="nestedForm">
+                                          <div class="form-group">
+                                                <div ng-bind-html="fileContent">
 
+                                                </div>
+                                          </div>
+                                        </ng-form>
+                                    </uib-tab>
+                                    <uib-tab index="1" heading="Rejection Reason">
+                                        <ng-form name="nestedForm">
+                                            <div class="form-group">
+                                                <div class="rejectionReason" ng-bind="rejectionReasonDisplay"></div>
+                                                <div class="rejectionComment" ng-bind="rejectionReasonDesc"></div>
+                                            </div>
+                                        </ng-form>
+                                    </uib-tab>
+                                </uib-tabset>
+                            </form>
+                            <div class="viewFileContent" ng-hide="rejectionReasonTab">
+                                <div ng-bind-html="fileContent">
+
+                                </div> 
                             </div>
                         </div>
                     </div>

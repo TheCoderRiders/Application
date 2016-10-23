@@ -6,6 +6,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         $scope.showAction = false;
         $scope.checkFiled = [];
         $scope.editRight;
+        $scope.rejectionReasonTab = false;
 
         $('[data-toggle="tooltip"]').tooltip();
 
@@ -41,7 +42,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 }
-            }).then(function(data) { //make a get request to mock json file.
+            }).then(function(data) { 
                 $scope.listGroup = data.data.buckets;
                 $scope.group = data.data.sortParams;
                 $scope.tempObj.orderBy = data.data.sortParams.selectedOption.id;
@@ -86,7 +87,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 }
-            }).success(function(data) { //make a get request to mock json file.
+            }).success(function(data) { 
                 $scope.roles = data.fileDetailsList;
                 for(var i=0; i<data.fileDetailsList.length; i++){
                     if(data.fileDetailsList[i].checkBoxVisible){
@@ -197,11 +198,31 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
             $scope.selectedFile = $index;
             $scope.fileName = fileDetails.fileName;
             $cookies.put("clickedFileId", fileDetails.fileId);
+            var selectedBucket = $(".list-group-horizontal ul li.active").attr('id');
+
+            /* fetch right side column */
+            $http({
+                url: 'worklistPage/getRightSideColumns?fileId' + fileDetails.fileId + '&bucketName=' + selectedBucket,
+                method: "GET",
+            }).then(function(data) { 
+                $scope.rightSideItems = data.data;
+            }, function(err) {
+                console.log(err);
+            });
+
+            /*fetch content of the selected file*/
             $http({
                 url: 'worklistPage/getFileContents?fileId=' + fileDetails.fileId,
                 method: "GET",
-            }).then(function(data) { //make a get request to mock json file.
+            }).then(function(data) { 
                 $scope.fileContent = data.data.data;
+                if(data.data.documentRejectionReason != null){
+                    $scope.rejectionReasonTab = true;
+                    $scope.rejectionReasonDisplay = data.data.documentRejectionReason.rejectionReasonDisplay;
+                    $scope.rejectionReasonDesc = data.data.documentRejectionReason.rejectionReasonDesc;
+                }else{
+                    $scope.rejectionReasonTab = false;
+                }
                 if(data.data.fileMode == "Edit"){
                     $scope.editRight = true;
                     $cookies.put("editRight",true);
@@ -212,6 +233,8 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
             }, function(err) {
                 console.log(err);
             });
+
+
 
         }
 

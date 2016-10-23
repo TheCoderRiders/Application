@@ -267,6 +267,7 @@ tags-input .host {
     text-align: center;
     margin-top: 20px;
 }
+
 .allocateToTLBg{
    background-color: #BFB230; 
 }
@@ -284,6 +285,9 @@ tags-input .host {
 }
 .allocatedCoder{
     background: green;
+}
+.rejectedBg{
+    background-color: #953f02;
 }
 
 .file-name{
@@ -335,7 +339,7 @@ tags-input .host {
     padding: 5px;
     height: 50px;
     position: fixed;
-    border-bottom: 2px solid gray;
+    border-bottom: 2px solid #7a7979;
     background-color: #f5f5f5;
     z-index: 9999;
 }
@@ -352,13 +356,32 @@ tags-input .host {
     float: left;
     padding-left: 15px;
     margin-top: 10%;
+    width: 100%;
 }
-/*.rowSeparator{
-    margin: 0 auto;
-    width: 98%;
-    height: 2px;
-    background-color: gray;
-}*/
+.fileRigthSideColumn ul li{
+    list-style-type: none;
+    width: 50%;
+    display: inline-block;
+    float: left;
+    padding: 2px;
+}
+.fileRigthSideColumn ul li:last-child{
+    width: 100%;
+    margin-bottom: 15px;
+}
+.file-content .rejectionReason,.fileRigthSideColumn .columnName{
+    font-weight: bolder;
+}
+.file-content .rejectionReason{
+    font-style: italic;
+}
+.nav>li>a{
+    color:#7a7979;
+}
+.nav-tabs>li.active>a,.nav-tabs>li.active>a:focus,.nav-tabs>li.active>a:hover {
+    background-color: #f5f5f5;
+    color:#7a7979;
+}
 .navbar>.container-fluid .navbar-brand {
     margin-left: -15px;
     color: #ffffff;
