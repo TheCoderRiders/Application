@@ -170,7 +170,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <form name="outerForm" class="tab-form-demo" ng-show="rejectionReasonTab">
+                            <form name="outerForm" class="tab-form-demo" >
                                 <uib-tabset active="activeForm">
                                     <uib-tab index="0" heading="File Content">
                                         <ng-form name="nestedForm">
@@ -181,7 +181,7 @@
                                           </div>
                                         </ng-form>
                                     </uib-tab>
-                                    <uib-tab index="1" heading="Rejection Reason">
+                                    <uib-tab index="1" heading="Rejection Reason" ng-show="rejectionReasonTab">
                                         <ng-form name="nestedForm">
                                             <div class="form-group">
                                                 <div class="rejectionReason" ng-bind="rejectionReasonDisplay"></div>
@@ -191,11 +191,11 @@
                                     </uib-tab>
                                 </uib-tabset>
                             </form>
-                            <div class="viewFileContent" ng-hide="rejectionReasonTab">
+                            <!-- <div class="viewFileContent" ng-hide="rejectionReasonTab">
                                 <div ng-bind-html="fileContent">
 
                                 </div> 
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
