@@ -202,8 +202,8 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
 
             /* fetch right side column */
             $http({
-                url: 'worklistPage/getRightSideColumns?fileId' + fileDetails.fileId + '&bucketName=' + selectedBucket,
-                method: "GET",
+                url: 'worklistPage/getRightSideColumns?fileId=' + fileDetails.fileId + '&bucketName=' + selectedBucket,
+                method: "GET"
             }).then(function(data) { 
                 $scope.rightSideItems = data.data;
             }, function(err) {
