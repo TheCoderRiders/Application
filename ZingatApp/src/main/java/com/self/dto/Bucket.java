@@ -1,18 +1,12 @@
 
 package com.self.dto;
 
-import java.util.HashMap;
-import java.util.Map;
-import javax.annotation.Generated;
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Id;
 
 
 /**
@@ -32,9 +26,15 @@ public class Bucket implements Comparable<Bucket> {
     @JsonProperty("bucketCount")
     private int bucketCount;
 
+    private Boolean defaultBucket = Boolean.FALSE;
+
     public Bucket(String bucketName, long bucketCount) {
         this.bucketName = bucketName;
         this.bucketCount = (int)bucketCount;
+    }
+
+    public Bucket() {
+
     }
 
     /**
@@ -79,6 +79,21 @@ public class Bucket implements Comparable<Bucket> {
 
     @Override
     public int compareTo(Bucket o) {
+        int defaultBucketCompare = o.getDefaultBucket().compareTo(this.getDefaultBucket());
+        if(defaultBucketCompare!=0) return defaultBucketCompare;
         return o.getBucketName().compareTo(this.getBucketName());
+    }
+
+    public Boolean getDefaultBucket() {
+        return defaultBucket;
+    }
+
+    public void setDefaultBucket(Boolean defaultBucket) {
+        this.defaultBucket = defaultBucket;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.bucketName.equals(((Bucket) obj).getBucketName());
     }
 }

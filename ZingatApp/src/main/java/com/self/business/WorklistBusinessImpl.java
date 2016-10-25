@@ -3,6 +3,7 @@ package com.self.business;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.self.dao.DocumentMasterDao;
 import com.self.dao.RoleBucketRightSideMapDao;
+import com.self.dao.RolewiseDefaultBucketDao;
 import com.self.dao.UserMasterDao;
 import com.self.dto.*;
 import com.self.enums.Action;
@@ -36,12 +37,15 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     @Autowired
     private RoleBucketRightSideMapDao roleBucketRightSideMapDao;
 
+    @Autowired
+    private RolewiseDefaultBucketDao rolewiseDefaultBucketDao;
+
     private List<Integer> assignedFileStatusIds = Arrays.asList(444,555,666);
 
     private List<Integer> assignedToTLFileStatusIds = Arrays.asList(333);
 
     @Override
-    public BucketActions getBucketsAndActions(String role, int userId) {
+    public BucketActions getBucketsAndActions(String role, Integer roleId, Integer userId) {
         List<Bucket> bucketsInfo = worklistService.getBucketsInfo(role,userId);
         if(role.equalsIgnoreCase("TL_Allocater") || role.equalsIgnoreCase("TL_Allocater_Coder")|| role.equalsIgnoreCase("Allocater")) {
             List<Bucket> additionalBuckets = worklistService.getBucketsInfo("Allocater");
@@ -51,6 +55,15 @@ public class WorklistBusinessImpl implements WorklistBusiness{
             });*/
             bucketsInfo.removeAll(additionalBuckets);
             bucketsInfo.addAll(additionalBuckets);
+        }
+
+        RolewiseDefaultBucketEntity rolewiseDefaultBucketEntity = rolewiseDefaultBucketDao.findByRoleId(roleId);
+        Bucket defaultBucket = new Bucket();
+        defaultBucket.setBucketName(rolewiseDefaultBucketEntity.getBucketName());
+        int index = bucketsInfo.indexOf(defaultBucket);
+        if(index!=-1) {
+            defaultBucket = bucketsInfo.get(index);
+            defaultBucket.setDefaultBucket(Boolean.TRUE);
         }
 
         Collections.sort(bucketsInfo);
