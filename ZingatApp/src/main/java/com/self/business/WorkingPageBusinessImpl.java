@@ -23,10 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Predicate;
@@ -170,15 +168,16 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         documentMasterEntity.setDocumentCurrentStatus(status.getStatus());
         documentMasterEntity.setDocumentCurrentStatusId(status.getId());
 
+        Timestamp currentTime = new Timestamp(Calendar.getInstance().getTime().getTime());
+
         if(status.equals(FileStatus.REJECTED)) {
             try {
                 documentMasterEntity.setDocumentRejectionReason(documentRejectionReason==null?null:new ObjectMapper().writeValueAsString(documentRejectionReason));
+                documentMasterEntity.setDocumentRejectedDatetime(currentTime);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         }
-
-        documentMasterDao.save(documentMasterEntity);
 
         if(status.equals(FileStatus.SUBMIT)) {
             ExecutorService executorService = Executors.newFixedThreadPool(1);
@@ -186,8 +185,11 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
                         saveNewlyAddedCodeInSolr(documentMasterEntity);
                     }
             );
-        }
 
+            documentMasterEntity.setDocumentEndDatetime(currentTime);
+        }
+        documentMasterEntity.setUpdatedDate(currentTime);
+        documentMasterDao.save(documentMasterEntity);
         return true;
     }
 

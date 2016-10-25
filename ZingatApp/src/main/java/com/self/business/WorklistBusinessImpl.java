@@ -129,7 +129,7 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     }
 
     @Override
-    public FileContent getFileContents(String fileId, String currentRole) {
+    public FileContent getFileContents(String fileId, String currentRole, String page) {
         //String fileContents = worklistService.getFileContents(fileId);
         DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(fileId);
         String fileContents =documentMasterEntity.getDocumentContents();
@@ -146,6 +146,10 @@ public class WorklistBusinessImpl implements WorklistBusiness{
         String fileMode = "View";
         if(currentRole.toLowerCase().contains("coder") && ("Allocate to Coder".equalsIgnoreCase(fileStatus) || "Draft".equalsIgnoreCase(fileStatus))){
             fileMode = "Edit";
+            if("workingPage".equalsIgnoreCase(page) && documentMasterEntity.getDocumentStartDatetime()==null){
+                documentMasterEntity.setDocumentStartDatetime(new Timestamp(Calendar.getInstance().getTime().getTime()));
+                documentMasterDao.save(documentMasterEntity);
+            }
         }
 
         FileContent fileContent = new FileContent();

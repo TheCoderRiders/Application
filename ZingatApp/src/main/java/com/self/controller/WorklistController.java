@@ -48,9 +48,9 @@ public class WorklistController extends BaseController {
     }
 
     @RequestMapping("/getFileContents")
-    public FileContent getFileContents(String fileId,HttpSession session){
+    public FileContent getFileContents(String fileId, String page, HttpSession session){
         String currentRole = getCurrentRole(session);
-        return worklistBusiness.getFileContents(fileId,currentRole);
+        return worklistBusiness.getFileContents(fileId,currentRole,page);
     }
 
     @RequestMapping("/getUsersForAllocation")

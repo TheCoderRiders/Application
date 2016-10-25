@@ -410,6 +410,41 @@ public class DocumentMasterEntity implements Serializable {
         this.updatedDate = updatedDate;
     }
 
+    private Timestamp codeSuggestedDate;
+
+    @Basic
+    @javax.persistence.Column(name = "code_suggested_date")
+    public Timestamp getCodeSuggestedDate() {
+        return codeSuggestedDate;
+    }
+
+    public void setCodeSuggestedDate(Timestamp codeSuggestedDate) {
+        this.codeSuggestedDate = codeSuggestedDate;
+    }
+    private Timestamp documentRejectedDatetime;
+
+    @Basic
+    @javax.persistence.Column(name = "document_rejected_datetime")
+    public Timestamp getDocumentRejectedDatetime() {
+        return documentRejectedDatetime;
+    }
+
+    public void setDocumentRejectedDatetime(Timestamp documentRejectedDatetime) {
+        this.documentRejectedDatetime = documentRejectedDatetime;
+    }
+
+    private String documentSectionContents;
+
+    @Basic
+    @javax.persistence.Column(name = "document_section_contents")
+    public String getDocumentSectionContents() {
+        return documentSectionContents;
+    }
+
+    public void setDocumentSectionContents(String documentSectionContents) {
+        this.documentSectionContents = documentSectionContents;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

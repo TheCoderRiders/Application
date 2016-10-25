@@ -118,7 +118,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
 
         /* get content of clicked file*/
         $http({
-            url: 'worklistPage/getFileContents?fileId='+$scope.fileId, 
+            url: 'worklistPage/getFileContents?fileId='+$scope.fileId+"&page=workingPage",
             method: "GET",
         }).then(function(data){ //make a get request to mock json file.
             $scope.workingFileContent = data.data.data;
