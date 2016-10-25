@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface WorklistBusiness {
 
-    public BucketActions getBucketsAndActions(String role, int userId);
+    public BucketActions getBucketsAndActions(String role, Integer roleId, Integer userId);
 
     public FileDetailsResponse getFileDetails(String bucketName, String currentRole, int userId, String orderBy, boolean isAsc, int pageNumber);
 

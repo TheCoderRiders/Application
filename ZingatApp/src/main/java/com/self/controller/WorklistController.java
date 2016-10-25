@@ -35,8 +35,9 @@ public class WorklistController extends BaseController {
     public BucketActions getDocumentInformation(Principal user ,HttpSession session){
         Collection<GrantedAuthority> authorities = ((UsernamePasswordAuthenticationToken) user).getAuthorities();
         Object[] roleNames = authorities.toArray();
-        int userId = ((UserMasterEntity) session.getAttribute("userInfo")).getUserId();
-        return worklistBusiness.getBucketsAndActions(roleNames[0].toString(),userId);
+        UserMasterEntity userInfo = (UserMasterEntity) session.getAttribute("userInfo");
+        int userId = userInfo.getUserId();
+        return worklistBusiness.getBucketsAndActions(roleNames[0].toString(),userInfo.getRoleId(),userId);
     }
 
     @RequestMapping("/getFileDetails")
