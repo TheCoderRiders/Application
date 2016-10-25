@@ -268,8 +268,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
                     url: 'workingPage/searchCode?key='+$scope.searchText+'&start='+$scope.currentPage, 
                     method: "GET",
                 }).then(function(data){ 
-                    $scope.totalItems = data.data.total;
                     if(data.data.total > 0){
+                        $scope.totalItems = data.data.total;
                         $scope.emptyData = false;
                         $(".paginationBlock").show();
                         $scope.selectedFile = 0;

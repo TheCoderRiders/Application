@@ -177,13 +177,14 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
 
         /* function called on ascending/descending click */
         $scope.changeOrder = function() {
-            if ($(event.target).hasClass("fa-sort-amount-asc")) {
-                $(event.target).removeClass("fa-sort-amount-asc");
-                $(event.target).addClass("fa-sort-amount-desc");
+            var element = $(".sortImg").find('i');
+            if (element.hasClass("fa-sort-amount-asc")) {
+                element.removeClass("fa-sort-amount-asc");
+                element.addClass("fa-sort-amount-desc");
                 $scope.isAsc = false;
             } else {
-                $(event.target).removeClass("fa-sort-amount-desc");
-                $(event.target).addClass("fa-sort-amount-asc");
+                element.removeClass("fa-sort-amount-desc");
+                element.addClass("fa-sort-amount-asc");
                 $scope.isAsc = true;
             }
             $scope.tempObj.isAsc = $scope.isAsc;
