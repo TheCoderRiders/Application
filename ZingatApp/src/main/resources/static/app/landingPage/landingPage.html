@@ -38,7 +38,7 @@
                     Buckets
                 </div>
                 <div class="list-group list-group-horizontal">
-                    <ul>
+                    <ul class="bucketList">
                         <li id={{list.bucketName}} class="list-group-item" ng-repeat="list in listGroup" ng-click="changeBucket($event,$index)" ng-class="{active: $index == selected}">
                             <span class="badge">
                                 {{list.bucketCount}}
@@ -172,7 +172,7 @@
                             </div>
                             <form name="outerForm" class="tab-form-demo" >
                                 <uib-tabset active="activeForm">
-                                    <uib-tab index="0" heading="File Content">
+                                    <uib-tab index="0" heading="File Content" ng-click="tabChanged()">
                                         <ng-form name="nestedForm">
                                           <div class="form-group">
                                                 <div ng-bind-html="fileContent">
@@ -181,11 +181,11 @@
                                           </div>
                                         </ng-form>
                                     </uib-tab>
-                                    <uib-tab index="1" heading="Rejection Reason" ng-show="rejectionReasonTab">
+                                    <uib-tab index="1" heading="Rejection Reason" ng-click="tabChanged()" ng-show="rejectionReasonTab">
                                         <ng-form name="nestedForm">
                                             <div class="form-group">
-                                                <div class="rejectionReason" ng-bind="rejectionReasonDisplay"></div>
-                                                <div class="rejectionComment" ng-bind="rejectionReasonDesc"></div>
+                                                <div class="rejectionReason" ng-bind-html="rejectionReasonDisplay"></div>
+                                                <div class="rejectionComment" ng-bind-html="rejectionReasonDesc"></div>
                                             </div>
                                         </ng-form>
                                     </uib-tab>

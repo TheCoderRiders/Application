@@ -48,7 +48,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                 $scope.tempObj.orderBy = data.data.sortParams.selectedOption.id;
                 $scope.action = data.data.actions;
                 $timeout(function() {
-                    angular.element('ul').find('li.active').trigger('click')
+                    angular.element('ul.bucketList').find('li.active').trigger('click')
                 }, 500);
             }, function(err) {
                 console.log("Bucket Err: " + err);
@@ -216,7 +216,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                 url: 'worklistPage/getFileContents?fileId=' + fileDetails.fileId,
                 method: "GET",
             }).then(function(data) { 
-                $scope.fileContent = data.data.data;
+                
                 if(data.data.documentRejectionReason != null){
                     $scope.rejectionReasonTab = true;
                     $scope.rejectionReasonDisplay = data.data.documentRejectionReason.rejectionReasonDisplay;
@@ -224,6 +224,11 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                 }else{
                     $scope.rejectionReasonTab = false;
                 }
+                $scope.fileContent = data.data.data;
+                $timeout(function() {
+                    angular.element('ul.nav-tabs').find('li').trigger('click');
+                }, 100);
+                
                 if(data.data.fileMode == "Edit"){
                     $scope.editRight = true;
                     $cookies.put("editRight",true);
@@ -330,5 +335,18 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         /* function called on hospital name click */
         $scope.redirectToLandingPage = function(){
             $route.reload();
+        }
+
+        /* right side tab changed*/ 
+        $scope.tabChanged = function(){
+            var selectedTab = $(".nav.nav-tabs").find('li.active a').text();
+            if(selectedTab != "File Content"){
+                $(".nav.nav-tabs").find('li.active').removeClass('active');
+                $(".nav.nav-tabs").find('li:first-child').addClass('active');
+                $timeout(function() {
+                     angular.element('ul.nav-tabs').find('li.active a').trigger('click');
+                },1);
+               
+            }
         }
     }])
