@@ -355,13 +355,14 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             tempArr.push(searchText);
             codeObj.code = selectedCode.code;
             codeObj.desc = selectedCode.desc;
+			codeObj.token = tempArr;
             var requestedData = {};
             requestedData.allCodes = $scope.globalObj;
             requestedData.sectionName = "Added Code";
             requestedData.action = "AddCode";
             requestedData.code = codeObj;
             requestedData.codeActionType = "New";
-            requestedData.token = tempArr;
+            //requestedData.token = tempArr;
 
             $http({
                 url: 'workingPage/codeAction', 
