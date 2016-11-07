@@ -170,9 +170,9 @@ public class DocumentMasterEntity implements Serializable {
         this.documentEndDatetime = documentEndDatetime;
     }
 
-    private String documentContents;
+    //private String documentContents;
 
-    @Basic
+    /*@Basic
     @javax.persistence.Column(name = "document_html_contents", nullable = true, insertable = true, updatable = true, length = 65535)
     public String getDocumentContents() {
         return documentContents;
@@ -180,7 +180,7 @@ public class DocumentMasterEntity implements Serializable {
 
     public void setDocumentContents(String documentContents) {
         this.documentContents = documentContents;
-    }
+    }*/
 
     private String documentSuggestedCodes;
 
@@ -433,9 +433,9 @@ public class DocumentMasterEntity implements Serializable {
         this.documentRejectedDatetime = documentRejectedDatetime;
     }
 
-    private String documentSectionContents;
+    //private String documentSectionContents;
 
-    @Basic
+   /* @Basic
     @javax.persistence.Column(name = "document_section_contents")
     public String getDocumentSectionContents() {
         return documentSectionContents;
@@ -443,6 +443,18 @@ public class DocumentMasterEntity implements Serializable {
 
     public void setDocumentSectionContents(String documentSectionContents) {
         this.documentSectionContents = documentSectionContents;
+    }*/
+
+    private String documentFilePath;
+
+    @Basic
+    @javax.persistence.Column(name = "document_file_path")
+    public String getDocumentFilePath() {
+        return documentFilePath;
+    }
+
+    public void setDocumentFilePath(String documentFilePath) {
+        this.documentFilePath = documentFilePath;
     }
 
     @Override
@@ -470,8 +482,8 @@ public class DocumentMasterEntity implements Serializable {
             return false;
         if (documentAssigneeName != null ? !documentAssigneeName.equals(that.documentAssigneeName) : that.documentAssigneeName != null)
             return false;
-        if (documentContents != null ? !documentContents.equals(that.documentContents) : that.documentContents != null)
-            return false;
+        /*if (documentContents != null ? !documentContents.equals(that.documentContents) : that.documentContents != null)
+            return false;*/
         if (documentCurrentStatus != null ? !documentCurrentStatus.equals(that.documentCurrentStatus) : that.documentCurrentStatus != null)
             return false;
         if (documentEndDatetime != null ? !documentEndDatetime.equals(that.documentEndDatetime) : that.documentEndDatetime != null)
@@ -526,7 +538,7 @@ public class DocumentMasterEntity implements Serializable {
         result = 31 * result + (documentAssignedDatetime != null ? documentAssignedDatetime.hashCode() : 0);
         result = 31 * result + (documentStartDatetime != null ? documentStartDatetime.hashCode() : 0);
         result = 31 * result + (documentEndDatetime != null ? documentEndDatetime.hashCode() : 0);
-        result = 31 * result + (documentContents != null ? documentContents.hashCode() : 0);
+//        result = 31 * result + (documentContents != null ? documentContents.hashCode() : 0);
         result = 31 * result + (documentSuggestedCodes != null ? documentSuggestedCodes.hashCode() : 0);
         result = 31 * result + (documentAcceptedCodes != null ? documentAcceptedCodes.hashCode() : 0);
         result = 31 * result + (documentRejectedCodes != null ? documentRejectedCodes.hashCode() : 0);

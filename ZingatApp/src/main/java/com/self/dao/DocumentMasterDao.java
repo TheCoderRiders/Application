@@ -63,8 +63,8 @@ public interface DocumentMasterDao extends JpaRepository<DocumentMasterEntity, L
     public Integer getFileDetailsPageCountByUserId(@Param("bucketName") String bucketName,
                                                     @Param("currentRole") List<String> currentRole, @Param("documentAssignedId") String documentAssignedId);
 
-    @Query("select documentContents from DocumentMasterEntity where documentId=:fileId")
-    public String getFileContents(@Param("fileId") String fileId);
+    /*@Query("select documentContents from DocumentMasterEntity where documentId=:fileId")
+    public String getFileContents(@Param("fileId") String fileId);*/
 
     public DocumentMasterEntity findByDocumentId(String fileId);
 
