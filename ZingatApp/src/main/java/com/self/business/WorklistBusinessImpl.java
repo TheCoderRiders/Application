@@ -12,9 +12,10 @@ import com.self.enums.SortingParameters;
 import com.self.models.*;
 import com.self.service.WorklistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.util.*;
@@ -44,6 +45,10 @@ public class WorklistBusinessImpl implements WorklistBusiness{
 
     private List<Integer> assignedToTLFileStatusIds = Arrays.asList(333);
 
+    private String defaultHtmlContent = "<!DOCTYPE html PUBLIC \\\"-//W3C//DTD HTML 4.01 Transitional//EN\\\"\\\"http://www.w3.org/TR/html4/loose.dtd\\\"><html><head><title> </title><meta http-equiv=\\\"Content-Type\\\" content=\\\"text/html; charset=\\\"UTF-16\\\"></head><body><div><p> </p><p><b>Office visit </b></p><p><b>REASON FOR CONSULTATION:</b> </p><p>Uncontrolled <mark class=\\\"I10\\\">hypertension</mark>, HLD  </p><p><b>HISTORY OF PRESENT ILLNESS:</b> </p><p>This is a 58-year-old male patient, Asian origin, with history of long standing </p><p><mark class=\\\"I10\\\">hypertension</mark> and diabetes.  Has had fluctuations in his blood pressure with systolic blood </p><p>pressure in the 170s to 180s and some times its 120s and 130s.  The patient has had few </p><p>medications changed before, currently he is on Norvasc 10 mg daily.  </p><p><b>PAST MEDICAL HISTORY:</b> </p><p>Diabetes for 18 years, <mark class=\\\"I10\\\">hypertension</mark> for 18 years, and without history of bronchitis.  </p><p><b>MEDICATIONS:</b> </p><p>Norvasc 10 mg daily, metformin 1000 mg b.i.d., glipizide 10 mg b.i.d., Zocor 40 mg </p><p>daily, aspirin 325 mg daily, and albuterol with breathing inhalers.  </p><p><b>ALLERGIES:</b> </p><p>No known drug allergies.  </p><p><b>SOCIAL HISTORY:</b> </p><p>Heavy smoker for many years, reduced smoking little bit now.  Still smokes few </p><p>cigarettes a week.  No alcohol or drug abuse.  </p><p><b>FAMILY HISTORY:</b> </p><p>Father had <mark class=\\\"I10\\\">hypertension</mark> and died of CVA.  </p><p><b>REVIEW OF SYSTEMS:</b> </p><p>Positive for nocturia two to three times in the night, also has some sweating and </p><p>palpitations at times.  Denies any nausea, vomiting, diarrhea, abdominal pain, hiccups, </p><p>itching, dysuria, frequency or urgency.  Has some headache off and on and dizziness </p><p>sometimes.  Has shortness of breath all the time, both at rest and with </p><p>exertion.  Denies  any chest pain.  No fever, chills, rigors or sore throat.  Denies any loss </p><p>of weight, loss of appetite, extreme weakness or fatigue.  </p><p><b>PHYSICAL EXAMINATION:</b> </p><p>GENERAL:  The patient is alert, oriented, and not in any acute distress.  Speaks </p><p>coherently. </p><p>VITAL SIGNS:  BP:  121/84.  Heart rate:  84.  Respirations:  15.  Temperature:  96.5. </p><p>HEENT:  Normocephalic, atraumatic.  Pupils are equal and reactive to light and </p><p>accommodation. Extraocular muscles intact. </p><p>NECK:  Supple.  No JVD. No lymphadenopathy, thyromegaly, masses or bruits. </p></div></body></html>'";
+
+    @Value("${document.base.path}")
+    private String documentBasePath;
     @Override
     public BucketActions getBucketsAndActions(String role, Integer roleId, Integer userId) {
         List<Bucket> bucketsInfo = worklistService.getBucketsInfo(role,userId);
@@ -132,7 +137,27 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     public FileContent getFileContents(String fileId, String currentRole, String page) {
         //String fileContents = worklistService.getFileContents(fileId);
         DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(fileId);
-        String fileContents =documentMasterEntity.getDocumentContents();
+        //String fileContents =documentMasterEntity.getDocumentContents();
+        String filePath = documentMasterEntity.getDocumentFilePath();
+        File file = new File(documentBasePath+filePath);
+        /*if(!file.exists()){
+            try {
+                file.createNewFile();
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                fileOutputStream.write(defaultHtmlContent.getBytes());
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }*/
+        char[] fileBuffer = new char[(int)file.length()];
+        try(FileInputStream inputStream = new FileInputStream(file)){
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            reader.read(fileBuffer);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        String fileContents = new String(fileBuffer);
         String fileStatus = documentMasterEntity.getDocumentCurrentStatus();
         DocRejectionReasonListEntity docRejectionReasonListEntity = null;
         String documentRejectionReason = documentMasterEntity.getDocumentRejectionReason();

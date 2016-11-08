@@ -12,6 +12,8 @@ public class DocumentCodeInfo implements Comparable<DocumentCodeInfo> {
 
     private String sectionName;
     private List<ActualCode> codes;
+    private String dos;
+    private String sign;
 
     public String getSectionName() {
         return sectionName;
@@ -27,6 +29,22 @@ public class DocumentCodeInfo implements Comparable<DocumentCodeInfo> {
 
     public void setCodes(List<ActualCode> codes) {
         this.codes = codes;
+    }
+
+    public String getDos() {
+        return dos;
+    }
+
+    public void setDos(String dos) {
+        this.dos = dos;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
     }
 
     @Override

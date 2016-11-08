@@ -59,7 +59,7 @@ public class WorklistServiceImpl implements WorklistService {
 
     @Override
     public String getFileContents(String fileId) {
-        return documentMasterDao.getFileContents(fileId);
+        return null;//documentMasterDao.getFileContents(fileId);
     }
 
     @Override
