@@ -36,6 +36,7 @@ angular.module('RejectCodePageController', ['ngDialog'])
 
             workingPageService.updateGetCodes(requestData,targetHeading,function(data){
                 data.data.targetHeading = targetHeading;
+                data.data.rejectedCode = requestData.code;
                 $scope.$emit("codeActionEmit",data.data);
             },function(){
 

@@ -40,11 +40,33 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
         $rootScope.$on("codeActionEmit",function (event,data) {
             var targetHeading = data.targetHeading;
             delete data.targetHeading;
+            var rejectedCodeClass = data.rejectedCode.code;
+            var markLeftSide = $(".leftSideContent mark[class*='"+rejectedCodeClass+"']")
             $scope.globalObj = data;
-            $scope.suggestedCode = data.suggestedCode;
-            $scope.acceptedCode = data.acceptedCode;
-            $scope.rejectedCode = data.rejectedCode;
-            $scope.mayBeCode = data.mayBeCode;
+            $scope.suggestedCode = data.data.suggestedCode;
+            $scope.suggestedCode.sort(function(a, b){
+                var dateA = new Date(a.dos);
+                var dateB = new Date(b.dos);
+                return dateA-dateB;
+            });
+            $scope.acceptedCode = data.data.acceptedCode;
+            $scope.acceptedCode.sort(function(a, b){
+                var dateA = new Date(a.dos);
+                var dateB = new Date(b.dos);
+                return dateA-dateB;
+            });
+            $scope.rejectedCode = data.data.rejectedCode;
+            $scope.rejectedCode.sort(function(a, b){
+                var dateA = new Date(a.dos);
+                var dateB = new Date(b.dos);
+                return dateA-dateB;
+            });
+            $scope.mayBeCode = data.data.mayBeCode;
+            $scope.mayBeCode.sort(function(a, b){
+                var dateA = new Date(a.dos);
+                var dateB = new Date(b.dos);
+                return dateA-dateB;
+            });
             if(targetHeading == "Suggested" && $scope.suggestedCode.length < 1){
                 $scope.emptyData = true;
             }else if(targetHeading == "Accepted" && $scope.acceptedCode.length < 1){
@@ -100,13 +122,13 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             $('[data-toggle="tooltip"]').tooltip();
             var clickedTabIndex = $(event.target).parent().attr('index');
             $scope.emptyData = false;
-            if(clickedTabIndex == "0" && ($scope.suggestedCode ==  null || $scope.suggestedCode.length ==  0 || $scope.suggestedCode[0].codes.length < 1)){
+            if(clickedTabIndex == "0" && ($scope.suggestedCode ==  null || $scope.suggestedCode.length ==  0 )){
                 $scope.emptyData = true;
-            }else if(clickedTabIndex == "1" && ($scope.acceptedCode ==  null || $scope.acceptedCode.length ==  0 || $scope.acceptedCode[0].codes.length < 1)){
+            }else if(clickedTabIndex == "1" && ($scope.acceptedCode ==  null || $scope.acceptedCode.length ==  0 )){
                 $scope.emptyData = true;
-            }else if(clickedTabIndex == "2" && ($scope.rejectedCode ==  null || $scope.rejectedCode.length ==  0 || $scope.rejectedCode[0].codes.length < 1)){
+            }else if(clickedTabIndex == "2" && ($scope.rejectedCode ==  null || $scope.rejectedCode.length ==  0 )){
                 $scope.emptyData = true;
-            }else if(clickedTabIndex == "3" && ($scope.mayBeCode ==  null || $scope.mayBeCode.length ==  0 || $scope.mayBeCode[0].codes.length < 1)){
+            }else if(clickedTabIndex == "3" && ($scope.mayBeCode ==  null || $scope.mayBeCode.length ==  0 )){
                 $scope.emptyData = true;
             }else{
                 $(".searchCode").val("");
@@ -139,15 +161,51 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
         $http({
             url: 'workingPage/getCodes?fileId='+$scope.fileId, 
             method: "GET",
-        }).then(function(data){ //make a get request to mock json file.
+        }).then(function(data){ 
             $scope.globalObj = data.data;
             if(data.data.suggestedCode[0].codes.length < 1){
                 $scope.emptyData = true;
             }
+
             $scope.suggestedCode = data.data.suggestedCode;
+            $scope.suggestedCode.sort(function(a, b){
+                var dateA = new Date(a.dos);
+                var dateB = new Date(b.dos);
+                return dateA-dateB;
+            });
             $scope.acceptedCode = data.data.acceptedCode;
+            $scope.acceptedCode.sort(function(a, b){
+                var dateA = new Date(a.dos);
+                var dateB = new Date(b.dos);
+                return dateA-dateB;
+            });
             $scope.rejectedCode = data.data.rejectedCode;
+            $scope.rejectedCode.sort(function(a, b){
+                var dateA = new Date(a.dos);
+                var dateB = new Date(b.dos);
+                return dateA-dateB;
+            });
             $scope.mayBeCode = data.data.mayBeCode;
+            $scope.mayBeCode.sort(function(a, b){
+                var dateA = new Date(a.dos);
+                var dateB = new Date(b.dos);
+                return dateA-dateB;
+            });
+            /*$http({
+                url: 'json/dos.json',
+                method: "GET",
+            }).then(function(data){ 
+                $scope.suggestedCode = [];
+                var totalData = data.data;
+                totalData.sort(function(a, b){
+                    var dateA = new Date(a.dos);
+                    var dateB = new Date(b.dos);
+                    return dateA-dateB;
+                });
+                $scope.suggestedCode = totalData;
+            },function(err) {
+                console.log(err);
+            });*/
         },function(err) {
             console.log(err);
         });
@@ -230,9 +288,29 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
                 workingPageService.updateGetCodes(requestedData,targetHeading,function(data){
                     $scope.globalObj = data.data;
                     $scope.suggestedCode = data.data.suggestedCode;
+                    $scope.suggestedCode.sort(function(a, b){
+                        var dateA = new Date(a.dos);
+                        var dateB = new Date(b.dos);
+                        return dateA-dateB;
+                    });
                     $scope.acceptedCode = data.data.acceptedCode;
+                    $scope.acceptedCode.sort(function(a, b){
+                        var dateA = new Date(a.dos);
+                        var dateB = new Date(b.dos);
+                        return dateA-dateB;
+                    });
                     $scope.rejectedCode = data.data.rejectedCode;
+                    $scope.rejectedCode.sort(function(a, b){
+                        var dateA = new Date(a.dos);
+                        var dateB = new Date(b.dos);
+                        return dateA-dateB;
+                    });
                     $scope.mayBeCode = data.data.mayBeCode;
+                    $scope.mayBeCode.sort(function(a, b){
+                        var dateA = new Date(a.dos);
+                        var dateB = new Date(b.dos);
+                        return dateA-dateB;
+                    });
                     if(targetHeading == "Suggested" && $scope.suggestedCode.length < 1){
                         $scope.emptyData = true;
                     }else if(targetHeading == "Accepted" && $scope.acceptedCode.length < 1){
@@ -372,9 +450,29 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             }).then(function(data){ //make a get request to mock json file.
                 $scope.globalObj = data.data;
                 $scope.suggestedCode = data.data.suggestedCode;
+                $scope.suggestedCode.sort(function(a, b){
+                    var dateA = new Date(a.dos);
+                    var dateB = new Date(b.dos);
+                    return dateA-dateB;
+                });
                 $scope.acceptedCode = data.data.acceptedCode;
+                $scope.acceptedCode.sort(function(a, b){
+                    var dateA = new Date(a.dos);
+                    var dateB = new Date(b.dos);
+                    return dateA-dateB;
+                });
                 $scope.rejectedCode = data.data.rejectedCode;
+                $scope.rejectedCode.sort(function(a, b){
+                    var dateA = new Date(a.dos);
+                    var dateB = new Date(b.dos);
+                    return dateA-dateB;
+                });
                 $scope.mayBeCode = data.data.mayBeCode;
+                $scope.mayBeCode.sort(function(a, b){
+                    var dateA = new Date(a.dos);
+                    var dateB = new Date(b.dos);
+                    return dateA-dateB;
+                });
                 $(".searchCode").val("")
                 $(".paginationBlock").hide();
                 $(".codeSearchContainer").hide();

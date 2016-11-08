@@ -43,6 +43,7 @@
 			        <ng-form name="nestedForm">
 			          <div class="form-group">
 			          	<ul ng-repeat="section in suggestedCode track by $index" ng-if="section.codes.length>0">
+			      			<div class="dateOfService">{{section.dos}}</div>
 			          		<li class="sectionHeading">{{section.sectionName}}</li>
 			          		<div ng-repeat="code in section.codes">
 			          			<div class="individualCodeContainer">

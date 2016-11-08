@@ -1,0 +1,564 @@
+[
+ 
+  {
+    "sectionName": "2_Office visit ",
+    "dos": "06-11-2016",
+    "sign": "",
+    "codes": [
+      {
+        "code": "I25.10",
+        "desc": "Atherosclerotic heart disease of native coronary artery without angina pectoris",
+        "postionList": null,
+        "token": [
+          "coronary",
+          "artery",
+          "disease"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "family history",
+          "ASSESSMENT"
+        ],
+        "ruleString": "document_conf_Error"
+      },
+      {
+        "code": "D47.3",
+        "desc": "Essential (hemorrhagic) thrombocythemia",
+        "postionList": null,
+        "token": [
+          "Thrombocytosis"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "ASSESSMENT"
+        ],
+        "ruleString": "document_conf_Error"
+      },
+      {
+        "code": "C85.10",
+        "desc": "Unspecified B-cell lymphoma, unspecified site",
+        "postionList": null,
+        "token": [
+          "B",
+          "cell",
+          "lymphoma"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "ASSESSMENT"
+        ],
+        "ruleString": "document_conf_Error"
+      }
+    ]
+  },
+  {
+    "sectionName": "4_Office visit ",
+    "dos": "07-11-2016",
+    "sign": "",
+    "codes": [
+      {
+        "code": "J45.909",
+        "desc": "Unspecified asthma, uncomplicated",
+        "postionList": null,
+        "token": [
+          "asthma"
+        ],
+        "type": "negative",
+        "code_type": "Chronic",
+        "sections": [
+          "physical exam"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      },
+      {
+        "code": "I25.10",
+        "desc": "Atherosclerotic heart disease of native coronary artery without angina pectoris",
+        "postionList": null,
+        "token": [
+          "coronary",
+          "artery",
+          "disease"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "family history"
+        ],
+        "ruleString": "document_conf_Error"
+      },
+      {
+        "code": "E78.5",
+        "desc": "Hyperlipidemia, unspecified",
+        "postionList": null,
+        "token": [
+          "hyperlipidemia"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "subjective"
+        ],
+        "ruleString": "document_conf_Error"
+      },
+      {
+        "code": "M06.9",
+        "desc": "Rheumatoid arthritis, unspecified",
+        "postionList": null,
+        "token": [
+          "Rheumatoid",
+          "arthritis"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "ASSESSMENT"
+        ],
+        "ruleString": "document_conf_Error"
+      },
+      {
+        "code": "C50.919",
+        "desc": "Malignant neoplasm of unspecified site of unspecified female breast",
+        "postionList": null,
+        "token": [
+          "breast",
+          "cancer"
+        ],
+        "type": "evidence",
+        "code_type": "Acute",
+        "sections": [
+          "ASSESSMENT"
+        ],
+        "ruleString": "canserCode_reject"
+      },
+      {
+        "code": "J43.9",
+        "desc": "Emphysema, unspecified",
+        "postionList": null,
+        "token": [
+          "Emphysema"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "ASSESSMENT"
+        ],
+        "ruleString": "document_conf_Error"
+      }
+    ]
+  },
+  {
+    "sectionName": "9_Office visit ",
+    "dos": "07-11-2016",
+    "sign": "",
+    "codes": [
+      {
+        "code": "I10",
+        "desc": "Essential (primary) hypertension",
+        "postionList": null,
+        "token": [
+          "HTN"
+        ],
+        "type": "evidence",
+        "code_type": "Acute",
+        "sections": [
+          "assesment"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      },
+      {
+        "code": "I25.10",
+        "desc": "Atherosclerotic heart disease of native coronary artery without angina pectoris",
+        "postionList": null,
+        "token": [
+          "CAD"
+        ],
+        "type": "negative",
+        "code_type": "Chronic",
+        "sections": [
+          "assesment"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      }
+    ]
+  },
+   {
+    "sectionName": "3_Office visit ",
+    "dos": "06-11-2016",
+    "sign": "",
+    "codes": [
+      {
+        "code": "J45.909",
+        "desc": "Unspecified asthma, uncomplicated",
+        "postionList": null,
+        "token": [
+          "asthma"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "ASSESSMENT"
+        ],
+        "ruleString": "document_Error"
+      },
+      {
+        "code": "I25.10",
+        "desc": "Atherosclerotic heart disease of native coronary artery without angina pectoris",
+        "postionList": null,
+        "token": [
+          "coronary",
+          "artery",
+          "disease"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "family history"
+        ],
+        "ruleString": "document_conf_Error"
+      },
+      {
+        "code": "C50.919",
+        "desc": "Malignant neoplasm of unspecified site of unspecified female breast",
+        "postionList": null,
+        "token": [
+          "Breast",
+          "cancer"
+        ],
+        "type": "evidence",
+        "code_type": "Acute",
+        "sections": [
+          "ASSESSMENT"
+        ],
+        "ruleString": "canserCode_reject"
+      }
+    ]
+  },
+  {
+    "sectionName": "0_null",
+    "dos": "07-11-2016",
+    "sign": "",
+    "codes": [
+      {
+        "code": "N18.9",
+        "desc": "Chronic kidney disease, unspecified",
+        "postionList": null,
+        "token": [
+          "chronic",
+          "kidney",
+          "disease"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "assesment"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      },
+      {
+        "code": "E11.9",
+        "desc": "Type 2 diabetes mellitus without complications",
+        "postionList": null,
+        "token": [
+          "diabetes"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "pmh",
+          "assesment",
+          "HISTORY"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      },
+      {
+        "code": "I15.9",
+        "desc": "Secondary hypertension, unspecified",
+        "postionList": null,
+        "token": [
+          "secondary",
+          "hypertension"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "assesment"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      },
+      {
+        "code": "J45.909",
+        "desc": "Unspecified asthma, uncomplicated",
+        "postionList": null,
+        "token": [
+          "asthma"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "pmh"
+        ],
+        "ruleString": "Doc_meat_confirm"
+      },
+      {
+        "code": "I10",
+        "desc": "Essential (primary) hypertension",
+        "postionList": null,
+        "token": [
+          "Uncontrolled",
+          "hypertension"
+        ],
+        "type": "evidence",
+        "code_type": "Acute",
+        "sections": [
+          "subjective",
+          "family history",
+          "pmh",
+          "assesment",
+          "HISTORY"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      },
+      {
+        "code": "I15.8",
+        "desc": "Other secondary hypertension",
+        "postionList": null,
+        "token": [
+          "secondary",
+          "hypertension"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "assesment"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      }
+    ]
+  },
+  {
+    "sectionName": "6_Office visit ",
+    "dos": "07-11-2016",
+    "sign": "",
+    "codes": [
+      {
+        "code": "J69.0",
+        "desc": "Pneumonitis due to inhalation of food and vomit",
+        "postionList": null,
+        "token": [
+          "aspiration",
+          "Pneumonia"
+        ],
+        "type": "evidence",
+        "code_type": "Acute",
+        "sections": [
+          "assesment"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      }
+    ]
+  },
+  {
+    "sectionName": "5_Office visit ",
+    "dos": "07-11-2016",
+    "sign": "",
+    "codes": [
+      {
+        "code": "E11.9",
+        "desc": "Type 2 diabetes mellitus without complications",
+        "postionList": null,
+        "token": [
+          "diabetes"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "pmh",
+          "assesment",
+          "HISTORY"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      },
+      {
+        "code": "I15.9",
+        "desc": "Secondary hypertension, unspecified",
+        "postionList": null,
+        "token": [
+          "secondary",
+          "hypertension"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "assesment"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      },
+      {
+        "code": "D61.818",
+        "desc": "Other pancytopenia",
+        "postionList": null,
+        "token": [
+          "pancytopenia"
+        ],
+        "type": "evidence",
+        "code_type": "Acute",
+        "sections": [
+          "assesment"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      },
+      {
+        "code": "I10",
+        "desc": "Essential (primary) hypertension",
+        "postionList": null,
+        "token": [
+          "Uncontrolled",
+          "hypertension"
+        ],
+        "type": "evidence",
+        "code_type": "Acute",
+        "sections": [
+          "subjective",
+          "family history",
+          "pmh",
+          "assesment",
+          "HISTORY"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      },
+      {
+        "code": "D47.3",
+        "desc": "Essential (hemorrhagic) thrombocythemia",
+        "postionList": null,
+        "token": [
+          "Thrombocytosis"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "assesment"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      },
+      {
+        "code": "I15.8",
+        "desc": "Other secondary hypertension",
+        "postionList": null,
+        "token": [
+          "secondary",
+          "hypertension"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "assesment"
+        ],
+        "ruleString": "Standard_meat_confirm"
+      }
+    ]
+  },
+  {
+    "sectionName": "8_Office visit ",
+    "dos": "07-11-2016",
+    "sign": "",
+    "codes": [
+      {
+        "code": "I25.10",
+        "desc": "Atherosclerotic heart disease of native coronary artery without angina pectoris",
+        "postionList": null,
+        "token": [
+          "CAD"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "family history"
+        ],
+        "ruleString": "document_conf_Error"
+      },
+      {
+        "code": "E78.5",
+        "desc": "Hyperlipidemia, unspecified",
+        "postionList": null,
+        "token": [
+          "Hyperlipidemia"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "subjective"
+        ],
+        "ruleString": "document_conf_Error"
+      },
+      {
+        "code": "M81.0",
+        "desc": "Age-related osteoporosis without current pathological fracture",
+        "postionList": null,
+        "token": [
+          "osteoporosis"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "diagnoses"
+        ],
+        "ruleString": "document_conf_Error"
+      }
+    ]
+  },
+   {
+    "sectionName": "3_Office visit ",
+    "dos": "06-11-2016",
+    "sign": "",
+    "codes": [
+      {
+        "code": "J45.909",
+        "desc": "Unspecified asthma, uncomplicated",
+        "postionList": null,
+        "token": [
+          "asthma"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "ASSESSMENT"
+        ],
+        "ruleString": "document_Error"
+      },
+      {
+        "code": "I25.10",
+        "desc": "Atherosclerotic heart disease of native coronary artery without angina pectoris",
+        "postionList": null,
+        "token": [
+          "coronary",
+          "artery",
+          "disease"
+        ],
+        "type": "evidence",
+        "code_type": "Chronic",
+        "sections": [
+          "family history"
+        ],
+        "ruleString": "document_conf_Error"
+      },
+      {
+        "code": "C50.919",
+        "desc": "Malignant neoplasm of unspecified site of unspecified female breast",
+        "postionList": null,
+        "token": [
+          "Breast",
+          "cancer"
+        ],
+        "type": "evidence",
+        "code_type": "Acute",
+        "sections": [
+          "ASSESSMENT"
+        ],
+        "ruleString": "canserCode_reject"
+      }
+    ]
+  }
+]

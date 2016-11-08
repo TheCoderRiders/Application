@@ -198,6 +198,13 @@
     width: 20%;
     text-align: center;
 }
+.workingFileContents .dateOfService{
+    height: 30px;
+    padding:5px;
+    background-color: #696b6d;
+    text-align: center;
+    color:white;
+}
 .workingFileContents .sectionHeading{
     font-size: 18px;
     font-weight: bolder;
