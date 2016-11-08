@@ -14,6 +14,8 @@ public class CodeAction {
     private ActualCode code;
     private String action;
     private String codeActionType;
+    private String dos;
+    private String sign;
 
     public Codes getAllCodes() {
         return allCodes;
@@ -53,5 +55,21 @@ public class CodeAction {
 
     public void setCodeActionType(String codeActionType) {
         this.codeActionType = codeActionType;
+    }
+
+    public String getDos() {
+        return dos;
+    }
+
+    public void setDos(String dos) {
+        this.dos = dos;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
     }
 }

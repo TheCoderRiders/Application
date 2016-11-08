@@ -116,6 +116,8 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         Codes allCodes = codeAction.getAllCodes();
         ActualCode code = codeAction.getCode();
         String sectionName = codeAction.getSectionName()==null?"Others:":codeAction.getSectionName();
+        String dos = codeAction.getDos()==null?"":codeAction.getDos();
+        String sign = codeAction.getSign()==null?"":codeAction.getSign();
         String action = codeAction.getAction();
         String codeActionType = codeAction.getCodeActionType();
         List<DocumentCodeInfo> suggestedCode = allCodes.getSuggestedCode()==null? new ArrayList<>():allCodes.getSuggestedCode();
@@ -126,27 +128,27 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         Predicate<DocumentCodeInfo> sectionPredicate = codeInfo -> sectionName.equalsIgnoreCase(codeInfo.getSectionName());
         switch (codeActionType + "_" +action){
             case "Suggested_Accept" :
-                extractAndInsertCode(suggestedCode, acceptedCode, code, sectionName, sectionPredicate);
+                extractAndInsertCode(suggestedCode, acceptedCode, code, sectionName, sectionPredicate,dos,sign);
                 break;
 
             case "Suggested_Reject" :
-                extractAndInsertCode(suggestedCode, rejectedCode, code, sectionName, sectionPredicate);
+                extractAndInsertCode(suggestedCode, rejectedCode, code, sectionName, sectionPredicate, dos, sign);
                 break;
             case "Accepted_Reject" :
-                extractAndInsertCode(acceptedCode, rejectedCode, code, sectionName, sectionPredicate);
+                extractAndInsertCode(acceptedCode, rejectedCode, code, sectionName, sectionPredicate, dos, sign);
                 break;
             case "Rejected_Accept" :
-                extractAndInsertCode(rejectedCode, acceptedCode, code, sectionName, sectionPredicate);
+                extractAndInsertCode(rejectedCode, acceptedCode, code, sectionName, sectionPredicate, dos, sign);
                 break;
             case "New_AddCode" :
-                extractAndInsertCode(new ArrayList<>(), acceptedCode, code, sectionName, sectionPredicate);
+                extractAndInsertCode(new ArrayList<>(), acceptedCode, code, sectionName, sectionPredicate, dos, sign);
                 break;
             case "MayBe_Accept" :
-                extractAndInsertCode(mayBeCode, acceptedCode, code, sectionName, sectionPredicate);
+                extractAndInsertCode(mayBeCode, acceptedCode, code, sectionName, sectionPredicate, dos, sign);
                 break;
 
             case "MayBe_Reject" :
-                extractAndInsertCode(mayBeCode, rejectedCode, code, sectionName, sectionPredicate);
+                extractAndInsertCode(mayBeCode, rejectedCode, code, sectionName, sectionPredicate, dos, sign);
                 break;
         }
 
@@ -203,7 +205,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         return docRejectionReasonDao.findAll();
     }
 
-    private void extractAndInsertCode(List<DocumentCodeInfo> fromCode, List<DocumentCodeInfo> toCode, ActualCode whichCode, String sectionName, Predicate<DocumentCodeInfo> sectionPredicate) {
+    private void extractAndInsertCode(List<DocumentCodeInfo> fromCode, List<DocumentCodeInfo> toCode, ActualCode whichCode, String sectionName, Predicate<DocumentCodeInfo> sectionPredicate, String dos, String sign) {
         Map<Boolean, List<DocumentCodeInfo>> partition = fromCode.stream().collect(Collectors.partitioningBy(sectionPredicate));
         List<DocumentCodeInfo> suggestedCodeWithValidSection = partition.get(Boolean.TRUE);
         List<DocumentCodeInfo> suggestedCodeWithInValidSection = partition.get(Boolean.FALSE);
@@ -221,6 +223,8 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         if(suggestedCodeWithValidSection==null || suggestedCodeWithValidSection.size()==0){
             DocumentCodeInfo documentCodeInfo = new DocumentCodeInfo();
             documentCodeInfo.setSectionName(sectionName);
+            documentCodeInfo.setDos(dos);
+            documentCodeInfo.setSign(sign);
             documentCodeInfo.setCodes(Arrays.asList(whichCode));
             toCode.add(documentCodeInfo);
         }else {
