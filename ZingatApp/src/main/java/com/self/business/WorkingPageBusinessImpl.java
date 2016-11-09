@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -223,7 +224,11 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         if(suggestedCodeWithValidSection==null || suggestedCodeWithValidSection.size()==0){
             DocumentCodeInfo documentCodeInfo = new DocumentCodeInfo();
             documentCodeInfo.setSectionName(sectionName);
-            documentCodeInfo.setDos(dos);
+            if("Added Code".equalsIgnoreCase(sectionName)){
+                documentCodeInfo.setDos(new SimpleDateFormat("MM-dd-yyyy").format(new Timestamp(Calendar.getInstance().getTime().getTime())));
+            }else {
+                documentCodeInfo.setDos(dos);
+            }
             documentCodeInfo.setSign(sign);
             documentCodeInfo.setCodes(Arrays.asList(whichCode));
             toCode.add(documentCodeInfo);
