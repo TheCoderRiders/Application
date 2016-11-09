@@ -282,6 +282,7 @@
 }
 .rejectionCode .rejectHeading,.rejectionDocument .rejectHeading{
     text-align: center;
+    height: 10%;
 }
 .rejectionCode ul li,.rejectionDocument ul li{
     width: 50%;
@@ -293,7 +294,10 @@
     height: 42%;
 }
 .rejectionDocument .rejectionDocList{
-    height: 20%;
+    height: 25%;
+}
+.rejectionDocument .rejectionDocComment{
+    height: 30%;
 }
 .rejectionCode h3,.rejectionDocument h3{
     margin-top: 10px;

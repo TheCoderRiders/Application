@@ -33,10 +33,12 @@ angular.module('RejectCodePageController', ['ngDialog'])
             requestData.code.rejectionReasonListId = checkedRadio.rejectionReasonListId;
             requestData.code.rejectionReasonDisplay = checkedRadio.rejectionReasonDisplay;
             requestData.code.rejectionReasonDesc = $(".rejectCodeComment").val();
+            var temp = [];
+            temp.push(requestData.code);
 
             workingPageService.updateGetCodes(requestData,targetHeading,function(data){
                 data.data.targetHeading = targetHeading;
-                data.data.rejectedCode = requestData.code;
+                data.data.userRejectCode = temp;
                 $scope.$emit("codeActionEmit",data.data);
             },function(){
 

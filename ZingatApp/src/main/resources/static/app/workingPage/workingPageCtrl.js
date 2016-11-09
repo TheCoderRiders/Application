@@ -43,25 +43,25 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             var rejectedCodeClass = data.rejectedCode.code;
             var markLeftSide = $(".leftSideContent mark[class*='"+rejectedCodeClass+"']")
             $scope.globalObj = data;
-            $scope.suggestedCode = data.data.suggestedCode;
+            $scope.suggestedCode = data.suggestedCode;
             $scope.suggestedCode.sort(function(a, b){
                 var dateA = new Date(a.dos);
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
             });
-            $scope.acceptedCode = data.data.acceptedCode;
+            $scope.acceptedCode = data.acceptedCode;
             $scope.acceptedCode.sort(function(a, b){
                 var dateA = new Date(a.dos);
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
             });
-            $scope.rejectedCode = data.data.rejectedCode;
+            $scope.rejectedCode = data.rejectedCode;
             $scope.rejectedCode.sort(function(a, b){
                 var dateA = new Date(a.dos);
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
             });
-            $scope.mayBeCode = data.data.mayBeCode;
+            $scope.mayBeCode = data.mayBeCode;
             $scope.mayBeCode.sort(function(a, b){
                 var dateA = new Date(a.dos);
                 var dateB = new Date(b.dos);
@@ -220,11 +220,11 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
 
             setTimeout(function(){
               $(".rightSideContent span[class*='"+codeId+"']").parent().removeClass('highlighted');
-            }, 3000); 
+            }, 5000); 
 
             $(".rightSideContent").animate({ 
                 scrollTop: elementRelativeTop
-            }, 1500);
+            }, 1000);
         }
 
 
@@ -243,11 +243,11 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
 
             setTimeout(function(){
               $(".leftSideContent mark[class*='"+code+"']").removeClass('highlighted');
-            }, 3000);    
+            }, 5000);    
 
             $(".leftSideContent").animate({ 
                 scrollTop: elementRelativeTop
-            }, 1500);
+            }, 1000);
         }
 
 
@@ -260,7 +260,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             
             var action,codeActionType;
             var targetHeading = $(".nav li.active").attr('heading');
-            
+
             
             if($(event.target).attr('class') == "fa fa-check"){
                 action = "Accept";
@@ -274,8 +274,10 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             requestedData.sectionName = selectedCode.sectionName;
             requestedData.action = action;
             requestedData.code = code;
+            requestedData.dos = section.dos;
+            requestedData.sign = section.sign;
             requestedData.codeActionType = codeActionType;
-
+            
 
             if(action == "Reject"){
                 workingPageService.setRequestParameter(requestedData,targetHeading);
@@ -376,15 +378,13 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
         $scope.documentStatusChange = function(action){
             var actionName = $(event.target).attr('value');
             var obj = {};
+            var selectedBucket = $cookies.get("selectedBucket");
            
-            if(!actionName && !Boolean($scope.editRight)){
+            if(selectedBucket != "Completed" && actionName != "REJECTED"){
                 actionName = "DRAFT";
-            }else{
-                if(!actionName && Boolean($scope.editRight)){
-                    actionName = "SUBMIT";
-                }
+            }else if(actionName != "REJECTED"){
+                actionName = "SUBMIT";
             }
-
             obj.fileId = $scope.fileId;
             obj.status = actionName;
 
@@ -440,6 +440,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             requestedData.action = "AddCode";
             requestedData.code = codeObj;
             requestedData.codeActionType = "New";
+            requestedData.dos = "";
+            requestedData.sign = "";
             //requestedData.token = tempArr;
 
             $http({
