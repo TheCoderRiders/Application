@@ -380,14 +380,13 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             var obj = {};
             var selectedBucket = $cookies.get("selectedBucket");
            
-            if(selectedBucket != "Completed" && actionName != "REJECTED"){
+            if(selectedBucket != "Completed" && actionName != "REJECTED" && actionName != "SUBMIT"){
                 actionName = "DRAFT";
             }else if(actionName != "REJECTED"){
                 actionName = "SUBMIT";
             }
             obj.fileId = $scope.fileId;
             obj.status = actionName;
-
             if(actionName == "REJECTED"){
                 $http({
                     url: 'workingPage/getDocRejectionReasonList', 
