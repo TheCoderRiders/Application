@@ -122,13 +122,13 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             $('[data-toggle="tooltip"]').tooltip();
             var clickedTabIndex = $(event.target).parent().attr('index');
             $scope.emptyData = false;
-            if(clickedTabIndex == "0" && ($scope.suggestedCode ==  null || $scope.suggestedCode.length ==  0 )){
+            if(clickedTabIndex == "0" && $scope.suggestedCode.length < 1 ){
                 $scope.emptyData = true;
-            }else if(clickedTabIndex == "1" && ($scope.acceptedCode ==  null || $scope.acceptedCode.length ==  0 )){
+            }else if(clickedTabIndex == "1" && $scope.acceptedCode.length < 1){
                 $scope.emptyData = true;
-            }else if(clickedTabIndex == "2" && ($scope.rejectedCode ==  null || $scope.rejectedCode.length ==  0 )){
+            }else if(clickedTabIndex == "2" && $scope.rejectedCode.length < 1){
                 $scope.emptyData = true;
-            }else if(clickedTabIndex == "3" && ($scope.mayBeCode ==  null || $scope.mayBeCode.length ==  0 )){
+            }else if(clickedTabIndex == "3" && $scope.mayBeCode.length < 1 ){
                 $scope.emptyData = true;
             }else{
                 $(".searchCode").val("");
@@ -163,7 +163,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
             method: "GET",
         }).then(function(data){ 
             $scope.globalObj = data.data;
-            if(data.data.suggestedCode[0].codes.length < 1){
+            if(data.data.suggestedCode.length < 1){
                 $scope.emptyData = true;
             }
 
@@ -191,21 +191,6 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
             });
-            /*$http({
-                url: 'json/dos.json',
-                method: "GET",
-            }).then(function(data){ 
-                $scope.suggestedCode = [];
-                var totalData = data.data;
-                totalData.sort(function(a, b){
-                    var dateA = new Date(a.dos);
-                    var dateB = new Date(b.dos);
-                    return dateA-dateB;
-                });
-                $scope.suggestedCode = totalData;
-            },function(err) {
-                console.log(err);
-            });*/
         },function(err) {
             console.log(err);
         });
@@ -288,6 +273,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies',
                 })
             }else{
                 workingPageService.updateGetCodes(requestedData,targetHeading,function(data){
+                    debugger;
                     $scope.globalObj = data.data;
                     $scope.suggestedCode = data.data.suggestedCode;
                     $scope.suggestedCode.sort(function(a, b){
