@@ -307,6 +307,8 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
 
         /* function called on view click */
         $scope.redirectToWorking = function() {
+            var selectedBucket = $(".list-group-horizontal ul li.active").attr('id');
+            $cookies.put("selectedBucket", selectedBucket);
             $location.path('/workingPage');
         }
 
@@ -318,7 +320,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         /* function called on logout click */
         $scope.redirectToLoginPage123 = function() {
 
-            $http.get('/logout', {
+            /*$http.get('/logout', {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
@@ -329,7 +331,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
             }).error(function(err){
                 debugger;
                 console.log("error while logour:  " + err);
-            });
+            });*/
 
             /*$http({
               url: '/logout',
@@ -345,7 +347,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                 console.log("error while logour:  " + err);
             });*/
 
-            //$location.path('/login');
+            $location.path('/login');
         }
 
         /* function called on hospital name click */
