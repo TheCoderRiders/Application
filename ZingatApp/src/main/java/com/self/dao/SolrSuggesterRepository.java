@@ -33,7 +33,8 @@ public class SolrSuggesterRepository {
     private Integer paginationSize;
 
     public QueryResponse searchCode(String key, Integer start) {
-        SolrQuery solrQuery = new SolrQuery("search_field_ngram:*"+key+"*");
+        //SolrQuery solrQuery = new SolrQuery("search_field_ngram:*"+key+"*");
+        SolrQuery solrQuery = new SolrQuery("search_field_ngram:\""+key+"\"");
         solrQuery.setFilterQueries("icd_09_10:\"ICD10\"");
         solrQuery.setStart(start-1);
         solrQuery.setRows(paginationSize);
@@ -102,5 +103,52 @@ public class SolrSuggesterRepository {
             e.printStackTrace();
         }
         return queryResponse;
+    }
+
+    public QueryResponse findCodeByCodeId(String codeId) {
+        SolrQuery solrQuery = new SolrQuery("*:*");
+        solrQuery.setFilterQueries("icd_09_10:\"ICD10\"","code_id:"+codeId);
+        solrQuery.setStart(0);
+        solrQuery.setRows(Integer.MAX_VALUE);
+
+        QueryResponse queryResponse = null;
+        try {
+            queryResponse = codeSearchSolrServer.query(solrQuery);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return queryResponse;
+    }
+
+    public void deleteAndAddCodeSuggesterBean(SolrCodeSuggesterBean solrCodeSuggesterBean) {
+        SolrInputDocument solrInputDocument = new SolrInputDocument();
+        solrInputDocument.addField("id",solrCodeSuggesterBean.getId());
+        solrInputDocument.addField("code_id", solrCodeSuggesterBean.getCodeId());
+        solrInputDocument.addField("approximate_synonyms", Collections.singletonMap("set", solrCodeSuggesterBean.getApproximateSynonyms()));
+
+        try {
+            codeSearchSolrServer.add(solrInputDocument);
+            codeSearchSolrServer.commit();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCodeTypeCodeSuggesterBean(SolrCodeSuggesterBean solrCodeSuggesterBean) {
+        SolrInputDocument solrInputDocument = new SolrInputDocument();
+        solrInputDocument.addField("id",solrCodeSuggesterBean.getId());
+        solrInputDocument.addField("code_id", solrCodeSuggesterBean.getCodeId());
+        solrInputDocument.addField("code_type", Collections.singletonMap("set", solrCodeSuggesterBean.getCodeType()));
+
+        try {
+            codeSearchSolrServer.add(solrInputDocument);
+            codeSearchSolrServer.commit();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
