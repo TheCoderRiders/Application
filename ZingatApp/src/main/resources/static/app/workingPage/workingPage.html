@@ -39,7 +39,38 @@
 	    <div class="workingFileContents rightSideContent">
 	    	<form name="outerForm" class="tab-form-demo">
 			    <uib-tabset active="activeForm">
-			      <uib-tab index="0" heading="Suggested" ng-click="tabChanged()">
+			     <uib-tab index="0" heading="Coded Code" class="Accepted" ng-click="tabChanged()">
+			      <ng-form name="nestedForm">
+			          <div class="form-group">
+				      	<ul ng-repeat="section in acceptedCode track by $index" ng-if="section.codes.length > 0">
+				      		<div class="dateOfService">{{section.dos}}</div>
+			          		<li class="sectionHeading">{{section.sectionName}}</li>
+			          		<div ng-repeat="code in section.codes track by $index">
+			          			<div class="individualCodeContainer">
+			          				<div class="codeLeftSide">
+					          			<span class="acceptedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
+					          		</div>
+					          		<div class="codeRightSide">
+					          			<span class="acceptedCodeDesc">{{code.desc}}</span>
+					          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
+						          			<span data-toggle="tooltip" title="Reject" class="rejectCodeImg" ng-click="codeStatus(code,section,$element)">
+					          					<i class="fa fa-times" aria-hidden="true"></i>
+					          				</span>
+					          			</span>
+					          			<!-- <span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>			 <input id="off" name="state-d" ng-value="code" type="radio" ng-model="rejectCode" ng-click="codeStatus(code,section,$element)">
+										    <label for="off" onclick="">REJECT</label>
+										</span> -->
+										<span ng-repeat="token in code.token" ng-if="code.token.length > 0" class="codeEvidanceContainer">
+											<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
+										</span>
+									</div>
+				          		</div>
+			          		</div>
+			          	</ul>
+			          	</div>
+			      </ng-form>
+			      </uib-tab>
+			      <uib-tab index="1" heading="Suggested" class="Suggested" ng-click="tabChanged()">
 			        <ng-form name="nestedForm">
 			          <div class="form-group">
 			          	<ul ng-repeat="section in suggestedCode track by $index" ng-if="section.codes.length>0">
@@ -74,38 +105,8 @@
 			          </div>
 			        </ng-form>
 			      </uib-tab>
-			      <uib-tab index="1" heading="Accepted" ng-click="tabChanged()">
-			      <ng-form name="nestedForm">
-			          <div class="form-group">
-			      	<ul ng-repeat="section in acceptedCode track by $index" ng-if="section.codes.length > 0">
-			      		<div class="dateOfService">{{section.dos}}</div>
-		          		<li class="sectionHeading">{{section.sectionName}}</li>
-		          		<div ng-repeat="code in section.codes track by $index">
-		          			<div class="individualCodeContainer">
-		          				<div class="codeLeftSide">
-				          			<span class="acceptedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
-				          		</div>
-				          		<div class="codeRightSide">
-				          			<span class="acceptedCodeDesc">{{code.desc}}</span>
-				          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
-					          			<span data-toggle="tooltip" title="Reject" class="rejectCodeImg" ng-click="codeStatus(code,section,$element)">
-				          					<i class="fa fa-times" aria-hidden="true"></i>
-				          				</span>
-				          			</span>
-				          			<!-- <span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>			 <input id="off" name="state-d" ng-value="code" type="radio" ng-model="rejectCode" ng-click="codeStatus(code,section,$element)">
-									    <label for="off" onclick="">REJECT</label>
-									</span> -->
-									<span ng-repeat="token in code.token" ng-if="code.token.length > 0" class="codeEvidanceContainer">
-										<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
-									</span>
-								</div>
-			          		</div>
-		          		</div>
-		          	</ul>
-		          	</div>
-			        </ng-form>
-			      </uib-tab>
-			      <uib-tab index="2" heading="Rejected" ng-click="tabChanged()">
+			     
+			      <uib-tab index="2" heading="Rejected" class="Rejected" ng-click="tabChanged()">
 			      <ng-form name="nestedForm">
 			          <div class="form-group">
 			        <ul ng-repeat="section in rejectedCode track by $index" ng-if="section.codes.length > 0">
@@ -141,7 +142,7 @@
 		          	</div>
 			        </ng-form>
 			      </uib-tab>
-			      <uib-tab index="3" heading="MayBe" ng-click="tabChanged()">
+			      <!-- <uib-tab index="3" heading="MayBe" ng-click="tabChanged()">
 			      <ng-form name="nestedForm">
 			          <div class="form-group">
 			        <ul ng-repeat="section in mayBeCode track by $index" ng-if="section.codes.length > 0">
@@ -162,12 +163,6 @@
 				          					<i class="fa fa-times" aria-hidden="true"></i>
 				          				</span>	
 				          			</span>
-				          			<!-- <span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
-									    <input id="on" name="state-d" type="radio" ng-model="acceptCode" ng-click="codeStatus(code,section,$element)">
-									    <label for="on" onclick="">ACCEPT</label>
-									    <input id="off" name="state-d" ng-value="code" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
-										<label for="off">REJECT</label>
-									</span> -->
 									<span ng-repeat="token in code.token" ng-if="code.token.length > 0" class="codeEvidanceContainer">
 										<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
 									</span>
@@ -177,9 +172,9 @@
 		          	</ul>
 		          	</div>
 			        </ng-form>
-			      </uib-tab>
+			      </uib-tab> -->
 
-			      <uib-tab index="4" heading="Add Code" ng-click="tabChanged()"  ng-show={{editRight}}>
+			      <uib-tab index="3" heading="Add Code" ng-click="tabChanged()"  ng-show={{editRight}}>
 			      <ng-form name="nestedForm"  ng-show={{editRight}}>
 			          <div class="form-group">
 			        	<input ng-model="searchText" class="searchCode" type="text" ng-change="searchCode(searchText)" placeholder="Search" autofocus>
