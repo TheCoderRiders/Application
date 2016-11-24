@@ -31,12 +31,12 @@
 	    </div>
 	    
 
-	    <div class="workingFileContents leftSideContent" ng-scrollbar>
+	    <div class="workingFileContents leftSideContent" ng-scrollable="{scrollX:'none',scrollY:'right'}">
 	    	<div ng-bind-html="workingFileContent">
 
             </div>
 	    </div>
-	    <div class="workingFileContents rightSideContent">
+	    <div class="workingFileContents rightSideContent" ng-scrollable="{scrollX:'none',scrollY:'right'}">
 	    	<form name="outerForm" class="tab-form-demo">
 			    <uib-tabset active="activeForm">
 			     <uib-tab index="0" heading="Coded Code" class="Accepted" ng-click="tabChanged()">

@@ -4,10 +4,10 @@
     float: left;
     height: 75%;
     border: 1px solid #aba9a9;
-    overflow: scroll;
+    /* overflow: scroll; */
     margin: 0px 5px;
-    overflow-x: hidden;
-    position: relative;
+    /* overflow-x: hidden; */
+    /* position: relative; */
 }
 .workingFileContents .leftSideContent{
     line-height: 2em !important;

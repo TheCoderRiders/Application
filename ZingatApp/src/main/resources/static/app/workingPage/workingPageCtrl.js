@@ -1,4 +1,4 @@
-angular.module('WorkingPageController', ['ngSanitize','ngScrollbar','ngCookies','ngDialog'])
+angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies','ngDialog'])
     
     .service("workingPageService", ["$http", function($http){
         this.setRequestParameter = function(){
