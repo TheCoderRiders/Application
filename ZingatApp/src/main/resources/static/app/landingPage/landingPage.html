@@ -108,7 +108,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 middle-panel">
+                    <div class="col-md-6 middle-panel" ng-scrollable="{scrollX:'none',scrollY:'right'}">
                         <div class="list-group" >
                             <ul class="file-list" >
                                 <li class="file-details" ng-class="{selectedItem: $index == selectedFile}" ng-model="fileDetails" ng-repeat="file in roles" ng-click="getFileDetails($event,$index,file)">
@@ -161,7 +161,7 @@
                        <!--  <div class="rowSeparator">
 
                         </div> -->
-                        <div class="file-content">
+                        <div class="file-content" ng-scrollable="{scrollX:'none',scrollY:'right'}">
                             <div class="fileRigthSideColumn">
                                 <ul>
                                     <li ng-repeat="item in rightSideItems track by $index">
@@ -207,7 +207,7 @@
     </div>
 
     <div id="footer">
-    	<div class="panel panel-default custom-panel">
+        <div class="panel panel-default custom-panel">
             <div class="panel-footer custom-footer">All Right Reserved @ SunStretch2016.</div>
         </div>
     </div>

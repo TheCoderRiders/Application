@@ -86,6 +86,7 @@
 }
 .workingPage .codeSearchContainer{
     display: none;
+    width: 98%;
 }
 .workingPage #header{
     height: 5%;
@@ -197,6 +198,24 @@
 .workingFileContents .nav-tabs>li{
     width: 25%;
     text-align: center;
+    background-color:#d1d1d1;
+}
+.workingFileContents .nav-tabs{
+    position: fixed;
+    z-index: 9999;
+    width: 48.5%;
+}
+.workingFileContents .codeList{
+    /*overflow: auto;*/
+    padding-left: 15px;
+    margin-top: 8% !important;
+    width: 100%;
+}
+.workingFileContents .emptyList{
+    /*overflow: auto;*/
+    padding-left: 15px;
+    margin-top: 20% !important;
+    width: 100%;
 }
 .workingFileContents .dateOfService{
     height: 30px;
