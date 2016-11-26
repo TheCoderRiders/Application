@@ -29,13 +29,13 @@
 
 	    	</div>
 	    </div>
-	    
 
 	    <div class="workingFileContents leftSideContent" ng-scrollable="{scrollX:'none',scrollY:'right'}">
 	    	<div ng-bind-html="workingFileContent">
 
             </div>
 	    </div>
+
 	    <div class="workingFileContents rightSideContent" >
 	    	<form name="outerForm" class="tab-form-demo">
 			    <uib-tabset active="activeForm">
@@ -57,9 +57,6 @@
 					          					<i class="fa fa-times" aria-hidden="true"></i>
 					          				</span>
 					          			</span>
-					          			<!-- <span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>			 <input id="off" name="state-d" ng-value="code" type="radio" ng-model="rejectCode" ng-click="codeStatus(code,section,$element)">
-										    <label for="off" onclick="">REJECT</label>
-										</span> -->
 										<span ng-repeat="token in code.token" ng-if="code.token.length > 0" class="codeEvidanceContainer">
 											<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
 										</span>
@@ -90,10 +87,6 @@
 					          				<span data-toggle="tooltip" title="Reject" class="rejectCodeImg" ng-click="codeStatus(code,section,$element)">
 					          					<i class="fa fa-times" aria-hidden="true"></i>
 					          				</span>					          				
-										    <!-- <input id="on" name="state-d" ng-value="code" ng-model="acceptCode" type="radio" ">
-										    <label for="on">ACCEPT</label> -->
-										   <!--  <input id="off" name="state-d" ng-value="code" ng-model="rejectCode" type="radio" ng-click="codeStatus(code,section,$element)">
-										    <label for="off">REJECT</label> -->
 										</span>
 										<span ng-repeat="token in code.token" ng-if="code.token.length > 0" class="codeEvidanceContainer">
 											<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
@@ -124,10 +117,6 @@
 					          					<i class="fa fa-check" aria-hidden="true"></i>
 				          				</span>
 				          			</span>
-				          			<!-- <span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
-									    <input id="on" name="state-d" ng-value="code" ng-model="acceptCode"  type="radio" ng-click="codeStatus(code,section,$element)">
-									    <label for="on" onclick="">ACCEPT</label>
-									</span> -->
 									<span ng-repeat="token in code.token" ng-if="code.token.length > 0"  class="codeEvidanceContainer">
 										<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
 									</span>
@@ -183,7 +172,32 @@
                             <uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="perPageCount"  class="pagination-sm" max-size="maxSize" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages" ng-change="pageChanged(currentPage)"></uib-pagination>
                         </div>
                         <div class="codeSearchContainer">
-                        	<table class="table codeAcceptTable" border="1" ts-wrapper>
+                        	<div class="codeSearchHeading">
+                        		<span class="addCode">Code</span>
+							    <span class="addCodeDesc">Description</span>
+							    <span class="addCodeAction">Action</span>
+                        	</div>
+                        	<ul class="codeAcceptTable">
+                        		<li class="codeItem" ng-repeat="code in codeList">
+                        			<span class="addCode" ng-bind="code.code"></span>
+								    <span class="addCodeDesc" ng-bind="code.desc"></span>
+								    <span class="addCodeAction codeAcceptIcon">
+								    	<div data-toggle="tooltip" title="Add Evidence" ng-click = "addEvidence()" class="acceptCodeImg" >
+				          					<i class="fa fa-angle-double-down" aria-hidden="true"></i>
+				          				</div>
+				          			</span>
+				          			<label id="collapseme" class="collapse out">
+				          				<div class="evidenceDiv">  
+				          					<tags-input ng-model="tags" add-on-paste="false" add-on-enter="false" add-on-blur="false" add-on-space="true" placeholder="Please add evidence">
+						                    </tags-input>
+								    	<span class="codeAcceptIcon" ng-click="addCode(code,tags)">
+									    	<i class="fa fa-check" aria-hidden="true"></i>
+									    </span>
+									    <hr>
+				          			</label>
+                        		</li>
+                        	</ul>
+                        	<!-- <table class="table codeAcceptTable" border="1" ts-wrapper>
 							  <thead>
 							    <tr>
 							      <th class="addCode">Code</th>
@@ -196,35 +210,23 @@
 							        <td ng-bind="code.code"></td>
 									<td ng-bind="code.desc"></td>
 	                				<td class="codeAcceptIcon"> 
-	                					<span data-toggle="tooltip" title="Accept" class="acceptCodeImg" ng-click="addCode(code)">
-				          					<i class="fa fa-check" aria-hidden="true"></i>
-				          				</span>	
-				          			</td>	
+	                					<div data-toggle="tooltip" title="Add Evidence" ng-click = "addEvidence()" class="acceptCodeImg" >
+				          					<i class="fa fa-angle-double-down" aria-hidden="true"></i>
+				          				</div>	
+				          			</td>
+				          			<tr id="collapseme" class="collapse out">
+									    <td colspan="2">
+									    	<div>  
+									    		<input type="text" ng-model="evidenceModel" class="individualEvidence" ng-change="evidenceDrop(evidenceModel)">
+									    	</div>
+									    </td>
+									    <td class="codeAcceptIcon" ng-click="addCode(code)">
+									    	<i class="fa fa-check" aria-hidden="true"></i>
+									    </td>
+									</tr>
 							    </tr>
 							  </tbody>
-							</table>
-                        	<!-- <div class="searchCodeList">
-                        		<ul class="codeList">
-                        			<li ng-repeat="code in codeList"  ng-class="{selectedItem: $index == selectedFile}" ng-click="getCodeDesc($event,$index,code)">
-                        				<label class="individualCode" ng-bind="code.code">
-                        				</label>
-                        				<label class="codeDesc" ng-bind="code.desc"></label>
-                        			</li>
-                        		</ul>
-                        	</div>
-                        	<div class="descContainer">
-                        		<h3>Code: <h3>
-                        		<div class="individualCode">
-
-                        		</div>
-                        		<h3>Description: </h3>
-                        		<div class="individualCodeDesc">
-
-                        		</div>
-                        		<div class="addCode">
-                        			<button type="button" value="Add" ng-click="addCode()" class="btn btn-primary">Add Code</button>
-                        		</div>
-                        	</div> -->
+							</table> -->
                         </div>
                         </div>
 			        </ng-form>

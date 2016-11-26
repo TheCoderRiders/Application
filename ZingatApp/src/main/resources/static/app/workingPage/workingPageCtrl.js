@@ -341,7 +341,6 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                             $(".individualCode").text(data.data.codes[0].code);
                             $(".individualCodeDesc").text(data.data.codes[0].desc);
                         }
-                        $('[data-toggle="tooltip"]').tooltip();
                     }else{
                         $scope.emptyData = true;
                         $(".paginationBlock").hide();
@@ -355,7 +354,10 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 $(".codeSearchContainer").hide();
                 $scope.emptyData = false;
             }
+             $('[data-toggle="tooltip"]').tooltip();
         }
+
+        
 
         $scope.documentStatusChange = function(action){
             var actionName = $(event.target).attr('value');
@@ -401,17 +403,16 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             }
         }
 
-       /* $scope.getCodeDesc = function($event, $index, code){
-            $scope.selectedFile = $index;
-            $(".descContainer").find("div.individualCode").text(code.code);
-            $(".descContainer").find("div.individualCodeDesc").text(code.desc);
-        }*/
-
-        $scope.addCode = function(selectedCode){
+        $scope.addCode = function(selectedCode,tags){
             var codeObj = {};
             var tempArr = [];
-            var searchText = $(".searchCode").val();
-            tempArr.push(searchText);
+            
+            var addedEvidence = $(".tag-item").find('span').text();
+            if(tags.length > 0){
+                for(var i=0; i<tags.length; i++){
+                    tempArr.push(tags[i].text);
+                }
+            }
             codeObj.code = selectedCode.code;
             codeObj.desc = selectedCode.desc;
 			codeObj.token = tempArr;
@@ -423,45 +424,61 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             requestedData.codeActionType = "New";
             requestedData.dos = "";
             requestedData.sign = "";
-            //requestedData.token = tempArr;
-
-            $http({
-                url: 'workingPage/codeAction', 
-                method: "POST",
-                dataType : "application/json",
-                data : JSON.stringify(requestedData)
-            }).then(function(data){ //make a get request to mock json file.
-                $scope.globalObj = data.data;
-                $scope.suggestedCode = data.data.suggestedCode;
-                $scope.suggestedCode.sort(function(a, b){
-                    var dateA = new Date(a.dos);
-                    var dateB = new Date(b.dos);
-                    return dateA-dateB;
+            requestedData.token = tempArr;
+            if(addedEvidence){
+                $(".tags").removeClass('error');
+                $http({
+                    url: 'workingPage/codeAction', 
+                    method: "POST",
+                    dataType : "application/json",
+                    data : JSON.stringify(requestedData)
+                }).then(function(data){ 
+                    $scope.globalObj = data.data;
+                    $scope.suggestedCode = data.data.suggestedCode;
+                    $scope.suggestedCode.sort(function(a, b){
+                        var dateA = new Date(a.dos);
+                        var dateB = new Date(b.dos);
+                        return dateA-dateB;
+                    });
+                    $scope.acceptedCode = data.data.acceptedCode;
+                    $scope.acceptedCode.sort(function(a, b){
+                        var dateA = new Date(a.dos);
+                        var dateB = new Date(b.dos);
+                        return dateA-dateB;
+                    });
+                    $scope.rejectedCode = data.data.rejectedCode;
+                    $scope.rejectedCode.sort(function(a, b){
+                        var dateA = new Date(a.dos);
+                        var dateB = new Date(b.dos);
+                        return dateA-dateB;
+                    });
+                    $(".searchCode").val("")
+                    $(".paginationBlock").hide();
+                    $(".codeSearchContainer").hide();
+                },function(err) {
+                    console.log("error while adding code");
                 });
-                $scope.acceptedCode = data.data.acceptedCode;
-                $scope.acceptedCode.sort(function(a, b){
-                    var dateA = new Date(a.dos);
-                    var dateB = new Date(b.dos);
-                    return dateA-dateB;
-                });
-                $scope.rejectedCode = data.data.rejectedCode;
-                $scope.rejectedCode.sort(function(a, b){
-                    var dateA = new Date(a.dos);
-                    var dateB = new Date(b.dos);
-                    return dateA-dateB;
-                });
-                /*$scope.mayBeCode = data.data.mayBeCode;
-                $scope.mayBeCode.sort(function(a, b){
-                    var dateA = new Date(a.dos);
-                    var dateB = new Date(b.dos);
-                    return dateA-dateB;
-                });*/
-                $(".searchCode").val("")
-                $(".paginationBlock").hide();
-                $(".codeSearchContainer").hide();
-            },function(err) {
-                console.log("error while adding code");
-            });
+            }else{
+                $(".tags").addClass('error');
+            }
+            
         }
+
+        $scope.addEvidence = function(){
+            $(".individualEvidence").val('');
+            var currentTarget = $(event.target).parents('li').find('label');
+            if($(currentTarget).hasClass("out")) {
+                $(event.target).parents('li').find('span.addCodeAction i').removeClass('fa-angle-double-down');
+                $(event.target).parents('li').find('span.addCodeAction i').addClass('fa-angle-double-up');
+                $(currentTarget).addClass("in");
+                $(currentTarget).removeClass("out");
+            } else {
+                $(event.target).parents('li').find('span.addCodeAction i').removeClass('fa-angle-double-up');
+                $(event.target).parents('li').find('span.addCodeAction i').addClass('fa-angle-double-down');
+                $(currentTarget).addClass("out");
+                $(currentTarget).removeClass("in");
+            }
+        }
+
     }])
     
