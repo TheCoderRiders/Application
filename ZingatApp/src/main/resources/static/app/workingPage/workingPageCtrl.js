@@ -134,6 +134,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 $(".codeSearchContainer").hide();
                 $scope.emptyData = false;
             }
+            $scope.$broadcast('content.reload');
         }
 
         /* get content of clicked file*/
@@ -310,6 +311,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
 
                 });
             }
+
         }
 
         /* called on add code search input keypress */
@@ -354,7 +356,9 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 $(".codeSearchContainer").hide();
                 $scope.emptyData = false;
             }
-             $('[data-toggle="tooltip"]').tooltip();
+            setTimeout(function() {
+                $('[data-toggle="tooltip"]').tooltip(); 
+            }, 500);
         }
 
         
@@ -408,7 +412,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             var tempArr = [];
             
             var addedEvidence = $(".tag-item").find('span').text();
-            if(tags.length > 0){
+            if(tags){
                 for(var i=0; i<tags.length; i++){
                     tempArr.push(tags[i].text);
                 }
@@ -466,6 +470,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
 
         $scope.addEvidence = function(){
             $(".individualEvidence").val('');
+            $(".tags").removeClass('error');
             var currentTarget = $(event.target).parents('li').find('label');
             if($(currentTarget).hasClass("out")) {
                 $(event.target).parents('li').find('span.addCodeAction i').removeClass('fa-angle-double-down');

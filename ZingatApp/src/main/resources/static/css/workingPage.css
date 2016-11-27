@@ -15,6 +15,9 @@
 .workingFileContents .error{
     border: 1px solid red;
 }
+.workingFileContents .tab-content{
+    height: 90%;
+}
 .workingFileContents tags-input .host {
     height: 35px;
 }
@@ -24,6 +27,10 @@
 .workingFileContents tags-input .tags .tag-item {
     margin: 3px 5px;
     padding: 0 5px;
+}
+.workingFileContents tags-input {
+    width: 90%;
+    float: left;
 }
 .workingFileContents .individualCodeContainer{
     min-height: 90px;
@@ -73,7 +80,7 @@
 }
 .codeSearchContainer .codeAcceptTable .evidenceDiv{
     display: inline-block;
-    width: 90%;
+    width: 100%;
     float: left;
 }
 .codeSearchContainer .codeAcceptTable .evidenceDiv input{
@@ -135,7 +142,7 @@
 .workingPage .noDataFound{
     position: absolute;
     margin: auto;
-    left: 0px;
+    left: 45%;
     right: 0px;
     top: 0px;
     bottom: 0px;
@@ -243,20 +250,23 @@
     background-color:#d1d1d1;
 }
 .workingFileContents .nav-tabs{
-    position: fixed;
+    /*position: fixed;
     z-index: 9999;
-    width: 48.5%;
+    width: 48.5%;*/
 }
 .workingFileContents .codeList{
-    /*overflow: auto;*/
+    overflow: auto;
     padding-left: 15px;
-    margin-top: 8% !important;
+    /*margin-top: 5% !important;*/
     width: 100%;
+}
+.workingFileContents .form-group ul:first-child {
+    /*margin-top: 8% !important;*/
 }
 .workingFileContents .emptyList{
     /*overflow: auto;*/
     padding-left: 15px;
-    margin-top: 20% !important;
+   /* margin-top: 20% !important;*/
     width: 100%;
 }
 .workingFileContents .dateOfService{

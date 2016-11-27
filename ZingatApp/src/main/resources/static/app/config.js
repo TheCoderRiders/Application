@@ -1,4 +1,4 @@
-var app = angular.module('coderApp', ['ngRoute','ngSanitize','ngTagsInput','ngScrollable','checklist-model','tableSort','ui.bootstrap','LoginController','LandingPageController','PopUpPageController','WorkingPageController','RejectDocPageController','RejectCodePageController','ProfilePageController','AdminPageController']);
+var app = angular.module('coderApp', ['ngRoute','ngSanitize','ngTagsInput','ngScrollable','checklist-model','ui.bootstrap','LoginController','LandingPageController','PopUpPageController','WorkingPageController','RejectDocPageController','RejectCodePageController','ProfilePageController','AdminPageController']);
 
 app.config(['$routeProvider','$controllerProvider', function($routeProvider, $controllerProvider) {
     //$controllerProvider.allowGlobals();
