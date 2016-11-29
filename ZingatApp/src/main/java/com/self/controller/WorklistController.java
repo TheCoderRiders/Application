@@ -54,8 +54,10 @@ public class WorklistController extends BaseController {
     }
 
     @RequestMapping("/getUsersForAllocation")
-    public List<UserBasicInfo> getUsersForAllocation(String actionId){
-        return worklistBusiness.getUsersForAllocation(actionId);
+    public List<UserBasicInfo> getUsersForAllocation(String actionId ,HttpSession session){
+        String currentRole = getCurrentRole(session);
+        int userId = ((UserMasterEntity) session.getAttribute("userInfo")).getUserId();
+        return worklistBusiness.getUsersForAllocation(actionId, currentRole, userId);
     }
 
     @RequestMapping("/assignedTo")

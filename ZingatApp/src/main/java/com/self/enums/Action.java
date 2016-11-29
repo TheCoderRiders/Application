@@ -33,9 +33,9 @@ public enum Action {
 
     public static List<String> getRoleByAction(String actionId){
         switch (actionId){
-            case "111" : return Arrays.asList("TL_Allocater","TL_Allocater_Coder");
+            case "111" : return Arrays.asList(ProductRole.TlCoder.name());
             case "222" : return Arrays.asList("TL_Allocater_Coder");
-            case "333" : return Arrays.asList("Coder");
+            case "333" : return Arrays.asList(ProductRole.Coder.name());
         }
         return Collections.emptyList();
     }
@@ -43,8 +43,8 @@ public enum Action {
     public static StatusMasterEntity getAssignedStatusByAction(String actionId){
         switch (actionId){
             case "111" :
-            case "222" : return new StatusMasterEntity(333,"Allocate to TL");
-            case "333" : return new StatusMasterEntity(333,"Allocate to Coder");
+            case "222" : return new StatusMasterEntity(333,"Allocate to TLCoder");
+            case "333" : return new StatusMasterEntity(444,"Allocate to Coder");
         }
         return new StatusMasterEntity();
     }

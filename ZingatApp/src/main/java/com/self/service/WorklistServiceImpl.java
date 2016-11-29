@@ -68,14 +68,14 @@ public class WorklistServiceImpl implements WorklistService {
     }
 
     @Override
-    public FileDetailsResponse getFileDetailsByUserId(String bucketName, List<String> currentRole, int userId, String orderBy, boolean isAsc, int pageNumber) {
+    public FileDetailsResponse getFileDetailsByUserId(String bucketName, List<String> currentRole, List<String> userIdList, String orderBy, boolean isAsc, int pageNumber) {
         Sort.Direction sortDirection = Sort.Direction.DESC;
         if(isAsc) sortDirection = Sort.Direction.ASC;
 
         Sort sort = new Sort(sortDirection,orderBy);
         Pageable pageable = new PageRequest(pageNumber-1,20,sort);
-        List<FileDetails> fileDetailsByUserId = documentMasterDao.getFileDetailsByUserId(bucketName, currentRole, String.valueOf(userId), pageable);
-        Integer pageCount = documentMasterDao.getFileDetailsPageCountByUserId(bucketName, currentRole, String.valueOf(userId));
-        return new FileDetailsResponse(fileDetailsByUserId,getPageCount(pageCount));
+        List<FileDetails> fileDetailsByUserId = documentMasterDao.getFileDetailsByUserId(bucketName, currentRole, userIdList, pageable);
+        //Integer pageCount = documentMasterDao.getFileDetailsPageCountByUserId(bucketName, currentRole, userIdList);
+        return new FileDetailsResponse(fileDetailsByUserId,null/*getPageCount(pageCount)*/);
     }
 }

@@ -1,12 +1,15 @@
+/*
 package com.self.enums;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+*/
 /**
  * Created by akash.p on 16/6/16.
- */
+ *//*
+
 public enum Role {
 
     Allocater(Action.ASSIGN_TO_TL),
@@ -34,3 +37,4 @@ public enum Role {
         return Arrays.asList(role);
     }
 }
+*/

@@ -7,13 +7,13 @@ import java.io.Serializable;
  * Created by akash.p on 14/6/16.
  */
 @Entity
-@Table(name = "allocater_tl_map", schema = "", catalog = "hcc_reportmaster")
+@Table(name = "allocator_tl_map", schema = "", catalog = "hcc_reportmaster")
 @IdClass(AllocaterTLMapEntityPK.class)
 public class AllocaterTLMapEntity implements Serializable {
 
     public static final long serialVersionUID = 1L;
 
-    private int allocaterId;
+    private int allocatorId;
     private String allocaterFirstname;
     private String allocaterMiddlename;
     private String allocaterLastname;
@@ -25,17 +25,17 @@ public class AllocaterTLMapEntity implements Serializable {
     private String tlClientName;
 
     @Id
-    @Column(name = "allocater_id", nullable = false, insertable = true, updatable = true)
-    public int getAllocaterId() {
-        return allocaterId;
+    @Column(name = "allocator_id", nullable = false, insertable = true, updatable = true)
+    public int getAllocatorId() {
+        return allocatorId;
     }
 
-    public void setAllocaterId(int allocaterId) {
-        this.allocaterId = allocaterId;
+    public void setAllocatorId(int allocaterId) {
+        this.allocatorId = allocaterId;
     }
 
     @Basic
-    @Column(name = "allocater_firstname", nullable = true, insertable = true, updatable = true, length = 50)
+    @Column(name = "allocator_firstname", nullable = true, insertable = true, updatable = true, length = 50)
     public String getAllocaterFirstname() {
         return allocaterFirstname;
     }
@@ -45,7 +45,7 @@ public class AllocaterTLMapEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "allocater_middlename", nullable = true, insertable = true, updatable = true, length = 50)
+    @Column(name = "allocator_middlename", nullable = true, insertable = true, updatable = true, length = 50)
     public String getAllocaterMiddlename() {
         return allocaterMiddlename;
     }
@@ -55,7 +55,7 @@ public class AllocaterTLMapEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "allocater_lastname", nullable = true, insertable = true, updatable = true, length = 50)
+    @Column(name = "allocator_lastname", nullable = true, insertable = true, updatable = true, length = 50)
     public String getAllocaterLastname() {
         return allocaterLastname;
     }
@@ -105,7 +105,7 @@ public class AllocaterTLMapEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "allocater_client_name", nullable = true, insertable = true, updatable = true, length = 50)
+    @Column(name = "allocator_client_name", nullable = true, insertable = true, updatable = true, length = 50)
     public String getAllocaterClientName() {
         return allocaterClientName;
     }
@@ -131,7 +131,7 @@ public class AllocaterTLMapEntity implements Serializable {
 
         AllocaterTLMapEntity that = (AllocaterTLMapEntity) o;
 
-        if (allocaterId != that.allocaterId) return false;
+        if (allocatorId != that.allocatorId) return false;
         if (tlId != that.tlId) return false;
         if (allocaterClientName != null ? !allocaterClientName.equals(that.allocaterClientName) : that.allocaterClientName != null)
             return false;
@@ -151,7 +151,7 @@ public class AllocaterTLMapEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = allocaterId;
+        int result = allocatorId;
         result = 31 * result + (allocaterFirstname != null ? allocaterFirstname.hashCode() : 0);
         result = 31 * result + (allocaterMiddlename != null ? allocaterMiddlename.hashCode() : 0);
         result = 31 * result + (allocaterLastname != null ? allocaterLastname.hashCode() : 0);

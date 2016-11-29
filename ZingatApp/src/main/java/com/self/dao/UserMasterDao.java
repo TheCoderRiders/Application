@@ -20,5 +20,5 @@ public interface UserMasterDao extends JpaRepository<UserMasterEntity, Long> {
 
     public List<UserMasterEntity> findByRoleNameIn(List<String> roleName);
 
-
+    public List<UserMasterEntity> findByUserIdIn(List<Integer> idList);
 }

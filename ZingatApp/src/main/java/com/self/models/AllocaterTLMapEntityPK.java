@@ -11,17 +11,17 @@ public class AllocaterTLMapEntityPK implements Serializable {
 
     public static final long serialVersionUID = 1L;
 
-    private int allocaterId;
+    private int allocatorId;
     private int tlId;
 
-    @Column(name = "allocater_id", nullable = false, insertable = true, updatable = true)
+    @Column(name = "allocator_id", nullable = false, insertable = true, updatable = true)
     @Id
-    public int getAllocaterId() {
-        return allocaterId;
+    public int getAllocatorId() {
+        return allocatorId;
     }
 
-    public void setAllocaterId(int allocaterId) {
-        this.allocaterId = allocaterId;
+    public void setAllocatorId(int allocaterId) {
+        this.allocatorId = allocaterId;
     }
 
     @Column(name = "tl_id", nullable = false, insertable = true, updatable = true)
@@ -41,7 +41,7 @@ public class AllocaterTLMapEntityPK implements Serializable {
 
         AllocaterTLMapEntityPK that = (AllocaterTLMapEntityPK) o;
 
-        if (allocaterId != that.allocaterId) return false;
+        if (allocatorId != that.allocatorId) return false;
         if (tlId != that.tlId) return false;
 
         return true;
@@ -49,7 +49,7 @@ public class AllocaterTLMapEntityPK implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = allocaterId;
+        int result = allocatorId;
         result = 31 * result + tlId;
         return result;
     }

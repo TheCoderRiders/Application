@@ -20,9 +20,10 @@ import com.self.pojo.SolrCodeSuggesterBean;
 import com.self.service.WorkingPageService;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import java.io.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -51,6 +52,9 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
     @Autowired
     private SolrSuggesterRepository solrSuggesterRepository;
+
+    @Value("${document.base.path}")
+    private String documentBasePath;
 
     @Override
     public Codes getCodes(String fileId) throws IOException {
@@ -170,6 +174,17 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(fileId);
         documentMasterEntity.setDocumentCurrentStatus(status.getStatus());
         documentMasterEntity.setDocumentCurrentStatusId(status.getId());
+
+        String fileContents = fileStatusChangeRequest.getFileContents();
+        if(fileContents !=null && !fileContents.isEmpty()){
+            String filePath = documentMasterEntity.getDocumentFilePath();
+            File file = new File(documentBasePath+filePath);
+            try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
+                writer.write(fileContents);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
 
         Timestamp currentTime = new Timestamp(Calendar.getInstance().getTime().getTime());
 

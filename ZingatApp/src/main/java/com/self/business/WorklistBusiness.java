@@ -16,7 +16,7 @@ public interface WorklistBusiness {
 
     public FileContent getFileContents(String fileId, String currentRole, String page);
 
-    public List<UserBasicInfo> getUsersForAllocation(String actionId);
+    public List<UserBasicInfo> getUsersForAllocation(String actionId, String currentRole, int userId);
 
     public Boolean assignedTo(DocAssignInfo docAssignInfo, UserMasterEntity userInfo);
 

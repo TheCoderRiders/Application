@@ -11,6 +11,7 @@ public class FileStatusChangeRequest {
     private String fileId;
     private FileStatus status;
     private DocRejectionReasonListEntity docRejectionReason;
+    private String fileContents;
 
     public String getFileId() {
         return fileId;
@@ -34,5 +35,13 @@ public class FileStatusChangeRequest {
 
     public void setDocRejectionReason(DocRejectionReasonListEntity docRejectionReason) {
         this.docRejectionReason = docRejectionReason;
+    }
+
+    public String getFileContents() {
+        return fileContents;
+    }
+
+    public void setFileContents(String fileContents) {
+        this.fileContents = fileContents;
     }
 }

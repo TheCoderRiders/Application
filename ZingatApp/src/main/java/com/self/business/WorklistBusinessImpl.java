@@ -1,13 +1,10 @@
 package com.self.business;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.self.dao.DocumentMasterDao;
-import com.self.dao.RoleBucketRightSideMapDao;
-import com.self.dao.RolewiseDefaultBucketDao;
-import com.self.dao.UserMasterDao;
+import com.self.dao.*;
 import com.self.dto.*;
 import com.self.enums.Action;
-import com.self.enums.Role;
+import com.self.enums.ProductRole;
 import com.self.enums.SortingParameters;
 import com.self.models.*;
 import com.self.service.WorklistService;
@@ -19,6 +16,7 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by akash.p on 17/6/16.
@@ -41,6 +39,15 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     @Autowired
     private RolewiseDefaultBucketDao rolewiseDefaultBucketDao;
 
+    @Autowired
+    private AllocatorTLMapDao allocatorTLMapDao;
+
+    @Autowired
+    private TLCoderMapDao tlCoderMapDao;
+
+    @Autowired
+    private AuditorCoderMapDao auditorCoderMapDao;
+
     private List<Integer> assignedFileStatusIds = Arrays.asList(444,555,666);
 
     private List<Integer> assignedToTLFileStatusIds = Arrays.asList(333);
@@ -49,15 +56,33 @@ public class WorklistBusinessImpl implements WorklistBusiness{
 
     @Value("${document.base.path}")
     private String documentBasePath;
+
     @Override
     public BucketActions getBucketsAndActions(String role, Integer roleId, Integer userId) {
         List<Bucket> bucketsInfo = worklistService.getBucketsInfo(role,userId);
-        if(role.equalsIgnoreCase("TL_Allocater") || role.equalsIgnoreCase("TL_Allocater_Coder")|| role.equalsIgnoreCase("Allocater")) {
+        /*if(role.equalsIgnoreCase("TL_Allocater") || role.equalsIgnoreCase("TL_Allocater_Coder")|| role.equalsIgnoreCase("Allocater")) {
             List<Bucket> additionalBuckets = worklistService.getBucketsInfo("Allocater");
-            /*bucketsInfo.forEach(bucket -> {
-                Bucket add = additionalBuckets.remove(additionalBuckets.indexOf(bucket));
-                bucket.setBucketCount(add.getBucketCount());
-            });*/
+            bucketsInfo.removeAll(additionalBuckets);
+            bucketsInfo.addAll(additionalBuckets);
+        }*/
+
+        List<Integer> userIds = ProductRole.valueOf(role).equals(ProductRole.Allocator)? allocatorTLMapDao.getTlIdByAllocatorId(userId).stream().map(entity->entity.getTlId()).collect(Collectors.toList())
+                :ProductRole.valueOf(role).equals(ProductRole.TlCoder)? tlCoderMapDao.getCoderIdByTlId(userId).stream().map(entity -> entity.getCoderId()).collect(Collectors.toList())
+                :ProductRole.valueOf(role).equals(ProductRole.Auditor)? auditorCoderMapDao.findByAuditorId(userId).stream().map(entity -> entity.getCoderId()).collect(Collectors.toList())
+                :new ArrayList<>();
+
+        final List<Integer> allUserIds = new ArrayList<>(userIds);
+
+        if(ProductRole.valueOf(role).equals(ProductRole.Allocator)){userIds.parallelStream().forEach(tlId->allUserIds.addAll(tlCoderMapDao.getCoderIdByTlId(tlId).stream().map(entity->entity.getCoderId()).collect(Collectors.toList())));}
+
+        if(!userIds.isEmpty()) {
+            List<Bucket> additionalBuckets = documentMasterDao.getBucketInfoByUserIdList(role,allUserIds.stream().map(id->id.toString()).collect(Collectors.toList()));
+            bucketsInfo.removeAll(additionalBuckets);
+            bucketsInfo.addAll(additionalBuckets);
+        }
+
+        if(ProductRole.valueOf(role).equals(ProductRole.Allocator)) {
+            List<Bucket> additionalBuckets = worklistService.getBucketsInfo(role);
             bucketsInfo.removeAll(additionalBuckets);
             bucketsInfo.addAll(additionalBuckets);
         }
@@ -83,7 +108,7 @@ public class WorklistBusinessImpl implements WorklistBusiness{
         for (String userRole : allRoles){
             if (userRole.equalsIgnoreCase(role)) continue;
 
-            Role actualRoleEnum = Role.valueOf(role);
+            ProductRole actualRoleEnum = ProductRole.valueOf(role);
             List<Action> actionList = actualRoleEnum.getActions();
             for(int i =0 ; i<actionList.size() ; i++) {
                 Action action = actionList.get(i);
@@ -121,16 +146,43 @@ public class WorklistBusinessImpl implements WorklistBusiness{
 
     @Override
     public FileDetailsResponse getFileDetails(String bucketName, String currentRole, int userId, String orderBy, boolean isAsc, int pageNumber) {
-        //String role = getCurrentRole(currentRole);
-        if(currentRole.equalsIgnoreCase("Coder") /*|| bucketName.equalsIgnoreCase("New") || bucketName.equalsIgnoreCase("Draft")*/){
-            return worklistService.getFileDetailsByUserId(bucketName, Role.getRoles(currentRole),userId,orderBy,isAsc,pageNumber);
+
+        List<String> userIdList = new ArrayList<>();
+        String userIdStr = String.valueOf(userId);
+        userIdList.add(userIdStr);
+
+        boolean userIdAssignedFileOnly = ProductRole.valueOf(currentRole).equals(ProductRole.Coder)
+                                         /*|| ProductRole.valueOf(currentRole).equals(ProductRole.Auditor)*/
+                                        ;
+        if(userIdAssignedFileOnly){
+            return  worklistService.getFileDetailsByUserId(bucketName, Arrays.asList(currentRole), userIdList, orderBy, isAsc, pageNumber);
         }
-        FileDetailsResponse fileDetailsResponse = worklistService.getFileDetails(bucketName, Role.getRoles(currentRole), orderBy, isAsc, pageNumber);
+
+        if(("New".equalsIgnoreCase(bucketName))){
+            return getNewFileDetailsResponse(bucketName, currentRole, orderBy, isAsc, pageNumber);
+        }
+
+        List<Integer> userIds = ProductRole.valueOf(currentRole).equals(ProductRole.Allocator)? allocatorTLMapDao.getTlIdByAllocatorId(userId).stream().map(entity->entity.getTlId()).collect(Collectors.toList())
+                                :ProductRole.valueOf(currentRole).equals(ProductRole.TlCoder)? tlCoderMapDao.getCoderIdByTlId(userId).stream().map(entity->entity.getCoderId()).collect(Collectors.toList())
+                                :ProductRole.valueOf(currentRole).equals(ProductRole.Auditor)? auditorCoderMapDao.findByAuditorId(userId).stream().map(entity -> entity.getCoderId()).collect(Collectors.toList())
+                                :new ArrayList<>();
+
+        final List<Integer> allUserIds = new ArrayList<>(userIds);
+
+        if(ProductRole.valueOf(currentRole).equals(ProductRole.Allocator)){userIds.parallelStream().forEach(tlId->allUserIds.addAll(tlCoderMapDao.getCoderIdByTlId(tlId).stream().map(entity->entity.getCoderId()).collect(Collectors.toList())));}
+
+        return  worklistService.getFileDetailsByUserId(bucketName, Arrays.asList(currentRole), allUserIds.stream().map(id->id.toString()).collect(Collectors.toList()), orderBy, isAsc, pageNumber);
+
+        /*FileDetailsResponse fileDetailsResponse = worklistService.getFileDetails(bucketName, Arrays.asList(currentRole), orderBy, isAsc, pageNumber);
         fileDetailsResponse.getFileDetailsList().parallelStream()
         .filter(fileDetail -> !(assignedFileStatusIds.contains(fileDetail.getFileStatusId().intValue()) || (("Allocater").equalsIgnoreCase(currentRole) && assignedToTLFileStatusIds.contains(fileDetail.getFileStatusId().intValue()))))
-        .forEach(fileDetail -> fileDetail.setCheckBoxVisible(true));
+        .forEach(fileDetail -> fileDetail.setCheckBoxVisible(true));*/
+    }
 
-        return fileDetailsResponse;
+    private FileDetailsResponse getNewFileDetailsResponse(String bucketName, String currentRole, String orderBy, boolean isAsc, int pageNumber) {
+        FileDetailsResponse newFileDetails = worklistService.getFileDetails(bucketName, Arrays.asList(currentRole), orderBy, isAsc, pageNumber);
+        newFileDetails.getFileDetailsList().parallelStream().forEach(fileDetail -> fileDetail.setCheckBoxVisible(true));
+        return newFileDetails;
     }
 
     @Override
@@ -151,8 +203,7 @@ public class WorklistBusinessImpl implements WorklistBusiness{
             }
         }*/
         char[] fileBuffer = new char[(int)file.length()];
-        try(FileInputStream inputStream = new FileInputStream(file)){
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+        try(BufferedReader reader = new BufferedReader(new FileReader(file))){
             reader.read(fileBuffer);
         }catch (Exception e){
             e.printStackTrace();
@@ -169,7 +220,9 @@ public class WorklistBusinessImpl implements WorklistBusiness{
         }
 
         String fileMode = "View";
-        if(currentRole.toLowerCase().contains("coder") && ("Allocate to Coder".equalsIgnoreCase(fileStatus) || "Draft".equalsIgnoreCase(fileStatus))){
+        /*if(currentRole.toLowerCase().contains("coder") && ("Allocate to Coder".equalsIgnoreCase(fileStatus) || "Draft".equalsIgnoreCase(fileStatus))){*/
+        if((currentRole.equalsIgnoreCase("coder") && ("Allocate to Coder".equalsIgnoreCase(fileStatus) || "Draft".equalsIgnoreCase(fileStatus)))
+        || (currentRole.equalsIgnoreCase("TLCoder") && ("Allocate to TLCoder".equalsIgnoreCase(fileStatus) || "Draft".equalsIgnoreCase(fileStatus))) ) {
             fileMode = "Edit";
             if("workingPage".equalsIgnoreCase(page) && documentMasterEntity.getDocumentStartDatetime()==null){
                 documentMasterEntity.setDocumentStartDatetime(new Timestamp(Calendar.getInstance().getTime().getTime()));
@@ -185,9 +238,15 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     }
 
     @Override
-    public List<UserBasicInfo> getUsersForAllocation(String actionId) {
-        List<String> roleList = Action.getRoleByAction(actionId);
+    public List<UserBasicInfo> getUsersForAllocation(String actionId, String currentRole, int userId) {
+        /*List<String> roleList = Action.getRoleByAction(actionId);
         List<UserMasterEntity> users = userMasterDao.findByRoleNameIn(roleList);
+        return Arrays.asList( new ObjectMapper().convertValue(users, UserBasicInfo[].class));*/
+
+        List<Integer> userIds = ProductRole.valueOf(currentRole).equals(ProductRole.Allocator)? allocatorTLMapDao.getTlIdByAllocatorId(userId).stream().map(entity->entity.getTlId()).collect(Collectors.toList())
+                :ProductRole.valueOf(currentRole).equals(ProductRole.TlCoder)? tlCoderMapDao.getCoderIdByTlId(userId).stream().map(entity->entity.getCoderId()).collect(Collectors.toList())
+                :new ArrayList<>();
+        List<UserMasterEntity> users = userMasterDao.findByUserIdIn(userIds);
         return Arrays.asList( new ObjectMapper().convertValue(users, UserBasicInfo[].class));
     }
 

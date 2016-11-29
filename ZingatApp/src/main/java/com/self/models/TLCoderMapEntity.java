@@ -23,7 +23,8 @@ public class TLCoderMapEntity implements Serializable {
     private String coderLastname;
     private String tlClientName;
     private String coderClientName;
-
+    private Integer tlClientId;
+    private Integer coderClientId;
     @Id
     @Column(name = "tl_id", nullable = false, insertable = true, updatable = true)
     public int getTlId() {
@@ -122,6 +123,24 @@ public class TLCoderMapEntity implements Serializable {
 
     public void setCoderClientName(String coderClientName) {
         this.coderClientName = coderClientName;
+    }
+
+    @Column(name = "tl_client_id", nullable = false, insertable = true, updatable = true)
+    public Integer getTlClientId() {
+        return tlClientId;
+    }
+
+    public void setTlClientId(Integer tlClientId) {
+        this.tlClientId = tlClientId;
+    }
+
+    @Column(name = "coder_client_id", nullable = false, insertable = true, updatable = true)
+    public Integer getCoderClientId() {
+        return coderClientId;
+    }
+
+    public void setCoderClientId(Integer coderClientId) {
+        this.coderClientId = coderClientId;
     }
 
     @Override
