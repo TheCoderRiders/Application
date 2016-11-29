@@ -410,11 +410,23 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         $scope.addCode = function(selectedCode,tags){
             var codeObj = {};
             var tempArr = [];
+            var updateContent;
             
             var addedEvidence = $(".tag-item").find('span').text();
             if(tags){
                 for(var i=0; i<tags.length; i++){
                     tempArr.push(tags[i].text);
+                    var str1 = $(".leftSideContent .scrollable-right div")[0].innerHTML; 
+                    var reg = new RegExp(tags[i].text, 'g') 
+                    var newstr = str1.replace(reg, "<mark class='"+selectedCode.code+"'>"+tags[i].text+"</mark>"); 
+                    /*for first matched element*/
+                    /*updateContent = $(".leftSideContent .scrollable-right div")[0].innerHTML.replace(tags[i].text,"<mark class='"+selectedCode.code+"'>"+tags[i].text+"</mark>");
+                    */
+                    //$(".leftSideContent .scrollable-right div")[0].innerHTML = updateContent;
+                    /* for all globally matched element*/
+                    //updateContent = $(".leftSideContent .scrollable-right div")[0].innerHTML.replace("/"+tags[i].text+"/g","<mark class='"+selectedCode.code+"'>"+tags[i].text+"</mark>");
+                    updateContent = newstr;
+                    $(".leftSideContent .scrollable-right div")[0].innerHTML = updateContent;
                 }
             }
             codeObj.code = selectedCode.code;
