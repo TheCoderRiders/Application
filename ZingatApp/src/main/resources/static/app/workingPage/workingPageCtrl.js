@@ -40,8 +40,15 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         $rootScope.$on("codeActionEmit",function (event,data) {
             var targetHeading = data.targetHeading;
             delete data.targetHeading;
-            var rejectedCodeClass = data.rejectedCode.code;
-            var markLeftSide = $(".leftSideContent mark[class*='"+rejectedCodeClass+"']")
+            var rejectedCodeClass = data.userRejectCode[0].code;
+            var markLeftSide = $(".leftSideContent mark[class*='"+rejectedCodeClass+"']");
+
+            var str1 = $(".leftSideContent .scrollable-right div")[0].innerHTML; 
+            var reg = new RegExp('<mark class="' + rejectedCodeClass + '">([^<]*)<\/mark>','g');
+            var match = reg.exec(str1);
+            var newstr = str1.replace(reg, match[1]); 
+            $(".leftSideContent .scrollable-right div")[0].innerHTML = newstr;
+
             $scope.globalObj = data;
             $scope.suggestedCode = data.suggestedCode;
             $scope.suggestedCode.sort(function(a, b){
@@ -204,7 +211,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
 
             setTimeout(function(){
               $(".rightSideContent span[class*='"+codeId+"']").parent().removeClass('highlighted');
-            }, 5000); 
+            }, 2000); 
 
             $(".rightSideContent").animate({ 
                 scrollTop: elementRelativeTop
@@ -227,7 +234,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
 
             setTimeout(function(){
               $(".leftSideContent mark[class*='"+code+"']").removeClass('highlighted');
-            }, 5000);    
+            }, 2000);    
 
             $(".leftSideContent").animate({ 
                 scrollTop: elementRelativeTop
@@ -253,24 +260,34 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 action = "Reject";
                 codeActionType = $(".nav li.active").attr('class').split(' ')[0];
             }
-            var requestedData = { };
-            requestedData.allCodes = $scope.globalObj;
-            requestedData.sectionName = selectedCode.sectionName;
-            requestedData.action = action;
-            requestedData.code = code;
-            requestedData.dos = section.dos;
-            requestedData.sign = section.sign;
-            requestedData.codeActionType = codeActionType;
+            $scope.requestedData = { };
+            $scope.requestedData.allCodes = $scope.globalObj;
+            $scope.requestedData.sectionName = selectedCode.sectionName;
+            $scope.requestedData.action = action;
+            $scope.requestedData.code = code;
+            $scope.requestedData.dos = section.dos;
+            $scope.requestedData.sign = section.sign;
+            $scope.requestedData.codeActionType = codeActionType;
 
             if(action == "Reject"){
-                workingPageService.setRequestParameter(requestedData,targetHeading);
+                workingPageService.setRequestParameter($scope.requestedData,targetHeading);
                 ngDialog.open({
                     template: 'app/rejectPage/rejectCodePage.html',
                     className: 'ngdialog-theme-default rejectCodeDocPopup',
                     scope: $scope
                 })
             }else{
-                workingPageService.updateGetCodes(requestedData,targetHeading,function(data){
+                workingPageService.updateGetCodes($scope.requestedData,targetHeading,function(data){
+                    var acceptedCode = $scope.requestedData.code;
+                    if(acceptedCode.type != "combine"){
+                        for(var i=0; i<acceptedCode.token.length; i++){
+                            var str1 = $(".leftSideContent .scrollable-right div")[0].innerHTML; 
+                            var reg = new RegExp(acceptedCode.token[i], 'g');
+                            debugger;
+                            var newstr = str1.replace(reg, "<mark class='"+acceptedCode.code+"'>"+acceptedCode.token[i]+"</mark>"); 
+                            $(".leftSideContent .scrollable-right div")[0].innerHTML = newstr;
+                        }
+                    }
                     $scope.globalObj = data.data;
                     $scope.suggestedCode = data.data.suggestedCode;
                     $scope.suggestedCode.sort(function(a, b){
@@ -410,11 +427,23 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         $scope.addCode = function(selectedCode,tags){
             var codeObj = {};
             var tempArr = [];
+            var updateContent;
             
             var addedEvidence = $(".tag-item").find('span').text();
             if(tags){
                 for(var i=0; i<tags.length; i++){
                     tempArr.push(tags[i].text);
+                    var str1 = $(".leftSideContent .scrollable-right div")[0].innerHTML; 
+                    var reg = new RegExp(tags[i].text, 'g') 
+                    var newstr = str1.replace(reg, "<mark class='"+selectedCode.code+"'>"+tags[i].text+"</mark>"); 
+                    /*for first matched element*/
+                    /*updateContent = $(".leftSideContent .scrollable-right div")[0].innerHTML.replace(tags[i].text,"<mark class='"+selectedCode.code+"'>"+tags[i].text+"</mark>");
+                    */
+                    //$(".leftSideContent .scrollable-right div")[0].innerHTML = updateContent;
+                    /* for all globally matched element*/
+                    //updateContent = $(".leftSideContent .scrollable-right div")[0].innerHTML.replace("/"+tags[i].text+"/g","<mark class='"+selectedCode.code+"'>"+tags[i].text+"</mark>");
+                    updateContent = newstr;
+                    $(".leftSideContent .scrollable-right div")[0].innerHTML = updateContent;
                 }
             }
             codeObj.code = selectedCode.code;

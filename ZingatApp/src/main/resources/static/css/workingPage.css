@@ -257,7 +257,7 @@
 .workingFileContents .codeList{
     overflow: auto;
     padding-left: 15px;
-    /*margin-top: 5% !important;*/
+    margin-top: 5px;
     width: 100%;
 }
 .workingFileContents .form-group ul:first-child {
