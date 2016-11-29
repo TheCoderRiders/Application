@@ -283,7 +283,6 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                         for(var i=0; i<acceptedCode.token.length; i++){
                             var str1 = $(".leftSideContent .scrollable-right div")[0].innerHTML; 
                             var reg = new RegExp(acceptedCode.token[i], 'g');
-                            debugger;
                             var newstr = str1.replace(reg, "<mark class='"+acceptedCode.code+"'>"+acceptedCode.token[i]+"</mark>"); 
                             $(".leftSideContent .scrollable-right div")[0].innerHTML = newstr;
                         }
@@ -392,6 +391,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             }
             obj.fileId = $scope.fileId;
             obj.status = actionName;
+            obj.fileContents = $(".leftSideContent .scrollable-right div")[0].innerHTML;
             if(actionName == "REJECTED"){
                 $http({
                     url: 'workingPage/getDocRejectionReasonList', 
