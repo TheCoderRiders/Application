@@ -43,13 +43,15 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             var rejectedCodeClass = data.userRejectCode[0].code;
             var markLeftSide = $(".leftSideContent mark[class*='"+rejectedCodeClass+"']");
 
-            var str1 = $(".leftSideContent .scrollable-right div")[0].innerHTML; 
+            //var str1 = $(".leftSideContent .scrollable-right div")[0].innerHTML; 
+            var str1 = $(".leftSideContent .actualFileText")[0].innerHTML;
             var reg = new RegExp('<mark class="' + rejectedCodeClass + '">([^<]*)<\/mark>','g');
             var match = reg.exec(str1);
             console.log(match);
             if(match){
                 var newstr = str1.replace(reg, match[1]); 
-                $(".leftSideContent .scrollable-right div")[0].innerHTML = newstr;
+                //$(".leftSideContent .scrollable-right div")[0].innerHTML = newstr;
+                $(".leftSideContent .actualFileText")[0].innerHTML = newstr;
             }
             
             $scope.globalObj = data;
@@ -237,11 +239,14 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
 
             setTimeout(function(){
               $(".leftSideContent mark[class*='"+code+"']").removeClass('highlighted');
-            }, 2000);    
+            }, 4000);    
 
-            $(".leftSideContent").animate({ 
-                scrollTop: elementRelativeTop
-            }, 1000);
+            if(elementRelativeTop != 0){
+                 $(".leftSideContent").animate({ 
+                    scrollTop: elementRelativeTop
+                }, 1000);
+            }
+           
         }
 
 
@@ -284,10 +289,12 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                     var acceptedCode = $scope.requestedData.code;
                     if(acceptedCode.type != "combine"){
                         for(var i=0; i<acceptedCode.token.length; i++){
-                            var str1 = $(".leftSideContent .scrollable-right div")[0].innerHTML; 
+                            //var str1 = $(".leftSideContent .scrollable-right div")[0].innerHTML; 
+                            var str1 = $(".leftSideContent .actualFileText")[0].innerHTML;
                             var reg = new RegExp(acceptedCode.token[i], 'g');
                             var newstr = str1.replace(reg, "<mark class='"+acceptedCode.code+"'>"+acceptedCode.token[i]+"</mark>"); 
-                            $(".leftSideContent .scrollable-right div")[0].innerHTML = newstr;
+                            //$(".leftSideContent .scrollable-right div")[0].innerHTML = newstr;
+                            $(".leftSideContent .actualFileText")[0].innerHTML = newstr;
                         }
                     }
                     $scope.globalObj = data.data;
@@ -413,7 +420,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             }
             obj.fileId = $scope.fileId;
             obj.status = actionName;
-            obj.fileContents = $(".leftSideContent .scrollable-right div")[0].innerHTML;
+            //obj.fileContents = $(".leftSideContent .scrollable-right div")[0].innerHTML;
+            obj.fileContents = $(".leftSideContent .actualFileText")[0].innerHTML;
             if(actionName == "REJECTED"){
                 $http({
                     url: 'workingPage/getDocRejectionReasonList', 
@@ -455,7 +463,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             if(tags){
                 for(var i=0; i<tags.length; i++){
                     tempArr.push(tags[i].text);
-                    var str1 = $(".leftSideContent .scrollable-right div")[0].innerHTML; 
+                    //var str1 = $(".leftSideContent .scrollable-right div")[0].innerHTML; 
+                    var str1 = $(".leftSideContent .actualFileText")[0].innerHTML;
                     var reg = new RegExp(tags[i].text, 'g') 
                     var newstr = str1.replace(reg, "<mark class='"+selectedCode.code+"'>"+tags[i].text+"</mark>"); 
                     /*for first matched element*/
@@ -465,7 +474,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                     /* for all globally matched element*/
                     //updateContent = $(".leftSideContent .scrollable-right div")[0].innerHTML.replace("/"+tags[i].text+"/g","<mark class='"+selectedCode.code+"'>"+tags[i].text+"</mark>");
                     updateContent = newstr;
-                    $(".leftSideContent .scrollable-right div")[0].innerHTML = updateContent;
+                    //$(".leftSideContent .scrollable-right div")[0].innerHTML = updateContent;
+                    $(".leftSideContent .actualFileText")[0].innerHTML = updateContent;
                 }
             }
             codeObj.code = selectedCode.code;
