@@ -243,8 +243,13 @@
 	    </div>
 	    <div class="actionBtn">
 	    	<button type="button" value="REJECTED" ng-click="documentStatusChange()" class="btn btn-warning" ng-show={{editRight}}>REJECTED</button>
+	    	<button type="button" value="DOUBT" ng-click="doubtFile()" class="btn btn-default" ng-show={{editRight}}>DOUBT</button>
 			<button type="button" value="DRAFT" ng-click="documentStatusChange()" class="btn btn-primary" ng-show={{editRight}}>DRAFT</button>
 			<button type="button" value="SUBMIT" ng-click="documentStatusChange()" class="btn btn-success" ng-show={{editRight}}>SUBMIT</button>
+
+			
+			<button type="button" value="REBUTTAL" ng-click="documentStatusChange()" class="btn btn-primary" ng-hide={{editRight}}>REBUTTAL</button>
+			<button type="button" value="COMPLETE" ng-click="documentStatusChange()" class="btn btn-success" ng-hide={{editRight}}>COMPLETE</button>
 	    </div>
 	     <div id="footer">
 	    	<div class="panel panel-default custom-panel">

@@ -46,9 +46,12 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             var str1 = $(".leftSideContent .scrollable-right div")[0].innerHTML; 
             var reg = new RegExp('<mark class="' + rejectedCodeClass + '">([^<]*)<\/mark>','g');
             var match = reg.exec(str1);
-            var newstr = str1.replace(reg, match[1]); 
-            $(".leftSideContent .scrollable-right div")[0].innerHTML = newstr;
-
+            console.log(match);
+            if(match){
+                var newstr = str1.replace(reg, match[1]); 
+                $(".leftSideContent .scrollable-right div")[0].innerHTML = newstr;
+            }
+            
             $scope.globalObj = data;
             $scope.suggestedCode = data.suggestedCode;
             $scope.suggestedCode.sort(function(a, b){
@@ -377,7 +380,26 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             }, 500);
         }
 
-        
+        $scope.doubtFile = function(){
+            var actionName = $(event.target).attr('value');
+            $http({
+                url: 'workingPage/getDocRejectionReasonList', 
+                method: "GET",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(function(data){ 
+                //workingPageService.setRequestParameter(obj);
+                ngDialog.open({
+                    template: 'app/rejectPage/doubtPage.html',
+                    className: 'ngdialog-theme-default'
+                });
+
+            },function(err) {
+                console.log("Bucket Err: "+err);
+            });
+        }
 
         $scope.documentStatusChange = function(action){
             var actionName = $(event.target).attr('value');

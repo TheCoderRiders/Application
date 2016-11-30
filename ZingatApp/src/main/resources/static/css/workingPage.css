@@ -116,12 +116,13 @@
     min-height: 45px;
 }
 .workingFileContents .codeRightSide .codeEvidanceContainer{
-    width: 15%;
+    width: 25%;
     float: left;
     border-radius: 5px;
     display: inline-block;
     border: 1px solid;
     margin: 2px 5px;
+    text-align: center;
 }
 .workingFileContents .codeRightSide .codeEvidance{
     padding: 1px 5px 0px 5px;
@@ -225,12 +226,12 @@
 	height: 35px;
     border-radius: 0px;
 }
-.rejectionCode .actionBtn,.rejectionDocument .actionBtn{
+.rejectionCode .actionBtn,.rejectionDocument .actionBtn,.doubtCode .actionBtn{
     margin-top: 3%;
     right: 2%;
     position: absolute;
 }
-.rejectionCode .actionBtn button,.rejectionDocument .actionBtn button{
+.rejectionCode .actionBtn button,.rejectionDocument .actionBtn button,.doubtCode .actionBtn button{
     width: 110px;
     height: 35px;
     border-radius: 0px;
@@ -348,14 +349,14 @@
     text-decoration: underline !important;
     outline: none !important;
 }
-.rejectionCode,.rejectionDocument{
+.rejectionCode,.rejectionDocument,.doubtCode{
     padding: 5px;
 }
-.rejectionCode .rejectHeading,.rejectionDocument .rejectHeading{
+.rejectionCode .rejectHeading,.rejectionDocument .rejectHeading,.doubtCode .doubtHeading{
     text-align: center;
     height: 10%;
 }
-.rejectionCode ul li,.rejectionDocument ul li{
+.rejectionCode ul li,.rejectionDocument ul li,.doubtCode ul li{
     width: 50%;
     display: inline-block;
     float: left;
@@ -364,13 +365,13 @@
 .rejectionCode .rejectCodeList{
     height: 42%;
 }
-.rejectionDocument .rejectionDocList{
+.rejectionDocument .rejectionDocList,.doubtCode .doubtList{
     height: 25%;
 }
 .rejectionDocument .rejectionDocComment{
     height: 30%;
 }
-.rejectionCode h3,.rejectionDocument h3{
+.rejectionCode h3,.rejectionDocument h3,.doubtCode h3{
     margin-top: 10px;
 }
 .rejectCodeDocPopup{

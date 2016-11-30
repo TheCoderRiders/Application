@@ -1,0 +1,31 @@
+<div class="dialog-contents" ng-controller="doubtPageCtrl">
+	<div class="doubtCode">
+
+		<div class="doubtHeading">
+			<h3>Doubt Headings</h3>
+		</div>
+
+		<div class="doubtList">
+			<h4>Doubt Options: </h4>
+			<ul class="doubtCommentItem">
+				<li ng-repeat = "doubts in doubtList track by $index">
+					<input id="{{doubts.rejectionReasonListId}}" class="doubtItem" ng-model="doubts" ng-value={{doubts}}  type="radio" ng-click="doubtChecked(doubts)" name="codeRejectName">
+					<label>{{doubts.rejectionReasonDisplay}}</label>
+				</li>
+			</ul>
+		</div>
+
+		<div class="doubtFileComment">
+			<h4>Doubt Comments: </h4>
+			<textarea class="doubtComment" rows="3" cols="60" >
+				
+			</textarea>
+		</div>
+
+		<div class="actionBtn">
+			<button type="button" value="CANCEL" ng-click="closePopup()" class="btn btn-primary">CANCEL</button>
+			<button type="button" value="SUBMIT" ng-click="submitDoubt()" class="btn btn-success">SUBMIT</button>
+	    </div>
+
+	</div>
+</div>
