@@ -320,7 +320,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         }
         document.close();
         List<InputStream> list = new ArrayList<>();
-        File result = new File(documentPdfOutputBasePath + documentName+"_with_code");
+        File result = new File(documentPdfOutputBasePath + documentName+"_with_code.pdf");
         try {
             // Source pdfs
             list.add(new FileInputStream(destinationFile));
