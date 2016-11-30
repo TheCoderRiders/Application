@@ -7,6 +7,7 @@ import com.self.dto.FileStatusChangeRequest;
 import com.self.models.CodeRejectionReasonListEntity;
 import com.self.models.DocRejectionReasonListEntity;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface WorkingPageBusiness {
     public List<CodeRejectionReasonListEntity> getCodeRejectionReasonList();
 
     public List<DocRejectionReasonListEntity> getDocRejectionReasonList();
+
+    public File getDownloadFile(String fileId) throws Exception;
 }
