@@ -235,7 +235,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
     @Override
     public File getDownloadFile(String fileId) throws Exception {
-        DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(fileId/*"20161129111808_10.PDF"*/);
+        DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(fileId/*"20161129111818_rap536.pdf"*/);
 
         String documentName = documentMasterEntity.getDocumentName();
         File file = new File(documentPdfBasePath + documentName);
@@ -271,18 +271,41 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
         Document document = new Document();
         File codeFile = new File(documentPdfOutputBasePath + documentName+"_output_code.pdf");
-        PdfWriter.getInstance(document, new FileOutputStream(codeFile));
+        PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(codeFile));
         document.open();
-        Paragraph paragraph = new Paragraph("CODED CODES");
+        Paragraph paragraph = new Paragraph("BILLABLE CODES");
         paragraph.setAlignment(Element.ALIGN_CENTER);
         document.add(paragraph);
+        document.add(new Phrase("\n"));
 
         if(documentMasterEntity.getDocumentAcceptedCodes()!=null) {
             List<DocumentCodeInfo> documentCodeInfoList = Arrays.asList(new ObjectMapper().readValue(documentMasterEntity.getDocumentAcceptedCodes(), DocumentCodeInfo[].class));
             if(!documentCodeInfoList.isEmpty()) {
-                final int[] count = {0};
-                documentCodeInfoList.forEach(docCodeInfo -> {
-                    docCodeInfo.getCodes().forEach(code-> {
+
+                Map<String, List<DocumentCodeInfo>> groupingByDos = documentCodeInfoList.stream().collect(Collectors.groupingBy(documentCodeInfo -> documentCodeInfo.getDos()));
+                groupingByDos.forEach((key,value)->{
+                    try {
+                        //document.add(new Phrase("\n"));
+                        PdfPTable table = new PdfPTable(1);
+                        PdfPCell pdfPCell = new PdfPCell(new Phrase("Date Of Service : "+(key.isEmpty()?"Not Available":key)));
+                        pdfPCell.setBackgroundColor(new GrayColor(0.5f));
+                        pdfPCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                        table.addCell(pdfPCell);
+
+                        PdfTemplate template = pdfWriter.getDirectContent().createTemplate(pdfWriter.getPageSize().getWidth(), 80);
+                        template.setColorFill(BaseColor.GRAY);
+                        template.rectangle(0, 0, pdfWriter.getPageSize().getWidth(), 80);
+                        template.fill();
+                        pdfWriter.releaseTemplate(template);
+                        document.add(table);
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+
+                    final int[] count = {0};
+                    value.forEach(docCodeInfo -> {
+                    docCodeInfo.getCodes().forEach(code -> {
                         com.itextpdf.text.List mainList = new com.itextpdf.text.List(com.itextpdf.text.List.ORDERED);
                         mainList.setFirst(++count[0]);
                         mainList.setAlignindent(false);
@@ -290,14 +313,12 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
                         mainList.add(code.getCode());
 
-                        final int[] evidenceCount = {0};
                         com.itextpdf.text.List list = new com.itextpdf.text.List(com.itextpdf.text.List.ORDERED);
-                        list.setPreSymbol(String.valueOf("       "+count[0] + "."));
-                        //list.setNumbered(false);
+                        list.setPreSymbol(String.valueOf("    " + count[0] + "."));
                         list.setSymbolIndent(10f);
                         list.setPostSymbol(" ");
                         List<String> tokenList = code.getToken();
-                        if(tokenList!=null && !tokenList.isEmpty()) {
+                        if (tokenList != null && !tokenList.isEmpty()) {
                             tokenList.forEach(token -> {
                                 list.add(token);
                             });
@@ -311,10 +332,13 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
                             dottedline.setGap(2f);
                             document.add(dottedline);
                             document.add(new Phrase("\n"));
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     });
+                });
+
+
                 });
             }
         }
@@ -338,6 +362,9 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        codeFile.delete();
+        destinationFile.delete();
 
         return result;
     }

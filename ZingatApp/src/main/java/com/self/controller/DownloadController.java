@@ -36,6 +36,7 @@ public class DownloadController {
             {
                 FileUtils.copyFile(downloadFile, response.getOutputStream());
                 response.getOutputStream().flush();
+                downloadFile.delete();
             }
             catch (IOException ex) {
                 ex.printStackTrace();
