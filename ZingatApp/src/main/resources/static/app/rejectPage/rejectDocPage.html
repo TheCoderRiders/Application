@@ -6,7 +6,7 @@
 		</div>
 
 		<div class="rejectionDocList">
-			<h4>Rejection Options: </h4>
+			<h4>Rejection Options: <span class="err-message">*</span></h4>
 			<ul class="rejectionCommentItem">
 				<li ng-repeat = "rejection in rejectionDocList track by $index">
 					<input class="rejectionDoc" id="{{rejection.rejectionReasonListId}}" ng-click="rejectDocChecked(rejection)" ng-value={{rejection}} ng-model="rejection.rejectionReasonListId" type="radio" name="docRejectName">
@@ -16,13 +16,14 @@
 		</div>
 
 		<div class="rejectionDocComment">
-			<h4>Rejection Comments: </h4>
+			<h4>Rejection Comments: <span class="err-message">*</span></h4>
 			<textarea class="rejectDocComment" rows="3" cols="60" ng-model="rejectionCode">
 				
 			</textarea>
 		</div>
 
 		<div class="actionBtn">
+			<div class="rejectDocError err-message">Please fill the Mandatory fields</div>
 			<button type="button" value="CANCEL" ng-click="closePopup()" class="btn btn-primary">CANCEL</button>
 			<button type="button" value="SUBMIT" ng-click="rejectDoc()" class="btn btn-success">SUBMIT</button>
 	    </div>

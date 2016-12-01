@@ -389,6 +389,9 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
 
         $scope.doubtFile = function(){
             var actionName = $(event.target).attr('value');
+            var obj = {};
+            obj.fileId = $scope.fileId;
+            
             $http({
                 url: 'workingPage/getDocRejectionReasonList', 
                 method: "GET",
@@ -397,7 +400,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                     'Accept': 'application/json'
                 }
             }).then(function(data){ 
-                //workingPageService.setRequestParameter(obj);
+                workingPageService.setRequestParameter(obj);
                 ngDialog.open({
                     template: 'app/rejectPage/doubtPage.html',
                     className: 'ngdialog-theme-default'
@@ -405,6 +408,16 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
 
             },function(err) {
                 console.log("Bucket Err: "+err);
+            });
+        }
+
+        $scope.fileCompleted = function(){
+            var obj = {};
+            obj.fileId = $scope.fileId;
+            workingPageService.setRequestParameter(obj);
+            ngDialog.open({
+                template: 'app/rejectPage/downloadPage.html',
+                className: 'ngdialog-theme-default'
             });
         }
 

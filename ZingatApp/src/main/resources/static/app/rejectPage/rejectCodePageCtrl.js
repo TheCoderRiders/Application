@@ -27,22 +27,29 @@ angular.module('RejectCodePageController', ['ngDialog'])
 
         /* click on Submit of code rejection*/
         $scope.rejectCode = function() {
-            var checkedRadio = JSON.parse($(".rejectedCode.ng-touched").attr('ng-value'));
-            var targetHeading = workingPageService.getRequestParameter().obj[1];
-            var requestData = workingPageService.getRequestParameter().obj[0];
-            requestData.code.rejectionReasonListId = checkedRadio.rejectionReasonListId;
-            requestData.code.rejectionReasonDisplay = checkedRadio.rejectionReasonDisplay;
-            requestData.code.rejectionReasonDesc = $(".rejectCodeComment").val();
-            var temp = [];
-            temp.push(requestData.code);
+            
+            if($(".rejectedCode.ng-touched").attr('ng-value') && $(".rejectCodeComment").val().length > 0){
+                $(".rejectCodeError").hide();
+                var checkedRadio = JSON.parse($(".rejectedCode.ng-touched").attr('ng-value'));
+                var targetHeading = workingPageService.getRequestParameter().obj[1];
+                var requestData = workingPageService.getRequestParameter().obj[0];
+                requestData.code.rejectionReasonListId = checkedRadio.rejectionReasonListId;
+                requestData.code.rejectionReasonDisplay = checkedRadio.rejectionReasonDisplay;
+                requestData.code.rejectionReasonDesc = $(".rejectCodeComment").val();
+                var temp = [];
+                temp.push(requestData.code);
 
-            workingPageService.updateGetCodes(requestData,targetHeading,function(data){
-                data.data.targetHeading = targetHeading;
-                data.data.userRejectCode = temp;
-                $scope.$emit("codeActionEmit",data.data);
-            },function(){
+                workingPageService.updateGetCodes(requestData,targetHeading,function(data){
+                    data.data.targetHeading = targetHeading;
+                    data.data.userRejectCode = temp;
+                    $scope.$emit("codeActionEmit",data.data);
+                },function(){
 
-            });
+                });
+            }else{  
+                $(".rejectCodeError").show();
+            }
+            
         }
 
     }]);

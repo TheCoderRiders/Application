@@ -28,22 +28,30 @@ angular.module('RejectDocPageController', ['ngDialog'])
         /* called on document rejected clicked*/
         $scope.rejectDoc = function(){
           var getObj = workingPageService.getRequestParameter().obj[0];
-          var requestObj = {};
-          requestObj.fileId = getObj.fileId;
-          requestObj.status = getObj.status;
-          requestObj.docRejectionReason = JSON.parse($(".rejectionDoc.ng-touched").attr('id'));
-          requestObj.docRejectionReason.rejectionReasonDesc = $(".rejectDocComment").val();
-           $http({
+          
+          if($(".rejectionDoc.ng-touched").attr('id') && $(".rejectDocComment").val().length > 0){
+            var requestObj = {};
+            requestObj.fileId = getObj.fileId;
+            requestObj.status = getObj.status;
+            requestObj.docRejectionReason = JSON.parse($(".rejectionDoc.ng-touched").attr('id'));
+            requestObj.docRejectionReason.rejectionReasonDesc = $(".rejectDocComment").val();
+            
+            $http({
                 url: 'workingPage/documentStatusChange', 
                 method: "POST",
                 data : JSON.stringify(requestObj)
             }).then(function(data){ 
                 ngDialog.close();
+                $(".rejectDocError").hide();
                 $location.path('/landingPage');
             },function(err) {
                 console.log(err);
             });
-        }
+          }else{
+            $(".rejectDocError").show();
+          }
+          
+          }
 
       }
 ]);

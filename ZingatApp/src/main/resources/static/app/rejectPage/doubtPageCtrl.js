@@ -22,12 +22,35 @@ angular.module('DoubtPageController', ['ngDialog'])
 
         /* click on radio button clicked */
         $scope.doubtChecked = function(option){
-            $(".rejectCodeComment").val(option.rejectionReasonDesc);          
+            $(".doubtComment").val(option.rejectionReasonDesc);          
         }
 
         /* click on Submit of doubt*/
         $scope.submitDoubt = function() {
             
+            var getObj = workingPageService.getRequestParameter().obj[0];
+            if($(".doubtItem.ng-touched").attr('id') && $(".doubtComment").val().length > 0){
+                var requestObj = {};
+                requestObj.fileId = getObj.fileId;
+                requestObj.status = getObj.status;
+                requestObj.doubtItem = JSON.parse($(".doubtItem.ng-touched").attr('id'));
+                requestObj.doubtItem.doubtItemReasonDesc = $(".doubtComment").val();
+                $(".doubtError").hide()
+                /*$http({
+                    url: 'workingPage/documentStatusChange', 
+                    method: "POST",
+                    data : JSON.stringify(requestObj)
+                }).then(function(data){ 
+                    ngDialog.close();
+                    $(".doubtError").hide();
+                    $location.path('/landingPage');
+                },function(err) {
+                    console.log(err);
+                });*/
+            }else{
+                $(".doubtError").show();
+            }
+
         }
 
     }]);
