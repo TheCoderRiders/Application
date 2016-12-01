@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
-import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.self.dao.CodeRejectionReasonDao;
 import com.self.dao.DocRejectionReasonDao;
 import com.self.dao.DocumentMasterDao;
@@ -14,7 +13,9 @@ import com.self.dto.CodeAction;
 import com.self.dto.CodeSearchResult;
 import com.self.dto.Codes;
 import com.self.dto.FileStatusChangeRequest;
+import com.self.enums.ButtonVisibleUtility;
 import com.self.enums.FileStatus;
+import com.self.enums.ProductRole;
 import com.self.models.CodeRejectionReasonListEntity;
 import com.self.models.DocRejectionReasonListEntity;
 import com.self.models.DocumentMasterEntity;
@@ -22,7 +23,6 @@ import com.self.pojo.ActualCode;
 import com.self.pojo.DocumentCodeInfo;
 import com.self.pojo.SolrCodeSuggesterBean;
 import com.self.service.WorkingPageService;
-import org.apache.commons.io.FileUtils;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,7 +69,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     private String documentPdfOutputBasePath;
 
     @Override
-    public Codes getCodes(String fileId) throws IOException {
+    public Codes getCodes(String fileId, String currentRole) throws IOException {
         DocumentMasterEntity documentMasterEntity = workingPageService.getCodes(fileId);
         Codes acceptedSuggestedRejected = new Codes();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -94,6 +94,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
         acceptedSuggestedRejected.setFileId(documentMasterEntity.getDocumentId());
 
+        acceptedSuggestedRejected.setButtonVisibleInfo(ButtonVisibleUtility.getButtonVisibleInfo(ProductRole.valueOf(currentRole)));
         return acceptedSuggestedRejected;
     }
 

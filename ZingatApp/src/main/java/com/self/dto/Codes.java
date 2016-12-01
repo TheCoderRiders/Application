@@ -14,6 +14,7 @@ public class Codes {
     private List<DocumentCodeInfo> rejectedCode;
     private List<DocumentCodeInfo> mayBeCode;
     private String fileId;
+    private ButtonVisibleInfo buttonVisibleInfo;
 
     public List<DocumentCodeInfo> getSuggestedCode() {
         return suggestedCode;
@@ -57,5 +58,13 @@ public class Codes {
 
     public void setFileId(String fileId) {
         this.fileId = fileId;
+    }
+
+    public ButtonVisibleInfo getButtonVisibleInfo() {
+        return buttonVisibleInfo;
+    }
+
+    public void setButtonVisibleInfo(ButtonVisibleInfo buttonVisibleInfo) {
+        this.buttonVisibleInfo = buttonVisibleInfo;
     }
 }

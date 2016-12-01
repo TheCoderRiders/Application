@@ -15,7 +15,7 @@ import java.util.List;
  * Created by akash.p on 25/7/16.
  */
 public interface WorkingPageBusiness {
-    public Codes getCodes(String fileId) throws IOException;
+    public Codes getCodes(String fileId, String currentRole) throws IOException;
 
     public Boolean saveCodes(Codes codes) throws JsonProcessingException;
 

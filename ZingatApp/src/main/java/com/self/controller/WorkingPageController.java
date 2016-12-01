@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
@@ -31,8 +32,9 @@ public class WorkingPageController extends BaseController {
     private WorkingPageBusiness workingPageBusiness;
 
     @RequestMapping(value = "/getCodes")
-    public Codes getCodes(String fileId) throws IOException {
-        return workingPageBusiness.getCodes(fileId);
+    public Codes getCodes(String fileId, HttpSession session) throws IOException {
+        String currentRole = getCurrentRole(session);
+        return workingPageBusiness.getCodes(fileId,currentRole);
     }
 
     @RequestMapping(value = "/saveCodes")
@@ -63,5 +65,11 @@ public class WorkingPageController extends BaseController {
     @RequestMapping(value = "/getCodeRejectionReasonList")
     public List getCodeRejectionReasonList() {
         return workingPageBusiness.getCodeRejectionReasonList();
+    }
+
+    private String getCurrentRole(HttpSession session) {
+        Collection<GrantedAuthority> authorities = ((UsernamePasswordAuthenticationToken) session.getAttribute("user")).getAuthorities();
+        Object[] roleNames = authorities.toArray();
+        return roleNames[0].toString();
     }
 }
