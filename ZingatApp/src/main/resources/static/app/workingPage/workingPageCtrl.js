@@ -149,12 +149,23 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             $scope.$broadcast('content.reload');
         }
 
+        $scope.leftTabChanged = function(event){
+            event.preventDefault();
+            console.log("asdasd");
+        }
+
         /* get content of clicked file*/
         $http({
             url: 'worklistPage/getFileContents?fileId='+$scope.fileId+"&page=workingPage",
             method: "GET",
         }).then(function(data){ //make a get request to mock json file.
             $scope.workingFileContent = data.data.data;
+            if(data.data.doubtRebuttalInfoList != null){
+                $scope.commentTab = true;
+                $scope.commentsList =  data.data.doubtRebuttalInfoList;
+            }else{
+                $scope.commentTab = false;
+            }
             $timeout(function() {
                 var mark = document.getElementsByTagName('mark');
                 for(var i=0; i<mark.length; i++){
@@ -167,6 +178,9 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         },function(err) {
             console.log(err);
         });
+
+
+
 
         /* get codes of clicked file*/
         $http({
@@ -196,7 +210,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
             });
-            
+
             $scope.isCompletedButton = data.data.buttonVisibleInfo.isCompletedButton;
             $scope.isDoubtButton = data.data.buttonVisibleInfo.isDoubtButton;
             $scope.isDraftButton = data.data.buttonVisibleInfo.isDraftButton;
@@ -400,7 +414,6 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             });
 
         }
-
 
         $scope.rebuttalFile = function(){
             var obj = {};

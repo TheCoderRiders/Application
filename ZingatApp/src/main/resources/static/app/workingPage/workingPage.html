@@ -29,11 +29,30 @@
 
 	    	</div>
 	    </div>
+	    
+	    <div class="workingFileContents leftSideContent">
+	    	<form name="outerForm" class="tab-form-demo">
+	            <uib-tabset active="activeContent">
+	                <uib-tab index="0" heading="File Content" ng-click="leftTabChanged($event)">
+	                    <ng-form name="nestedForm">
+	                      <div class="form-group"  ng-scrollbars data-mcs-theme="minimal-dark">
+	                            <div class="actualFileText" ng-bind-html="workingFileContent">
 
-	    <div class="workingFileContents leftSideContent"  ng-scrollbars data-mcs-theme="minimal-dark">
-	    	<div class="actualFileText" ng-bind-html="workingFileContent">
-
-            </div>
+	            				</div>
+	                      </div>
+	                    </ng-form>
+	                </uib-tab>
+	                <uib-tab index="1" heading="Comment" ng-click="leftTabChanged($event)" ng-show="commentTab">
+	                    <ng-form name="nestedForm">
+	                        <div class="form-group" ng-repeat="comment in commentsList">
+                                <div class="commentorName" ng-bind="comment.documentAssignedName"></div>
+                                <span class="commentReason" ng-bind="comment.doubtRebuttalDisplay"></span>
+                                <span class="commentText" ng-bind="comment.doubtRebuttalDesc"></span>
+                            </div>
+	                    </ng-form>
+	                </uib-tab>
+	            </uib-tabset>
+	        </form>
 	    </div>
 
 	    <div class="workingFileContents rightSideContent" >
@@ -215,6 +234,7 @@
 	    	<button type="button" value="REJECTED" ng-click="documentStatusChange()" class="btn btn-warning" ng-show="isRejectedButton">REJECTED</button>
 	    	<button type="button" value="DOUBT" ng-click="doubtFile()" class="btn btn-default" ng-show="isDoubtButton">DOUBT</button>
 	    	<button type="button" value="COMPLETE" ng-click="fileCompleted()" class="btn btn-default" ng-show="isCompletedButton">COMPLETE</button>
+	    	<button type="button" value="DRAFT" ng-click="resolvedDoubt()" class="btn btn-default" ng-show="isResolvedButton">RESOLVED</button>
 			<button type="button" value="DRAFT" ng-click="documentStatusChange()" class="btn btn-primary" ng-show="isDraftButton">DRAFT</button>
 			<button type="button" value="SUBMIT" ng-click="documentStatusChange()" class="btn btn-success" ng-show="isSentButton">SUBMIT</button>
 			<button type="button" value="REBUTTAL" ng-click="rebuttalFile()" class="btn btn-primary" ng-show="isRebuttalButton">REBUTTAL</button>

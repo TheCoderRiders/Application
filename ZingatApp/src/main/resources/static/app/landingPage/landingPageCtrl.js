@@ -223,6 +223,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                     $scope.rejectionReasonDisplay = data.data.documentRejectionReason.rejectionReasonDisplay;
                     $scope.rejectionReasonDesc = data.data.documentRejectionReason.rejectionReasonDesc;
                 }else if(data.data.doubtRebuttalInfoList != null){
+                    $scope.rejectionReasonTab = false;
                     $scope.commentTab = true;
                     $scope.commentsList =  data.data.doubtRebuttalInfoList;
                 }else{
