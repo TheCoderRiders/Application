@@ -22,6 +22,7 @@ public class ButtonVisibleUtility {
                     buttonVisibleInfo.setIsDraftButton(true);
                     buttonVisibleInfo.setIsRejectedButton(true);
                     buttonVisibleInfo.setIsSentButton(true);
+                    buttonVisibleInfo.setIsResolvedButton(true);
                     break;
             case Coder:
                     buttonVisibleInfo.setIsCompletedButton(true);
