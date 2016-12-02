@@ -27,7 +27,7 @@ angular.module('RebuttalPageController', ['ngDialog'])
 
         /* click on Submit of doubt*/
         $scope.submitDoubt = function() {
- 
+    debugger;
             var getObj = workingPageService.getRequestParameter().obj[0];
             if($(".rebuttalItem.ng-touched").attr('id') && $(".rebuttalComment").val().length > 0){
                 var requestObj = {};
@@ -39,19 +39,19 @@ angular.module('RebuttalPageController', ['ngDialog'])
                 requestObj.doubtRebuttalInfo.doubtRebuttalDisplay = $(".rebuttalItem.ng-touched").attr('title');
                 requestObj.doubtRebuttalInfo.doubtRebuttalDesc = $(".rebuttalComment").val();
                 requestObj.fileContents = $(".leftSideContent .actualFileText")[0].innerHTML;
-                $(".doubtError").hide();
+                $(".rebuttalError").hide();
                 $http({
                     url: 'workingPage/documentStatusChange', 
                     method: "POST",
                     data : JSON.stringify(requestObj)
                 }).then(function(data){ 
                     ngDialog.close();
-                    $(".doubtError").hide();
+                    $(".rebuttalError").hide();
                 },function(err) {
                     console.log(err);
                 });
             }else{
-                $(".doubtError").show();
+                $(".rebuttalError").show();
             }
 
         }
