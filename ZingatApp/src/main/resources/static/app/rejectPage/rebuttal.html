@@ -9,7 +9,7 @@
 			<h4>Rebuttal Options: <span class="err-message">*</span></h4>
 			<ul class="doubtCommentItem">
 				<li ng-repeat = "rebuttal in doubtList track by $index">
-					<input id="{{rebuttal.rebuttalId}}" class="rebuttalItem" title={{rebuttal.doubtDisplay}} ng-model="rebuttal" ng-value={{rebuttal}}  type="radio" ng-click="doubtChecked(rebuttal)" name="codeRejectName">
+					<input id="{{rebuttal.rebuttalId}}" class="rebuttalItem" title={{rebuttal.rebuttalDisplay}} ng-model="rebuttal" ng-value={{rebuttal}}  type="radio" ng-click="doubtChecked(rebuttal)" name="codeRejectName">
 					<label>{{rebuttal.rebuttalDesc}}</label>
 				</li>
 			</ul>
