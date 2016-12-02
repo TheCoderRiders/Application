@@ -9,8 +9,8 @@
 			<h4>Doubt Options: <span class="err-message">*</span></h4>
 			<ul class="doubtCommentItem">
 				<li ng-repeat = "doubts in doubtList track by $index">
-					<input id="{{doubts.rejectionReasonListId}}" class="doubtItem" ng-model="doubts" ng-value={{doubts}}  type="radio" ng-click="doubtChecked(doubts)" name="codeRejectName">
-					<label>{{doubts.rejectionReasonDisplay}}</label>
+					<input id="{{doubts.doubtId}}" class="doubtItem" title={{doubts.doubtDisplay}} ng-model="doubts" ng-value={{doubts}}  type="radio" ng-click="doubtChecked(doubts)" name="codeRejectName">
+					<label>{{doubts.doubtDisplay}}</label>
 				</li>
 			</ul>
 		</div>

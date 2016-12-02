@@ -370,10 +370,10 @@ tags-input .host {
     width: 100%;
     margin-bottom: 15px;
 }
-.file-content .rejectionReason,.fileRigthSideColumn .columnName{
+.file-content .rejectionReason,.fileRigthSideColumn .columnName, .file-content .commentReason{
     font-weight: bolder;
 }
-.file-content .rejectionReason{
+.file-content .rejectionReason,.file-content .commentText{
     font-style: italic;
 }
 .nav>li>a{

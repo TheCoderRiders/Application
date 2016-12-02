@@ -1,9 +1,9 @@
-angular.module('DoubtPageController', ['ngDialog'])
-    .controller("doubtPageCtrl", ["$scope", "$location", "$http", "ngDialog", "workingPageService", function($scope, $location, $http, ngDialog, workingPageService) {
+angular.module('RebuttalPageController', ['ngDialog'])
+    .controller("rebuttalPageCtrl", ["$scope", "$location", "$http", "ngDialog", "workingPageService", function($scope, $location, $http, ngDialog, workingPageService) {
 
         /* function to fetch predefined doubt list */
         $http({
-            url: 'workingPage/getDoubtList',
+            url: 'workingPage/getRebuttalList',
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -22,24 +22,24 @@ angular.module('DoubtPageController', ['ngDialog'])
 
         /* click on radio button clicked */
         $scope.doubtChecked = function(option){
-            $(".doubtComment").val(option.doubtDisplay);          
+            $(".rebuttalComment").val(option.rebuttalDesc);          
         }
 
         /* click on Submit of doubt*/
         $scope.submitDoubt = function() {
  
             var getObj = workingPageService.getRequestParameter().obj[0];
-            if($(".doubtItem.ng-touched").attr('id') && $(".doubtComment").val().length > 0){
+            if($(".rebuttalItem.ng-touched").attr('id') && $(".rebuttalComment").val().length > 0){
                 var requestObj = {};
                 requestObj.fileId = getObj.fileId;
-                requestObj.status = "DOUBT";
+                requestObj.status = "REBUTTAL";
                 requestObj.doubtRebuttalInfo = {}
-                requestObj.doubtRebuttalInfo.doubtRebuttalType = "DOUBT";
-                requestObj.doubtRebuttalInfo.doubtRebuttalId = JSON.parse($(".doubtItem.ng-touched").attr('id'));
-                requestObj.doubtRebuttalInfo.doubtRebuttalDisplay = $(".doubtItem.ng-touched").attr('title');
-                requestObj.doubtRebuttalInfo.doubtRebuttalDesc = $(".doubtComment").val();
+                requestObj.doubtRebuttalInfo.doubtRebuttalType = "REBUTTAL";
+                requestObj.doubtRebuttalInfo.doubtRebuttalId = JSON.parse($(".rebuttalItem.ng-touched").attr('id'));
+                requestObj.doubtRebuttalInfo.doubtRebuttalDisplay = $(".rebuttalItem.ng-touched").attr('title');
+                requestObj.doubtRebuttalInfo.doubtRebuttalDesc = $(".rebuttalComment").val();
                 requestObj.fileContents = $(".leftSideContent .actualFileText")[0].innerHTML;
-                $(".doubtError").hide()
+                $(".doubtError").hide();
                 $http({
                     url: 'workingPage/documentStatusChange', 
                     method: "POST",
@@ -47,7 +47,6 @@ angular.module('DoubtPageController', ['ngDialog'])
                 }).then(function(data){ 
                     ngDialog.close();
                     $(".doubtError").hide();
-                    $location.path('/landingPage');
                 },function(err) {
                     console.log(err);
                 });

@@ -108,7 +108,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 middle-panel" ng-scrollable="{scrollX:'none',scrollY:'right'}">
+                    <div class="col-md-6 middle-panel" ng-scrollbars data-mcs-theme="minimal-dark">
                         <div class="list-group" >
                             <ul class="file-list" >
                                 <li class="file-details" ng-class="{selectedItem: $index == selectedFile}" ng-model="fileDetails" ng-repeat="file in roles" ng-click="getFileDetails($event,$index,file)">
@@ -161,7 +161,7 @@
                        <!--  <div class="rowSeparator">
 
                         </div> -->
-                        <div class="file-content" ng-scrollable="{scrollX:'none',scrollY:'right'}">
+                        <div class="file-content" ng-scrollbars data-mcs-theme="minimal-dark">
                             <div class="fileRigthSideColumn">
                                 <ul>
                                     <li ng-repeat="item in rightSideItems track by $index">
@@ -186,6 +186,15 @@
                                             <div class="form-group">
                                                 <div class="rejectionReason" ng-bind-html="rejectionReasonDisplay"></div>
                                                 <div class="rejectionComment" ng-bind-html="rejectionReasonDesc"></div>
+                                            </div>
+                                        </ng-form>
+                                    </uib-tab>
+                                    <uib-tab index="2" heading="Comments" ng-click="tabChanged()" ng-show="commentTab">
+                                        <ng-form name="nestedForm">
+                                            <div class="form-group" ng-repeat="comment in commentsList">
+                                                <div class="commentorName" ng-bind="comment.documentAssignedName"></div>
+                                                <span class="commentReason" ng-bind="comment.doubtRebuttalDisplay"></span>
+                                                <span class="commentText" ng-bind="comment.doubtRebuttalDesc"></span>
                                             </div>
                                         </ng-form>
                                     </uib-tab>

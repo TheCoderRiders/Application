@@ -29,7 +29,9 @@ body {
   overflow-y:auto !important;
   overflow-x:hidden !important;
 }
-
+.tooltip-inner::first-letter{
+  text-transform: uppercase;
+}
 a {
   color: #eee;
   text-decoration: none;

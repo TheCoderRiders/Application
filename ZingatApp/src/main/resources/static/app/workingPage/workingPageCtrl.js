@@ -17,7 +17,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         }
     }])
 
-    .controller("workingPageCtrl",["$scope","$rootScope","$location","$http","ngDialog","$cookies","$timeout","$controller","workingPageService", function($scope,$rootScope,$location,$http,ngDialog,$cookies,$timeout,$controller,workingPageService){
+    .controller("workingPageCtrl",["$scope","$rootScope","$location","$http","ngDialog","$cookies","$timeout","workingPageService", function($scope,$rootScope,$location,$http,ngDialog,$cookies,$timeout,workingPageService){
 
         $scope.fileId = $cookies.get("clickedFileId");
         $scope.globalObj;
@@ -216,15 +216,13 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
 
             setTimeout(function(){
               $(".rightSideContent span[class*='"+codeId+"']").parent().removeClass('highlighted');
-            }, 2000); 
+            }, 4000); 
 
-            $(".rightSideContent").animate({ 
-                scrollTop: elementRelativeTop
-            }, 1000);
+            $('.rightSideContent .form-group').mCustomScrollbar("scrollTo",elementRelativeTop,top);
         }
 
 
-        $scope.clickedSuggestedCode = function(){
+        $scope.clickedSuggestedCode = function(event){
             var code = $(event.currentTarget).text();
             event.preventDefault();
             var elementTop = $(".leftSideContent mark[class*='"+code+"']").offset().top;
@@ -241,12 +239,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
               $(".leftSideContent mark[class*='"+code+"']").removeClass('highlighted');
             }, 4000);    
 
-            if(elementRelativeTop != 0){
-                 $(".leftSideContent").animate({ 
-                    scrollTop: elementRelativeTop
-                }, 1000);
-            }
-           
+            $('.leftSideContent').mCustomScrollbar("scrollTo",elementRelativeTop,top);
         }
 
 
@@ -388,26 +381,27 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         }
 
         $scope.doubtFile = function(){
-            var actionName = $(event.target).attr('value');
             var obj = {};
             obj.fileId = $scope.fileId;
             
-            $http({
-                url: 'workingPage/getDocRejectionReasonList', 
-                method: "GET",
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            }).then(function(data){ 
-                workingPageService.setRequestParameter(obj);
-                ngDialog.open({
-                    template: 'app/rejectPage/doubtPage.html',
-                    className: 'ngdialog-theme-default'
-                });
+            workingPageService.setRequestParameter(obj);
+            ngDialog.open({
+                template: 'app/rejectPage/doubtPage.html',
+                className: 'ngdialog-theme-default'
+            });
 
-            },function(err) {
-                console.log("Bucket Err: "+err);
+        }
+
+
+        $scope.rebuttalFile = function(){
+            var obj = {};
+            var obj = {};
+            obj.fileId = $scope.fileId;
+            
+            workingPageService.setRequestParameter(obj);
+            ngDialog.open({
+                template: 'app/rejectPage/rebuttal.html',
+                className: 'ngdialog-theme-default'
             });
         }
 

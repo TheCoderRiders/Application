@@ -7,6 +7,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         $scope.checkFiled = [];
         $scope.editRight;
         $scope.rejectionReasonTab = false;
+        $scope.commentTab = false;
 
         $('[data-toggle="tooltip"]').tooltip();
 
@@ -221,9 +222,15 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                     $scope.rejectionReasonTab = true;
                     $scope.rejectionReasonDisplay = data.data.documentRejectionReason.rejectionReasonDisplay;
                     $scope.rejectionReasonDesc = data.data.documentRejectionReason.rejectionReasonDesc;
+                }else if(data.data.doubtRebuttalInfoList != null){
+                    $scope.commentTab = true;
+                    $scope.commentsList =  data.data.doubtRebuttalInfoList;
                 }else{
+                    $scope.commentTab = false;
                     $scope.rejectionReasonTab = false;
                 }
+
+
                 $scope.fileContent = data.data.data;
                 $timeout(function() {
                     angular.element('ul.nav-tabs').find('li').trigger('click');

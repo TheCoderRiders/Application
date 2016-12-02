@@ -4,7 +4,7 @@
     float: left;
     height: 75%;
     border: 1px solid #aba9a9;
-     overflow: scroll; 
+    /*overflow: scroll; */
     margin: 0px 5px;
     /* overflow-x: hidden; */
     /* position: relative; */
@@ -226,21 +226,21 @@
 	height: 35px;
     border-radius: 0px;
 }
-.rejectionCode .actionBtn,.rejectionDocument .actionBtn,.doubtCode .actionBtn,.downloadFile .actionBtn{
+.rejectionCode .actionBtn,.rejectionDocument .actionBtn,.doubtCode .actionBtn,.downloadFile .actionBtn,.rebuttalFile .actionBtn{
     margin-top: 3%;
     right: 2%;
     position: absolute;
 }
-.rejectionDocument .err-message,.doubtCode .err-message,.rejectionCode .err-message{
+.rejectionDocument .err-message,.doubtCode .err-message,.rejectionCode .err-message,.rebuttalFile .err-message{
     color:red;
 }
-.rejectionDocument .rejectDocError,.doubtCode .doubtError,.rejectionCode .rejectCodeError{
+.rejectionDocument .rejectDocError,.doubtCode .doubtError,.rejectionCode .rejectCodeError,.rebuttalFile .rebuttalError{
     display: inline-block;
     float: left;
     padding: 5px;
     color: red;
 }
-.rejectionCode .rejectCodeError, .rejectionDocument .rejectDocError,.doubtCode .doubtError{
+.rejectionCode .rejectCodeError, .rejectionDocument .rejectDocError,.doubtCode .doubtError,.rebuttalFile .rebuttalError{
     display: none;
 }
 .rejectionCode .actionBtn button,.rejectionDocument .actionBtn button,.doubtCode .actionBtn button,.downloadFile .actionBtn button{
@@ -361,14 +361,14 @@
     text-decoration: underline !important;
     outline: none !important;
 }
-.rejectionCode,.rejectionDocument,.doubtCode,.downloadFile{
+.rejectionCode,.rejectionDocument,.doubtCode,.downloadFile,.rebuttalFile{
     padding: 5px;
 }
-.rejectionCode .rejectHeading,.rejectionDocument .rejectHeading,.doubtCode .doubtHeading,.downloadFile .downloadHeading{
+.rejectionCode .rejectHeading,.rejectionDocument .rejectHeading,.doubtCode .doubtHeading,.downloadFile .downloadHeading,.rebuttalFile .rebuttalHeading{
     text-align: center;
     height: 10%;
 }
-.rejectionCode ul li,.rejectionDocument ul li,.doubtCode ul li{
+.rejectionCode ul li,.rejectionDocument ul li,.doubtCode ul li,.rebuttalFile ul li{
     width: 50%;
     display: inline-block;
     float: left;
@@ -381,7 +381,7 @@
 .rejectionCode .rejectCodeList{
     height: 42%;
 }
-.rejectionDocument .rejectionDocList,.doubtCode .doubtList{
+.rejectionDocument .rejectionDocList,.doubtCode .doubtList,.rebuttalFile .rebuttalList{
     height: 25%;
 }
 .rejectionDocument .rejectionDocComment{

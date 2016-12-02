@@ -30,7 +30,7 @@
 	    	</div>
 	    </div>
 
-	    <div class="workingFileContents leftSideContent">
+	    <div class="workingFileContents leftSideContent"  ng-scrollbars data-mcs-theme="minimal-dark">
 	    	<div class="actualFileText" ng-bind-html="workingFileContent">
 
             </div>
@@ -40,15 +40,15 @@
 	    	<form name="outerForm" class="tab-form-demo">
 			    <uib-tabset active="activeForm">
 			     <uib-tab index="0" heading="Coded Code" class="Accepted" ng-click="tabChanged()">
-			      <ng-form name="nestedForm" ng-scrollable="{scrollX:'none',scrollY:'right'}">
-			          <div class="form-group" >
+			      <ng-form name="nestedForm" >
+			          <div class="form-group" ng-scrollbars data-mcs-theme="minimal-dark">
 				      	<ul class="codeList" ng-repeat="section in acceptedCode track by $index" ng-if="section.codes.length > 0">
 				      		<div class="dateOfService">{{section.dos}}</div>
 			          		<li class="sectionHeading">{{section.sectionName}}</li>
 			          		<div ng-repeat="code in section.codes track by $index">
 			          			<div class="individualCodeContainer">
 			          				<div class="codeLeftSide">
-					          			<span class="acceptedCode" ng-click="clickedSuggestedCode()">{{code.code}}</span>
+					          			<span class='acceptedCode {{code.code}}' ng-click="clickedSuggestedCode($event)">{{code.code}}</span>
 					          		</div>
 					          		<div class="codeRightSide">
 					          			<span class="acceptedCodeDesc">{{code.desc}}</span>
@@ -69,7 +69,7 @@
 			      </uib-tab>
 			      <uib-tab index="1" heading="Suggested" class="Suggested" ng-click="tabChanged()">
 			        <ng-form name="nestedForm">
-			          <div class="form-group" ng-scrollable="{scrollX:'none',scrollY:'right'}">
+			          <div class="form-group" ng-scrollbars data-mcs-theme="minimal-dark">
 			          	<ul class="codeList" ng-repeat="section in suggestedCode track by $index" ng-if="section.codes.length>0">
 			      			<div class="dateOfService">{{section.dos}}</div>
 			          		<li class="sectionHeading">{{section.sectionName}}</li>
@@ -101,7 +101,7 @@
 			     
 			      <uib-tab index="2" heading="Rejected" class="Rejected" ng-click="tabChanged()">
 			      <ng-form name="nestedForm">
-			          <div class="form-group" ng-scrollable="{scrollX:'none',scrollY:'right'}">
+			          <div class="form-group" ng-scrollbars data-mcs-theme="minimal-dark">
 			          	<ul class="codeList" ng-repeat="section in rejectedCode track by $index" ng-if="section.codes.length > 0">
 			        	<div class="dateOfService">{{section.dos}}</div>
 		          		<li class="sectionHeading">{{section.sectionName}}</li>
@@ -165,13 +165,13 @@
 
 			      <uib-tab index="3" heading="Add Code" ng-click="tabChanged()"  ng-show={{editRight}}>
 			      <ng-form name="nestedForm"  ng-show={{editRight}}>
-			          <div class="form-group" >
+			          <div class="form-group" ng-scrollbars data-mcs-theme="minimal-dark">
 			        	<input ng-model="searchText" class="searchCode codeList" type="text" ng-change="searchCode(searchText)" placeholder="Search" autofocus>
 		                <!-- <i class="fa fa-search searchIcon" aria-hidden="true"></i> -->
 		                <div class="paginationBlock">
                             <uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="perPageCount"  class="pagination-sm" max-size="maxSize" boundary-links="true" first-text="First" next-text=">>" previous-text="<<" num-pages="numPages" ng-change="pageChanged(currentPage)"></uib-pagination>
                         </div>
-                        <div class="codeSearchContainer" ng-scrollable="{scrollX:'none',scrollY:'right'}">
+                        <div class="codeSearchContainer" >
                         	<div class="codeSearchHeading">
                         		<span class="addCode">Code</span>
 							    <span class="addCodeDesc">Description</span>
@@ -197,36 +197,6 @@
 				          			</label>
                         		</li>
                         	</ul>
-                        	<!-- <table class="table codeAcceptTable" border="1" ts-wrapper>
-							  <thead>
-							    <tr>
-							      <th class="addCode">Code</th>
-							      <th class="addCodeDesc">Description</th>
-							      <th class="addCodeAction">Action</th>
-							    </tr>
-							  </thead>
-							  <tbody>
-							    <tr ng-repeat="code in codeList | limitTo : 20" ts-hide-no-data>
-							        <td ng-bind="code.code"></td>
-									<td ng-bind="code.desc"></td>
-	                				<td class="codeAcceptIcon"> 
-	                					<div data-toggle="tooltip" title="Add Evidence" ng-click = "addEvidence()" class="acceptCodeImg" >
-				          					<i class="fa fa-angle-double-down" aria-hidden="true"></i>
-				          				</div>	
-				          			</td>
-				          			<tr id="collapseme" class="collapse out">
-									    <td colspan="2">
-									    	<div>  
-									    		<input type="text" ng-model="evidenceModel" class="individualEvidence" ng-change="evidenceDrop(evidenceModel)">
-									    	</div>
-									    </td>
-									    <td class="codeAcceptIcon" ng-click="addCode(code)">
-									    	<i class="fa fa-check" aria-hidden="true"></i>
-									    </td>
-									</tr>
-							    </tr>
-							  </tbody>
-							</table> -->
                         </div>
                         </div>
 			        </ng-form>
@@ -248,7 +218,7 @@
 			<button type="button" value="SUBMIT" ng-click="documentStatusChange()" class="btn btn-success" ng-show={{editRight}}>SUBMIT</button>
 
 			
-			<button type="button" value="REBUTTAL" ng-click="documentStatusChange()" class="btn btn-primary" ng-hide={{editRight}}>REBUTTAL</button>
+			<button type="button" value="REBUTTAL" ng-click="rebuttalFile()" class="btn btn-primary" ng-hide={{editRight}}>REBUTTAL</button>
 			<button type="button" value="COMPLETE" ng-click="fileCompleted()" class="btn btn-success" ng-hide={{editRight}}>COMPLETE</button>
 	    </div>
 	     <div id="footer">
