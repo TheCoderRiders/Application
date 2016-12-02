@@ -218,7 +218,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
                 doubtRebuttalInfo.setDocumentAssignedName(documentMasterEntity.getDocumentAssignedName());
                 doubtRebuttalInfo.setDate(currentTime);
 
-                List<DoubtRebuttalInfo> existingDoubtRebuttalList = documentMasterEntity.getComments()==null?new ArrayList<>():Arrays.asList(objectMapper.readValue(documentMasterEntity.getComments(), DoubtRebuttalInfo[].class));
+                List<DoubtRebuttalInfo> existingDoubtRebuttalList = documentMasterEntity.getComments()==null?new ArrayList<>():new ArrayList<>(Arrays.asList(objectMapper.readValue(documentMasterEntity.getComments(), DoubtRebuttalInfo[].class)));
                 existingDoubtRebuttalList.add(doubtRebuttalInfo);
                 documentMasterEntity.setComments(objectMapper.writeValueAsString(existingDoubtRebuttalList));
 
@@ -237,6 +237,24 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
             documentMasterEntity.setDocumentEndDatetime(currentTime);
         }
+
+        if(status.equals(FileStatus.RESOLVED_DOUBT)) {
+            try {
+                DoubtRebuttalInfo doubtRebuttalInfo = fileStatusChangeRequest.getDoubtRebuttalInfo();
+                doubtRebuttalInfo.setDocumentAssigneeName(documentMasterEntity.getDocumentAssignedName());
+                doubtRebuttalInfo.setDocumentAssignedName(documentMasterEntity.getDocumentAssigneeName());
+                doubtRebuttalInfo.setDate(currentTime);
+
+                List<DoubtRebuttalInfo> existingDoubtRebuttalList = documentMasterEntity.getComments()==null?new ArrayList<>():new ArrayList<>(Arrays.asList(objectMapper.readValue(documentMasterEntity.getComments(), DoubtRebuttalInfo[].class)));
+                existingDoubtRebuttalList.add(doubtRebuttalInfo);
+                documentMasterEntity.setComments(objectMapper.writeValueAsString(existingDoubtRebuttalList));
+
+                if(status.equals(FileStatus.REBUTTAL))  documentMasterEntity.setRebuttalCount(documentMasterEntity.getRebuttalCount()+1);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+
         documentMasterEntity.setUpdatedDate(currentTime);
         documentMasterDao.save(documentMasterEntity);
         return true;

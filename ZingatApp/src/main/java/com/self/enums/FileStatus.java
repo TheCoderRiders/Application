@@ -10,7 +10,10 @@ public enum FileStatus {
     SUBMIT(666,"Coding Completed"),
     DOUBT(999,"Doubt"),
     REBUTTAL(3333,"Rebuttal"),
-    SENT_TO_CLIENT(777,"Sent To Client");
+    SENT_TO_CLIENT(777,"Sent To Client"),
+    RESOLVED_DOUBT(1111,"Resolved Doubt")
+
+    ;
     private Integer id;
     private String status;
 
