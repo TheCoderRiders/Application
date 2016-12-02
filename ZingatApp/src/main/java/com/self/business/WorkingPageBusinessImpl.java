@@ -214,8 +214,8 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         if(status.equals(FileStatus.DOUBT) || status.equals(FileStatus.REBUTTAL)) {
             try {
                 DoubtRebuttalInfo doubtRebuttalInfo = fileStatusChangeRequest.getDoubtRebuttalInfo();
-                doubtRebuttalInfo.setDocumentAssigneeId(documentMasterEntity.getDocumentAssigneeId());
-                doubtRebuttalInfo.setDocumentAssignedId(documentMasterEntity.getDocumentAssignedId());
+                doubtRebuttalInfo.setDocumentAssigneeName(documentMasterEntity.getDocumentAssigneeName());
+                doubtRebuttalInfo.setDocumentAssignedName(documentMasterEntity.getDocumentAssignedName());
                 doubtRebuttalInfo.setDate(currentTime);
 
                 List<DoubtRebuttalInfo> existingDoubtRebuttalList = documentMasterEntity.getComments()==null?new ArrayList<>():Arrays.asList(objectMapper.readValue(documentMasterEntity.getComments(), DoubtRebuttalInfo[].class));

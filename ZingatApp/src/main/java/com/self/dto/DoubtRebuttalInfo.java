@@ -11,8 +11,8 @@ public class DoubtRebuttalInfo {
     private String doubtRebuttalDisplay;
     private String doubtRebuttalDesc;
     private String doubtRebuttalType;
-    private String documentAssignedId;
-    private String documentAssigneeId;
+    private String documentAssignedName;
+    private String documentAssigneeName;
     private Date date;
 
     public int getDoubtRebuttalId() {
@@ -55,19 +55,19 @@ public class DoubtRebuttalInfo {
         this.date = date;
     }
 
-    public String getDocumentAssignedId() {
-        return documentAssignedId;
+    public String getDocumentAssignedName() {
+        return documentAssignedName;
     }
 
-    public void setDocumentAssignedId(String documentAssignedId) {
-        this.documentAssignedId = documentAssignedId;
+    public void setDocumentAssignedName(String documentAssignedName) {
+        this.documentAssignedName = documentAssignedName;
     }
 
-    public String getDocumentAssigneeId() {
-        return documentAssigneeId;
+    public String getDocumentAssigneeName() {
+        return documentAssigneeName;
     }
 
-    public void setDocumentAssigneeId(String documentAssigneeId) {
-        this.documentAssigneeId = documentAssigneeId;
+    public void setDocumentAssigneeName(String documentAssigneeName) {
+        this.documentAssigneeName = documentAssigneeName;
     }
 }
