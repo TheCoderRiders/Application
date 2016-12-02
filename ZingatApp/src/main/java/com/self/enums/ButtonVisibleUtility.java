@@ -31,7 +31,8 @@ public class ButtonVisibleUtility {
                     buttonVisibleInfo.setIsDoubtButton(true);
                     break;
             case Auditor:
-                    buttonVisibleInfo.setIsCompletedButton(true);
+                    //buttonVisibleInfo.setIsCompletedButton(true);
+                    buttonVisibleInfo.setDownloadButton(true);
                     buttonVisibleInfo.setIsRebuttalButton(true);
                     buttonVisibleInfo.setIsSentButton(true);
                     break;

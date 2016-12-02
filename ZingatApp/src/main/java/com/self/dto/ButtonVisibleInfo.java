@@ -12,6 +12,7 @@ public class ButtonVisibleInfo {
     boolean isDoubtButton;
     boolean isResolvedButton;
     boolean isSentButton;
+    boolean isDownloadButton;
 
     public boolean getIsRejectedButton() {
         return isRejectedButton;
@@ -67,5 +68,13 @@ public class ButtonVisibleInfo {
 
     public void setIsSentButton(boolean isSentButton) {
         this.isSentButton = isSentButton;
+    }
+
+    public boolean isDownloadButton() {
+        return isDownloadButton;
+    }
+
+    public void setDownloadButton(boolean isDownloadButton) {
+        this.isDownloadButton = isDownloadButton;
     }
 }
