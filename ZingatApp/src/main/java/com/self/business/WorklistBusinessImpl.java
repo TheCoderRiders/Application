@@ -212,9 +212,10 @@ public class WorklistBusinessImpl implements WorklistBusiness{
         String fileStatus = documentMasterEntity.getDocumentCurrentStatus();
         DocRejectionReasonListEntity docRejectionReasonListEntity = null;
         String documentRejectionReason = documentMasterEntity.getDocumentRejectionReason();
+        ObjectMapper objectMapper = new ObjectMapper();
         if (documentRejectionReason !=null && !documentRejectionReason.isEmpty())
         try {
-            docRejectionReasonListEntity = new ObjectMapper().readValue(documentRejectionReason,DocRejectionReasonListEntity.class);
+            docRejectionReasonListEntity = objectMapper.readValue(documentRejectionReason, DocRejectionReasonListEntity.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -234,6 +235,15 @@ public class WorklistBusinessImpl implements WorklistBusiness{
         fileContent.setData(fileContents);
         fileContent.setFileMode(fileMode);
         fileContent.setDocumentRejectionReason(docRejectionReasonListEntity);
+
+        String comments = documentMasterEntity.getComments();
+        if (comments !=null && !comments.isEmpty())
+            try {
+                fileContent.setDoubtRebuttalInfoList(Arrays.asList(objectMapper.readValue(comments, DoubtRebuttalInfo[].class)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         return fileContent;
     }
 

@@ -5,14 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
-import com.self.dao.CodeRejectionReasonDao;
-import com.self.dao.DocRejectionReasonDao;
-import com.self.dao.DocumentMasterDao;
-import com.self.dao.SolrSuggesterRepository;
-import com.self.dto.CodeAction;
-import com.self.dto.CodeSearchResult;
-import com.self.dto.Codes;
-import com.self.dto.FileStatusChangeRequest;
+import com.self.dao.*;
+import com.self.dto.*;
 import com.self.enums.ButtonVisibleUtility;
 import com.self.enums.FileStatus;
 import com.self.enums.ProductRole;
@@ -58,6 +52,12 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
     @Autowired
     private SolrSuggesterRepository solrSuggesterRepository;
+
+    @Autowired
+    private DoubtListDao doubtListDao;
+
+    @Autowired
+    private RebuttalListDao rebuttalListDao;
 
     @Value("${document.base.path}")
     private String documentBasePath;
@@ -179,7 +179,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     }
 
     @Override
-    public Boolean documentStatusChange(FileStatusChangeRequest fileStatusChangeRequest) {
+    public Boolean documentStatusChange(FileStatusChangeRequest fileStatusChangeRequest) throws IOException {
         String fileId = fileStatusChangeRequest.getFileId();
         FileStatus status = fileStatusChangeRequest.getStatus();
         DocRejectionReasonListEntity documentRejectionReason = fileStatusChangeRequest.getDocRejectionReason();
@@ -201,10 +201,27 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
         Timestamp currentTime = new Timestamp(Calendar.getInstance().getTime().getTime());
 
+        ObjectMapper objectMapper = new ObjectMapper();
         if(status.equals(FileStatus.REJECTED)) {
             try {
-                documentMasterEntity.setDocumentRejectionReason(documentRejectionReason==null?null:new ObjectMapper().writeValueAsString(documentRejectionReason));
+                documentMasterEntity.setDocumentRejectionReason(documentRejectionReason == null ? null : objectMapper.writeValueAsString(documentRejectionReason));
                 documentMasterEntity.setDocumentRejectedDatetime(currentTime);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(status.equals(FileStatus.DOUBT) || status.equals(FileStatus.REBUTTAL)) {
+            try {
+                DoubtRebuttalInfo doubtRebuttalInfo = fileStatusChangeRequest.getDoubtRebuttalInfo();
+                doubtRebuttalInfo.setDocumentAssigneeId(documentMasterEntity.getDocumentAssigneeId());
+                doubtRebuttalInfo.setDocumentAssignedId(documentMasterEntity.getDocumentAssignedId());
+                doubtRebuttalInfo.setDate(currentTime);
+
+                List<DoubtRebuttalInfo> existingDoubtRebuttalList = documentMasterEntity.getComments()==null?new ArrayList<>():Arrays.asList(objectMapper.readValue(documentMasterEntity.getComments(), DoubtRebuttalInfo[].class));
+                existingDoubtRebuttalList.add(doubtRebuttalInfo);
+                documentMasterEntity.setComments(objectMapper.writeValueAsString(existingDoubtRebuttalList));
+
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
@@ -243,30 +260,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         File destinationFile = new File(documentPdfOutputBasePath + documentName+"_output.pdf");
 
         PdfReader pdfReader = new PdfReader(new FileInputStream(file));
-        //int pages = pdfReader.getNumberOfPages();
         PdfStamper pdfStamper = new PdfStamper(pdfReader,new FileOutputStream(destinationFile));
-
-        /*for(int i=1; i<=pages; i++) {
-            PdfContentByte pageContentByte = pdfStamper.getOverContent(i);
-            String pageText = new String(pdfReader.getPageContent(i));
-            pageText.contains("Complaint:");
-            PdfTextExtractor. getTextFromPage(pdfReader, i);
-        }*/
-
-        /*pdfStamper.insertPage(pages+1, PageSize.A4);
-        PdfContentByte pdfContentByte = pdfStamper.getOverContent(pages+1);
-        pdfContentByte.beginText();
-
-        BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
-        pdfContentByte.setFontAndSize(bf, 18);
-        pdfContentByte.showTextAligned(Element.ALIGN_CENTER, "CODED CODE", 0, 0, 0);
-        pdfContentByte.newlineText();
-        p
-        pdfContentByte.beginMarkedContentSequence();
-
-        pdfContentByte.endText();*/
-
-        //Close the pdfStamper.
         pdfStamper.close();
 
 
@@ -286,7 +280,6 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
                 Map<String, List<DocumentCodeInfo>> groupingByDos = documentCodeInfoList.stream().collect(Collectors.groupingBy(documentCodeInfo -> documentCodeInfo.getDos()));
                 groupingByDos.forEach((key,value)->{
                     try {
-                        //document.add(new Phrase("\n"));
                         PdfPTable table = new PdfPTable(1);
                         PdfPCell pdfPCell = new PdfPCell(new Phrase("Date Of Service : "+(key.isEmpty()?"Not Available":key)));
                         pdfPCell.setBackgroundColor(new GrayColor(0.5f));
@@ -347,11 +340,9 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         List<InputStream> list = new ArrayList<>();
         File result = new File(documentPdfOutputBasePath + documentName+"_with_code.pdf");
         try {
-            // Source pdfs
             list.add(new FileInputStream(destinationFile));
             list.add(new FileInputStream(codeFile));
 
-            // Resulting pdf
             OutputStream out = new FileOutputStream(result);
 
             doMerge(list, out);
@@ -370,6 +361,16 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         return result;
     }
 
+    @Override
+    public List getDoubtList() {
+        return doubtListDao.findAll();
+    }
+
+    @Override
+    public List getRebuttalList() {
+        return rebuttalListDao.findAll();
+    }
+
     public static void doMerge(List<InputStream> list, OutputStream outputStream)
             throws DocumentException, IOException {
         Document document = new Document();
@@ -381,9 +382,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
             PdfReader reader = new PdfReader(in);
             for (int i = 1; i <= reader.getNumberOfPages(); i++) {
                 document.newPage();
-                //import the page from source pdf
                 PdfImportedPage page = writer.getImportedPage(reader, i);
-                //add the page to the destination pdf
                 cb.addTemplate(page, 0, 0);
             }
         }

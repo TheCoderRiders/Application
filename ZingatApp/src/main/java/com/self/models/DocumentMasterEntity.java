@@ -457,6 +457,19 @@ public class DocumentMasterEntity implements Serializable {
         this.documentFilePath = documentFilePath;
     }
 
+
+    private String comments;
+
+    @Basic
+    @javax.persistence.Column(name = "comments", nullable = true, insertable = true, updatable = true, length = 500)
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

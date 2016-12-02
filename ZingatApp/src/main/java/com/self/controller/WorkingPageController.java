@@ -67,6 +67,16 @@ public class WorkingPageController extends BaseController {
         return workingPageBusiness.getCodeRejectionReasonList();
     }
 
+    @RequestMapping(value = "/getDoubtList")
+    public List getDoubtList() {
+        return workingPageBusiness.getDoubtList();
+    }
+
+    @RequestMapping(value = "/getRebuttalList")
+    public List getRebuttalList() {
+        return workingPageBusiness.getRebuttalList();
+    }
+
     private String getCurrentRole(HttpSession session) {
         Collection<GrantedAuthority> authorities = ((UsernamePasswordAuthenticationToken) session.getAttribute("user")).getAuthorities();
         Object[] roleNames = authorities.toArray();

@@ -6,6 +6,8 @@ import com.self.dto.Codes;
 import com.self.dto.FileStatusChangeRequest;
 import com.self.models.CodeRejectionReasonListEntity;
 import com.self.models.DocRejectionReasonListEntity;
+import com.self.models.DoubtListEntity;
+import com.self.models.RebuttalListEntity;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,11 +25,15 @@ public interface WorkingPageBusiness {
 
     public Codes codeAction(CodeAction codeAction) throws JsonProcessingException;
 
-    public Boolean documentStatusChange(FileStatusChangeRequest fileStatusChangeRequest);
+    public Boolean documentStatusChange(FileStatusChangeRequest fileStatusChangeRequest) throws IOException;
 
     public List<CodeRejectionReasonListEntity> getCodeRejectionReasonList();
 
     public List<DocRejectionReasonListEntity> getDocRejectionReasonList();
 
     public File getDownloadFile(String fileId) throws Exception;
+
+    public List getDoubtList();
+
+    public List getRebuttalList();
 }
