@@ -240,6 +240,7 @@ public class WorklistBusinessImpl implements WorklistBusiness{
         if (comments !=null && !comments.isEmpty())
             try {
                 fileContent.setDoubtRebuttalInfoList(Arrays.asList(objectMapper.readValue(comments, DoubtRebuttalInfo[].class)));
+                fileContent.setRebuttalCount(documentMasterEntity.getRebuttalCount());
             } catch (IOException e) {
                 e.printStackTrace();
             }

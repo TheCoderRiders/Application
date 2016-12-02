@@ -12,6 +12,7 @@ public class FileContent {
     private String fileMode;
     private DocRejectionReasonListEntity documentRejectionReason;
     private List<DoubtRebuttalInfo> doubtRebuttalInfoList;
+    private int rebuttalCount;
 
     public String getData() {
         return data;
@@ -43,5 +44,13 @@ public class FileContent {
 
     public List<DoubtRebuttalInfo> getDoubtRebuttalInfoList() {
         return doubtRebuttalInfoList;
+    }
+
+    public int getRebuttalCount() {
+        return rebuttalCount;
+    }
+
+    public void setRebuttalCount(int rebuttalCount) {
+        this.rebuttalCount = rebuttalCount;
     }
 }

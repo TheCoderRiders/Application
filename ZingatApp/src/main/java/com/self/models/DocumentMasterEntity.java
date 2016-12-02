@@ -470,6 +470,18 @@ public class DocumentMasterEntity implements Serializable {
         this.comments = comments;
     }
 
+    private int rebuttalCount;
+
+    @Basic
+    @javax.persistence.Column(name = "rebuttal_cnt", nullable = false, insertable = true, updatable = true)
+    public int getRebuttalCount() {
+        return rebuttalCount;
+    }
+
+    public void setRebuttalCount(int rebuttalCount) {
+        this.rebuttalCount = rebuttalCount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
