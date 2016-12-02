@@ -196,6 +196,15 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
             });
+            
+            $scope.isCompletedButton = data.data.buttonVisibleInfo.isCompletedButton;
+            $scope.isDoubtButton = data.data.buttonVisibleInfo.isDoubtButton;
+            $scope.isDraftButton = data.data.buttonVisibleInfo.isDraftButton;
+            $scope.isRebuttalButton = data.data.buttonVisibleInfo.isRebuttalButton;
+            $scope.isRejectedButton = data.data.buttonVisibleInfo.isRejectedButton;
+            $scope.isResolvedButton = data.data.buttonVisibleInfo.isResolvedButton;
+            $scope.isSentButton = data.data.buttonVisibleInfo.isSentButton;
+
             /*$scope.mayBeCode = data.data.mayBeCode;
             $scope.mayBeCode.sort(function(a, b){
                 var dateA = new Date(a.dos);

@@ -243,7 +243,7 @@
 .rejectionCode .rejectCodeError, .rejectionDocument .rejectDocError,.doubtCode .doubtError,.rebuttalFile .rebuttalError{
     display: none;
 }
-.rejectionCode .actionBtn button,.rejectionDocument .actionBtn button,.doubtCode .actionBtn button,.downloadFile .actionBtn button{
+.rejectionCode .actionBtn button,.rejectionDocument .actionBtn button,.doubtCode .actionBtn button,.downloadFile .actionBtn button,.rebuttalFile .actionBtn button{
     width: 110px;
     height: 35px;
     border-radius: 0px;
