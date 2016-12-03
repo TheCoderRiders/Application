@@ -44,10 +44,32 @@
 	                </uib-tab>
 	                <uib-tab index="1" heading="Comment" ng-click="leftTabChanged($event)" ng-show="commentTab">
 	                    <ng-form name="nestedForm">
-	                        <div class="form-group" ng-repeat="comment in commentsList">
-                                <div class="commentorName" ng-bind="comment.documentAssignedName"></div>
-                                <span class="commentReason" ng-bind="comment.doubtRebuttalDisplay"></span>
-                                <span class="commentText" ng-bind="comment.doubtRebuttalDesc"></span>
+	                        <div class="form-group">
+	                        	<ul class="commentsList">
+	                        		<li ng-repeat="comment in commentsList" ng-mouseover="showReplyIcon(comment)" ng-mouseout="hideReplyIcon(comment)">
+	                        			<div class="commentContainer">
+		                        			<div class="commentorName"><span style="font-weight:bold" >Commentor Name: </span>{{comment.documentAssignedName}}</div>
+			                                <div class="commentReason" ng-bind="comment.doubtRebuttalDisplay"></div>
+			                                <div class="commentText" ng-bind="comment.doubtRebuttalDesc"></div>
+			                                <div class="replyButton">
+			                                	<span ng-click="showReplyTextArea()">
+			                                		<i class="fa fa-reply" aria-hidden="true"></i>
+			                                	</span>
+			                                </div>
+			                                <div class="replyCommentContainer">
+				                                <div class="commentText">
+					                                <textarea class="replyCommentText" rows="2" cols="50">
+							
+													</textarea> 
+												</div>
+												<div class="replyButtonContainer">
+													<button type="button" value="CANCEL" ng-click="hideReplyTextArea()" class="btn btn-primary">CANCEL</button>
+													<button type="button" value="SUBMIT" ng-click="postComment()" class="btn btn-success">SUBMIT</button>
+												</div>
+											</div>
+										</div>
+	                        		</li>
+	                        	</ul>
                             </div>
 	                    </ng-form>
 	                </uib-tab>
@@ -150,37 +172,6 @@
 		          	</div>
 			        </ng-form>
 			      </uib-tab>
-			      <!-- <uib-tab index="3" heading="MayBe" ng-click="tabChanged()">
-			      <ng-form name="nestedForm">
-			          <div class="form-group">
-			        <ul ng-repeat="section in mayBeCode track by $index" ng-if="section.codes.length > 0">
-			        	<div class="dateOfService">{{section.dos}}</div>
-		          		<li class="sectionHeading">{{section.sectionName}}</li>
-		          		<div  ng-repeat="code in section.codes track by $index">
-		          			<div class="individualCodeContainer">
-		          				<div class="codeLeftSide">
-				          			<span class="mayBeCode {{code.code}}" ng-click="clickedSuggestedCode()">{{code.code}}</span>
-				          		</div>
-			          			<div class="codeRightSide">
-				          			<span class="mayBeCodeDesc">{{code.desc}}</span>
-				          			<span class="codeAction switch-toggle switch-3 switch-candy" ng-show={{editRight}}>
-					          			<span data-toggle="tooltip" title="Accept" class="acceptCodeImg" ng-click="codeStatus(code,section,$element)">
-					          					<i class="fa fa-check" aria-hidden="true"></i>
-				          				</span>
-				          				<span data-toggle="tooltip" title="Reject" class="rejectCodeImg" ng-click="codeStatus(code,section,$element)">
-				          					<i class="fa fa-times" aria-hidden="true"></i>
-				          				</span>	
-				          			</span>
-									<span ng-repeat="token in code.token" ng-if="code.token.length > 0" class="codeEvidanceContainer">
-										<span class="codeEvidance" data-toggle="tooltip" title={{token}} >{{token}}</span>
-									</span>
-								</div>
-			          		</div>
-		          		</div>
-		          	</ul>
-		          	</div>
-			        </ng-form>
-			      </uib-tab> -->
 
 			      <uib-tab index="3" heading="Add Code" ng-click="tabChanged()"  ng-show={{editRight}}>
 			      <ng-form name="nestedForm"  ng-show={{editRight}}>
@@ -239,7 +230,6 @@
 			<button type="button" value="SUBMIT" ng-click="documentStatusChange()" class="btn btn-success" ng-show="isCompletedButton">COMPLETED</button>
 			<button type="button" value="REBUTTAL" ng-click="rebuttalFile()" class="btn btn-default" ng-show="isRebuttalButton">REBUTTAL</button>
 			<button type="button" value="SUBMIT" ng-click="documentStatusChange()" class="btn btn-primary" ng-show="isSentButton">SEND</button>
-			
 	    </div>
 	     <div id="footer">
 	    	<div class="panel panel-default custom-panel">

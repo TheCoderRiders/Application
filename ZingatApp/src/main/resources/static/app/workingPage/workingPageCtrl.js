@@ -417,7 +417,6 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
 
         $scope.rebuttalFile = function(){
             var obj = {};
-            var obj = {};
             obj.fileId = $scope.fileId;
             
             workingPageService.setRequestParameter(obj);
@@ -574,6 +573,50 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 $(currentTarget).removeClass("in");
             }
         }
+
+       $scope.showReplyIcon = function(){
+            $(".replyButton").hide();
+            if(!$(event.currentTarget).parents('.commentContainer').find('div.replyCommentContainer').is(":visible")){
+                $(event.currentTarget).find('div.replyButton').show();
+            }
+       }
+
+       $scope.hideReplyIcon = function(){
+            $(".replyButton").hide();
+       }
+
+       $scope.showReplyTextArea = function(){
+            $('.replyCommentContainer').hide();
+            $(event.currentTarget).parents('.commentContainer').find('div.replyCommentContainer').show();
+            $('.replyCommentText').val('')
+       }
+
+       $scope.hideReplyTextArea = function(){
+            $('.replyCommentContainer').hide();
+       }
+
+       $scope.postComment = function(){
+        
+        var obj = {};
+        obj.fileId = $scope.fileId;
+        obj.status = "RESOLVED_DOUBT";
+        obj.doubtRebuttalInfo = {};
+        obj.doubtRebuttalInfo.doubtRebuttalTypev = "RESOLVED_DOUBT";
+        obj.doubtRebuttalInfo.doubtRebuttalId = 0;
+        obj.doubtRebuttalInfo.doubtRebuttalDisplay = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
+        obj.doubtRebuttalInfo.doubtRebuttalDesc = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
+
+        $http({
+            url: "workingPage/documentStatusChange",
+            method: "POST",
+            data : JSON.stringify(obj),
+        }).then(function(data){ 
+            $location.path('/landingPage');
+        },function(err) {
+            console.log(err);
+        });
+                
+       }
 
     }])
     

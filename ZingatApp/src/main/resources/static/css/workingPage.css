@@ -32,11 +32,49 @@
     width: 90%;
     float: left;
 }
+.workingFileContents .commentContainer{
+    min-height: 60px;
+    padding: 15px 10px;
+    margin: 5px 0px;
+}
+.workingFileContents .commentorName{
+    font-style: italic;
+}
 .workingFileContents .commentReason{
     font-weight: bolder;
+    display: inline-block;
+    width: 25%;
+    float: left;
 }
 .workingFileContents .commentText{
-    font-style: italic;
+    display: inline-block;
+    width: 65%;
+    float: left;
+}
+.workingFileContents .replyCommentContainer{
+    display: none;
+}
+.workingFileContents .replyButton{
+    display: inline-block;
+    width: 10%;
+    float: left;
+    display: none;
+}
+.workingFileContents .replyButtonContainer{
+    display: inline-block;
+    width: 35%;
+    float: right;
+}
+.workingFileContents .replyButtonContainer button{
+    width: 90px;
+    height: 35px;
+    border-radius: 0px;
+    margin: 5px 5px;
+    padding: 0px 5px;
+}
+.workingFileContents .commentsList li{
+    padding: 10px;
+    list-style-type: none;
 }
 .workingFileContents .individualCodeContainer{
     min-height: 90px;
