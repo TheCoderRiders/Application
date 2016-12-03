@@ -210,7 +210,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
             });
-
+            $scope.downloadButton = data.data.buttonVisibleInfo.downloadButton;
             $scope.isCompletedButton = data.data.buttonVisibleInfo.isCompletedButton;
             $scope.isDoubtButton = data.data.buttonVisibleInfo.isDoubtButton;
             $scope.isDraftButton = data.data.buttonVisibleInfo.isDraftButton;

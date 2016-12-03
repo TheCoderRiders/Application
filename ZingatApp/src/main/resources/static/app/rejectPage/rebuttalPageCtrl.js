@@ -27,7 +27,6 @@ angular.module('RebuttalPageController', ['ngDialog'])
 
         /* click on Submit of doubt*/
         $scope.submitDoubt = function() {
-    debugger;
             var getObj = workingPageService.getRequestParameter().obj[0];
             if($(".rebuttalItem.ng-touched").attr('id') && $(".rebuttalComment").val().length > 0){
                 var requestObj = {};
@@ -46,6 +45,7 @@ angular.module('RebuttalPageController', ['ngDialog'])
                     data : JSON.stringify(requestObj)
                 }).then(function(data){ 
                     ngDialog.close();
+                    $location.path('/landingPage');
                     $(".rebuttalError").hide();
                 },function(err) {
                     console.log(err);

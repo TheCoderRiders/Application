@@ -103,7 +103,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                     angular.element('ul').find('li.selectedItem').trigger('click')
                 }, 100);
                 $scope.totalItems = angular.element('ul').find('li.active span').text().trim();
-
+                $(".middle-panel").mCustomScrollbar('scrollTo',['top',null]);
             }).error(function(err) {
                 console.log(err);
             })
@@ -220,6 +220,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                 
                 if(data.data.documentRejectionReason != null){
                     $scope.rejectionReasonTab = true;
+                    $scope.commentTab = false;
                     $scope.rejectionReasonDisplay = data.data.documentRejectionReason.rejectionReasonDisplay;
                     $scope.rejectionReasonDesc = data.data.documentRejectionReason.rejectionReasonDesc;
                 }else if(data.data.doubtRebuttalInfoList != null){
@@ -244,6 +245,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                     $scope.editRight = false;
                     $cookies.put("editRight",false);
                 }
+                $(".file-content").mCustomScrollbar('scrollTo',['top',null]);
             }, function(err) {
                 console.log(err);
             });
