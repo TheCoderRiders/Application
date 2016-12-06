@@ -37,6 +37,7 @@ public class LoginController {
         userBasicInfo.setUsername(profile.getUsername());
         userBasicInfo.setUserId(profile.getUserId());
         userBasicInfo.setClientName(profile.getClientName());
+        userBasicInfo.setRole(profile.getRoleName());
         return userBasicInfo;
     }
 

@@ -14,6 +14,8 @@ public class UserBasicInfo {
 
     private String clientName;
 
+    private String role;
+
     public String getUsername() {
         return username;
     }
@@ -36,5 +38,13 @@ public class UserBasicInfo {
 
     public void setClientName(String clientName) {
         this.clientName = clientName;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
