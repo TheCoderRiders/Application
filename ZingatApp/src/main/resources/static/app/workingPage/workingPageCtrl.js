@@ -17,7 +17,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         }
     }])
 
-    .controller("workingPageCtrl",["$scope","$rootScope","$location","$http","ngDialog","$cookies","$timeout","workingPageService", function($scope,$rootScope,$location,$http,ngDialog,$cookies,$timeout,workingPageService){
+    .controller("workingPageCtrl",["$scope","$rootScope","$location","$http","ngDialog","$cookies","$timeout","workingPageService","$window", function($scope,$rootScope,$location,$http,ngDialog,$cookies,$timeout,workingPageService,$window){
 
         $scope.fileId = $cookies.get("clickedFileId");
         $scope.globalObj;
@@ -33,6 +33,13 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         $scope.userName = $cookies.get("userName");
         $scope.clientName = $cookies.get("clientName");
         $scope.editRight = $cookies.get("editRight");
+        $scope.userRole = $cookies.get("userRole");
+        if($scope.userRole == "Coder"){
+            $scope.userRole = true;
+        }else{
+            $scope.userRole = false;
+        }
+
         setTimeout(function() {
             $('[data-toggle="tooltip"]').tooltip(); 
         }, 2000);
@@ -151,7 +158,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
 
         $scope.leftTabChanged = function(event){
             event.preventDefault();
-            console.log("asdasd");
+           
         }
 
         /* get content of clicked file*/
@@ -262,7 +269,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
               $(".leftSideContent mark[class*='"+code+"']").removeClass('highlighted');
             }, 4000);    
 
-            $('.leftSideContent').mCustomScrollbar("scrollTo",elementRelativeTop,top);
+            $('.leftSideContent .form-group').mCustomScrollbar("scrollTo",elementRelativeTop,top);
         }
 
 
@@ -426,6 +433,23 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             });
         }
 
+        $scope.sendToClient = function(){
+            var obj = {};
+            obj.fileId = $scope.fileId;
+            obj.status = "SENT_TO_CLIENT"
+            $http({
+                url: 'workingPage/documentStatusChange', 
+                method: "POST",
+                data : JSON.stringify(obj)
+            }).then(function(data){ 
+                $location.path('/landingPage');
+            },function(err) {
+                console.log(err);
+            });
+            
+        }
+
+
         $scope.fileCompleted = function(){
             var obj = {};
             obj.fileId = $scope.fileId;
@@ -581,6 +605,25 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             }
        }
 
+       $scope.acknowledgeReply = function(comment){
+            var obj = {};
+            obj.commentDisplay = comment.doubtRebuttalDisplay;
+            obj.commentText = comment.doubtRebuttalDesc;
+            obj.commentStatus = "RESOLVED_DOUBT";
+            obj.commentDate = comment.date;
+            obj.fileId = $scope.fileId;
+            
+            $http({
+                url: "workingPage/acknowledgeComment",
+                method: "POST",
+                data : JSON.stringify(obj),
+            }).then(function(data){ 
+                $window.location.reload();
+            },function(err) {
+                console.log(err);
+            });
+       }
+
        $scope.hideReplyIcon = function(){
             $(".replyButton").hide();
        }
@@ -615,7 +658,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         },function(err) {
             console.log(err);
         });
-                
+
        }
 
     }])

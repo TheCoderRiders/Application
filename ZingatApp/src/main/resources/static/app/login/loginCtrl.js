@@ -15,6 +15,7 @@ angular.module('LoginController', ['ngCookies'])
             }).success(function(data){ //make a get request to mock json file.
                 if (data.username) {
                     $cookies.put("userName",data.username);
+                    $cookies.put("userRole",data.role);
                     $cookies.put("userId",data.userId);
                     $cookies.put("clientName",data.clientName);
                     $scope.authenticated = true;

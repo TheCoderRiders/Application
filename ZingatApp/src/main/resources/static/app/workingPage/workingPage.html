@@ -49,12 +49,15 @@
 	                        		<li ng-repeat="comment in commentsList" ng-mouseover="showReplyIcon(comment)" ng-mouseout="hideReplyIcon(comment)">
 	                        			<div class="commentContainer">
 		                        			<div class="commentorName"><span style="font-weight:bold" >Commentor Name: </span>{{comment.documentAssignedName}}</div>
-			                                <div class="commentReason" ng-bind="comment.doubtRebuttalDisplay"></div>
+			                                <div class="commentReason" data-toggle="tooltip" title={{comment.doubtRebuttalDisplay}}  ng-bind="comment.doubtRebuttalDisplay"></div>
 			                                <div class="commentText" ng-bind="comment.doubtRebuttalDesc"></div>
 			                                <div class="replyButton">
 			                                	<span ng-click="showReplyTextArea()">
 			                                		<i class="fa fa-reply" aria-hidden="true"></i>
 			                                	</span>
+			                                </div>
+			                                <div class="ackButton" ng-show="userRole && comment.doubtRebuttalId == 0">
+			                                	<button type="button" value="ACKN" ng-click="acknowledgeReply(comment)" class="btn btn-primary">ACKN</button>
 			                                </div>
 			                                <div class="replyCommentContainer">
 				                                <div class="commentText">
@@ -229,7 +232,7 @@
 			<button type="button" value="DRAFT" ng-click="documentStatusChange()" class="btn btn-primary" ng-show="isDraftButton">DRAFT</button>
 			<button type="button" value="SUBMIT" ng-click="documentStatusChange()" class="btn btn-success" ng-show="isCompletedButton">COMPLETED</button>
 			<button type="button" value="REBUTTAL" ng-click="rebuttalFile()" class="btn btn-default" ng-show="isRebuttalButton">REBUTTAL</button>
-			<button type="button" value="SUBMIT" ng-click="documentStatusChange()" class="btn btn-primary" ng-show="isSentButton">SEND</button>
+			<button type="button" value="SUBMIT" ng-click="sendToClient()" class="btn btn-primary" ng-show="isSentButton">SEND</button>
 	    </div>
 	     <div id="footer">
 	    	<div class="panel panel-default custom-panel">
