@@ -77,6 +77,11 @@ public class WorkingPageController extends BaseController {
         return workingPageBusiness.getRebuttalList();
     }
 
+    @RequestMapping(value = "/acknowledgeComment")
+    public Boolean acknowledgeComment(@RequestBody AcknowledgeCommentInfo acknowledgeCommentInfo) {
+        return workingPageBusiness.acknowledgeComment(acknowledgeCommentInfo);
+    }
+
     private String getCurrentRole(HttpSession session) {
         Collection<GrantedAuthority> authorities = ((UsernamePasswordAuthenticationToken) session.getAttribute("user")).getAuthorities();
         Object[] roleNames = authorities.toArray();

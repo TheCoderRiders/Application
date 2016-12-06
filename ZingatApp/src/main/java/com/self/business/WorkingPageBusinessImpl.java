@@ -10,6 +10,7 @@ import com.self.dto.*;
 import com.self.enums.ButtonVisibleUtility;
 import com.self.enums.FileStatus;
 import com.self.enums.ProductRole;
+import com.self.models.AcknowledgementDetailsEntity;
 import com.self.models.CodeRejectionReasonListEntity;
 import com.self.models.DocRejectionReasonListEntity;
 import com.self.models.DocumentMasterEntity;
@@ -58,6 +59,9 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
     @Autowired
     private RebuttalListDao rebuttalListDao;
+
+    @Autowired
+    private AcknowledgementDetailsDao acknowledgementDetailsDao;
 
     @Value("${document.base.path}")
     private String documentBasePath;
@@ -388,6 +392,24 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     @Override
     public List getRebuttalList() {
         return rebuttalListDao.findAll();
+    }
+
+    @Override
+    public Boolean acknowledgeComment(AcknowledgeCommentInfo acknowledgeCommentInfo) {
+        AcknowledgementDetailsEntity acknowledgementDetailsEntity = new AcknowledgementDetailsEntity();
+        DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(acknowledgeCommentInfo.getFileId());
+        acknowledgementDetailsEntity.setDocumentAssignedId(documentMasterEntity.getDocumentAssignedId());
+        acknowledgementDetailsEntity.setDocumentAssignedName(documentMasterEntity.getDocumentAssignedName());
+        acknowledgementDetailsEntity.setDocumentAssigneeId(documentMasterEntity.getDocumentAssigneeId());
+        acknowledgementDetailsEntity.setDocumentAssigneeName(documentMasterEntity.getDocumentAssigneeName());
+        acknowledgementDetailsEntity.setClientId(documentMasterEntity.getClientId());
+        acknowledgementDetailsEntity.setClientName(documentMasterEntity.getClientName());
+        acknowledgementDetailsEntity.setCommentDate(acknowledgeCommentInfo.getCommentDate());
+        acknowledgementDetailsEntity.setCommentDisplay(acknowledgeCommentInfo.getCommentDisplay());
+        acknowledgementDetailsEntity.setCommentText(acknowledgeCommentInfo.getCommentText());
+        acknowledgementDetailsEntity.setCommentStatus(acknowledgeCommentInfo.getCommentStatus());
+        acknowledgementDetailsDao.save(acknowledgementDetailsEntity);
+        return Boolean.TRUE;
     }
 
     public static void doMerge(List<InputStream> list, OutputStream outputStream)

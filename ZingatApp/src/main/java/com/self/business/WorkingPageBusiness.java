@@ -1,6 +1,7 @@
 package com.self.business;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.self.dto.AcknowledgeCommentInfo;
 import com.self.dto.CodeAction;
 import com.self.dto.Codes;
 import com.self.dto.FileStatusChangeRequest;
@@ -36,4 +37,6 @@ public interface WorkingPageBusiness {
     public List getDoubtList();
 
     public List getRebuttalList();
+
+    public Boolean acknowledgeComment(AcknowledgeCommentInfo acknowledgeCommentInfo);
 }
