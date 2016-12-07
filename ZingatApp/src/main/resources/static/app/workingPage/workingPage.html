@@ -46,17 +46,17 @@
 	                    <ng-form name="nestedForm">
 	                        <div class="form-group">
 	                        	<ul class="commentsList">
-	                        		<li ng-repeat="comment in commentsList" ng-mouseover="showReplyIcon(comment)" ng-mouseout="hideReplyIcon(comment)">
+	                        		<li ng-repeat="comment in commentsList">
 	                        			<div class="commentContainer">
 		                        			<div class="commentorName"><span style="font-weight:bold" >Commentor Name: </span>{{comment.documentAssignedName}}</div>
 			                                <div class="commentReason" data-toggle="tooltip" title={{comment.doubtRebuttalDisplay}}  ng-bind="comment.doubtRebuttalDisplay"></div>
 			                                <div class="commentText" ng-bind="comment.doubtRebuttalDesc"></div>
-			                                <div class="replyButton">
+			                                <div class="replyButton" ng-show="comment.commentAck == false">
 			                                	<span ng-click="showReplyTextArea()">
 			                                		<i class="fa fa-reply" aria-hidden="true"></i>
 			                                	</span>
 			                                </div>
-			                                <div class="ackButton" ng-show="userRole && comment.doubtRebuttalId == 0">
+			                                <div class="ackButton" ng-show="userRole && comment.doubtRebuttalId == 0 && comment.commentAck == false">
 			                                	<button type="button" value="ACKN" ng-click="acknowledgeReply(comment)" class="btn btn-primary">ACKN</button>
 			                                </div>
 			                                <div class="replyCommentContainer">

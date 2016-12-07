@@ -62,7 +62,7 @@
     display: inline-block;
     width: 5%;
     float: left;
-    display: none;
+    /*display: none;*/
 }
 .workingFileContents .ackButton{
     display: inline-block;
@@ -166,8 +166,8 @@
    width: 83%;
     float: left;
     display: inline-block;
-    max-height: 58px;
-    min-height: 45px;
+    max-height: 80px;
+    min-height: 80px;
 }
 .workingFileContents .codeRightSide .codeEvidanceContainer{
     width: 25%;
@@ -342,6 +342,9 @@
     background-color: #696b6d;
     text-align: center;
     color:white;
+}
+.workingFileContents .dateOfService input[type="date"]{
+    color:black;
 }
 .workingFileContents .sectionHeading{
     font-size: 18px;

@@ -80,12 +80,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
             });
-            /*$scope.mayBeCode = data.mayBeCode;
-            $scope.mayBeCode.sort(function(a, b){
-                var dateA = new Date(a.dos);
-                var dateB = new Date(b.dos);
-                return dateA-dateB;
-            });*/
+            
             if(targetHeading == "Suggested" && $scope.suggestedCode.length < 1){
                 $scope.emptyData = true;
             }else if(targetHeading == "Coded Code" && $scope.acceptedCode.length < 1){
@@ -158,7 +153,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
 
         $scope.leftTabChanged = function(event){
             event.preventDefault();
-           
+            $('.replyCommentContainer').hide();
         }
 
         /* get content of clicked file*/
@@ -226,12 +221,6 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             $scope.isResolvedButton = data.data.buttonVisibleInfo.isResolvedButton;
             $scope.isSentButton = data.data.buttonVisibleInfo.isSentButton;
 
-            /*$scope.mayBeCode = data.data.mayBeCode;
-            $scope.mayBeCode.sort(function(a, b){
-                var dateA = new Date(a.dos);
-                var dateB = new Date(b.dos);
-                return dateA-dateB;
-            });*/
         },function(err) {
             console.log(err);
         });
@@ -286,10 +275,10 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             
             if($(event.target).attr('class') == "fa fa-check"){
                 action = "Accept";
-                codeActionType = $(".nav li.active").attr('class').split(' ')[0];
+                codeActionType = $(".rightSideContent .nav li.active").attr('class').split(' ')[0];
             }else{
                 action = "Reject";
-                codeActionType = $(".nav li.active").attr('class').split(' ')[0];
+                codeActionType = $(".rightSideContent .nav li.active").attr('class').split(' ')[0];
             }
             $scope.requestedData = { };
             $scope.requestedData.allCodes = $scope.globalObj;
@@ -351,15 +340,21 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                         $scope.emptyData = true;
                     }else if(targetHeading == "Rejected" && $scope.rejectedCode.length < 1){
                         $scope.emptyData = true;
-                    }/*else if(targetHeading == "MayBe" && $scope.mayBeCode.length < 1){
-                        $scope.emptyData = true;
-                    }*/
+                    }
                     $scope.acceptCode = false;
                     $scope.rejectCode = false;
                 },function(){
 
                 });
             }
+            $timeout(function() {
+                var mark = document.getElementsByTagName('mark');
+                for(var i=0; i<mark.length; i++){
+                    mark[i].addEventListener("click", function(ev){
+                        $scope.clickedCode($(ev.target).attr('class'));
+                    });
+                }
+            }, 1000);
 
         }
 
@@ -598,12 +593,12 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             }
         }
 
-       $scope.showReplyIcon = function(){
+       /*$scope.showReplyIcon = function(){
             $(".replyButton").hide();
             if(!$(event.currentTarget).parents('.commentContainer').find('div.replyCommentContainer').is(":visible")){
                 $(event.currentTarget).find('div.replyButton').show();
             }
-       }
+       }*/
 
        $scope.acknowledgeReply = function(comment){
             var obj = {};
@@ -624,9 +619,9 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             });
        }
 
-       $scope.hideReplyIcon = function(){
+       /*$scope.hideReplyIcon = function(){
             $(".replyButton").hide();
-       }
+       }*/
 
        $scope.showReplyTextArea = function(){
             $('.replyCommentContainer').hide();
