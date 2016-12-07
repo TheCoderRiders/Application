@@ -38,5 +38,5 @@ public interface WorkingPageBusiness {
 
     public List getRebuttalList();
 
-    public Boolean acknowledgeComment(AcknowledgeCommentInfo acknowledgeCommentInfo);
+    public Boolean acknowledgeComment(AcknowledgeCommentInfo acknowledgeCommentInfo) throws IOException;
 }

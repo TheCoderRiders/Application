@@ -1,5 +1,6 @@
 package com.self.business;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.*;
@@ -395,9 +396,15 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     }
 
     @Override
-    public Boolean acknowledgeComment(AcknowledgeCommentInfo acknowledgeCommentInfo) {
+    public Boolean acknowledgeComment(AcknowledgeCommentInfo acknowledgeCommentInfo) throws IOException {
         AcknowledgementDetailsEntity acknowledgementDetailsEntity = new AcknowledgementDetailsEntity();
         DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(acknowledgeCommentInfo.getFileId());
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<DoubtRebuttalInfo> existingDoubtRebuttalList = new ArrayList<>(Arrays.asList(objectMapper.readValue(documentMasterEntity.getComments(), DoubtRebuttalInfo[].class)));
+
+        DoubtRebuttalInfo doubtRebuttalInfo = existingDoubtRebuttalList.stream().filter(doubtInfo -> FileStatus.RESOLVED_DOUBT.name().equalsIgnoreCase(doubtInfo.getDoubtRebuttalType())).findAny().get();
+        doubtRebuttalInfo.setCommentAck(true);
+
         acknowledgementDetailsEntity.setDocumentAssignedId(documentMasterEntity.getDocumentAssignedId());
         acknowledgementDetailsEntity.setDocumentAssignedName(documentMasterEntity.getDocumentAssignedName());
         acknowledgementDetailsEntity.setDocumentAssigneeId(documentMasterEntity.getDocumentAssigneeId());
@@ -409,6 +416,10 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         acknowledgementDetailsEntity.setCommentText(acknowledgeCommentInfo.getCommentText());
         acknowledgementDetailsEntity.setCommentStatus(acknowledgeCommentInfo.getCommentStatus());
         acknowledgementDetailsDao.save(acknowledgementDetailsEntity);
+
+        documentMasterEntity.setComments(objectMapper.writeValueAsString(existingDoubtRebuttalList));
+        documentMasterDao.save(documentMasterEntity);
+
         return Boolean.TRUE;
     }
 

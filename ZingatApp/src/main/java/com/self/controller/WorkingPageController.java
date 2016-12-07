@@ -78,7 +78,7 @@ public class WorkingPageController extends BaseController {
     }
 
     @RequestMapping(value = "/acknowledgeComment")
-    public Boolean acknowledgeComment(@RequestBody AcknowledgeCommentInfo acknowledgeCommentInfo) {
+    public Boolean acknowledgeComment(@RequestBody AcknowledgeCommentInfo acknowledgeCommentInfo) throws IOException {
         return workingPageBusiness.acknowledgeComment(acknowledgeCommentInfo);
     }
 

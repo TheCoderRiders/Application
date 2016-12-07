@@ -14,6 +14,7 @@ public class DoubtRebuttalInfo {
     private String documentAssignedName;
     private String documentAssigneeName;
     private Date date;
+    private boolean commentAck;
 
     public int getDoubtRebuttalId() {
         return doubtRebuttalId;
@@ -69,5 +70,13 @@ public class DoubtRebuttalInfo {
 
     public void setDocumentAssigneeName(String documentAssigneeName) {
         this.documentAssigneeName = documentAssigneeName;
+    }
+
+    public void setCommentAck(boolean commentAck) {
+        this.commentAck = commentAck;
+    }
+
+    public boolean isCommentAck() {
+        return commentAck;
     }
 }
