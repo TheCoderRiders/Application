@@ -11,10 +11,13 @@ angular.module('DoubtPageController', ['ngDialog'])
             }
         }).then(function(data) { 
             $scope.doubtList = data.data;
+            $(".ngdialog-content").css('height','70%');
         }, function(err) {
             console.log("Bucket Err: " + err);
         });
 
+        
+        
         /* click on close icon of popup */
         $scope.closePopup = function() {
             ngDialog.close();

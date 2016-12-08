@@ -126,6 +126,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
            $location.path('/login');
         }
 
+        
         /* funnction called on hospital name click */
         $scope.redirectToLandingPage = function(){
             $location.path('/landingPage');
@@ -604,7 +605,12 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             var obj = {};
             obj.commentDisplay = comment.doubtRebuttalDisplay;
             obj.commentText = comment.doubtRebuttalDesc;
-            obj.commentStatus = "RESOLVED_DOUBT";
+            if($scope.userRole == "Coder"){
+                 obj.commentStatus = "DOUBT";
+            }else{
+                 obj.commentStatus = "RESOLVED_DOUBT";
+            }
+           
             obj.commentDate = comment.date;
             obj.fileId = $scope.fileId;
             
