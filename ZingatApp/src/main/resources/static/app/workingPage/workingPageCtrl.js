@@ -639,7 +639,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         obj.fileId = $scope.fileId;
         obj.status = "RESOLVED_DOUBT";
         obj.doubtRebuttalInfo = {};
-        obj.doubtRebuttalInfo.doubtRebuttalTypev = "RESOLVED_DOUBT";
+        obj.doubtRebuttalInfo.doubtRebuttalType = "RESOLVED_DOUBT";
         obj.doubtRebuttalInfo.doubtRebuttalId = 0;
         obj.doubtRebuttalInfo.doubtRebuttalDisplay = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
         obj.doubtRebuttalInfo.doubtRebuttalDesc = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
