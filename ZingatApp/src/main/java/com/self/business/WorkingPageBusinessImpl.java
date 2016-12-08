@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
+import com.self.constants.Constants;
 import com.self.dao.*;
 import com.self.dto.*;
 import com.self.enums.ButtonVisibleUtility;
@@ -62,6 +63,12 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
     @Autowired
     private EvidenceUpdateDetailsDao evidenceUpdateDetailsDao;
+
+    @Autowired
+    private TLCoderMapDao tlCoderMapDao;
+
+    @Autowired
+    private AuditorCoderMapDao auditorCoderMapDao;
 
     @Value("${document.base.path}")
     private String documentBasePath;
@@ -420,6 +427,31 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         documentMasterDao.save(documentMasterEntity);
 
         return Boolean.TRUE;
+    }
+
+    @Override
+    public List getAuditorList(int userId) {
+        return getTlAuditorInfo(auditorCoderMapDao.getAuditorIdByCoderId(userId));
+    }
+
+    @Override
+    public List getTlList(int userId) {
+        return getTlAuditorInfo(tlCoderMapDao.getTlIdByCoderId(userId));
+    }
+
+    private List getTlAuditorInfo(List auditorIdByCoderId) {
+        List<TlAuditorInfo> tlAuditorInfoList = new ArrayList<>();
+        auditorIdByCoderId.forEach(auditor-> {
+            if(auditor instanceof AuditorCoderMapEntity) {
+                AuditorCoderMapEntity auditorCoderMapEntity = (AuditorCoderMapEntity)auditor;
+                tlAuditorInfoList.add(new TlAuditorInfo(auditorCoderMapEntity.getAuditorId(), auditorCoderMapEntity.getAuditorFirstname(), auditorCoderMapEntity.getAuditorMiddlename(), auditorCoderMapEntity.getAuditorLastname()));
+            }else if(auditor instanceof TLCoderMapEntity) {
+                TLCoderMapEntity tlCoderMapEntity = (TLCoderMapEntity)auditor;
+                tlAuditorInfoList.add(new TlAuditorInfo(tlCoderMapEntity.getTlId(), tlCoderMapEntity.getTlFirstname(), tlCoderMapEntity.getTlMiddlename(), tlCoderMapEntity.getTlLastname()));
+            }
+
+        });
+        return tlAuditorInfoList;
     }
 
     public static void doMerge(List<InputStream> list, OutputStream outputStream)
