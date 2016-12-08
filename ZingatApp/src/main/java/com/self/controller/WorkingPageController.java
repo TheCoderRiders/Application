@@ -4,6 +4,7 @@ import com.self.business.WorkingPageBusiness;
 import com.self.business.WorklistBusiness;
 import com.self.dto.*;
 import com.self.enums.FileStatus;
+import com.self.models.UserMasterEntity;
 import com.self.pojo.ActualCode;
 import com.self.pojo.DocumentCodeInfo;
 import com.self.pojo.StringClass;
@@ -81,6 +82,18 @@ public class WorkingPageController extends BaseController {
     @RequestMapping(value = "/acknowledgeComment")
     public Boolean acknowledgeComment(@RequestBody AcknowledgeCommentInfo acknowledgeCommentInfo) throws IOException {
         return workingPageBusiness.acknowledgeComment(acknowledgeCommentInfo);
+    }
+
+    @RequestMapping(value = "/getTlList")
+    public List getTlList(HttpSession session) throws IOException {
+        int userId = ((UserMasterEntity) session.getAttribute("userInfo")).getUserId();
+        return workingPageBusiness.getTlList(userId);
+    }
+
+    @RequestMapping(value = "/getAuditorList")
+    public List getAuditorList(HttpSession session) throws IOException {
+        int userId = ((UserMasterEntity) session.getAttribute("userInfo")).getUserId();
+        return workingPageBusiness.getAuditorList(userId);
     }
 
     private String getCurrentRole(HttpSession session) {

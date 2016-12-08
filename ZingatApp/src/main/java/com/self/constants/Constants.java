@@ -14,4 +14,6 @@ public class Constants {
     public static final String AUDITOR= ProductRole.Auditor.name();
     public static final String ADMIN = ProductRole.Admin.name();
     public static final String UNDERSCORE = "_";
+    public static final String SPACE = " ";
+    public static final String EMPTY = "";
 }

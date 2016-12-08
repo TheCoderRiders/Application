@@ -12,4 +12,6 @@ import java.util.List;
 public interface TLCoderMapDao extends JpaRepository<TLCoderMapEntity, Long> {
 
     public List<TLCoderMapEntity> getCoderIdByTlId(Integer tlId);
+
+    public List<TLCoderMapEntity> getTlIdByCoderId(Integer coderId);
 }
