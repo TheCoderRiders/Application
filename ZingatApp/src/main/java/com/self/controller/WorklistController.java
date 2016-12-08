@@ -44,13 +44,16 @@ public class WorklistController extends BaseController {
     public FileDetailsResponse getFileDetails(String bucketName,String orderBy,boolean isAsc, int pageNumber ,HttpSession session){
         String currentRole = getCurrentRole(session);
         int userId = ((UserMasterEntity) session.getAttribute("userInfo")).getUserId();
-        return worklistBusiness.getFileDetails(bucketName,currentRole,userId,orderBy,isAsc,pageNumber);
+        FileDetailsResponse fileDetails = worklistBusiness.getFileDetails(bucketName, currentRole, userId, orderBy, isAsc, pageNumber);
+        session.setAttribute("bucketName",bucketName);
+        return fileDetails;
     }
 
     @RequestMapping("/getFileContents")
     public FileContent getFileContents(String fileId, String page, HttpSession session){
         String currentRole = getCurrentRole(session);
-        return worklistBusiness.getFileContents(fileId,currentRole,page);
+        String bucketName = (String) session.getAttribute("bucketName");
+        return worklistBusiness.getFileContents(fileId,currentRole,page,bucketName);
     }
 
     @RequestMapping("/getUsersForAllocation")

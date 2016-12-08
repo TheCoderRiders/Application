@@ -1,6 +1,5 @@
 package com.self.business;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.*;
@@ -74,7 +73,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     private String documentPdfOutputBasePath;
 
     @Override
-    public Codes getCodes(String fileId, String currentRole) throws IOException {
+    public Codes getCodes(String fileId, String currentRole, String bucketName) throws IOException {
         DocumentMasterEntity documentMasterEntity = workingPageService.getCodes(fileId);
         Codes acceptedSuggestedRejected = new Codes();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -99,7 +98,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
         acceptedSuggestedRejected.setFileId(documentMasterEntity.getDocumentId());
 
-        acceptedSuggestedRejected.setButtonVisibleInfo(ButtonVisibleUtility.getButtonVisibleInfo(ProductRole.valueOf(currentRole)));
+        acceptedSuggestedRejected.setButtonVisibleInfo(ButtonVisibleUtility.getButtonVisibleInfo(ProductRole.valueOf(currentRole),bucketName));
         return acceptedSuggestedRejected;
     }
 

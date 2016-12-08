@@ -1,9 +1,11 @@
 package com.self.business;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.self.constants.Constants;
 import com.self.dao.*;
 import com.self.dto.*;
 import com.self.enums.Action;
+import com.self.enums.ButtonVisibleUtility;
 import com.self.enums.ProductRole;
 import com.self.enums.SortingParameters;
 import com.self.models.*;
@@ -186,7 +188,7 @@ public class WorklistBusinessImpl implements WorklistBusiness{
     }
 
     @Override
-    public FileContent getFileContents(String fileId, String currentRole, String page) {
+    public FileContent getFileContents(String fileId, String currentRole, String page, String bucketName) {
         //String fileContents = worklistService.getFileContents(fileId);
         DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(fileId);
         //String fileContents =documentMasterEntity.getDocumentContents();
@@ -220,8 +222,8 @@ public class WorklistBusinessImpl implements WorklistBusiness{
             e.printStackTrace();
         }
 
-        String fileMode = "View";
-        /*if(currentRole.toLowerCase().contains("coder") && ("Allocate to Coder".equalsIgnoreCase(fileStatus) || "Draft".equalsIgnoreCase(fileStatus))){*/
+        /*String fileMode = "View";
+        *//*if(currentRole.toLowerCase().contains("coder") && ("Allocate to Coder".equalsIgnoreCase(fileStatus) || "Draft".equalsIgnoreCase(fileStatus))){*//*
         if((currentRole.equalsIgnoreCase("coder") && ("Allocate to Coder".equalsIgnoreCase(fileStatus) || "Draft".equalsIgnoreCase(fileStatus)))
         || (currentRole.equalsIgnoreCase("TLCoder") && ("Allocate to TLCoder".equalsIgnoreCase(fileStatus) || "Draft".equalsIgnoreCase(fileStatus))) ) {
             fileMode = "Edit";
@@ -229,6 +231,13 @@ public class WorklistBusinessImpl implements WorklistBusiness{
                 documentMasterEntity.setDocumentStartDatetime(new Timestamp(Calendar.getInstance().getTime().getTime()));
                 documentMasterDao.save(documentMasterEntity);
             }
+        }*/
+
+        String fileMode = ButtonVisibleUtility.getWorkingPageMode(ProductRole.valueOf(currentRole),bucketName);
+
+        if(Constants.EDIT.equalsIgnoreCase(fileMode) && "workingPage".equalsIgnoreCase(page) && documentMasterEntity.getDocumentStartDatetime()==null){
+            documentMasterEntity.setDocumentStartDatetime(new Timestamp(Calendar.getInstance().getTime().getTime()));
+            documentMasterDao.save(documentMasterEntity);
         }
 
         FileContent fileContent = new FileContent();
