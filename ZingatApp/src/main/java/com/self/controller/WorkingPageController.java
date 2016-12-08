@@ -34,7 +34,8 @@ public class WorkingPageController extends BaseController {
     @RequestMapping(value = "/getCodes")
     public Codes getCodes(String fileId, HttpSession session) throws IOException {
         String currentRole = getCurrentRole(session);
-        return workingPageBusiness.getCodes(fileId,currentRole);
+        String bucketName = (String) session.getAttribute("bucketName");
+        return workingPageBusiness.getCodes(fileId,currentRole,bucketName);
     }
 
     @RequestMapping(value = "/saveCodes")

@@ -1,6 +1,5 @@
 package com.self.business;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.*;
@@ -11,10 +10,7 @@ import com.self.dto.*;
 import com.self.enums.ButtonVisibleUtility;
 import com.self.enums.FileStatus;
 import com.self.enums.ProductRole;
-import com.self.models.AcknowledgementDetailsEntity;
-import com.self.models.CodeRejectionReasonListEntity;
-import com.self.models.DocRejectionReasonListEntity;
-import com.self.models.DocumentMasterEntity;
+import com.self.models.*;
 import com.self.pojo.ActualCode;
 import com.self.pojo.DocumentCodeInfo;
 import com.self.pojo.SolrCodeSuggesterBean;
@@ -64,6 +60,9 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     @Autowired
     private AcknowledgementDetailsDao acknowledgementDetailsDao;
 
+    @Autowired
+    private EvidenceUpdateDetailsDao evidenceUpdateDetailsDao;
+
     @Value("${document.base.path}")
     private String documentBasePath;
 
@@ -74,7 +73,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     private String documentPdfOutputBasePath;
 
     @Override
-    public Codes getCodes(String fileId, String currentRole) throws IOException {
+    public Codes getCodes(String fileId, String currentRole, String bucketName) throws IOException {
         DocumentMasterEntity documentMasterEntity = workingPageService.getCodes(fileId);
         Codes acceptedSuggestedRejected = new Codes();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -99,7 +98,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
         acceptedSuggestedRejected.setFileId(documentMasterEntity.getDocumentId());
 
-        acceptedSuggestedRejected.setButtonVisibleInfo(ButtonVisibleUtility.getButtonVisibleInfo(ProductRole.valueOf(currentRole)));
+        acceptedSuggestedRejected.setButtonVisibleInfo(ButtonVisibleUtility.getButtonVisibleInfo(ProductRole.valueOf(currentRole),bucketName));
         return acceptedSuggestedRejected;
     }
 
@@ -481,11 +480,13 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     private void saveNewlyAddedCodeInSolr(DocumentMasterEntity documentMasterEntity) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
+            Timestamp currentTime = new Timestamp(Calendar.getInstance().getTime().getTime());
             if(documentMasterEntity.getDocumentAcceptedCodes()!=null) {
                 List<DocumentCodeInfo> acceptedCodes = Arrays.asList(objectMapper.readValue(documentMasterEntity.getDocumentAcceptedCodes(), DocumentCodeInfo[].class));
                 List<DocumentCodeInfo> newlyAddedCode = acceptedCodes.stream().filter(documentCodeInfo -> documentCodeInfo.getSectionName().equalsIgnoreCase("Added Code")).collect(Collectors.toList());
                 if(newlyAddedCode.size()!=0) {
                     List<SolrCodeSuggesterBean> solrCodeSuggesterBeanList = new ArrayList<>();
+                    List<EvidenceUpdateDetailsEntity> evidenceUpdateDetailsEntities  = new ArrayList<>();
                     newlyAddedCode.get(0).getCodes().forEach(documentCode -> {
                         QueryResponse queryResponse = solrSuggesterRepository.searchCode(documentCode.getCode(), 1);
                         List<SolrCodeSuggesterBean> solrCodeSuggesterBeans = queryResponse.getBeans(SolrCodeSuggesterBean.class);
@@ -502,9 +503,23 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
                         }
                         actualBean.setSearchFieldNgram(evidenceList);
                         solrCodeSuggesterBeanList.add(actualBean);
+                        EvidenceUpdateDetailsEntity evidenceUpdateDetailsEntity = new EvidenceUpdateDetailsEntity();
+                        evidenceUpdateDetailsEntity.setCodeId(documentCode.getCode());
+                        evidenceUpdateDetailsEntity.setDocumentId(documentMasterEntity.getDocumentId());
+                        evidenceUpdateDetailsEntity.setEvidenceAddById(documentMasterEntity.getDocumentAssignedId());
+                        evidenceUpdateDetailsEntity.setEvidenceAddDate(currentTime);
+                        try {
+                            evidenceUpdateDetailsEntity.setEvidence(objectMapper.writeValueAsString(evidenceList));
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
+                        }
+                        evidenceUpdateDetailsEntity.setClientId(documentMasterEntity.getClientId());
+                        evidenceUpdateDetailsEntity.setClientName(documentMasterEntity.getClientName());
+                        evidenceUpdateDetailsEntities.add(evidenceUpdateDetailsEntity);
                     });
 
                     solrSuggesterRepository.saveCodeSuggesterBean(solrCodeSuggesterBeanList);
+                    evidenceUpdateDetailsDao.save(evidenceUpdateDetailsEntities);
                 }
             }
         }catch (Exception e) {
