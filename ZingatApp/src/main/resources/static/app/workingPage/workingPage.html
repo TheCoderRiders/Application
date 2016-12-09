@@ -64,7 +64,7 @@
 			                                	</span>
 			                                </div>
 			                                
-			                                <div class="ackButton" ng-show="(userRole == 'Coder' && comment.commentAck == false && comment.doubtRebuttalType == 'RESOLVED_DOUBT' )">
+			                                <div class="ackButton" ng-show="(userRole == 'Coder' && comment.commentAck == false && comment.doubtRebuttalType == 'RESOLVED_DOUBT' || userRole == 'Coder' && comment.commentAck == false && comment.doubtRebuttalType == 'REBUTTAL' )">
 			                                	<button type="button" value="ACKN" ng-click="acknowledgeReply(comment)" class="btn btn-primary">ACKN</button>
 			                                </div>
 			                                
