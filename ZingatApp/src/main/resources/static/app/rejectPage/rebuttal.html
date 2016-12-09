@@ -10,7 +10,7 @@
 			<ul class="doubtCommentItem">
 				<li ng-repeat = "rebuttal in doubtList track by $index">
 					<input id="{{rebuttal.rebuttalId}}" class="rebuttalItem" title={{rebuttal.rebuttalDisplay}} ng-model="rebuttal" ng-value={{rebuttal}}  type="radio" ng-click="doubtChecked(rebuttal)" name="codeRejectName">
-					<label>{{rebuttal.rebuttalDesc}}</label>
+					<label>{{rebuttal.rebuttalDisplay}}</label>
 				</li>
 			</ul>
 		</div>

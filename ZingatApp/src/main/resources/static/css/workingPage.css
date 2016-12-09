@@ -461,10 +461,10 @@
     height: 42%;
 }
 .rejectionDocument .rejectionDocList,.doubtCode .doubtList,.rebuttalFile .rebuttalList{
-    height: 25%;
+    height: 37%;
 }
-.rejectionDocument .rejectionDocComment{
-    height: 30%;
+.rejectionDocument .rejectionDocComment,.doubtCode .doubtList{
+    height: 43%;
 }
 .downloadFile .downloadList{
     height: 50%
