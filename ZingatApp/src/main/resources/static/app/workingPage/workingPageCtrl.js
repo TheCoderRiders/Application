@@ -607,7 +607,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             obj.commentText = comment.doubtRebuttalDesc;
             if($scope.userRole == "Coder"){
                 obj.commentStatus = "DOUBT";
-            }else if($scope.userRole == "TlCoder"){{ 
+            }else if($scope.userRole == "TlCoder"){
                 obj.commentStatus = "RESOLVED_DOUBT";
             }else{
                 obj.commentStatus = "REBUTTAL";
