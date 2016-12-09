@@ -605,9 +605,13 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             var obj = {};
             obj.commentDisplay = comment.doubtRebuttalDisplay;
             obj.commentText = comment.doubtRebuttalDesc;
-            if($scope.userRole == "Coder"){
+            
+
+            if($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT"){
                 obj.commentStatus = "DOUBT";
-            }else if($scope.userRole == "TlCoder"){
+            }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "REBUTTAL"){
+                obj.commentStatus = "REWORK";
+            }else if($scope.userRole == "TlCoder" && comment.doubtRebuttalType == "DOUBT"){
                 obj.commentStatus = "RESOLVED_DOUBT";
             }else{
                 obj.commentStatus = "REBUTTAL";
@@ -615,7 +619,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
            
             obj.commentDate = comment.date;
             obj.fileId = $scope.fileId;
-            
+           
             $http({
                 url: "workingPage/acknowledgeComment",
                 method: "POST",
@@ -641,17 +645,37 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             $('.replyCommentContainer').hide();
        }
 
-       $scope.postComment = function(){
-        
+       $scope.postComment = function(comment){
+        var doubtRebuttalType;
         var obj = {};
         obj.fileId = $scope.fileId;
-        obj.status = "RESOLVED_DOUBT";
+        
         obj.doubtRebuttalInfo = {};
-        obj.doubtRebuttalInfo.doubtRebuttalType = "RESOLVED_DOUBT";
+
+        if($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT"){
+            doubtRebuttalType = "DOUBT";
+        }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "REBUTTAL"){
+            doubtRebuttalType = "REWORK";
+        }else if($scope.userRole == "TlCoder" && comment.doubtRebuttalType == "DOUBT"){
+            doubtRebuttalType = "RESOLVED_DOUBT";
+        }else{
+            doubtRebuttalType = "REBUTTAL";
+        }
+
+       /* if($scope.userRole == "Coder"){
+            doubtRebuttalType = "DOUBT";
+        }else if($scope.userRole == "TlCoder"){
+            doubtRebuttalType = "RESOLVED_DOUBT";
+        }else{
+            doubtRebuttalType = "REBUTTAL";
+        }*/
+        obj.status = doubtRebuttalType;
+        obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
+
         obj.doubtRebuttalInfo.doubtRebuttalId = 0;
         obj.doubtRebuttalInfo.doubtRebuttalDisplay = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
         obj.doubtRebuttalInfo.doubtRebuttalDesc = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
-
+        
         $http({
             url: "workingPage/documentStatusChange",
             method: "POST",

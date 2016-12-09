@@ -25,7 +25,7 @@ angular.module('DoubtPageController', ['ngDialog'])
 
         /* click on radio button clicked */
         $scope.doubtChecked = function(option){
-            $(".doubtComment").val(option.doubtDisplay);          
+            $(".doubtComment").val(option.doubtDesc);          
         }
 
         /* click on Submit of doubt*/
