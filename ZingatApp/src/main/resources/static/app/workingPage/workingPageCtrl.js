@@ -34,11 +34,11 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         $scope.clientName = $cookies.get("clientName");
         $scope.editRight = $cookies.get("editRight");
         $scope.userRole = $cookies.get("userRole");
-        if($scope.userRole == "Coder"){
+        /*if($scope.userRole == "Coder"){
             $scope.userRole = true;
         }else{
             $scope.userRole = false;
-        }
+        }*/
 
         setTimeout(function() {
             $('[data-toggle="tooltip"]').tooltip(); 

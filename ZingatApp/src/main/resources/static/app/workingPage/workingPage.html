@@ -52,17 +52,23 @@
 			                                
 			                                <div class="commentReason" data-toggle="tooltip" title={{comment.doubtRebuttalDisplay}}  ng-bind="comment.doubtRebuttalDisplay"></div>
 			                                <div class="commentText" ng-bind="comment.doubtRebuttalDesc"></div>
-			                                <div class="replyButton" ng-show='(comment.doubtRebuttalType == "RESOLVED_DOUBT" && comment.commentAck == false) || (comment.doubtRebuttalType == "RESOLVED_DOUBT" && comment.commentAck == true) || (comment.doubtRebuttalType == "DOUBT" && comment.commentAck == false)'>
+			                                <div class="replyButton" ng-show="(userRole == 'Coder' && comment.commentAck == false)">
+			                                	<span ng-click="showReplyTextArea()">
+			                                		<i class="fa fa-reply" aria-hidden="true"></i>
+			                                	</span>
+			                                </div>
+
+			                                <div class="replyButton" ng-show ='(userRole == "TlCoder")'>
 			                                	<span ng-click="showReplyTextArea()">
 			                                		<i class="fa fa-reply" aria-hidden="true"></i>
 			                                	</span>
 			                                </div>
 			                                
-			                                <div class="ackButton" ng-show="userRole && comment.doubtRebuttalId == 0 && comment.commentAck == false">
+			                                <div class="ackButton" ng-show="(userRole == 'Coder' && comment.commentAck == false && comment.doubtRebuttalType == 'RESOLVED_DOUBT' )">
 			                                	<button type="button" value="ACKN" ng-click="acknowledgeReply(comment)" class="btn btn-primary">ACKN</button>
 			                                </div>
 			                                
-			                                <div class="btn-group actionBtn" uib-dropdown ng-show="userRole">
+			                                <div class="btn-group actionBtn" uib-dropdown ng-show="(userRole == 'Coder')">
 		                                          <button id="split-button" type="button" class="btn btn-action">{{selectedAction.name}}</button>
 		                                          <button type="button" class="btn btn-action" uib-dropdown-toggle>
 		                                            <span class="caret"></span>

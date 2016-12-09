@@ -290,6 +290,9 @@ tags-input .host {
 .rejectedBg{
     background-color: #953f02;
 }
+.resolvedDoubtBg{
+    background-color: #ee9209;
+}
 
 .file-name{
     font-size: 16px;
