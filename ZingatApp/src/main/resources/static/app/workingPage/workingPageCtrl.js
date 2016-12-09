@@ -606,9 +606,11 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             obj.commentDisplay = comment.doubtRebuttalDisplay;
             obj.commentText = comment.doubtRebuttalDesc;
             if($scope.userRole == "Coder"){
-                 obj.commentStatus = "DOUBT";
+                obj.commentStatus = "DOUBT";
+            }else if($scope.userRole == "TlCoder"){{ 
+                obj.commentStatus = "RESOLVED_DOUBT";
             }else{
-                 obj.commentStatus = "RESOLVED_DOUBT";
+                obj.commentStatus = "REBUTTAL";
             }
            
             obj.commentDate = comment.date;
