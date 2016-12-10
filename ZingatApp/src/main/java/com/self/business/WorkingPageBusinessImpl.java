@@ -239,10 +239,10 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
                 RebuttalActionInfo rebuttalActionInfo = doubtRebuttalInfo.getRebuttalActionInfo();
                 //Rebuttal Doubt
                 if(null !=rebuttalActionInfo){
-                    documentMasterEntity.setDocumentAssignedId(rebuttalActionInfo.getAssignedId());
-                    documentMasterEntity.setDocumentAssignedName(rebuttalActionInfo.getAssignedUserName());
                     documentMasterEntity.setDocumentAssigneeId(documentMasterEntity.getDocumentAssignedId());
                     documentMasterEntity.setDocumentAssigneeName(documentMasterEntity.getDocumentAssignedName());
+                    documentMasterEntity.setDocumentAssignedId(rebuttalActionInfo.getAssignedId());
+                    documentMasterEntity.setDocumentAssignedName(rebuttalActionInfo.getAssignedUserName());
                     if(RebuttalAssign.ASSIGN_TO_AUDITOR.equals(rebuttalActionInfo.getRebuttalAssign())){
                         documentMasterEntity.setDocumentCurrentStatus(FileStatus.REWORK.getStatus());
                         documentMasterEntity.setDocumentCurrentStatusId(FileStatus.REWORK.getId());

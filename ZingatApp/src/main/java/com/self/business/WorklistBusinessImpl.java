@@ -160,7 +160,7 @@ public class WorklistBusinessImpl implements WorklistBusiness{
             return  worklistService.getFileDetailsByUserId(bucketName, Arrays.asList(currentRole), userIdList, orderBy, isAsc, pageNumber);
         }
 
-        if(("New".equalsIgnoreCase(bucketName))){
+        if("New".equalsIgnoreCase(bucketName)){
             return getNewFileDetailsResponse(bucketName, currentRole, orderBy, isAsc, pageNumber);
         }
 
@@ -170,6 +170,7 @@ public class WorklistBusinessImpl implements WorklistBusiness{
                                 :new ArrayList<>();
 
         final List<Integer> allUserIds = new ArrayList<>(userIds);
+        allUserIds.add(userId);
 
         if(ProductRole.valueOf(currentRole).equals(ProductRole.Allocator)){userIds.parallelStream().forEach(tlId->allUserIds.addAll(tlCoderMapDao.getCoderIdByTlId(tlId).stream().map(entity->entity.getCoderId()).collect(Collectors.toList())));}
 
