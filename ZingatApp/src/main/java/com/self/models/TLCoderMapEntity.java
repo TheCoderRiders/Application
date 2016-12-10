@@ -17,10 +17,12 @@ public class TLCoderMapEntity implements Serializable {
     private String tlFirstname;
     private String tlMiddlename;
     private String tlLastname;
+    private String tlUserName;
     private int coderId;
     private String coderFirstname;
     private String coderMiddlename;
     private String coderLastname;
+    private String coderUserName;
     private String tlClientName;
     private String coderClientName;
     private Integer tlClientId;
@@ -141,6 +143,26 @@ public class TLCoderMapEntity implements Serializable {
 
     public void setCoderClientId(Integer coderClientId) {
         this.coderClientId = coderClientId;
+    }
+
+    @Basic
+    @Column(name = "Tl_username", nullable = true, insertable = true, updatable = true, length = 50)
+    public String getTlUserName() {
+        return tlUserName;
+    }
+
+    public void setTlUserName(String tlUserName) {
+        this.tlUserName = tlUserName;
+    }
+
+    @Basic
+    @Column(name = "coder_username", nullable = true, insertable = true, updatable = true, length = 50)
+    public String getCoderUserName() {
+        return coderUserName;
+    }
+
+    public void setCoderUserName(String coderUserName) {
+        this.coderUserName = coderUserName;
     }
 
     @Override

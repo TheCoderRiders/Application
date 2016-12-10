@@ -26,7 +26,7 @@ public interface WorkingPageBusiness {
 
     public Codes codeAction(CodeAction codeAction) throws JsonProcessingException;
 
-    public Boolean documentStatusChange(FileStatusChangeRequest fileStatusChangeRequest) throws IOException;
+    public Boolean documentStatusChange(FileStatusChangeRequest fileStatusChangeRequest, String bucketName) throws IOException;
 
     public List<CodeRejectionReasonListEntity> getCodeRejectionReasonList();
 

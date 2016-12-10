@@ -5,12 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
-import com.self.constants.Constants;
+import com.self.constants.BucketConstants;
 import com.self.dao.*;
 import com.self.dto.*;
 import com.self.enums.ButtonVisibleUtility;
 import com.self.enums.FileStatus;
 import com.self.enums.ProductRole;
+import com.self.enums.RebuttalAssign;
 import com.self.models.*;
 import com.self.pojo.ActualCode;
 import com.self.pojo.DocumentCodeInfo;
@@ -190,7 +191,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     }
 
     @Override
-    public Boolean documentStatusChange(FileStatusChangeRequest fileStatusChangeRequest) throws IOException {
+    public Boolean documentStatusChange(FileStatusChangeRequest fileStatusChangeRequest, String bucketName) throws IOException {
         String fileId = fileStatusChangeRequest.getFileId();
         FileStatus status = fileStatusChangeRequest.getStatus();
         DocRejectionReasonListEntity documentRejectionReason = fileStatusChangeRequest.getDocRejectionReason();
@@ -234,6 +235,23 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
                 documentMasterEntity.setComments(objectMapper.writeValueAsString(existingDoubtRebuttalList));
 
                 if(status.equals(FileStatus.REBUTTAL))  documentMasterEntity.setRebuttalCount(documentMasterEntity.getRebuttalCount()+1);
+
+                RebuttalActionInfo rebuttalActionInfo = doubtRebuttalInfo.getRebuttalActionInfo();
+                //Rebuttal Doubt
+                if(null !=rebuttalActionInfo){
+                    documentMasterEntity.setDocumentAssignedId(rebuttalActionInfo.getAssignedId());
+                    documentMasterEntity.setDocumentAssignedName(rebuttalActionInfo.getAssignedUserName());
+                    documentMasterEntity.setDocumentAssigneeId(documentMasterEntity.getDocumentAssignedId());
+                    documentMasterEntity.setDocumentAssigneeName(documentMasterEntity.getDocumentAssignedName());
+                    if(RebuttalAssign.ASSIGN_TO_AUDITOR.equals(rebuttalActionInfo.getRebuttalAssign())){
+                        documentMasterEntity.setDocumentCurrentStatus(FileStatus.REWORK.getStatus());
+                        documentMasterEntity.setDocumentCurrentStatusId(FileStatus.REWORK.getId());
+                    }else {
+                        documentMasterEntity.setDocumentCurrentStatus(FileStatus.REBUTTAL_CLARIFICATION.getStatus());
+                        documentMasterEntity.setDocumentCurrentStatusId(FileStatus.REBUTTAL_CLARIFICATION.getId());
+                    }
+                }
+
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
@@ -260,7 +278,15 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
                 existingDoubtRebuttalList.add(doubtRebuttalInfo);
                 documentMasterEntity.setComments(objectMapper.writeValueAsString(existingDoubtRebuttalList));
 
-                if(status.equals(FileStatus.REBUTTAL))  documentMasterEntity.setRebuttalCount(documentMasterEntity.getRebuttalCount()+1);
+                //if(status.equals(FileStatus.REBUTTAL))  documentMasterEntity.setRebuttalCount(documentMasterEntity.getRebuttalCount()+1);
+
+                //Rebuttal Doubt Resolved
+                if( BucketConstants.REBUTTAL_CLARIFICATION.equalsIgnoreCase(bucketName) || BucketConstants.REWORK.equalsIgnoreCase(bucketName)){
+                    documentMasterEntity.setDocumentAssignedId(documentMasterEntity.getDocumentAssigneeId());
+                    documentMasterEntity.setDocumentAssignedName(documentMasterEntity.getDocumentAssigneeName());
+                    documentMasterEntity.setDocumentAssigneeId(documentMasterEntity.getDocumentAssignedId());
+                    documentMasterEntity.setDocumentAssigneeName(documentMasterEntity.getDocumentAssignedName());
+                }
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
@@ -408,8 +434,14 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         ObjectMapper objectMapper = new ObjectMapper();
         List<DoubtRebuttalInfo> existingDoubtRebuttalList = new ArrayList<>(Arrays.asList(objectMapper.readValue(documentMasterEntity.getComments(), DoubtRebuttalInfo[].class)));
 
-        DoubtRebuttalInfo doubtRebuttalInfo = existingDoubtRebuttalList.stream().filter(doubtInfo -> FileStatus.RESOLVED_DOUBT.name().equalsIgnoreCase(doubtInfo.getDoubtRebuttalType())).findAny().get();
-        doubtRebuttalInfo.setCommentAck(true);
+        Optional<DoubtRebuttalInfo> any = existingDoubtRebuttalList.stream().filter(doubtInfo -> FileStatus.RESOLVED_DOUBT.name().equalsIgnoreCase(doubtInfo.getDoubtRebuttalType())).findAny();
+        if(any.isPresent()) {
+            DoubtRebuttalInfo doubtRebuttalInfo = any.get();
+            doubtRebuttalInfo.setCommentAck(true);
+        }else {
+            DoubtRebuttalInfo doubtRebuttalInfo = existingDoubtRebuttalList.stream().filter(doubtInfo -> FileStatus.REBUTTAL.name().equalsIgnoreCase(doubtInfo.getDoubtRebuttalType())).findAny().get();
+            doubtRebuttalInfo.setCommentAck(true);
+        }
 
         acknowledgementDetailsEntity.setDocumentAssignedId(documentMasterEntity.getDocumentAssignedId());
         acknowledgementDetailsEntity.setDocumentAssignedName(documentMasterEntity.getDocumentAssignedName());
@@ -444,10 +476,10 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         auditorIdByCoderId.forEach(auditor-> {
             if(auditor instanceof AuditorCoderMapEntity) {
                 AuditorCoderMapEntity auditorCoderMapEntity = (AuditorCoderMapEntity)auditor;
-                tlAuditorInfoList.add(new TlAuditorInfo(auditorCoderMapEntity.getAuditorId(), auditorCoderMapEntity.getAuditorFirstname(), auditorCoderMapEntity.getAuditorMiddlename(), auditorCoderMapEntity.getAuditorLastname()));
+                tlAuditorInfoList.add(new TlAuditorInfo(auditorCoderMapEntity.getAuditorId(), auditorCoderMapEntity.getAuditorFirstname(), auditorCoderMapEntity.getAuditorMiddlename(), auditorCoderMapEntity.getAuditorLastname(),auditorCoderMapEntity.getAuditorUserName()));
             }else if(auditor instanceof TLCoderMapEntity) {
                 TLCoderMapEntity tlCoderMapEntity = (TLCoderMapEntity)auditor;
-                tlAuditorInfoList.add(new TlAuditorInfo(tlCoderMapEntity.getTlId(), tlCoderMapEntity.getTlFirstname(), tlCoderMapEntity.getTlMiddlename(), tlCoderMapEntity.getTlLastname()));
+                tlAuditorInfoList.add(new TlAuditorInfo(tlCoderMapEntity.getTlId(), tlCoderMapEntity.getTlFirstname(), tlCoderMapEntity.getTlMiddlename(), tlCoderMapEntity.getTlLastname(),tlCoderMapEntity.getTlUserName()));
             }
 
         });

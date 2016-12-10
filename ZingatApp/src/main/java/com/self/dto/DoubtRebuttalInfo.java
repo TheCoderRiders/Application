@@ -15,6 +15,7 @@ public class DoubtRebuttalInfo {
     private String documentAssigneeName;
     private Date date;
     private boolean commentAck;
+    private RebuttalActionInfo rebuttalActionInfo;
 
     public int getDoubtRebuttalId() {
         return doubtRebuttalId;
@@ -78,5 +79,13 @@ public class DoubtRebuttalInfo {
 
     public boolean isCommentAck() {
         return commentAck;
+    }
+
+    public RebuttalActionInfo getRebuttalActionInfo() {
+        return rebuttalActionInfo;
+    }
+
+    public void setRebuttalActionInfo(RebuttalActionInfo rebuttalActionInfo) {
+        this.rebuttalActionInfo = rebuttalActionInfo;
     }
 }
