@@ -68,8 +68,8 @@
 			                                	<button type="button" value="ACKN" ng-click="acknowledgeReply(comment)" class="btn btn-primary">ACKN</button>
 			                                </div>
 			                                
-			                                <div class="btn-group actionBtn" uib-dropdown ng-show="(userRole == 'Coder')">
-		                                          <button id="split-button" type="button" class="btn btn-action">{{selectedAction.name}}</button>
+			                                <div class="btn-group actionBtn assignList" uib-dropdown ng-show="(userRole == 'Coder')">
+		                                          <button id="split-button" value={{selectedAction.userId}} type="button" class="btn btn-action">{{selectedAction.name}}</button>
 		                                          <button type="button" class="btn btn-action" uib-dropdown-toggle>
 		                                            <span class="caret"></span>
 		                                            <span class="sr-only">Split button!</span>
@@ -81,8 +81,21 @@
 		                                          </ul>
 	                                        </div>
 
+	                                        <div class="btn-group actionBtn assignNameList" uib-dropdown ng-show="showList">
+		                                          <button id="split-button" value={{selectedName.userId}}  type="button" class="btn btn-action">{{selectedName.name}}</button>
+		                                          <button type="button" class="btn btn-action" uib-dropdown-toggle>
+		                                            <span class="caret"></span>
+		                                            <span class="sr-only">Split button!</span>
+		                                          </button>
+		                                          <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+		                                            <li ng-click="setAssigneeName(name)" ng-repeat="name in assignNameList">
+		                                                <a id="{{name.id}}">{{name.name}}</a>
+		                                            </li>
+		                                          </ul>
+	                                        </div>
+
 			                                <div class="replyCommentContainer">
-				                                <div class="commentText">
+				                                <div class="commentText commentTextContainer">
 					                                <textarea class="replyCommentText" rows="2" cols="50">
 							
 													</textarea> 

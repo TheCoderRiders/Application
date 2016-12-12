@@ -11,7 +11,7 @@ angular.module('DoubtPageController', ['ngDialog'])
             }
         }).then(function(data) { 
             $scope.doubtList = data.data;
-            $(".ngdialog-content").css('height','70%');
+            $(".ngdialog-content").css('height','85%');
         }, function(err) {
             console.log("Bucket Err: " + err);
         });

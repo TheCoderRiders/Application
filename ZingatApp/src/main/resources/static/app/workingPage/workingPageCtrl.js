@@ -34,6 +34,9 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         $scope.clientName = $cookies.get("clientName");
         $scope.editRight = $cookies.get("editRight");
         $scope.userRole = $cookies.get("userRole");
+        $scope.showList = false;
+        $scope.setAssigneeName = "";
+       
         /*if($scope.userRole == "Coder"){
             $scope.userRole = true;
         }else{
@@ -153,8 +156,9 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         }
 
         $scope.leftTabChanged = function(event){
-            event.preventDefault();
-            $('.replyCommentContainer').hide();
+
+            $('.commentContainer .actionBtn').hide();
+            $('.commentContainer .replyCommentContainer').hide();
         }
 
         /* get content of clicked file*/
@@ -226,10 +230,14 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             console.log(err);
         });
 
+
+        
+
+
         $scope.clickedCode = function(codeId){
             var elementTop = $(".rightSideContent span[class*='"+codeId+"']").offset().top;
             var divTop = $('.rightSideContent').offset().top;
-            var elementRelativeTop = elementTop - divTop;
+            var elementRelativeTop = elementTop - divTop + 41;
             
             $(".rightSideContent span").parent().removeClass("highlighted");
             $(".rightSideContent span[class*='"+codeId+"']").parent().addClass('highlighted');
@@ -249,7 +257,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             console.log("elementTop: "+elementTop);
             var divTop = $('.leftSideContent').offset().top;
             console.log("divTop: "+divTop);
-            var elementRelativeTop = elementTop - divTop;
+            var elementRelativeTop = elementTop - divTop + 41;
             console.log("elementRelativeTop: "+elementRelativeTop);
 
             $(".leftSideContent mark").removeClass("highlighted");
@@ -636,8 +644,22 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
        }*/
 
        $scope.showReplyTextArea = function(){
-            $('.replyCommentContainer').hide();
+            $('.commentContainer .replyCommentContainer').hide();
+            $('.commentContainer .actionBtn').hide();
+
+            $scope.selectedAction = [];
+            $scope.selectedAction.id = "0";
+            $scope.selectedAction.name = "Actions";
+            $http({
+                url: 'json/tlCoder.json',
+                method: "GET",
+            }).then(function(data){ 
+                $scope.assignList = data.data;
+            },function(err) {
+                console.log(err);
+            });
             $(event.currentTarget).parents('.commentContainer').find('div.replyCommentContainer').show();
+            $(event.currentTarget).parents('.commentContainer').find('div.actionBtn').show();
             $('.replyCommentText').val('')
        }
 
@@ -646,6 +668,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
        }
 
        $scope.postComment = function(comment){
+        
+        var assignedAction;
         var doubtRebuttalType;
         var obj = {};
         obj.fileId = $scope.fileId;
@@ -662,19 +686,23 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             doubtRebuttalType = "REBUTTAL";
         }
 
-       /* if($scope.userRole == "Coder"){
-            doubtRebuttalType = "DOUBT";
-        }else if($scope.userRole == "TlCoder"){
-            doubtRebuttalType = "RESOLVED_DOUBT";
-        }else{
-            doubtRebuttalType = "REBUTTAL";
-        }*/
         obj.status = doubtRebuttalType;
         obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
 
         obj.doubtRebuttalInfo.doubtRebuttalId = 0;
         obj.doubtRebuttalInfo.doubtRebuttalDisplay = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
         obj.doubtRebuttalInfo.doubtRebuttalDesc = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
+
+        if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "1"){
+            assignedAction = "ASSIGN_TO_TL";
+        }else{
+            assignedAction = "ASSIGN_TO_AUDITOR";
+        }
+        obj.doubtRebuttalInfo.rebuttalActionInfo = {}
+        obj.doubtRebuttalInfo.rebuttalActionInfo.rebuttalAssign = assignedAction;
+        obj.doubtRebuttalInfo.rebuttalActionInfo.assignedId = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').attr('value');
+        obj.doubtRebuttalInfo.rebuttalActionInfo.assignedUserName = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').text();
+
         
         $http({
             url: "workingPage/documentStatusChange",
@@ -687,6 +715,32 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         });
 
        }
+
+        $scope.setAction = function(action) {
+            $scope.selectedAction = action;
+           
+            $scope.showList = true;
+            var fetchList;
+            if(action.userId == "1"){
+                fetchList = 'getTlList'; 
+            }else{
+                fetchList = 'getAuditorList';
+            }
+
+            $http({
+                url: 'workingPage/'+fetchList,
+                method: "GET",
+            }).then(function(data){ 
+                $scope.assignNameList = data.data; 
+            },function(err) {
+                console.log(err);
+            }); 
+            
+        },
+
+        $scope.setAssigneeName = function(name){
+            $scope.selectedName = name;
+        }
 
     }])
     
