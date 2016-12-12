@@ -621,6 +621,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 obj.commentStatus = "REWORK";
             }else if($scope.userRole == "TlCoder" && comment.doubtRebuttalType == "DOUBT"){
                 obj.commentStatus = "RESOLVED_DOUBT";
+            }else if(($scope.userRole == "Auditor" && comment.doubtRebuttalType == "DOUBT") || ($scope.userRole == "Auditor" && comment.doubtRebuttalType == "REBUTTAL")){
+                obj.commentStatus = "REWORK";
             }else{
                 obj.commentStatus = "REBUTTAL";
             }
@@ -675,16 +677,42 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         obj.fileId = $scope.fileId;
         
         obj.doubtRebuttalInfo = {};
-
-        if($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT"){
+        
+        if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') != ""){
+            if($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT" && $(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "1"){
             doubtRebuttalType = "DOUBT";
-        }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "REBUTTAL"){
-            doubtRebuttalType = "REWORK";
-        }else if($scope.userRole == "TlCoder" && comment.doubtRebuttalType == "DOUBT"){
-            doubtRebuttalType = "RESOLVED_DOUBT";
+            }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT" && $(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "2"){
+                doubtRebuttalType = "REWORK";
+            }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "REBUTTAL" && $(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "1"){
+                doubtRebuttalType = "RESOLVED_DOUBT";
+            }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "REBUTTAL"  && $(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "2"){
+                doubtRebuttalType = "REWORK";
+            }else if($scope.userRole == "TlCoder" && comment.doubtRebuttalType == "DOUBT"  && $(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "0"){
+                doubtRebuttalType = "RESOLVED_DOUBT";
+            }else if($scope.userRole == "Auditor" && comment.doubtRebuttalType == "DOUBT"){
+                doubtRebuttalType = "REWORK";
+            }else{
+                doubtRebuttalType = "REBUTTAL";
+            }
         }else{
-            doubtRebuttalType = "REBUTTAL";
+            if($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT"){
+            doubtRebuttalType = "DOUBT";
+            }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT"){
+                doubtRebuttalType = "REWORK";
+            }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "REBUTTAL"){
+                doubtRebuttalType = "RESOLVED_DOUBT";
+            }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "REBUTTAL"){
+                doubtRebuttalType = "REWORK";
+            }else if($scope.userRole == "TlCoder" && comment.doubtRebuttalType == "DOUBT"){
+                doubtRebuttalType = "RESOLVED_DOUBT";
+            }else if($scope.userRole == "Auditor" && comment.doubtRebuttalType == "DOUBT"){
+                doubtRebuttalType = "REWORK";
+            }else{
+                doubtRebuttalType = "REBUTTAL";
+            }  
         }
+
+        
 
         obj.status = doubtRebuttalType;
         obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;

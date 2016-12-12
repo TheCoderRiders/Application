@@ -50,9 +50,13 @@
     text-overflow: ellipsis;
 }
 .workingFileContents .commentText{
-    display: inline-block;
     width: 53%;
     float: left;
+    height: 60px;
+    /* overflow: auto; */
+    overflow-x: none;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 .workingFileContents .commentTextContainer{
     display: inline-block;
