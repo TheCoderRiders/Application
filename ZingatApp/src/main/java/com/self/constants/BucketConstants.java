@@ -15,4 +15,5 @@ public class BucketConstants {
     public static final String CLEARIFICATION = "Clearification";
     public static final String DRAFT = "Draft";
     public static final String QA_RESPONSE = "QA Response";
+    public static final String REBUTTAL_CLARIFICATION = "Rebuttal Clearification" ;
 }

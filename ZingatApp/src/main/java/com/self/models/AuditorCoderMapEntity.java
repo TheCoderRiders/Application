@@ -13,10 +13,12 @@ public class AuditorCoderMapEntity {
     private String auditorFirstname;
     private String auditorMiddlename;
     private String auditorLastname;
+    private String auditorUserName;
     private int coderId;
     private String coderFirstname;
     private String coderMiddlename;
     private String coderLastname;
+    private String coderUserName;
     private String auditorClientName;
     private String coderClientName;
 
@@ -118,6 +120,26 @@ public class AuditorCoderMapEntity {
 
     public void setCoderClientName(String coderClientName) {
         this.coderClientName = coderClientName;
+    }
+
+    @Basic
+    @Column(name = "Auditor_username")
+    public String getAuditorUserName() {
+        return auditorUserName;
+    }
+
+    public void setAuditorUserName(String auditorUserName) {
+        this.auditorUserName = auditorUserName;
+    }
+
+    @Basic
+    @Column(name = "coder_username")
+    public String getCoderUserName() {
+        return coderUserName;
+    }
+
+    public void setCoderUserName(String coderUserName) {
+        this.coderUserName = coderUserName;
     }
 
     @Override

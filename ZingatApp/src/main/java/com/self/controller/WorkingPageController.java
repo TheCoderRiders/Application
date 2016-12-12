@@ -55,8 +55,9 @@ public class WorkingPageController extends BaseController {
     }
 
     @RequestMapping(value = "/documentStatusChange")
-    public Boolean documentStatusChange(@RequestBody FileStatusChangeRequest fileStatusChangeRequest) throws IOException {
-        return workingPageBusiness.documentStatusChange(fileStatusChangeRequest);
+    public Boolean documentStatusChange(@RequestBody FileStatusChangeRequest fileStatusChangeRequest, HttpSession session) throws IOException {
+        String bucketName = (String) session.getAttribute("bucketName");
+        return workingPageBusiness.documentStatusChange(fileStatusChangeRequest,bucketName);
     }
 
     @RequestMapping(value = "/getDocRejectionReasonList")

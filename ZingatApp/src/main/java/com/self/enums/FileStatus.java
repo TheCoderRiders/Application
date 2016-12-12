@@ -11,8 +11,9 @@ public enum FileStatus {
     DOUBT(999,"Doubt"),
     REBUTTAL(3333,"Rebuttal"),
     SENT_TO_CLIENT(777,"Sent To Client"),
-    RESOLVED_DOUBT(1111,"Resolved Doubt")
-
+    RESOLVED_DOUBT(1111,"Resolved Doubt"),
+    REBUTTAL_CLARIFICATION(4444,"Rebuttal Clearification"),
+    REWORK(2222,"Rework")
     ;
     private Integer id;
     private String status;

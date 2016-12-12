@@ -9,8 +9,9 @@ public class TlAuditorInfo {
 
     private int userId;
     private String name;
+    private String userName;
 
-    public TlAuditorInfo(int userId, String firstName, String middleName, String lastName) {
+    public TlAuditorInfo(int userId, String firstName, String middleName, String lastName,String userName) {
         this.userId = userId;
         StringBuffer stringBuffer = new StringBuffer(Constants.EMPTY);
         if(null != firstName && !firstName.isEmpty()){
@@ -25,6 +26,7 @@ public class TlAuditorInfo {
             stringBuffer.append(lastName);
         }
         this.name = stringBuffer.toString();
+        this.userName=userName;
     }
 
     public int getUserId() {
@@ -41,5 +43,13 @@ public class TlAuditorInfo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
