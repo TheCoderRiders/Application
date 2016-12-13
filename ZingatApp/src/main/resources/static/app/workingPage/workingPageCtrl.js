@@ -649,7 +649,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             $('.commentContainer .replyCommentContainer').hide();
             $('.commentContainer .actionBtn').hide();
             $(event.currentTarget).parents('.commentContainer').find('div.replyCommentContainer').show();
-            if(comment.doubtRebuttalType != 'RESOLVED_DOUBT'){
+            if((comment.doubtRebuttalType != 'RESOLVED_DOUBT') && (comment.doubtRebuttalType != 'DOUBT')){
                 $scope.selectedAction = [];
                 $scope.selectedAction.id = "0";
                 $scope.selectedAction.name = "Actions";
@@ -692,27 +692,27 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             doubtRebuttalType = "REBUTTAL";
         }
 
-        obj.status = doubtRebuttalType;
-        obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
+         
 
         obj.doubtRebuttalInfo.doubtRebuttalId = 0;
         obj.doubtRebuttalInfo.doubtRebuttalDisplay = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
         obj.doubtRebuttalInfo.doubtRebuttalDesc = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
 
-        if(doubtRebuttalType != "RESOLVED_DOUBT"){
+        if(comment.doubtRebuttalType == "REBUTTAL"){
             if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "1"){
                 assignedAction = "ASSIGN_TO_TL";
+                doubtRebuttalType = "DOUBT";
             }else if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "2"){
                 assignedAction = "ASSIGN_TO_AUDITOR";
-            }else{
-                assignedAction = "ASSIGN_TO_CODER";
+                doubtRebuttalType = "REWORK";
             }
             obj.doubtRebuttalInfo.rebuttalActionInfo = {}
             obj.doubtRebuttalInfo.rebuttalActionInfo.rebuttalAssign = assignedAction;
             obj.doubtRebuttalInfo.rebuttalActionInfo.assignedId = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').attr('value');
             obj.doubtRebuttalInfo.rebuttalActionInfo.assignedUserName = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').text();
         }
-        
+        obj.status = doubtRebuttalType;
+        obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
         
         $http({
             url: "workingPage/documentStatusChange",

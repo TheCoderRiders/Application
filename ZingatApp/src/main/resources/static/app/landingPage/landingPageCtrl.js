@@ -373,6 +373,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                 $(".nav.nav-tabs").find('li:first-child').addClass('active');
                 $timeout(function() {
                      angular.element('ul.nav-tabs').find('li.active a').trigger('click');
+                     $('[data-toggle="tooltip"]').tooltip();
                 },1);
                
             }

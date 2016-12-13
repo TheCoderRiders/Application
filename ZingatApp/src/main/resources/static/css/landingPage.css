@@ -308,7 +308,7 @@ tags-input .host {
     font-size:12px;
 }
 .file-content .commentContainer{
-    min-height: 60px;
+    min-height: 80px;
     padding: 15px 10px;
     margin: 5px 0px;
 }
