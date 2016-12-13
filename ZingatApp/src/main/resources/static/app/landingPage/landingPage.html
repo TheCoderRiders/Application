@@ -188,10 +188,10 @@
                                     </uib-tab>
                                     <uib-tab index="2" heading="Comments" ng-click="tabChanged()" ng-show="commentTab">
                                         <ng-form name="nestedForm">
-                                            <div class="form-group" ng-repeat="comment in commentsList">
-                                                <div class="commentorName" ng-bind="comment.documentAssignedName"></div>
-                                                <span class="commentReason" ng-bind="comment.doubtRebuttalDisplay"></span>
-                                                <span class="commentText" ng-bind="comment.doubtRebuttalDesc"></span>
+                                            <div class="form-group commentContainer" ng-repeat="comment in commentsList">
+                                                <div class="commentorName"><span style="font-weight:bold" >Commentor Name: </span>{{comment.documentAssignedName}}</div>
+                                                <div class="commentReason" data-toggle="tooltip" title={{comment.doubtRebuttalDisplay}}  ng-bind="comment.doubtRebuttalDisplay"></div>
+                                                <div class="commentText" ng-bind="comment.doubtRebuttalDesc"></div>
                                             </div>
                                         </ng-form>
                                     </uib-tab>

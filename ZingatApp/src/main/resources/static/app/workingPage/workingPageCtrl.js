@@ -621,7 +621,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 obj.commentStatus = "REWORK";
             }else if($scope.userRole == "TlCoder" && comment.doubtRebuttalType == "DOUBT"){
                 obj.commentStatus = "RESOLVED_DOUBT";
-            }else if(($scope.userRole == "Auditor" && comment.doubtRebuttalType == "DOUBT") || ($scope.userRole == "Auditor" && comment.doubtRebuttalType == "REBUTTAL")){
+            }else if($scope.userRole == "Auditor" && comment.doubtRebuttalType == "DOUBT"){
                 obj.commentStatus = "REWORK";
             }else{
                 obj.commentStatus = "REBUTTAL";
@@ -645,23 +645,25 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             $(".replyButton").hide();
        }*/
 
-       $scope.showReplyTextArea = function(){
+       $scope.showReplyTextArea = function(comment){
             $('.commentContainer .replyCommentContainer').hide();
             $('.commentContainer .actionBtn').hide();
-
-            $scope.selectedAction = [];
-            $scope.selectedAction.id = "0";
-            $scope.selectedAction.name = "Actions";
-            $http({
-                url: 'json/tlCoder.json',
-                method: "GET",
-            }).then(function(data){ 
-                $scope.assignList = data.data;
-            },function(err) {
-                console.log(err);
-            });
             $(event.currentTarget).parents('.commentContainer').find('div.replyCommentContainer').show();
-            $(event.currentTarget).parents('.commentContainer').find('div.actionBtn').show();
+            if(comment.doubtRebuttalType != 'RESOLVED_DOUBT'){
+                $scope.selectedAction = [];
+                $scope.selectedAction.id = "0";
+                $scope.selectedAction.name = "Actions";
+                $http({
+                    url: 'json/tlCoder.json',
+                    method: "GET",
+                }).then(function(data){ 
+                    $scope.assignList = data.data;
+                    $scope.showList = false;
+                },function(err) {
+                    console.log(err);
+                });
+                $(event.currentTarget).parents('.commentContainer').find('div.actionBtn').show();
+            }
             $('.replyCommentText').val('')
        }
 
@@ -677,42 +679,18 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         obj.fileId = $scope.fileId;
         
         obj.doubtRebuttalInfo = {};
-        
-        if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') != ""){
-            if($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT" && $(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "1"){
-            doubtRebuttalType = "DOUBT";
-            }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT" && $(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "2"){
-                doubtRebuttalType = "REWORK";
-            }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "REBUTTAL" && $(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "1"){
-                doubtRebuttalType = "RESOLVED_DOUBT";
-            }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "REBUTTAL"  && $(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "2"){
-                doubtRebuttalType = "REWORK";
-            }else if($scope.userRole == "TlCoder" && comment.doubtRebuttalType == "DOUBT"  && $(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "0"){
-                doubtRebuttalType = "RESOLVED_DOUBT";
-            }else if($scope.userRole == "Auditor" && comment.doubtRebuttalType == "DOUBT"){
-                doubtRebuttalType = "REWORK";
-            }else{
-                doubtRebuttalType = "REBUTTAL";
-            }
-        }else{
-            if($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT"){
-            doubtRebuttalType = "DOUBT";
-            }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT"){
-                doubtRebuttalType = "REWORK";
-            }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "REBUTTAL"){
-                doubtRebuttalType = "RESOLVED_DOUBT";
-            }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "REBUTTAL"){
-                doubtRebuttalType = "REWORK";
-            }else if($scope.userRole == "TlCoder" && comment.doubtRebuttalType == "DOUBT"){
-                doubtRebuttalType = "RESOLVED_DOUBT";
-            }else if($scope.userRole == "Auditor" && comment.doubtRebuttalType == "DOUBT"){
-                doubtRebuttalType = "REWORK";
-            }else{
-                doubtRebuttalType = "REBUTTAL";
-            }  
-        }
 
-        
+        if(($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT") || ($scope.userRole == "Coder" && comment.doubtRebuttalType == "DOUBT")){
+            doubtRebuttalType = "DOUBT";
+        }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "REBUTTAL"){
+            doubtRebuttalType = "REWORK";
+        }else if($scope.userRole == "TlCoder" && comment.doubtRebuttalType == "DOUBT"){
+            doubtRebuttalType = "RESOLVED_DOUBT";
+        }else if($scope.userRole == "Auditor" && comment.doubtRebuttalType == "DOUBT"){
+            doubtRebuttalType = "REWORK";
+        }else{
+            doubtRebuttalType = "REBUTTAL";
+        }
 
         obj.status = doubtRebuttalType;
         obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
@@ -721,16 +699,20 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         obj.doubtRebuttalInfo.doubtRebuttalDisplay = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
         obj.doubtRebuttalInfo.doubtRebuttalDesc = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
 
-        if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "1"){
-            assignedAction = "ASSIGN_TO_TL";
-        }else{
-            assignedAction = "ASSIGN_TO_AUDITOR";
+        if(doubtRebuttalType != "RESOLVED_DOUBT"){
+            if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "1"){
+                assignedAction = "ASSIGN_TO_TL";
+            }else if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "2"){
+                assignedAction = "ASSIGN_TO_AUDITOR";
+            }else{
+                assignedAction = "ASSIGN_TO_CODER";
+            }
+            obj.doubtRebuttalInfo.rebuttalActionInfo = {}
+            obj.doubtRebuttalInfo.rebuttalActionInfo.rebuttalAssign = assignedAction;
+            obj.doubtRebuttalInfo.rebuttalActionInfo.assignedId = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').attr('value');
+            obj.doubtRebuttalInfo.rebuttalActionInfo.assignedUserName = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').text();
         }
-        obj.doubtRebuttalInfo.rebuttalActionInfo = {}
-        obj.doubtRebuttalInfo.rebuttalActionInfo.rebuttalAssign = assignedAction;
-        obj.doubtRebuttalInfo.rebuttalActionInfo.assignedId = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').attr('value');
-        obj.doubtRebuttalInfo.rebuttalActionInfo.assignedUserName = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').text();
-
+        
         
         $http({
             url: "workingPage/documentStatusChange",
@@ -758,13 +740,14 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             $http({
                 url: 'workingPage/'+fetchList,
                 method: "GET",
-            }).then(function(data){ 
+            }).then(function(data){
                 $scope.assignNameList = data.data; 
+                $scope.selectedName = $scope.assignNameList[0];
             },function(err) {
                 console.log(err);
             }); 
             
-        },
+        }
 
         $scope.setAssigneeName = function(name){
             $scope.selectedName = name;

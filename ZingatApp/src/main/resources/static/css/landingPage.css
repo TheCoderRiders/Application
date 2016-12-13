@@ -293,7 +293,12 @@ tags-input .host {
 .resolvedDoubtBg{
     background-color: #ee9209;
 }
-
+.rebuttalClearificationBg{
+    background-color: #9d0cf8;
+}
+.doubtBg{
+    background-color: #57626c;
+}
 .file-name{
     font-size: 16px;
     font-weight: bolder;
@@ -301,6 +306,11 @@ tags-input .host {
 .receivedDate{
     color:grey;
     font-size:12px;
+}
+.file-content .commentContainer{
+    min-height: 60px;
+    padding: 15px 10px;
+    margin: 5px 0px;
 }
 .file-details{
     background-color: #f5f5f5;

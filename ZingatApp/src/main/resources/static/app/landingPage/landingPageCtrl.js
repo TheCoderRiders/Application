@@ -232,7 +232,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                     $scope.rejectionReasonTab = false;
                 }
 
-
+                $('[data-toggle="tooltip"]').tooltip();
                 $scope.fileContent = data.data.data;
                 $timeout(function() {
                     angular.element('ul.nav-tabs').find('li').trigger('click');
