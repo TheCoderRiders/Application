@@ -682,12 +682,10 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
 
         if(($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT") || ($scope.userRole == "Coder" && comment.doubtRebuttalType == "DOUBT")){
             doubtRebuttalType = "DOUBT";
-        }else if($scope.userRole == "Coder" && comment.doubtRebuttalType == "REBUTTAL"){
-            doubtRebuttalType = "REWORK";
         }else if($scope.userRole == "TlCoder" && comment.doubtRebuttalType == "DOUBT"){
             doubtRebuttalType = "RESOLVED_DOUBT";
         }else if($scope.userRole == "Auditor" && comment.doubtRebuttalType == "DOUBT"){
-            doubtRebuttalType = "REWORK";
+            doubtRebuttalType = "RESOLVED_DOUBT";
         }else{
             doubtRebuttalType = "REBUTTAL";
         }
@@ -704,15 +702,16 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 doubtRebuttalType = "DOUBT";
             }else if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "2"){
                 assignedAction = "ASSIGN_TO_AUDITOR";
-                doubtRebuttalType = "REWORK";
+                doubtRebuttalType = "DOUBT";
             }
             obj.doubtRebuttalInfo.rebuttalActionInfo = {}
             obj.doubtRebuttalInfo.rebuttalActionInfo.rebuttalAssign = assignedAction;
             obj.doubtRebuttalInfo.rebuttalActionInfo.assignedId = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').attr('value');
             obj.doubtRebuttalInfo.rebuttalActionInfo.assignedUserName = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').text();
+            obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
         }
         obj.status = doubtRebuttalType;
-        obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
+
         
         $http({
             url: "workingPage/documentStatusChange",
