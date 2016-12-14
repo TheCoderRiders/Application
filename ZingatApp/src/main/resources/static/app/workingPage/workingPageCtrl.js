@@ -672,7 +672,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
        }
 
        $scope.postComment = function(comment){
-        
+        var selectedBucket = $cookies.get("selectedBucket");
         var assignedAction;
         var doubtRebuttalType;
         var obj = {};
@@ -680,36 +680,38 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         
         obj.doubtRebuttalInfo = {};
 
-        if(($scope.userRole == "Coder" && comment.doubtRebuttalType == "RESOLVED_DOUBT") || ($scope.userRole == "Coder" && comment.doubtRebuttalType == "DOUBT")){
-            doubtRebuttalType = "DOUBT";
-        }else if($scope.userRole == "TlCoder" && comment.doubtRebuttalType == "DOUBT"){
-            doubtRebuttalType = "RESOLVED_DOUBT";
-        }else if($scope.userRole == "Auditor" && comment.doubtRebuttalType == "DOUBT"){
-            doubtRebuttalType = "RESOLVED_DOUBT";
-        }else{
-            doubtRebuttalType = "REBUTTAL";
-        }
-
-         
-
         obj.doubtRebuttalInfo.doubtRebuttalId = 0;
         obj.doubtRebuttalInfo.doubtRebuttalDisplay = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
         obj.doubtRebuttalInfo.doubtRebuttalDesc = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
 
-        if(comment.doubtRebuttalType == "REBUTTAL"){
+        if(($scope.userRole == "Coder" && selectedBucket == "QA Response" ) || ($scope.userRole == "Coder" && selectedBucket == "R. Clarification")){
             if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "1"){
                 assignedAction = "ASSIGN_TO_TL";
-                doubtRebuttalType = "DOUBT";
+                doubtRebuttalType = "NEEDS_REBUTTAL_CLARIFICATION";
             }else if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "2"){
                 assignedAction = "ASSIGN_TO_AUDITOR";
-                doubtRebuttalType = "DOUBT";
+                doubtRebuttalType = "REWORK";
             }
             obj.doubtRebuttalInfo.rebuttalActionInfo = {}
             obj.doubtRebuttalInfo.rebuttalActionInfo.rebuttalAssign = assignedAction;
             obj.doubtRebuttalInfo.rebuttalActionInfo.assignedId = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').attr('value');
-            obj.doubtRebuttalInfo.rebuttalActionInfo.assignedUserName = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').text();
+            obj.doubtRebuttalInfo.rebuttalActionInfo.assignedUserName = $scope.selectedName.userName;
             obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
+        }else if($scope.userRole == "Coder" && selectedBucket == "Clarification"){
+            doubtRebuttalType = "DOUBT";
         }
+
+        if($scope.userRole == "TlCoder" &&  selectedBucket == "Needs Clarification" ){
+            doubtRebuttalType = "RESOLVED_DOUBT";
+        }else if($scope.userRole == "TlCoder" &&  selectedBucket == "Needs R. Clarification" ){
+            doubtRebuttalType = "REBUTTAL_CLARIFICATION";
+        }
+
+        if($scope.userRole == "Auditor" &&  selectedBucket == "Rework" ){
+            doubtRebuttalType = "REBUTTAL_CLARIFICATION";
+        }
+
+        obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
         obj.status = doubtRebuttalType;
 
         

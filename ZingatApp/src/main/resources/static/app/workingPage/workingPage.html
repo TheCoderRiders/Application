@@ -58,7 +58,7 @@
 			                                	</span>
 			                                </div>
 
-			                                <div class="replyButton" ng-show ='(userRole == "TlCoder" && comment.doubtRebuttalType == "DOUBT" )'>
+			                                <div class="replyButton" ng-show ='(userRole == "TlCoder")'>
 			                                	<span ng-click="showReplyTextArea(comment)">
 			                                		<i class="fa fa-reply" aria-hidden="true"></i>
 			                                	</span>
@@ -70,7 +70,7 @@
 			                                	</span>
 			                                </div>
 			                                
-			                                <div class="ackButton" ng-show="(userRole == 'Coder' && comment.commentAck == false && comment.doubtRebuttalType == 'RESOLVED_DOUBT' || userRole == 'Coder' && comment.commentAck == false && comment.doubtRebuttalType == 'REBUTTAL' )">
+			                                <div class="ackButton" ng-show="(userRole == 'Coder' && comment.commentAck == false && comment.doubtRebuttalType == 'RESOLVED_DOUBT' || userRole == 'Coder' && comment.commentAck == false && comment.doubtRebuttalType == 'REBUTTAL' || userRole == 'Coder' && comment.commentAck == false && comment.doubtRebuttalType == 'REBUTTAL_CLARIFICATION' )">
 			                                	<button type="button" value="ACKN" ng-click="acknowledgeReply(comment)" class="btn btn-primary">ACKN</button>
 			                                </div>
 			                                
