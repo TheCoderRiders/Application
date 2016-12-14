@@ -15,7 +15,7 @@ import static com.self.enums.ProductRole.*;
  */
 public class ButtonVisibleUtility {
 
-   static List<String> coderBuckets = Arrays.asList(BucketConstants.NEW,BucketConstants.DRAFT,BucketConstants.CLEARIFICATION,BucketConstants.QA_RESPONSE);
+   static List<String> coderBuckets = Arrays.asList(BucketConstants.NEW,BucketConstants.DRAFT,BucketConstants.CLEARIFICATION,BucketConstants.QA_RESPONSE,BucketConstants.REBUTTAL_CLARIFICATION);
    static List<String> auditorBuckets = Arrays.asList(BucketConstants.NEEDS_TO_AUDIT,BucketConstants.REWORK);
    static List<String> editAccessRoleBucket = Arrays.asList(
            Constants.AUDITOR+Constants.UNDERSCORE+BucketConstants.NEEDS_TO_AUDIT,

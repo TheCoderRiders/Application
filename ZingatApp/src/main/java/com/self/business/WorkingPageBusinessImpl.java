@@ -223,7 +223,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
             }
         }
 
-        if(status.equals(FileStatus.DOUBT) || status.equals(FileStatus.REBUTTAL)) {
+        if(status.equals(FileStatus.DOUBT) || status.equals(FileStatus.REBUTTAL) || status.equals(FileStatus.REWORK) || status.equals(FileStatus.NEEDS_REBUTTAL_CLARIFICATION) ) {
             try {
                 DoubtRebuttalInfo doubtRebuttalInfo = fileStatusChangeRequest.getDoubtRebuttalInfo();
                 doubtRebuttalInfo.setDocumentAssigneeName(documentMasterEntity.getDocumentAssigneeName());
@@ -238,18 +238,11 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
 
                 RebuttalActionInfo rebuttalActionInfo = doubtRebuttalInfo.getRebuttalActionInfo();
                 //Rebuttal Doubt
-                if(null !=rebuttalActionInfo){
+                if(status.equals(FileStatus.REWORK) || status.equals(FileStatus.NEEDS_REBUTTAL_CLARIFICATION)){
                     documentMasterEntity.setDocumentAssigneeId(documentMasterEntity.getDocumentAssignedId());
                     documentMasterEntity.setDocumentAssigneeName(documentMasterEntity.getDocumentAssignedName());
                     documentMasterEntity.setDocumentAssignedId(rebuttalActionInfo.getAssignedId());
                     documentMasterEntity.setDocumentAssignedName(rebuttalActionInfo.getAssignedUserName());
-                    if(RebuttalAssign.ASSIGN_TO_AUDITOR.equals(rebuttalActionInfo.getRebuttalAssign())){
-                        documentMasterEntity.setDocumentCurrentStatus(FileStatus.REWORK.getStatus());
-                        documentMasterEntity.setDocumentCurrentStatusId(FileStatus.REWORK.getId());
-                    }else {
-                        documentMasterEntity.setDocumentCurrentStatus(FileStatus.REBUTTAL_CLARIFICATION.getStatus());
-                        documentMasterEntity.setDocumentCurrentStatusId(FileStatus.REBUTTAL_CLARIFICATION.getId());
-                    }
                 }
 
             } catch (JsonProcessingException e) {
@@ -267,7 +260,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
             documentMasterEntity.setDocumentEndDatetime(currentTime);
         }
 
-        if(status.equals(FileStatus.RESOLVED_DOUBT)) {
+        if(status.equals(FileStatus.RESOLVED_DOUBT) || status.equals(FileStatus.REBUTTAL_CLARIFICATION) ) {
             try {
                 DoubtRebuttalInfo doubtRebuttalInfo = fileStatusChangeRequest.getDoubtRebuttalInfo();
                 doubtRebuttalInfo.setDocumentAssigneeName(documentMasterEntity.getDocumentAssignedName());
@@ -281,7 +274,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
                 //if(status.equals(FileStatus.REBUTTAL))  documentMasterEntity.setRebuttalCount(documentMasterEntity.getRebuttalCount()+1);
 
                 //Rebuttal Doubt Resolved
-                if( BucketConstants.REBUTTAL_CLARIFICATION.equalsIgnoreCase(bucketName) || BucketConstants.REWORK.equalsIgnoreCase(bucketName)){
+                if( status.equals(FileStatus.REBUTTAL_CLARIFICATION)){
                     documentMasterEntity.setDocumentAssignedId(documentMasterEntity.getDocumentAssigneeId());
                     documentMasterEntity.setDocumentAssignedName(documentMasterEntity.getDocumentAssigneeName());
                     documentMasterEntity.setDocumentAssigneeId(documentMasterEntity.getDocumentAssignedId());
