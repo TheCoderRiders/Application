@@ -299,6 +299,9 @@ tags-input .host {
 .doubtBg{
     background-color: #57626c;
 }
+.rebuttalClarificationBg{
+    background-color: #fe0879
+}
 .file-name{
     font-size: 16px;
     font-weight: bolder;
