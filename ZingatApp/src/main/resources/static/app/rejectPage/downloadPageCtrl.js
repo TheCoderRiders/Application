@@ -2,6 +2,7 @@ angular.module('DownloadPageController', ['ngDialog'])
     .controller("downloadPageCtrl", ["$scope", "$location", "$http", "ngDialog", "workingPageService", function($scope, $location, $http, ngDialog, workingPageService) {
 
         $scope.downloadOption = false
+        $scope.downLoadOption = "PDF";
         /* click on close icon of popup */
         $scope.closePopup = function() {
             ngDialog.close();
@@ -9,7 +10,7 @@ angular.module('DownloadPageController', ['ngDialog'])
 
         /* click on radio button clicked */
         $scope.downloadOptionChecked = function(option){
-                
+            $scope.downLoadOption = option;
         }
 
         /* click on Submit of Download*/
@@ -17,23 +18,9 @@ angular.module('DownloadPageController', ['ngDialog'])
             var getObj = workingPageService.getRequestParameter().obj[0];
             var downloadObj = {};
             downloadObj.fileId = getObj.fileId;
-            window.open('/downloadPdf?fileId='+downloadObj.fileId)
+            downloadObj.fileType = $scope.downLoadOption;
+            window.open('/downloadPdf?fileId='+downloadObj.fileId+'&fileType='+downloadObj.fileType);
             ngDialog.close();
-
-            /*$http({
-                url: '/downloadPdf?fileId='+downloadObj.fileId,
-                method: "GET",
-                data : JSON.stringify(downloadObj),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/pdf'
-                }
-            }).then(function(data) { 
-
-            }, function(err) {
-                
-            });*/
-
         }
 
     }]);
