@@ -11,8 +11,8 @@ public class BucketConstants {
     public static final String AUDITED_FILES = "Audited Files";
     public static final String REJECTED = "Rejected";
     public static final String REWORK = "Rework";
-    public static final String NEEDS_CLEARIFICATION = "Needs Clearification";
-    public static final String CLEARIFICATION = "Clearification";
+    public static final String NEEDS_CLARIFICATION = "Needs Clarification";
+    public static final String CLARIFICATION = "Clarification";
     public static final String DRAFT = "Draft";
     public static final String QA_RESPONSE = "QA Response";
     public static final String REBUTTAL_CLARIFICATION = "Rebuttal Clarification" ;

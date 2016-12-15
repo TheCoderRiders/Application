@@ -4,18 +4,15 @@ import com.self.constants.BucketConstants;
 import com.self.constants.Constants;
 import com.self.dto.ButtonVisibleInfo;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static com.self.enums.ProductRole.*;
 
 /**
  * Created by akash.p on 1/12/16.
  */
 public class ButtonVisibleUtility {
 
-   static List<String> coderBuckets = Arrays.asList(BucketConstants.NEW,BucketConstants.DRAFT,BucketConstants.CLEARIFICATION,BucketConstants.QA_RESPONSE,BucketConstants.REBUTTAL_CLARIFICATION);
+   static List<String> coderBuckets = Arrays.asList(BucketConstants.NEW,BucketConstants.DRAFT,BucketConstants.CLARIFICATION,BucketConstants.QA_RESPONSE,BucketConstants.REBUTTAL_CLARIFICATION);
    static List<String> auditorBuckets = Arrays.asList(BucketConstants.NEEDS_TO_AUDIT,BucketConstants.REWORK);
    static List<String> editAccessRoleBucket = Arrays.asList(
            Constants.AUDITOR+Constants.UNDERSCORE+BucketConstants.NEEDS_TO_AUDIT,
@@ -23,8 +20,9 @@ public class ButtonVisibleUtility {
            Constants.TL_CODER+Constants.UNDERSCORE+BucketConstants.REJECTED,
            Constants.CODER+Constants.UNDERSCORE+BucketConstants.NEW,
            Constants.CODER+Constants.UNDERSCORE+BucketConstants.DRAFT,
-           Constants.CODER+Constants.UNDERSCORE+BucketConstants.CLEARIFICATION,
-           Constants.CODER+Constants.UNDERSCORE+BucketConstants.QA_RESPONSE);
+           Constants.CODER+Constants.UNDERSCORE+BucketConstants.CLARIFICATION,
+           Constants.CODER+Constants.UNDERSCORE+BucketConstants.QA_RESPONSE,
+           Constants.CODER+Constants.UNDERSCORE+BucketConstants.REBUTTAL_CLARIFICATION);
 
 
     public static ButtonVisibleInfo getButtonVisibleInfo(ProductRole role, String bucketName){
