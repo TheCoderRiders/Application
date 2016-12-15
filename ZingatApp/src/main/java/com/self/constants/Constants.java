@@ -19,4 +19,6 @@ public class Constants {
     public static final String COLON = ":";
     public static final String COMMA = ", ";
     public static final String NEW_LINE = "\n";
+    public static final String SIGN_NOT_PRESENT = "N";
+    public static final String SIGN_PRESENT = "Y";
 }

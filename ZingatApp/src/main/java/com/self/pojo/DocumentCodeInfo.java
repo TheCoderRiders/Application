@@ -1,6 +1,7 @@
 package com.self.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.self.constants.Constants;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class DocumentCodeInfo implements Comparable<DocumentCodeInfo> {
     private List<ActualCode> codes;
     private String dos;
     private String sign;
+    private String signPresent;
 
     public String getSectionName() {
         return sectionName;
@@ -45,11 +47,24 @@ public class DocumentCodeInfo implements Comparable<DocumentCodeInfo> {
 
     public void setSign(String sign) {
         this.sign = sign;
+        if(sign!=null && !sign.isEmpty()){
+            setSignPresent(Constants.SIGN_PRESENT);
+        }else {
+            setSignPresent(Constants.SIGN_NOT_PRESENT);
+        }
     }
 
     @Override
     public int compareTo(DocumentCodeInfo o) {
         if(sectionName==null) return 0;
         return sectionName.compareTo(o.getSectionName());
+    }
+
+    public String getSignPresent() {
+        return signPresent;
+    }
+
+    public void setSignPresent(String signPresent) {
+        this.signPresent = signPresent;
     }
 }
