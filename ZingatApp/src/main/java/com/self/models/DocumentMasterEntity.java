@@ -482,6 +482,42 @@ public class DocumentMasterEntity implements Serializable {
         this.rebuttalCount = rebuttalCount;
     }
 
+    @Basic
+    @javax.persistence.Column(name = "patient_name", nullable = true, insertable = true, updatable = true, length = 500)
+    private String patientName;
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
+    }
+
+    @Basic
+    @javax.persistence.Column(name = "patient_gender", nullable = true, insertable = true, updatable = true, length = 500)
+    private String patientGender;
+
+    public String getPatientGender() {
+        return patientGender;
+    }
+
+    public void setPatientGender(String patientGender) {
+        this.patientGender = patientGender;
+    }
+
+    private Timestamp patientDob;
+
+    @Basic
+    @javax.persistence.Column(name = "patient_dob")
+    public Timestamp getPatientDob() {
+        return patientDob;
+    }
+
+    public void setPatientDob(Timestamp patientDob) {
+        this.patientDob = patientDob;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

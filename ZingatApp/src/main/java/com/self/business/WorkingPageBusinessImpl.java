@@ -5,18 +5,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.DottedLineSeparator;
-import com.self.constants.BucketConstants;
+import com.self.constants.Constants;
 import com.self.dao.*;
 import com.self.dto.*;
-import com.self.enums.ButtonVisibleUtility;
-import com.self.enums.FileStatus;
-import com.self.enums.ProductRole;
-import com.self.enums.RebuttalAssign;
+import com.self.enums.*;
 import com.self.models.*;
 import com.self.pojo.ActualCode;
 import com.self.pojo.DocumentCodeInfo;
 import com.self.pojo.SolrCodeSuggesterBean;
 import com.self.service.WorkingPageService;
+import org.apache.poi.hssf.record.ExtendedFormatRecord;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Color;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -301,10 +303,15 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     }
 
     @Override
-    public File getDownloadFile(String fileId) throws Exception {
-        DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(fileId/*"20161129111818_rap536.pdf"*/);
+    public File getDownloadFile(String fileId, FileType fileType) throws Exception {
+        DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(fileId);
+
+        if(fileType!=null && FileType.EXCEL.equals(FileType.EXCEL)){
+            return getExcelDownloadFile(documentMasterEntity);
+        }
 
         String documentName = documentMasterEntity.getDocumentName();
+
         File file = new File(documentPdfBasePath + documentName);
         File destinationFile = new File(documentPdfOutputBasePath + documentName+"_output.pdf");
 
@@ -408,6 +415,113 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         destinationFile.delete();
 
         return result;
+    }
+
+    private File getExcelDownloadFile(DocumentMasterEntity documentMasterEntity) throws Exception {
+        String documentName = documentMasterEntity.getDocumentName();
+        File excelFile = new File(documentPdfOutputBasePath + documentName+".xls");
+        excelFile.createNewFile();
+
+        FileOutputStream outputStream = new FileOutputStream(excelFile);
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet("BILLABLE CODES");
+        HSSFRow headerRow = sheet.createRow(0);
+
+        HSSFCell firstCell = headerRow.createCell(0);
+        firstCell.setCellValue("Sr. No.");
+
+        HSSFCellStyle headerRowStyle = firstCell.getCellStyle();
+        headerRowStyle.setBorderLeft(HSSFBorderFormatting.BORDER_DOUBLE);
+        headerRowStyle.setBorderRight(HSSFBorderFormatting.BORDER_DOUBLE);
+        headerRowStyle.setBorderTop(HSSFBorderFormatting.BORDER_DOUBLE);
+        headerRowStyle.setBorderBottom(HSSFBorderFormatting.BORDER_DOUBLE);
+        firstCell.setCellStyle(headerRowStyle);
+        sheet.setDefaultColumnWidth(25);
+
+        HSSFCell secondCell = headerRow.createCell(1);
+        secondCell.setCellValue("Date Of Service");
+        secondCell.setCellStyle(headerRowStyle);
+
+        HSSFCell thirdCell = headerRow.createCell(2);
+        thirdCell.setCellValue("Patient Name");
+        thirdCell.setCellStyle(headerRowStyle);
+
+        HSSFCell fourthCell = headerRow.createCell(3);
+        fourthCell.setCellValue("Patient DOB");
+        fourthCell.setCellStyle(headerRowStyle);
+
+        HSSFCell fifthCell = headerRow.createCell(4);
+        fifthCell.setCellValue("Patient Gender");
+        fifthCell.setCellStyle(headerRowStyle);
+
+        HSSFCell sixthCell = headerRow.createCell(5);
+        sixthCell.setCellValue("Codes and Evidences");
+        sixthCell.setCellStyle(headerRowStyle);
+
+        if(documentMasterEntity.getDocumentAcceptedCodes()!=null) {
+            List<DocumentCodeInfo> documentCodeInfoList = Arrays.asList(new ObjectMapper().readValue(documentMasterEntity.getDocumentAcceptedCodes(), DocumentCodeInfo[].class));
+            if (!documentCodeInfoList.isEmpty()) {
+
+                Map<String, List<DocumentCodeInfo>> groupingByDos = documentCodeInfoList.stream().collect(Collectors.groupingBy(documentCodeInfo -> documentCodeInfo.getDos()));
+                final int[] rowCount = {0};
+                groupingByDos.forEach((key, value) -> {
+                    HSSFRow row = sheet.createRow(++rowCount[0]);
+                    HSSFCell first = row.createCell(0);
+                    first.setCellValue(rowCount[0]);
+
+                    HSSFCellStyle rowStyle = first.getCellStyle();
+                    rowStyle.setBorderLeft(HSSFBorderFormatting.BORDER_THIN);
+                    rowStyle.setBorderRight(HSSFBorderFormatting.BORDER_THIN);
+                    rowStyle.setBorderTop(HSSFBorderFormatting.BORDER_THIN);
+                    rowStyle.setBorderBottom(HSSFBorderFormatting.BORDER_THIN);
+                    rowStyle.setWrapText(true);
+                    first.setCellStyle(rowStyle);
+
+                    HSSFCell second = row.createCell(1);
+                    second.setCellValue(key);
+                    second.setCellStyle(rowStyle);
+
+                    value.forEach(docCodeInfo -> {
+
+                        HSSFCell third = row.createCell(2);
+                        third.setCellValue(documentMasterEntity.getPatientName());
+                        third.setCellStyle(rowStyle);
+
+                        HSSFCell fourth = row.createCell(3);
+                        Timestamp patientDob = documentMasterEntity.getPatientDob();
+                        if(patientDob !=null) {
+                            fourth.setCellValue(new SimpleDateFormat("MM-dd-yyyy").format(new Timestamp(patientDob.getTime())));
+                            fourth.setCellStyle(rowStyle);
+                        }
+
+                        HSSFCell fifth = row.createCell(4);
+                        fifth.setCellValue(documentMasterEntity.getPatientGender());
+                        fifth.setCellStyle(rowStyle);
+
+                        StringBuffer codeEvidence = new StringBuffer(Constants.EMPTY);
+                        List<ActualCode> codes = docCodeInfo.getCodes();
+                        codes.forEach(code -> {
+                            codeEvidence.append(code.getCode());
+                            codeEvidence.append(Constants.COLON);
+                            if (code.getToken() != null) {
+                                codeEvidence.append(code.getToken().stream().collect(Collectors.joining(Constants.COMMA)));
+                            }
+                            codeEvidence.append(Constants.NEW_LINE);
+                        });
+
+                        HSSFCell sixth = row.createCell(5);
+                        sixth.setCellValue(codeEvidence.toString());
+                        sixth.setCellStyle(rowStyle);
+                        if(codes!=null) {
+                            row.setHeight((short) ((codes.size()+1) * 240));
+                        }
+                    });
+                });
+            }
+        }
+        workbook.write(outputStream);
+        outputStream.close();
+        return excelFile;
     }
 
     @Override

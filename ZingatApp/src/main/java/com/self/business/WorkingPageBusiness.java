@@ -5,6 +5,7 @@ import com.self.dto.AcknowledgeCommentInfo;
 import com.self.dto.CodeAction;
 import com.self.dto.Codes;
 import com.self.dto.FileStatusChangeRequest;
+import com.self.enums.FileType;
 import com.self.models.CodeRejectionReasonListEntity;
 import com.self.models.DocRejectionReasonListEntity;
 import com.self.models.DoubtListEntity;
@@ -32,7 +33,7 @@ public interface WorkingPageBusiness {
 
     public List<DocRejectionReasonListEntity> getDocRejectionReasonList();
 
-    public File getDownloadFile(String fileId) throws Exception;
+    public File getDownloadFile(String fileId, FileType fileType) throws Exception;
 
     public List getDoubtList();
 

@@ -1,6 +1,7 @@
 package com.self.controller;
 
 import com.self.business.WorkingPageBusiness;
+import com.self.enums.FileType;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +25,8 @@ public class DownloadController {
     private WorkingPageBusiness workingPageBusiness;
 
     @RequestMapping("/downloadPdf")
-    public void downloadPDFResource(String fileId,HttpServletResponse response) throws Exception {
-        File downloadFile = workingPageBusiness.getDownloadFile(fileId);
+    public void downloadPDFResource(String fileId,FileType fileType,HttpServletResponse response) throws Exception {
+        File downloadFile = workingPageBusiness.getDownloadFile(fileId,fileType);
         /*String fileName = "2.pdf";
         File file = new File(documentPdfBasePath+ fileName);*/
         if (downloadFile.exists())
