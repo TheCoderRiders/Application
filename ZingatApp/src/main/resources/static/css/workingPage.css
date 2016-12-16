@@ -12,6 +12,12 @@
 .workingFileContents .leftSideContent{
     line-height: 2em !important;
 }
+.toggle.ios, .toggle-on.ios, .toggle-off.ios { 
+    border-radius: 20px; 
+}
+.toggle.ios .toggle-handle { 
+    border-radius: 20px; 
+}
 .workingFileContents .error{
     border: 1px solid red;
 }
@@ -385,6 +391,10 @@
 }
 .workingFileContents .dateOfService input[type="date"]{
     color:black;
+}
+.workingFileContents .dateOfService input[type="checkbox"],.workingFileContents .dateOfService span{
+    float: right;
+    margin-right: 15px;
 }
 .workingFileContents .sectionHeading{
     font-size: 18px;

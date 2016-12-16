@@ -58,13 +58,13 @@
 			                                	</span>
 			                                </div>
 
-			                                <div class="replyButton" ng-show ='userRole == "TlCoder" && $last'>
+			                                <div class="replyButton" ng-show ='userRole == "TlCoder" && $last && comment.commentAck == false'>
 			                                	<span ng-click="showReplyTextArea(comment)">
 			                                		<i class="fa fa-reply" aria-hidden="true"></i>
 			                                	</span>
 			                                </div>
 
-			                                <div class="replyButton" ng-show ='userRole == "Auditor" && $last'>
+			                                <div class="replyButton" ng-show ='userRole == "Auditor" && $last && comment.commentAck == false'>
 			                                	<span ng-click="showReplyTextArea(comment)">
 			                                		<i class="fa fa-reply" aria-hidden="true"></i>
 			                                	</span>
@@ -129,7 +129,13 @@
 			      <ng-form name="nestedForm" >
 			          <div class="form-group" ng-scrollbars data-mcs-theme="minimal-dark">
 				      	<ul class="codeList" ng-repeat="section in acceptedCode track by $index" ng-if="section.codes.length > 0">
-				      		<div class="dateOfService">{{section.dos}}</div>
+				      		
+				      		<div ng-if="userRole == 'Coder' && section.signPresent == 'Y'" class="dateOfService">{{section.dos}} <input type="checkbox" checked data-toggle="toggle" ng-click="signatureCheck(section)"><span class="">Signature : </span></div>
+				      		<div ng-if="userRole == 'Coder' && section.signPresent == 'N'" class="dateOfService">{{section.dos}} <input type="checkbox" data-toggle="toggle" ng-click="signatureCheck(section)"><span class="">Signature : </span></div>
+
+				      		<div ng-if="((userRole == 'TlCoder' && section.signPresent == 'Y') || (userRole == 'Auditor' && section.signPresent == 'Y'))" class="dateOfService">{{section.dos}} <span class="">Signature Present</span></div>
+				      		<div ng-if="((userRole == 'TlCoder' && section.signPresent == 'N') || (userRole == 'Auditor' && section.signPresent == 'N'))" class="dateOfService">{{section.dos}} <span class="">Signature Not Present</span></div>
+
 			          		<li class="sectionHeading">{{section.sectionName}}</li>
 			          		<div ng-repeat="code in section.codes track by $index">
 			          			<div class="individualCodeContainer">
@@ -269,12 +275,12 @@
 	    <div class="actionBtn workingBtn">
 	    	<!-- <button type="button" value="REJECTED" ng-click="documentStatusChange()" class="btn btn-warning" ng-show="isRejectedButton">REJECTED</button> -->
 	    	<button type="button" value="DOUBT" ng-click="doubtFile()" class="btn btn-default" ng-show="isDoubtButton">DOUBT</button>
-	    	<button type="button" value="COMPLETE" ng-click="fileCompleted()" class="btn btn-warning" ng-show="downloadButton">DOWNLOAD</button>
-	    	<button type="button" value="DRAFT" ng-click="resolvedDoubt()" class="btn btn-default" ng-show="isResolvedButton">RESOLVED</button>
+	    	<button type="button" value="DOWNLOAD" ng-click="fileCompleted()" class="btn btn-warning" ng-show="downloadButton">DOWNLOAD</button>
+	    	<button type="button" value="RESOLVED" ng-click="resolvedDoubt()" class="btn btn-default" ng-show="isResolvedButton">RESOLVED</button>
 			<button type="button" value="DRAFT" ng-click="documentStatusChange()" class="btn btn-primary" ng-show="isDraftButton">DRAFT</button>
-			<button type="button" value="SUBMIT" ng-click="documentStatusChange()" class="btn btn-success" ng-show="isCompletedButton">COMPLETED</button>
+			<button type="button" value="COMPLETED" ng-click="documentStatusChange()" class="btn btn-success" ng-show="isCompletedButton">COMPLETED</button>
 			<button type="button" value="REBUTTAL" ng-click="rebuttalFile()" class="btn btn-default" ng-show="isRebuttalButton">REBUTTAL</button>
-			<button type="button" value="SUBMIT" ng-click="sendToClient()" class="btn btn-primary" ng-show="isSentButton">SEND</button>
+			<button type="button" value="SEND" ng-click="sendToClient()" class="btn btn-primary" ng-show="isSentButton">SEND</button>
 	    </div>
 	     <div id="footer">
 	    	<div class="panel panel-default custom-panel">
