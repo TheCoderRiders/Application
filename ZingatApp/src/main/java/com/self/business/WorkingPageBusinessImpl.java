@@ -306,7 +306,7 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     public File getDownloadFile(String fileId, FileType fileType) throws Exception {
         DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(fileId);
 
-        if(fileType!=null && FileType.EXCEL.equals(FileType.EXCEL)){
+        if(fileType!=null && FileType.EXCEL.equals(fileType)){
             return getExcelDownloadFile(documentMasterEntity);
         }
 
