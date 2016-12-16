@@ -35,6 +35,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         $scope.editRight = $cookies.get("editRight");
         $scope.userRole = $cookies.get("userRole");
         $scope.showList = false;
+        $scope.showErrorMessage = false;
         $scope.setAssigneeName = "";
        
         /*if($scope.userRole == "Coder"){
@@ -728,6 +729,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
        $scope.showReplyTextArea = function(comment){
             $('.commentContainer .replyCommentContainer').hide();
             $('.commentContainer .actionBtn').hide();
+            $scope.showErrorMessage = false;
             $(event.currentTarget).parents('.commentContainer').find('div.replyCommentContainer').show();
             if((comment.doubtRebuttalType != 'RESOLVED_DOUBT') && (comment.doubtRebuttalType != 'DOUBT')){
                 $scope.selectedAction = [];
@@ -748,6 +750,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
        }
 
        $scope.hideReplyTextArea = function(){
+            $scope.showErrorMessage = false;
             $('.commentContainer .actionBtn').hide();
             $('.commentContainer .replyCommentContainer').hide();
        }
@@ -765,47 +768,55 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         obj.doubtRebuttalInfo.doubtRebuttalDisplay = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
         obj.doubtRebuttalInfo.doubtRebuttalDesc = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
 
-        if(($scope.userRole == "Coder" && selectedBucket == "QA Response" ) || ($scope.userRole == "Coder" && selectedBucket == "R. Clarification")){
-            if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "1"){
-                assignedAction = "ASSIGN_TO_TL";
-                doubtRebuttalType = "NEEDS_REBUTTAL_CLARIFICATION";
-            }else if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "2"){
-                assignedAction = "ASSIGN_TO_AUDITOR";
-                doubtRebuttalType = "REWORK";
+        if($scope.selectedAction.name == "Actions"){
+            $scope.showErrorMessage = true;
+        }else if($(event.currentTarget).parents('.commentContainer').find('textarea').val().length <= 0){
+            $scope.showErrorMessage = true;
+        }else{
+            $scope.showErrorMessage = false;
+            if(($scope.userRole == "Coder" && selectedBucket == "QA Response" ) || ($scope.userRole == "Coder" && selectedBucket == "R. Clarification")){
+                if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "1"){
+                    assignedAction = "ASSIGN_TO_TL";
+                    doubtRebuttalType = "NEEDS_REBUTTAL_CLARIFICATION";
+                }else if($(event.currentTarget).parents('.commentContainer').find('div.assignList button#split-button').attr('value') == "2"){
+                    assignedAction = "ASSIGN_TO_AUDITOR";
+                    doubtRebuttalType = "REWORK";
+                }
+                obj.doubtRebuttalInfo.rebuttalActionInfo = {}
+                obj.doubtRebuttalInfo.rebuttalActionInfo.rebuttalAssign = assignedAction;
+                obj.doubtRebuttalInfo.rebuttalActionInfo.assignedId = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').attr('value');
+                obj.doubtRebuttalInfo.rebuttalActionInfo.assignedUserName = $scope.selectedName.userName;
+                obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
+            }else if($scope.userRole == "Coder" && selectedBucket == "Clarification"){
+                doubtRebuttalType = "DOUBT";
             }
-            obj.doubtRebuttalInfo.rebuttalActionInfo = {}
-            obj.doubtRebuttalInfo.rebuttalActionInfo.rebuttalAssign = assignedAction;
-            obj.doubtRebuttalInfo.rebuttalActionInfo.assignedId = $(event.currentTarget).parents('.commentContainer').find('div.assignNameList button#split-button').attr('value');
-            obj.doubtRebuttalInfo.rebuttalActionInfo.assignedUserName = $scope.selectedName.userName;
+
+            if($scope.userRole == "TlCoder" &&  selectedBucket == "Needs Clarification" ){
+                doubtRebuttalType = "RESOLVED_DOUBT";
+            }else if($scope.userRole == "TlCoder" &&  selectedBucket == "Needs R. Clarification" ){
+                doubtRebuttalType = "REBUTTAL_CLARIFICATION";
+            }
+
+            if($scope.userRole == "Auditor" &&  selectedBucket == "Rework" ){
+                doubtRebuttalType = "REBUTTAL_CLARIFICATION";
+            }
+
             obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
-        }else if($scope.userRole == "Coder" && selectedBucket == "Clarification"){
-            doubtRebuttalType = "DOUBT";
+            obj.status = doubtRebuttalType;
+            
+            /*$http({
+                url: "workingPage/documentStatusChange",
+                method: "POST",
+                data : JSON.stringify(obj),
+            }).then(function(data){ 
+                $location.path('/landingPage');
+            },function(err) {
+                console.log(err);
+            });*/
+     
         }
-
-        if($scope.userRole == "TlCoder" &&  selectedBucket == "Needs Clarification" ){
-            doubtRebuttalType = "RESOLVED_DOUBT";
-        }else if($scope.userRole == "TlCoder" &&  selectedBucket == "Needs R. Clarification" ){
-            doubtRebuttalType = "REBUTTAL_CLARIFICATION";
-        }
-
-        if($scope.userRole == "Auditor" &&  selectedBucket == "Rework" ){
-            doubtRebuttalType = "REBUTTAL_CLARIFICATION";
-        }
-
-        obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
-        obj.status = doubtRebuttalType;
 
         
-        $http({
-            url: "workingPage/documentStatusChange",
-            method: "POST",
-            data : JSON.stringify(obj),
-        }).then(function(data){ 
-            $location.path('/landingPage');
-        },function(err) {
-            console.log(err);
-        });
-
        }
 
         $scope.setAction = function(action) {

@@ -21,6 +21,9 @@
 .workingFileContents .error{
     border: 1px solid red;
 }
+.workingFileContents .errorMessageAction{
+    color: red;
+}
 .workingFileContents .tab-content{
     height: 90%;
 }
@@ -68,6 +71,9 @@
     display: inline-block;
     width: 60%;
     float: left;
+}
+.workingFileContents .mandatoryFields{
+    float: right !important;
 }
 .workingFileContents .replyCommentContainer{
     display: none;
