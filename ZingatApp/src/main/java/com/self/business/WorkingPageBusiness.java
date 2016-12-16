@@ -14,6 +14,7 @@ import com.self.models.RebuttalListEntity;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Created by akash.p on 25/7/16.
@@ -44,4 +45,6 @@ public interface WorkingPageBusiness {
     public List getAuditorList(int userId);
 
     public List getTlList(int userId);
+
+    public File putZipResource(List<String> fileIds, FileType fileType) throws Exception;
 }

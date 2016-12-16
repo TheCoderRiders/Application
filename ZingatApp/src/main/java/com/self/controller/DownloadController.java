@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.util.List;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Created by akash.p on 30/11/16.
@@ -43,5 +46,18 @@ public class DownloadController {
                 ex.printStackTrace();
             }
         }
+    }
+
+
+    @RequestMapping("/downloadZip")
+    public void downloadZipResource(List<String> fileIds,FileType fileType,HttpServletResponse response) throws Exception {
+        File file = workingPageBusiness.putZipResource(fileIds, fileType);
+        response.setContentType("application/zip");
+        response.addHeader("Content-Disposition", "attachment; filename=" + file.getName());
+
+        FileUtils.copyFile(file, response.getOutputStream());
+        response.getOutputStream().flush();
+
+        file.delete();
     }
 }

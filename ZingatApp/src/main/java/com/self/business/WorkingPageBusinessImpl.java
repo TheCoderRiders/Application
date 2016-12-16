@@ -14,11 +14,7 @@ import com.self.pojo.ActualCode;
 import com.self.pojo.DocumentCodeInfo;
 import com.self.pojo.SolrCodeSuggesterBean;
 import com.self.service.WorkingPageService;
-import org.apache.poi.hssf.record.ExtendedFormatRecord;
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Color;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,10 +25,14 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Created by akash.p on 25/7/16.
@@ -576,6 +576,55 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     @Override
     public List getTlList(int userId) {
         return getTlAuditorInfo(tlCoderMapDao.getTlIdByCoderId(userId));
+    }
+
+    @Override
+    public File putZipResource(List<String> fileIds, FileType fileType) throws Exception{
+        String fileName = FileType.EXCEL.equals(fileType) ? "EXCEL.zip":"PDF.zip";
+        File zipFile = new File(fileName);
+        zipFile.createNewFile();
+        FileOutputStream out = new FileOutputStream(zipFile);
+        ZipOutputStream zipOutputStream = new ZipOutputStream(out);
+
+        ExecutorService executorService = Executors.newFixedThreadPool(fileIds.size());
+        List<Future> futureList = new CopyOnWriteArrayList<>();
+        fileIds.parallelStream().forEach(fileId->{
+            futureList.add(
+                    executorService.submit(() -> {
+                        try {
+                            return getDownloadFile(fileId, fileType);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    }));
+        });
+
+        while (!futureList.isEmpty()){
+            for(Future future : futureList){
+                byte[] buffer = new byte[2048];
+                int bytes;
+                if(future.isDone()){
+                    Object result = future.get();
+                    if(result instanceof File){
+                        File file = (File)result;
+                        FileInputStream inputStream = new FileInputStream(file);
+                        zipOutputStream.putNextEntry(new ZipEntry(file.getName()));
+                        while ((bytes=inputStream.read(buffer))!=-1)
+                            zipOutputStream.write(buffer,0,bytes);
+                        inputStream.close();
+                        file.delete();
+                        futureList.remove(future);
+                        if(futureList.isEmpty())
+                            break;
+                    }
+                }
+            }
+        }
+
+        zipOutputStream.close();
+        out.close();
+        return zipFile;
     }
 
     private List getTlAuditorInfo(List auditorIdByCoderId) {
