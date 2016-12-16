@@ -1,11 +1,13 @@
 package com.self.controller;
 
 import com.self.business.WorkingPageBusiness;
+import com.self.dto.DownloadZipInput;
 import com.self.enums.FileType;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
@@ -50,8 +52,8 @@ public class DownloadController {
 
 
     @RequestMapping("/downloadZip")
-    public void downloadZipResource(List<String> fileIds,FileType fileType,HttpServletResponse response) throws Exception {
-        File file = workingPageBusiness.putZipResource(fileIds, fileType);
+    public void downloadZipResource(@RequestBody DownloadZipInput downloadZipInput,HttpServletResponse response) throws Exception {
+        File file = workingPageBusiness.putZipResource(downloadZipInput.getFileIds(), downloadZipInput.getFileType());
         response.setContentType("application/zip");
         response.addHeader("Content-Disposition", "attachment; filename=" + file.getName());
 
