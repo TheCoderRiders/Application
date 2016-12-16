@@ -64,7 +64,7 @@
 			                                	</span>
 			                                </div>
 
-			                                <div class="replyButton" ng-show ='userRole == "Auditor" && $last && comment.commentAck == false'>
+			                                <div class="replyButton" ng-show ='userRole == "Auditor" && $last && comment.commentAck == false && comment.doubtRebuttalType == "RESOLVED_DOUBT" '>
 			                                	<span ng-click="showReplyTextArea(comment)">
 			                                		<i class="fa fa-reply" aria-hidden="true"></i>
 			                                	</span>
@@ -280,7 +280,7 @@
 	    	<button type="button" value="DOWNLOAD" ng-click="fileCompleted()" class="btn btn-warning" ng-show="downloadButton">DOWNLOAD</button>
 	    	<button type="button" value="RESOLVED" ng-click="resolvedDoubt()" class="btn btn-default" ng-show="isResolvedButton">RESOLVED</button>
 			<button type="button" value="DRAFT" ng-click="documentStatusChange()" class="btn btn-primary" ng-show="isDraftButton">DRAFT</button>
-			<button type="button" value="COMPLETED" ng-click="documentStatusChange()" class="btn btn-success" ng-show="isCompletedButton">COMPLETED</button>
+			<button type="button" value="SUBMIT" ng-click="documentStatusChange()" class="btn btn-success" ng-show="isCompletedButton">COMPLETED</button>
 			<button type="button" value="REBUTTAL" ng-click="rebuttalFile()" class="btn btn-default" ng-show="isRebuttalButton">REBUTTAL</button>
 			<button type="button" value="SEND" ng-click="sendToClient()" class="btn btn-primary" ng-show="isSentButton">SEND</button>
 	    </div>

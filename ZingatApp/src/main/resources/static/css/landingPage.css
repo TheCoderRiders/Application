@@ -284,6 +284,9 @@ tags-input .host {
 .codingCompletedBg{
     background: black;
 }
+.rebuttalBg{
+    background-color: #374525;
+}
 .allocatedCoder{
     background: green;
 }

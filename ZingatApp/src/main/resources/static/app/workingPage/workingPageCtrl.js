@@ -480,13 +480,13 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
 
             var requestedData = {};
             requestedData.allCodes = $scope.globalObj;
-            requestedData.sectionName = "";
+            requestedData.sectionName = null;
             requestedData.action = "SIGN_UPDATE";
-            requestedData.code = "";
-            requestedData.codeActionType = "";
-            requestedData.dos = "";
-            requestedData.sign = "";
-            requestedData.token = [];
+            requestedData.code = null
+            requestedData.codeActionType = null;
+            requestedData.dos = null;
+            requestedData.sign = null;
+            requestedData.token = null;
             $http({
                 url: 'workingPage/codeAction', 
                 method: "POST",
@@ -525,11 +525,11 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             var obj = {};
             var selectedBucket = $cookies.get("selectedBucket");
            
-            if(selectedBucket != "COMPLETED" && actionName != "REJECTED" && actionName != "SUBMIT" && selectedBucket != "New"){
+            /*if(selectedBucket != "COMPLETED" && actionName != "REJECTED" && actionName != "SUBMIT" && selectedBucket != "New"){
                 actionName = "DRAFT";
             }else if(actionName != "REJECTED" && selectedBucket != "New"){
                 actionName = "SUBMIT";
-            }
+            }*/
             obj.fileId = $scope.fileId;
             obj.status = actionName;
             //obj.fileContents = $(".leftSideContent .scrollable-right div")[0].innerHTML;
@@ -553,8 +553,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                     console.log("Bucket Err: "+err);
                 });
             }else{
-                if(actionName == "COMPLETED"){
-                    obj.status = "SUBMIT";
+                if(actionName == "SUBMIT"){
                     var signatureMissed = false;
                     for(var  i=0; i<$scope.acceptedCode.length; i++){
                         if($scope.acceptedCode[i].signPresent == "N"){
@@ -768,7 +767,9 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         obj.doubtRebuttalInfo.doubtRebuttalDisplay = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
         obj.doubtRebuttalInfo.doubtRebuttalDesc = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
 
-        if($scope.selectedAction.name == "Actions"){
+        if($scope.userRole == "Coder" &&  $scope.selectedAction.name == "Actions"){
+            $scope.showErrorMessage = true;
+        }else if($scope.userRole == "TlCoder" && $(event.currentTarget).parents('.commentContainer').find('textarea').val().length <= 0){
             $scope.showErrorMessage = true;
         }else if($(event.currentTarget).parents('.commentContainer').find('textarea').val().length <= 0){
             $scope.showErrorMessage = true;
@@ -804,7 +805,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
             obj.status = doubtRebuttalType;
             
-            /*$http({
+            $http({
                 url: "workingPage/documentStatusChange",
                 method: "POST",
                 data : JSON.stringify(obj),
@@ -812,7 +813,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 $location.path('/landingPage');
             },function(err) {
                 console.log(err);
-            });*/
+            });
      
         }
 
