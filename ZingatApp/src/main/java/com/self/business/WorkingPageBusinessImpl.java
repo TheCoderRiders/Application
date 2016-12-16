@@ -82,6 +82,8 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
     @Value("${document.pdf.output.base.path}")
     private String documentPdfOutputBasePath;
 
+    private static List<String> ackStatusList = Arrays.asList(FileStatus.REBUTTAL.name(),FileStatus.RESOLVED_DOUBT.name(),FileStatus.REBUTTAL_CLARIFICATION.name());
+
     @Override
     public Codes getCodes(String fileId, String currentRole, String bucketName) throws IOException {
         DocumentMasterEntity documentMasterEntity = workingPageService.getCodes(fileId);
@@ -540,16 +542,14 @@ public class WorkingPageBusinessImpl implements WorkingPageBusiness {
         DocumentMasterEntity documentMasterEntity = documentMasterDao.findByDocumentId(acknowledgeCommentInfo.getFileId());
         ObjectMapper objectMapper = new ObjectMapper();
         List<DoubtRebuttalInfo> existingDoubtRebuttalList = new ArrayList<>(Arrays.asList(objectMapper.readValue(documentMasterEntity.getComments(), DoubtRebuttalInfo[].class)));
+        Collections.sort(existingDoubtRebuttalList,(doubtRebuttalObj1,doubtRebuttalObj2)->doubtRebuttalObj2.getDate().compareTo(doubtRebuttalObj1.getDate()));
 
-        Optional<DoubtRebuttalInfo> any = existingDoubtRebuttalList.stream().filter(doubtInfo -> FileStatus.RESOLVED_DOUBT.name().equalsIgnoreCase(doubtInfo.getDoubtRebuttalType())).findAny();
-        if(any.isPresent()) {
-            DoubtRebuttalInfo doubtRebuttalInfo = any.get();
-            doubtRebuttalInfo.setCommentAck(true);
-        }else {
-            DoubtRebuttalInfo doubtRebuttalInfo = existingDoubtRebuttalList.stream().filter(doubtInfo -> FileStatus.REBUTTAL.name().equalsIgnoreCase(doubtInfo.getDoubtRebuttalType())).findAny().get();
-            doubtRebuttalInfo.setCommentAck(true);
+        Optional<DoubtRebuttalInfo> first = existingDoubtRebuttalList.stream().filter(doubtInfo -> ackStatusList.contains(doubtInfo.getDoubtRebuttalType())).findFirst();
+        if(!first.isPresent()) {
+            return false;
         }
-
+        DoubtRebuttalInfo doubtRebuttalInfo = first.get();
+        doubtRebuttalInfo.setCommentAck(true);
         acknowledgementDetailsEntity.setDocumentAssignedId(documentMasterEntity.getDocumentAssignedId());
         acknowledgementDetailsEntity.setDocumentAssignedName(documentMasterEntity.getDocumentAssignedName());
         acknowledgementDetailsEntity.setDocumentAssigneeId(documentMasterEntity.getDocumentAssigneeId());
