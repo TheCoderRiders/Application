@@ -69,11 +69,7 @@
                                     <i class="fa fa-refresh" aria-hidden="true"></i>
                                 </div>
                                 <div class="dropDownAction">
-                                    <div class="customAction" ng-show="showAction">
-                                        <!-- <span class="spanText"> Actions:</span> -->
-                                        <!-- <select name="mySelect" id="mySelect" ng-options="option.name for option in action.availableOptions track by option.id" value="option.id" ng-model="action.selectedOption" ng-change="getCheckedFile(action.selectedOption)"></select>
-                                        <label class="dropDown"><i class="fa fa-sort-desc" aria-hidden="true"></i></label> -->
-
+                                    <div class="customAction" ng-show="showAction && userRole != 'Auditor'">
                                         <div class="btn-group" uib-dropdown>
                                           <button id="split-button" type="button" class="btn btn-action">Actions</button>
                                           <button type="button" class="btn btn-action" uib-dropdown-toggle>
@@ -87,6 +83,19 @@
                                           </ul>
                                         </div>
                                     </div>
+                                    <div class="btn-group downloadOption" uib-dropdown ng-show="selectedBucketName">
+                                          <button id="split-button" type="button" class="btn btn-action">Actions</button>
+                                          <button type="button" class="btn btn-action" uib-dropdown-toggle>
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Split button!</span>
+                                          </button>
+                                          <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                                            <li ng-click="downloadFile(option)" ng-repeat="option in downloadList">
+                                                <a id="{{option.id}}">{{option.name}}</a>
+                                            </li>
+                                          </ul>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="rightSorter">

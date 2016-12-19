@@ -132,8 +132,15 @@
 			          <div class="form-group" ng-scrollbars data-mcs-theme="minimal-dark">
 				      	<ul class="codeList" ng-repeat="section in acceptedCode track by $index" ng-if="section.codes.length > 0">
 				      		
-				      		<div ng-if="userRole == 'Coder' && section.signPresent == 'Y'" class="dateOfService">{{section.dos}} <input type="checkbox" checked data-toggle="toggle" ng-click="signatureCheck(section)"><span class="">Signature : </span></div>
-				      		<div ng-if="userRole == 'Coder' && section.signPresent == 'N'" class="dateOfService">{{section.dos}} <input type="checkbox" data-toggle="toggle" ng-click="signatureCheck(section)"><span class="">Signature : </span></div>
+				      		<div ng-if="userRole == 'Coder' " class="dateOfService">{{section.dos}} 
+				      		 	<input type="checkbox" ng-checked='section.signPresent == "N" ' ng-model="signNoChecked"  data-toggle="toggle" ng-click="signatureNoCheck(section)"><span class="">Signature N: </span>
+				      		 	<input type="checkbox" ng-checked='section.signPresent == "Y" ' ng-model="signYesChecked"  data-toggle="toggle" ng-click="signatureYesCheck(section)"><span class="">Signature Y: </span>
+				      		</div>
+
+				      		<!-- <div ng-if="userRole == 'Coder' && section.signPresent == 'N'" class="dateOfService">{{section.dos}} 
+				      			<input type="checkbox" ng-model="signNoChecked" checked data-toggle="toggle" ng-click="signatureNoCheck(section)"><span class="">Signature N: </span>
+				      			<input type="checkbox" ng-model="signYesChecked" data-toggle="toggle" ng-click="signatureYesCheck(section)"><span class="">Signature Y: </span>
+				      		</div> -->
 
 				      		<div ng-if="((userRole == 'TlCoder' && section.signPresent == 'Y') || (userRole == 'Auditor' && section.signPresent == 'Y'))" class="dateOfService">{{section.dos}} <span class="">Signature Present</span></div>
 				      		<div ng-if="((userRole == 'TlCoder' && section.signPresent == 'N') || (userRole == 'Auditor' && section.signPresent == 'N'))" class="dateOfService">{{section.dos}} <span class="">Signature Not Present</span></div>

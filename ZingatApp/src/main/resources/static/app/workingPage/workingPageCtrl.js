@@ -67,23 +67,23 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             
             $scope.globalObj = data;
             $scope.suggestedCode = data.suggestedCode;
-            $scope.suggestedCode.sort(function(a, b){
+            /*$scope.suggestedCode.sort(function(a, b){
                 var dateA = new Date(a.dos);
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
-            });
+            });*/
             $scope.acceptedCode = data.acceptedCode;
-            $scope.acceptedCode.sort(function(a, b){
+            /*$scope.acceptedCode.sort(function(a, b){
                 var dateA = new Date(a.dos);
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
-            });
+            });*/
             $scope.rejectedCode = data.rejectedCode;
-            $scope.rejectedCode.sort(function(a, b){
+            /*$scope.rejectedCode.sort(function(a, b){
                 var dateA = new Date(a.dos);
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
-            });
+            });*/
             
             if(targetHeading == "Suggested" && $scope.suggestedCode.length < 1){
                 $scope.emptyData = true;
@@ -201,23 +201,23 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             }
 
             $scope.suggestedCode = data.data.suggestedCode;
-            $scope.suggestedCode.sort(function(a, b){
+            /*$scope.suggestedCode.sort(function(a, b){
                 var dateA = new Date(a.dos);
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
-            });
+            });*/
             $scope.acceptedCode = data.data.acceptedCode;
-            $scope.acceptedCode.sort(function(a, b){
+            /*$scope.acceptedCode.sort(function(a, b){
                 var dateA = new Date(a.dos);
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
-            });
+            });*/
             $scope.rejectedCode = data.data.rejectedCode;
-            $scope.rejectedCode.sort(function(a, b){
+            /*$scope.rejectedCode.sort(function(a, b){
                 var dateA = new Date(a.dos);
                 var dateB = new Date(b.dos);
                 return dateA-dateB;
-            });
+            });*/
             $scope.downloadButton = data.data.buttonVisibleInfo.downloadButton;
             $scope.isCompletedButton = data.data.buttonVisibleInfo.isCompletedButton;
             $scope.isDoubtButton = data.data.buttonVisibleInfo.isDoubtButton;
@@ -321,29 +321,29 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                     }
                     $scope.globalObj = data.data;
                     $scope.suggestedCode = data.data.suggestedCode;
-                    $scope.suggestedCode.sort(function(a, b){
+                    /*$scope.suggestedCode.sort(function(a, b){
                         var dateA = new Date(a.dos);
                         var dateB = new Date(b.dos);
                         return dateA-dateB;
-                    });
+                    });*/
                     $scope.acceptedCode = data.data.acceptedCode;
-                    $scope.acceptedCode.sort(function(a, b){
+                    /*$scope.acceptedCode.sort(function(a, b){
                         var dateA = new Date(a.dos);
                         var dateB = new Date(b.dos);
                         return dateA-dateB;
-                    });
+                    });*/
                     $scope.rejectedCode = data.data.rejectedCode;
-                    $scope.rejectedCode.sort(function(a, b){
+                    /*$scope.rejectedCode.sort(function(a, b){
                         var dateA = new Date(a.dos);
                         var dateB = new Date(b.dos);
                         return dateA-dateB;
-                    });
+                    });*/
                     $scope.mayBeCode = data.data.mayBeCode;
-                    $scope.mayBeCode.sort(function(a, b){
+                    /*$scope.mayBeCode.sort(function(a, b){
                         var dateA = new Date(a.dos);
                         var dateB = new Date(b.dos);
                         return dateA-dateB;
-                    });
+                    });*/
                     if(targetHeading == "Suggested" && $scope.suggestedCode.length < 1){
                         $scope.emptyData = true;
                     }else if(targetHeading == "Coded Code" && $scope.acceptedCode.length < 1){
@@ -465,12 +465,12 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             });
         }
 
-        $scope.signatureCheck = function(section){
+        $scope.signatureNoCheck = function(section){
             var flag;
-            if(section.signPresent == "Y"){
+            if($(event.target).is(':checked')){
                 flag = "N";
             }else{
-                flag = "Y";
+                flag = "";
             }   
             for(var  i=0; i<$scope.acceptedCode.length; i++){
                 if($scope.acceptedCode[i].sectionName == section.sectionName){
@@ -487,36 +487,47 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             requestedData.dos = null;
             requestedData.sign = null;
             requestedData.token = null;
-            $http({
+            $scope.signatureChanged(requestedData);
+        },
+
+        $scope.signatureYesCheck = function(section){
+            var flag;
+            if($(event.target).is(':checked')){
+                flag = "Y";
+            }else{
+                flag = "";
+            }   
+            for(var  i=0; i<$scope.acceptedCode.length; i++){
+                if($scope.acceptedCode[i].sectionName == section.sectionName){
+                    $scope.acceptedCode[i].signPresent = flag;
+                }
+            }
+
+            var requestedData = {};
+            requestedData.allCodes = $scope.globalObj;
+            requestedData.sectionName = null;
+            requestedData.action = "SIGN_UPDATE";
+            requestedData.code = null
+            requestedData.codeActionType = null;
+            requestedData.dos = null;
+            requestedData.sign = null;
+            requestedData.token = null;
+            $scope.signatureChanged(requestedData);
+        },
+        $scope.signatureChanged = function(requestedData){
+             $http({
                 url: 'workingPage/codeAction', 
                 method: "POST",
                 dataType : "application/json",
                 data : JSON.stringify(requestedData)
             }).then(function(data){ 
-                
                 $scope.globalObj = data.data;
                 $scope.suggestedCode = data.data.suggestedCode;
-                $scope.suggestedCode.sort(function(a, b){
-                    var dateA = new Date(a.dos);
-                    var dateB = new Date(b.dos);
-                    return dateA-dateB;
-                });
                 $scope.acceptedCode = data.data.acceptedCode;
-                $scope.acceptedCode.sort(function(a, b){
-                    var dateA = new Date(a.dos);
-                    var dateB = new Date(b.dos);
-                    return dateA-dateB;
-                });
                 $scope.rejectedCode = data.data.rejectedCode;
-                $scope.rejectedCode.sort(function(a, b){
-                    var dateA = new Date(a.dos);
-                    var dateB = new Date(b.dos);
-                    return dateA-dateB;
-                });
             },function(err) {
                 console.log("error while signature action");
             });
-           
         }
 
         $scope.documentStatusChange = function(action){
@@ -556,7 +567,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 if(actionName == "SUBMIT"){
                     var signatureMissed = false;
                     for(var  i=0; i<$scope.acceptedCode.length; i++){
-                        if($scope.acceptedCode[i].signPresent == "N"){
+                        if($scope.acceptedCode[i].signPresent == ""){
                             signatureMissed = true;
                         }
                     }
@@ -564,30 +575,26 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                         alert("Signature Flag Missed");
                     }else{
                         obj.docRejectionReason = null;
-                        $http({
-                            url: "workingPage/documentStatusChange",
-                            method: "POST",
-                            data : JSON.stringify(obj),
-                        }).then(function(data){ 
-                            $location.path('/landingPage');
-                        },function(err) {
-                            console.log(err);
-                        });
+                        $scope.statusChange(obj);
                     }
                 }else{
                     obj.docRejectionReason = null;
-                    $http({
-                        url: "workingPage/documentStatusChange",
-                        method: "POST",
-                        data : JSON.stringify(obj),
-                    }).then(function(data){ 
-                        $location.path('/landingPage');
-                    },function(err) {
-                        console.log(err);
-                    });
+                    $scope.statusChange(obj);
                 }
                 
             }
+        }
+
+        $scope.statusChange = function(obj){
+            $http({
+                url: "workingPage/documentStatusChange",
+                method: "POST",
+                data : JSON.stringify(obj),
+            }).then(function(data){ 
+                $location.path('/landingPage');
+            },function(err) {
+                console.log(err);
+            });
         }
 
         $scope.addCode = function(selectedCode,tags){
@@ -636,23 +643,23 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 }).then(function(data){ 
                     $scope.globalObj = data.data;
                     $scope.suggestedCode = data.data.suggestedCode;
-                    $scope.suggestedCode.sort(function(a, b){
+                    /*$scope.suggestedCode.sort(function(a, b){
                         var dateA = new Date(a.dos);
                         var dateB = new Date(b.dos);
                         return dateA-dateB;
-                    });
+                    });*/
                     $scope.acceptedCode = data.data.acceptedCode;
-                    $scope.acceptedCode.sort(function(a, b){
+                    /*$scope.acceptedCode.sort(function(a, b){
                         var dateA = new Date(a.dos);
                         var dateB = new Date(b.dos);
                         return dateA-dateB;
-                    });
+                    });*/
                     $scope.rejectedCode = data.data.rejectedCode;
-                    $scope.rejectedCode.sort(function(a, b){
+                    /*$scope.rejectedCode.sort(function(a, b){
                         var dateA = new Date(a.dos);
                         var dateB = new Date(b.dos);
                         return dateA-dateB;
-                    });
+                    });*/
                     $(".searchCode").val("")
                     $(".paginationBlock").hide();
                     $(".codeSearchContainer").hide();
