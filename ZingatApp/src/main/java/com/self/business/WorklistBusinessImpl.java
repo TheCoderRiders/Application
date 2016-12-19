@@ -1,6 +1,7 @@
 package com.self.business;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.self.constants.BucketConstants;
 import com.self.constants.Constants;
 import com.self.dao.*;
 import com.self.dto.*;
@@ -174,7 +175,13 @@ public class WorklistBusinessImpl implements WorklistBusiness{
 
         if(ProductRole.valueOf(currentRole).equals(ProductRole.Allocator)){userIds.parallelStream().forEach(tlId->allUserIds.addAll(tlCoderMapDao.getCoderIdByTlId(tlId).stream().map(entity->entity.getCoderId()).collect(Collectors.toList())));}
 
-        return  worklistService.getFileDetailsByUserId(bucketName, Arrays.asList(currentRole), allUserIds.stream().map(id->id.toString()).collect(Collectors.toList()), orderBy, isAsc, pageNumber);
+        FileDetailsResponse fileDetailsByUserId = worklistService.getFileDetailsByUserId(bucketName, Arrays.asList(currentRole), allUserIds.stream().map(id -> id.toString()).collect(Collectors.toList()), orderBy, isAsc, pageNumber);
+
+        if(ProductRole.valueOf(currentRole).equals(ProductRole.Auditor) && BucketConstants.AUDITED_FILES.equalsIgnoreCase(bucketName)){
+            fileDetailsByUserId.getFileDetailsList().parallelStream().forEach(fileDetail->fileDetail.setCheckBoxVisible(true));
+        }
+
+        return fileDetailsByUserId;
 
         /*FileDetailsResponse fileDetailsResponse = worklistService.getFileDetails(bucketName, Arrays.asList(currentRole), orderBy, isAsc, pageNumber);
         fileDetailsResponse.getFileDetailsList().parallelStream()
