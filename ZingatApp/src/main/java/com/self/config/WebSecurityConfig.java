@@ -1,8 +1,11 @@
 package com.self.config;
 
 import com.self.constants.LoginConstants;
+import org.hibernate.SessionFactory;
+import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -38,8 +41,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/index.html", "/app/**","/node_modules/**","/lib/**","/img/**").permitAll()
+                .antMatchers("/index.html", "/app/**","/node_modules/**","/lib/**","/img/**","/insecure/**").permitAll()
                 .anyRequest().authenticated()
                 ;
+    }
+
+    @Bean
+    public SessionFactory sessionFactory(HibernateEntityManagerFactory hemf) {
+        return hemf.getSessionFactory();
     }
 }

@@ -21,4 +21,11 @@ public class Constants {
     public static final String NEW_LINE = "\n";
     public static final String SIGN_NOT_PRESENT = "N";
     public static final String SIGN_PRESENT = "Y";
+    public static final String DOCUMENT_SEARCH_FIELD_PROP_FILE = "searchDocumentFields.properties";
+    public static final String DATE = "date";
+    public static final String VALUE = "value";
+    public static final String DOCUMENT_NAME = "document_name";
+    public static final String USER_NAME = "document_assigned_name";
+    public static final String IN = " IN ";
+    public static final int MAX_SEARCH_SUGGESTION_VALUE = 20;
 }
