@@ -8,7 +8,7 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         $scope.editRight;
         $scope.rejectionReasonTab = false;
         $scope.commentTab = false;
-
+        $scope.selectedBucketName = false;
         $('[data-toggle="tooltip"]').tooltip();
 
         $scope.tempObj = {};
@@ -17,6 +17,8 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         $scope.tempObj.isAsc = true;
         $scope.userName = $cookies.get("userName");
         $scope.clientName = $cookies.get("clientName");
+        $scope.userRole = $cookies.get("userRole");
+
         fetchBucketList();
 
         $scope.setPage = function(pageNo) {
@@ -81,6 +83,16 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
             fetchList();
         };
 
+        /*fetch download option for auditor*/
+        $http({
+            url: 'json/downloadOption.json',
+            method: "GET",
+        }).then(function(data) { 
+            $scope.downloadList = data.data;             
+        }, function(err) {
+            console.log(err);
+        });
+
 
         function fetchList() {
             $http.get('worklistPage/getFileDetails?bucketName=' + $scope.tempObj.bucketName + '&orderBy=' + $scope.tempObj.orderBy + '&pageNumber=' + $scope.currentPage + '&isAsc=' + $scope.tempObj.isAsc, {
@@ -114,18 +126,31 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         };
 
         $scope.checkAll = function() {
-            if ($scope.mycheckbox == true) {
+            if ($scope.mycheckbox == true  && $scope.userRole != 'Auditor') {
                 $scope.showAction = true;
+                $scope.selectedBucketName = false;
+                $scope.user.roles = angular.copy($scope.roles);
+            }else if ($scope.mycheckbox == true  && $scope.userRole == 'Auditor') {
+                $scope.showAction = false;
+                $scope.selectedBucketName = true;
                 $scope.user.roles = angular.copy($scope.roles);
             } else {
                 $scope.user.roles = [];
                 $scope.showAction = false;
+                $scope.selectedBucketName = false;
             }
             $(".actionDropDown").css('display', 'none');
             $(".inputDiv").removeClass('selected');
         };
         $scope.checkAllFiles = function(){
-            $scope.showAction = true;
+            if($scope.userRole != 'Auditor'){
+                $scope.showAction = true;
+                $scope.selectedBucketName = false;
+            }else{
+                $scope.showAction = false;
+                $scope.selectedBucketName = true;
+            }
+            
             $scope.mycheckbox = true;
             $scope.user.roles = angular.copy($scope.roles);
             $(".actionDropDown").css('display', 'none');
@@ -133,16 +158,23 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
         }
         $scope.uncheckAllFiles = function(){
             $scope.showAction = false;
+            $scope.selectedBucketName = false;
             $scope.mycheckbox = false;
             $scope.user.roles = [];
             $(".actionDropDown").css('display', 'none');
             $(".inputDiv").removeClass('selected');
         }
         $scope.listCheckAll = function() {
-            if ($scope.user.roles.length > 0) {
+            
+            if ($scope.user.roles.length > 0 && $scope.userRole != 'Auditor') {
                 $scope.showAction = true;
-            } else {
+                $scope.selectedBucketName = false;
+            } else if ($scope.user.roles.length > 0 && $scope.userRole == 'Auditor') {
                 $scope.showAction = false;
+                $scope.selectedBucketName = true;
+            } else{
+                $scope.showAction = false;
+                $scope.selectedBucketName = false;
             }
         }
 
@@ -201,6 +233,8 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
             $scope.fileName = fileDetails.fileName;
             $cookies.put("clickedFileId", fileDetails.fileId);
             var selectedBucket = $(".list-group-horizontal ul li.active").attr('id');
+            $cookies.put("selectedBucket", selectedBucket);
+            
 
             /* fetch right side column */
             $http({
@@ -208,6 +242,11 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
                 method: "GET"
             }).then(function(data) { 
                 $scope.rightSideItems = data.data;
+                /*if(selectedBucket == "Audited Files"){
+                    $scope.selectedBucketName = true;
+                }else{
+                    $scope.selectedBucketName = false;
+                }*/
             }, function(err) {
                 console.log(err);
             });
@@ -378,5 +417,29 @@ angular.module('LandingPageController', ['ngSanitize', 'ngDialog','ngCookies'])
             $timeout(function() {
                 $('[data-toggle="tooltip"]').tooltip();
             },2000);
+        }
+
+        $scope.downloadFile = function(option){
+            var downloadObj = {};
+            downloadObj.fileType = option.value;
+            downloadObj.fileIds = [];
+            var totalFiles = $scope.user.roles;
+            for (var i = 0; i < totalFiles.length; i++) {
+                downloadObj.fileIds.push(totalFiles[i].fileId)
+            }
+            $http({
+                url: '/downloadZip',
+                method: "POST",
+                data : JSON.stringify(downloadObj),
+            }).then(function(data) {    
+                debugger;
+                var downloadFrame = document.createElement("iframe"); 
+                downloadFrame.setAttribute('src',decodeURI('downloadZip'));
+                downloadFrame.setAttribute('class',"downloadScreen"); 
+                downloadFrame.setAttribute('download',"myFile");
+                document.body.appendChild(downloadFrame);
+            }, function(err) {
+                console.log(err);
+            });
         }
     }])

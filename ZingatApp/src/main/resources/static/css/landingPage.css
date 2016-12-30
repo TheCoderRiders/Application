@@ -542,15 +542,18 @@ tags-input .autocomplete{
 .landingPage .customAction #split-button:focus {
     outline:0;
 }
-.landingPage .customAction #split-button{
+.landingPage #split-button{
     width: 82%;
     text-align: left;
     padding: 5px 10px
 }
-.landingPage .customAction .dropdown{
+.landingPage .customAction .dropdown,.landingPage .downloadOption{
     border: 1px solid;
     width: 62%;
     height: 30px;
+}
+.landingPage .downloadOption{
+    width: 87%;
 }
 .landingPage .customSelect span,.landingPage .customAction .spanText {
     color: #808080;
