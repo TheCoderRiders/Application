@@ -716,8 +716,10 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
            
             obj.commentDate = comment.date;
             obj.fileId = $scope.fileId;
-           
-            $http({
+            
+            debugger;
+            
+            /*$http({
                 url: "workingPage/acknowledgeComment",
                 method: "POST",
                 data : JSON.stringify(obj),
@@ -725,7 +727,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 $window.location.reload();
             },function(err) {
                 console.log(err);
-            });
+            });*/
        }
 
        /*$scope.hideReplyIcon = function(){
@@ -774,8 +776,10 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         obj.doubtRebuttalInfo.doubtRebuttalDisplay = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
         obj.doubtRebuttalInfo.doubtRebuttalDesc = $(event.currentTarget).parents('.commentContainer').find('textarea').val();
 
-        if($scope.userRole == "Coder" &&  $scope.selectedAction.name == "Actions"){
-            $scope.showErrorMessage = true;
+        if($scope.userRole == "Coder" &&  $scope.selectedAction !== undefined){
+            if($scope.selectedAction.name == "Actions"){
+                $scope.showErrorMessage = true;
+            }
         }else if($scope.userRole == "TlCoder" && $(event.currentTarget).parents('.commentContainer').find('textarea').val().length <= 0){
             $scope.showErrorMessage = true;
         }else if($(event.currentTarget).parents('.commentContainer').find('textarea').val().length <= 0){
@@ -812,6 +816,8 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             obj.doubtRebuttalInfo.doubtRebuttalType = doubtRebuttalType;
             obj.status = doubtRebuttalType;
             
+            debugger;
+
             $http({
                 url: "workingPage/documentStatusChange",
                 method: "POST",
@@ -853,6 +859,10 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
         $scope.setAssigneeName = function(name){
             $scope.selectedName = name;
         }
+        
+        $scope.dragStarted = function(element){
+            debugger;
+        }   
 
     }])
     
