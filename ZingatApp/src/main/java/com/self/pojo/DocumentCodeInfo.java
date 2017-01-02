@@ -16,6 +16,7 @@ public class DocumentCodeInfo implements Comparable<DocumentCodeInfo> {
     private String dos;
     private String sign;
     private String signPresent;
+    private String id;
 
     public String getSectionName() {
         return sectionName;
@@ -66,5 +67,13 @@ public class DocumentCodeInfo implements Comparable<DocumentCodeInfo> {
 
     public void setSignPresent(String signPresent) {
         this.signPresent = signPresent;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
