@@ -717,9 +717,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             obj.commentDate = comment.date;
             obj.fileId = $scope.fileId;
             
-            debugger;
-            
-            /*$http({
+            $http({
                 url: "workingPage/acknowledgeComment",
                 method: "POST",
                 data : JSON.stringify(obj),
@@ -727,7 +725,7 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
                 $window.location.reload();
             },function(err) {
                 console.log(err);
-            });*/
+            });
        }
 
        /*$scope.hideReplyIcon = function(){
