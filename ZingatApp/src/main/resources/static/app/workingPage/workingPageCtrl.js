@@ -855,9 +855,6 @@ angular.module('WorkingPageController', ['ngSanitize','ngScrollable','ngCookies'
             $scope.selectedName = name;
         }
         
-        $scope.dragStarted = function(element){
-            debugger;
-        }   
 
     }])
     
